@@ -3,7 +3,7 @@
 #include "Framework.h"
 #include "Components/NoRandomComponent.h"
 
-class TestAnimChar : public bloom::GameObject {
+class Ghosts : public bloom::GameObject {
 	using Position = bloom::components::Position;
 	using Size = bloom::components::Size;
 	using Sprite = bloom::components::Sprite;
@@ -15,38 +15,36 @@ class TestAnimChar : public bloom::GameObject {
 public:
 	void init() override {}
 
-	void init(const std::filesystem::path texturePath = "Assets/Pacman_Sprite.png") {
-		m_registry.replace<Position>(m_entity, 50, 50);
-		m_registry.assign<Size>(m_entity, 256, 256);
+	void init(const std::filesystem::path texturePath, SDL_Rect pos_and_size = { 0, 0, 256, 256 }) {
+		m_registry.replace<Position>(m_entity, pos_and_size.x, pos_and_size.y);
+		m_registry.assign<Size>(m_entity, pos_and_size.w, pos_and_size.h);
 		auto tmp = m_gameInstance->textures.load(texturePath);
 
-		m_registry.assign<Sprite>(m_entity, tmp, SDL_Rect{ 0,32,32,32 });
+		m_registry.assign<Sprite>(m_entity, tmp, pos_and_size);
 
-
-		// Seriously not the best way to initialize object animation.
 		AnimationPtr down = std::make_shared<Animation>();
 		down->animationFrames = {
-			Sprite(tmp, SDL_Rect{ 60,35,12,12 }),
-			Sprite(tmp, SDL_Rect{ 84,35,12,12 })
+			Sprite(tmp, SDL_Rect{ 25,35,12,12 }),
+			Sprite(tmp, SDL_Rect{ 37,35,12,12 })
 		};
 
 
 		AnimationPtr up = std::make_shared<Animation>();
 		up->animationFrames = {
-			Sprite(tmp, SDL_Rect{ 12,35,12,12 }),
-			Sprite(tmp, SDL_Rect{ 36,35,12,12 })
+			Sprite(tmp, SDL_Rect{ 73,35,12,12 }),
+			Sprite(tmp, SDL_Rect{ 85,35,12,12 })
 		};
 
 		AnimationPtr left = std::make_shared<Animation>();
 		left->animationFrames = {
-			Sprite(tmp, SDL_Rect{ 0,36,12,12 }),
-			Sprite(tmp, SDL_Rect{ 24,36,12,12 })
+			Sprite(tmp, SDL_Rect{ 49,36,12,12 }),
+			Sprite(tmp, SDL_Rect{ 61,36,12,12 })
 		};
 
 		AnimationPtr right = std::make_shared<Animation>();
 		right->animationFrames = {
-			Sprite(tmp, SDL_Rect{ 49,35,12,12 }),
-			Sprite(tmp, SDL_Rect{ 73,35,12,12 })
+			Sprite(tmp, SDL_Rect{ 1,35,12,12 }),
+			Sprite(tmp, SDL_Rect{ 13,35,12,12 })
 		};
 
 		up->setFrameTime(150);
