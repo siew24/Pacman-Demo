@@ -185,16 +185,84 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header Files\AnimationChangerSystem.h" />
-    <ClInclude Include="Header Files\CollisionSystem.h" />
     <ClInclude Include="getExePath.h" />
     <ClInclude Include="Header Files\InputSystem.h" />
     <ClInclude Include="Header Files\MovableObject.h" />
     <ClInclude Include="Header Files\NoRandomComponent.h" />
     <ClInclude Include="Header Files\MovableAnimatedObject.h" />
-    <ClInclude Include="Header Files\Wall Initialization.h" />
+    <ClInclude Include="Header Files\SmallWall.h" />
+    <ClInclude Include="Header Files\StationaryComponent.h" />
+    <ClInclude Include="Header Files\Wall.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="data\Assets\Blue.png" />
+    <Image Include="data\Assets\Ghosts_afraid.png" />
+    <Image Include="data\Assets\Ghosts_eaten.png" />
+    <Image Include="data\Assets\Orange.png" />
+    <Image Include="data\Assets\Pacman.png" />
+    <Image Include="data\Assets\Pacman_Death_00.png" />
+    <Image Include="data\Assets\Pacman_Death_01.png" />
+    <Image Include="data\Assets\Pacman_Death_02.png" />
+    <Image Include="data\Assets\Pacman_Death_03.png" />
+    <Image Include="data\Assets\Pacman_Death_04.png" />
+    <Image Include="data\Assets\Pacman_Death_05.png" />
+    <Image Include="data\Assets\Pacman_Death_06.png" />
+    <Image Include="data\Assets\Pacman_Death_07.png" />
+    <Image Include="data\Assets\Pacman_Death_08.png" />
+    <Image Include="data\Assets\Pacman_Death_09.png" />
+    <Image Include="data\Assets\Pacman_Death_10.png" />
     <Image Include="data\Assets\Pacman_Spritesheet.png" />
+    <Image Include="data\Assets\Pinky.png" />
+    <Image Include="data\Assets\Red.png" />
+    <Image Include="data\Assets\Wall_entity\1.png" />
+    <Image Include="data\Assets\Wall_entity\10.png" />
+    <Image Include="data\Assets\Wall_entity\11.png" />
+    <Image Include="data\Assets\Wall_entity\12.png" />
+    <Image Include="data\Assets\Wall_entity\13.png" />
+    <Image Include="data\Assets\Wall_entity\14.png" />
+    <Image Include="data\Assets\Wall_entity\15.png" />
+    <Image Include="data\Assets\Wall_entity\16.png" />
+    <Image Include="data\Assets\Wall_entity\17.png" />
+    <Image Include="data\Assets\Wall_entity\18.png" />
+    <Image Include="data\Assets\Wall_entity\19.png" />
+    <Image Include="data\Assets\Wall_entity\2.png" />
+    <Image Include="data\Assets\Wall_entity\20.png" />
+    <Image Include="data\Assets\Wall_entity\21.png" />
+    <Image Include="data\Assets\Wall_entity\22.png" />
+    <Image Include="data\Assets\Wall_entity\23.png" />
+    <Image Include="data\Assets\Wall_entity\24.png" />
+    <Image Include="data\Assets\Wall_entity\25.png" />
+    <Image Include="data\Assets\Wall_entity\26.png" />
+    <Image Include="data\Assets\Wall_entity\27.png" />
+    <Image Include="data\Assets\Wall_entity\28.png" />
+    <Image Include="data\Assets\Wall_entity\29.png" />
+    <Image Include="data\Assets\Wall_entity\3.png" />
+    <Image Include="data\Assets\Wall_entity\30.png" />
+    <Image Include="data\Assets\Wall_entity\31.png" />
+    <Image Include="data\Assets\Wall_entity\32.png" />
+    <Image Include="data\Assets\Wall_entity\33.png" />
+    <Image Include="data\Assets\Wall_entity\34.png" />
+    <Image Include="data\Assets\Wall_entity\35.png" />
+    <Image Include="data\Assets\Wall_entity\36.png" />
+    <Image Include="data\Assets\Wall_entity\37.png" />
+    <Image Include="data\Assets\Wall_entity\38.png" />
+    <Image Include="data\Assets\Wall_entity\39.png" />
+    <Image Include="data\Assets\Wall_entity\4.png" />
+    <Image Include="data\Assets\Wall_entity\40.png" />
+    <Image Include="data\Assets\Wall_entity\41.png" />
+    <Image Include="data\Assets\Wall_entity\42.png" />
+    <Image Include="data\Assets\Wall_entity\5.png" />
+    <Image Include="data\Assets\Wall_entity\6.png" />
+    <Image Include="data\Assets\Wall_entity\7.png" />
+    <Image Include="data\Assets\Wall_entity\8.png" />
+    <Image Include="data\Assets\Wall_entity\9.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="data\Assets\Level\0.txt" />
+    <Text Include="data\Level\0.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="data\Music\pacman_beginning.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
