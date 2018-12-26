@@ -178,6 +178,9 @@
     <Image Include="data\Assets\Wall_entity\22.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="data\Assets\Wall_entity\0.png">
+      <Filter>Resource Files</Filter>
+    </Image>
     <Image Include="data\Assets\Wall_entity\23.png">
       <Filter>Resource Files</Filter>
     </Image>
@@ -218,24 +221,6 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="data\Assets\Wall_entity\36.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="data\Assets\Wall_entity\37.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="data\Assets\Wall_entity\38.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="data\Assets\Wall_entity\39.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="data\Assets\Wall_entity\40.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="data\Assets\Wall_entity\41.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="data\Assets\Wall_entity\42.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

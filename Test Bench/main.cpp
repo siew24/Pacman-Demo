@@ -53,9 +53,9 @@ void test_drawer(const std::filesystem::path& assetsPath)
 
 	entt::DefaultRegistry testRegistry;
 	bloom::systems::RenderSystem renderSysTest(testRegistry);
-	Wall LevelGen = Wall(testRegistry, game, WallDir, LevelDir, 100, 100);
-	renderSysTest.update();
-	game->render();
+	Wall wall = Wall(WallDir, LevelDir);
+	wall.init(testRegistry, game);
+	wall.generate();
 
 	while (game->isRunning()) {
 		// Demo ends here.
