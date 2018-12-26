@@ -1,9 +1,11 @@
 #pragma once
 
 #include "Framework.h"
+#include "WallComponent.h"
 #include "NoRandomComponent.h"
+#include "PelletsComponent.h"
 
-class SmallWall : public bloom::GameObject
+class TileObject : public bloom::GameObject
 {
 	// This class is used to initialize every wall parts as entities
 	using Position = bloom::components::Position;
@@ -22,5 +24,15 @@ class SmallWall : public bloom::GameObject
 
 			m_registry.assign<Sprite>(m_entity, tmp, srcRect);
 			m_registry.assign<NoRandomPos>(m_entity);
+		}
+
+		void isWall()
+		{
+			m_registry.assign<Wall>(m_entity);
+		}
+
+		void isPellet()
+		{
+			m_registry.assign<Pellet>(m_entity);
 		}
 };

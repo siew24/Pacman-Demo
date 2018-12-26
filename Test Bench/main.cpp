@@ -6,9 +6,8 @@
 
 #include "Header Files/MovableObject.h"
 #include "Header Files/MovableAnimatedObject.h"
-#include "Header Files/SmallWall.h"
 #include "Header Files/AnimationChangerSystem.h"
-#include "Header Files/Wall.h"
+#include "Header Files/Level.h"
 #include "getExePath.h"
 
 using namespace bloom;
@@ -48,14 +47,14 @@ void test_drawer(const std::filesystem::path& assetsPath)
 		throw bloom::Exception("Required assets can't be found.");
 
 	std::filesystem::path spriteSheetPath = assetsPath / L"Pacman_Spritesheet.png";
-	std::filesystem::path WallDir = assetsPath / L"Wall_entity";
+	std::filesystem::path TileDir = assetsPath / L"Tile";
 	std::filesystem::path LevelDir = assetsPath / L"Level";
 
 	entt::DefaultRegistry testRegistry;
 	bloom::systems::RenderSystem renderSysTest(testRegistry);
-	Wall wall = Wall(WallDir, LevelDir);
-	wall.init(testRegistry, game);
-	wall.generate();
+	Level level = Level(TileDir, LevelDir);
+	level.init(testRegistry, game);
+	level.generate();
 
 	while (game->isRunning()) {
 		// Demo ends here.
