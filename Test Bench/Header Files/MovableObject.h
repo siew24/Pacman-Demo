@@ -14,7 +14,7 @@ class MovableObject : public bloom::GameObject
 	public:
 		void init() override {}
 
-		void init(SDL_Rect pos_and_size, const std::filesystem::path texturePath = "Assets/Pacman_Spritesheet.png", std::optional<SDL_Rect> srcRect = std::nullopt) 
+		void init(SDL_Rect pos_and_size, const std::filesystem::path texturePath, std::optional<SDL_Rect> srcRect = std::nullopt) 
 		{
 			m_registry.replace<Position>(m_entity, pos_and_size.x, pos_and_size.y);
 			m_registry.assign<Size>(m_entity, pos_and_size.w, pos_and_size.h);

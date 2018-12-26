@@ -7,6 +7,7 @@
 #include "Header Files/MovableObject.h"
 #include "Header Files/MovableAnimatedObject.h"
 #include "Header Files/AnimationChangerSystem.h"
+#include "Header Files/Level.h"
 #include "getExePath.h"
 
 using namespace bloom;
@@ -14,6 +15,7 @@ using namespace bloom::audio;
 using namespace std::chrono_literals;
 using bloom::components::Position;
 using bloom::components::Size;
+using Layout = std::vector<std::vector<std::filesystem::path>>;
 
 Game* game = nullptr;
 
@@ -45,22 +47,20 @@ void test_drawer(const std::filesystem::path& assetsPath)
 		throw bloom::Exception("Required assets can't be found.");
 
 	std::filesystem::path spriteSheetPath = assetsPath / L"Pacman_Spritesheet.png";
-	std::filesystem::path testcharPath = assetsPath / L"Pacman_Sprite.png";
+	std::filesystem::path TileDir = assetsPath / L"Tile";
+	std::filesystem::path LevelDir = assetsPath / L"Level";
 
 	entt::DefaultRegistry testRegistry;
-	bloom::systems::AnimationSystem animSysTest(testRegistry);
-	AnimationChangerSystem animChangerTest(testRegistry);
 	bloom::systems::RenderSystem renderSysTest(testRegistry);
-	TestAnimChar Pacman(testRegistry, game);
-	Pacman.init(testcharPath);
+	Level level = Level(TileDir, LevelDir);
+	level.init(testRegistry, game);
+	level.generate();
 
 	while (game->isRunning()) {
 		// Demo ends here.
 		framestart = SDL_GetTicks();
 		game->handleEvents();
 		game->clear();
-		animChangerTest.update();
-		animSysTest.update(game->timer.lap());
 		renderSysTest.update(); // Test again.
 		game->render();
 		//game->update();
