@@ -46,15 +46,13 @@ void test_drawer(const std::filesystem::path& assetsPath)
 	if (!std::filesystem::exists(assetsPath))
 		throw bloom::Exception("Required assets can't be found.");
 
-	std::filesystem::path spriteSheetPath = assetsPath / L"Pacman_Spritesheet.png";
 	std::filesystem::path TileDir = assetsPath / L"Tile";
 	std::filesystem::path LevelDir = assetsPath / L"Level";
 
 	entt::DefaultRegistry testRegistry;
 	bloom::systems::RenderSystem renderSysTest(testRegistry);
-	Level level = Level(TileDir, LevelDir);
-	level.init(testRegistry, game);
-	level.generate();
+	AnimationChangerSystem animChangerTest(testRegistry;)
+	bloom::systems::AnimationSystem animSysTest(testRegistry);
 
 	while (game->isRunning()) {
 		// Demo ends here.
