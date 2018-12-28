@@ -4,7 +4,7 @@
 
 #include <thread>
 
-#include "Header Files/MovableAnimatedObject.h"
+#include "Header Files/AnimatedObject.h"
 #include "Header Files/AnimationChangerSystem.h"
 #include "Header Files/Level.h"
 #include "getExePath.h"
@@ -50,14 +50,19 @@ void test_drawer(const std::filesystem::path& assetsPath)
 
 	entt::DefaultRegistry testRegistry;
 	bloom::systems::RenderSystem renderSysTest(testRegistry);
-	AnimationChangerSystem animChangerTest(testRegistry;)
+	AnimationChangerSystem animChangerTest(testRegistry);
 	bloom::systems::AnimationSystem animSysTest(testRegistry);
+	Level Level1 = Level(assetsPath, TileDir, LevelDir);
+	Level1.initLevel(testRegistry, game);
+	Level1.generate();
 
 	while (game->isRunning()) {
 		// Demo ends here.
 		framestart = SDL_GetTicks();
 		game->handleEvents();
 		game->clear();
+		animChangerTest.update();
+		animSysTest.update(game->timer.lap());
 		renderSysTest.update(); // Test again.
 		game->render();
 		//game->update();
