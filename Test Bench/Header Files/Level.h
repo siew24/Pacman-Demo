@@ -3,7 +3,6 @@
 #include "Framework.h"
 #include "TileObject.h"
 #include "AnimatedObject.h"
-#include "Triple.h"
 #include <set>
 #include <fstream>
 #include <codecvt>

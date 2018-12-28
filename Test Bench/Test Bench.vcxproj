@@ -173,6 +173,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="getExePath.cpp" />
+    <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -191,6 +192,7 @@
     <ClInclude Include="Header Files\Components\PelletsComponent.h" />
     <ClInclude Include="Header Files\Components\WallComponent.h" />
     <ClInclude Include="Header Files\Components\GhostComponent.h" />
+    <ClInclude Include="Header Files\InputDefinitions.h" />
     <ClInclude Include="Header Files\InputManager.h" />
     <ClInclude Include="Header Files\InputSystem.h" />
     <ClInclude Include="Header Files\NoRandomComponent.h" />

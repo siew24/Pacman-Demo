@@ -5,6 +5,7 @@
 #include <thread>
 
 #include "Header Files/AnimatedObject.h"
+#include "Header Files/InputManager.h"
 #include "Header Files/AnimationChangerSystem.h"
 #include "Header Files/Level.h"
 #include "getExePath.h"
@@ -57,6 +58,7 @@ void test_drawer(const std::filesystem::path& assetsPath)
 	Level1.generate();
 
 	while (game->isRunning()) {
+
 		// Demo ends here.
 		framestart = SDL_GetTicks();
 		game->handleEvents();
