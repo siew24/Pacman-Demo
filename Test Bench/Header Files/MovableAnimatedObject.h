@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Framework.h"
-#include "NoRandomComponent.h"
+#include "Components/NoRandomComponent.h"
 
 class TestAnimChar : public bloom::GameObject {
 	using Position = bloom::components::Position;

@@ -186,6 +186,9 @@
   <ItemGroup>
     <ClInclude Include="Header Files\AnimationChangerSystem.h" />
     <ClInclude Include="getExePath.h" />
+    <ClInclude Include="Header Files\Components\NoRandomComponent.h" />
+    <ClInclude Include="Header Files\Components\PelletsComponent.h" />
+    <ClInclude Include="Header Files\Components\WallComponent.h" />
     <ClInclude Include="Header Files\InputSystem.h" />
     <ClInclude Include="Header Files\MovableObject.h" />
     <ClInclude Include="Header Files\NoRandomComponent.h" />
