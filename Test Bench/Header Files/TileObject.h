@@ -1,9 +1,9 @@
 #pragma once
 
 #include "Framework.h"
-#include "WallComponent.h"
-#include "NoRandomComponent.h"
-#include "PelletsComponent.h"
+#include "Components/WallComponent.h"
+#include "Components/NoRandomComponent.h"
+#include "Components/PelletsComponent.h"
 
 class TileObject : public bloom::GameObject
 {
