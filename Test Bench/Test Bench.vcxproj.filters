@@ -35,9 +35,6 @@
     <ClInclude Include="Header Files\AnimationChangerSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header Files\Ghosts.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Header Files\WallComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -74,9 +71,6 @@
     <ClInclude Include="Header Files\Components\PacmanComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header Files\Triple.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Header Files\Components\NoRandomComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -84,6 +78,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Header Files\Components\PelletsComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header Files\InputManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
