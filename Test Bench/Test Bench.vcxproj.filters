@@ -26,25 +26,16 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Header Files\MovableObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Header Files\InputSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Header Files\NoRandomComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header Files\MovableAnimatedObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Header Files\AnimationChangerSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="getExePath.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Header Files\StationaryComponent.h">
+    <ClInclude Include="Header Files\Ghosts.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Header Files\WallComponent.h">
@@ -57,6 +48,33 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Header Files\TileObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header Files\MovableAnimatedObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header Files\AnimatedObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="getExePath.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header Files\Components\NoRandomComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header Files\Components\PelletsComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header Files\Components\WallComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header Files\Components\GhostComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header Files\Components\PacmanComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header Files\Triple.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Header Files\Components\NoRandomComponent.h">
@@ -246,7 +264,6 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="data\Level\0.txt" />
     <Text Include="data\Assets\Level\0.txt" />
   </ItemGroup>
   <ItemGroup>

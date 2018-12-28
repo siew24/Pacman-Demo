@@ -184,19 +184,21 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Header Files\AnimatedObject.h" />
     <ClInclude Include="Header Files\AnimationChangerSystem.h" />
     <ClInclude Include="getExePath.h" />
     <ClInclude Include="Header Files\Components\NoRandomComponent.h" />
     <ClInclude Include="Header Files\Components\PelletsComponent.h" />
     <ClInclude Include="Header Files\Components\WallComponent.h" />
+    <ClInclude Include="Header Files\Components\GhostComponent.h" />
     <ClInclude Include="Header Files\InputSystem.h" />
-    <ClInclude Include="Header Files\MovableObject.h" />
     <ClInclude Include="Header Files\NoRandomComponent.h" />
     <ClInclude Include="Header Files\MovableAnimatedObject.h" />
+    <ClInclude Include="Header Files\Components\PacmanComponent.h" />
     <ClInclude Include="Header Files\PelletsComponent.h" />
     <ClInclude Include="Header Files\TileObject.h" />
-    <ClInclude Include="Header Files\StationaryComponent.h" />
     <ClInclude Include="Header Files\Level.h" />
+    <ClInclude Include="Header Files\Triple.h" />
     <ClInclude Include="Header Files\WallComponent.h" />
   </ItemGroup>
   <ItemGroup>
@@ -261,7 +263,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="data\Assets\Level\0.txt" />
-    <Text Include="data\Level\0.txt" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="data\Music\pacman_beginning.wav" />

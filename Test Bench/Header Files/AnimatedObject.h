@@ -1,9 +1,11 @@
 #pragma once
 
 #include "Framework.h"
+#include "Components/PacmanComponent.h"
+#include "Components/GhostComponent.h"
 #include "Components/NoRandomComponent.h"
 
-class TestAnimChar : public bloom::GameObject {
+class AnimatedObject : public bloom::GameObject {
 	using Position = bloom::components::Position;
 	using Size = bloom::components::Size;
 	using Sprite = bloom::components::Sprite;
@@ -15,38 +17,36 @@ class TestAnimChar : public bloom::GameObject {
 public:
 	void init() override {}
 
-	void init(const std::filesystem::path texturePath = "Assets/Pacman_Sprite.png") {
-		m_registry.replace<Position>(m_entity, 50, 50);
-		m_registry.assign<Size>(m_entity, 256, 256);
+	void init(const std::filesystem::path texturePath, SDL_Rect pos_and_size = {0, 0, 256, 256}) {
+		m_registry.replace<Position>(m_entity, pos_and_size.x, pos_and_size.y);
+		m_registry.assign<Size>(m_entity, pos_and_size.w, pos_and_size.h);
 		auto tmp = m_gameInstance->textures.load(texturePath);
 
-		m_registry.assign<Sprite>(m_entity, tmp, SDL_Rect{ 0,32,32,32 });
+		m_registry.assign<Sprite>(m_entity, tmp, pos_and_size);
 
-
-		// Seriously not the best way to initialize object animation.
 		AnimationPtr down = std::make_shared<Animation>();
 		down->animationFrames = {
-			Sprite(tmp, SDL_Rect{ 60,35,12,12 }),
-			Sprite(tmp, SDL_Rect{ 84,35,12,12 })
+			Sprite(tmp, SDL_Rect{ 24,0,11,11 }),
+			Sprite(tmp, SDL_Rect{ 36,0,11,11 })
 		};
 
 
 		AnimationPtr up = std::make_shared<Animation>();
 		up->animationFrames = {
-			Sprite(tmp, SDL_Rect{ 12,35,12,12 }),
-			Sprite(tmp, SDL_Rect{ 36,35,12,12 })
+			Sprite(tmp, SDL_Rect{ 72,0,11,11 }),
+			Sprite(tmp, SDL_Rect{ 84,0,11,11 })
 		};
 
 		AnimationPtr left = std::make_shared<Animation>();
 		left->animationFrames = {
-			Sprite(tmp, SDL_Rect{ 0,36,12,12 }),
-			Sprite(tmp, SDL_Rect{ 24,36,12,12 })
+			Sprite(tmp, SDL_Rect{ 48,0,11,11 }),
+			Sprite(tmp, SDL_Rect{ 60,0,11,11 })
 		};
 
 		AnimationPtr right = std::make_shared<Animation>();
 		right->animationFrames = {
-			Sprite(tmp, SDL_Rect{ 49,35,12,12 }),
-			Sprite(tmp, SDL_Rect{ 73,35,12,12 })
+			Sprite(tmp, SDL_Rect{ 0,0,11,11 }),
+			Sprite(tmp, SDL_Rect{ 12,0,11,11 })
 		};
 
 		up->setFrameTime(150);
@@ -63,5 +63,15 @@ public:
 		m_registry.assign<AnimationSet>(m_entity, animSet);
 		m_registry.assign<AnimationPtr>(m_entity, up);
 		m_registry.assign<NoRandomPos>(m_entity);
+	}
+
+	void isPacman()
+	{
+		m_registry.assign<Pacman>(m_entity);
+	}
+
+	void isGhost()
+	{
+		m_registry.assign<Ghosts>(m_entity);
 	}
 };
