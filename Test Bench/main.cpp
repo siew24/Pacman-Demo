@@ -52,9 +52,6 @@ void test_drawer(const std::filesystem::path& assetsPath)
 	bloom::systems::RenderSystem renderSysTest(testRegistry);
 	AnimationChangerSystem animChangerTest(testRegistry);
 	bloom::systems::AnimationSystem animSysTest(testRegistry);
-	Level Level1 = Level(assetsPath, TileDir, LevelDir);
-	Level1.initLevel(testRegistry, game);
-	Level1.generate();
 
 	while (game->isRunning()) {
 		// Demo ends here.
