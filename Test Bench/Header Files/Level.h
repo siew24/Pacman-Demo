@@ -105,7 +105,13 @@ public:
 					Tiles[i][j]->isPellet();
 			}
 		for (Uint32 i = 0; i < AnimatedEntity.size(); i++)
+		{
 			AnimatedEntity[i]->init(SpawnLocations[i].first, SpawnLocations[i].second);
+			if(i != 4)
+				AnimatedEntity[i]->isGhost();
+			else
+				AnimatedEntity[i]->isPacman();
+		}
 	}
 
 	std::vector<std::vector<std::filesystem::path>> getLevelTexture()
