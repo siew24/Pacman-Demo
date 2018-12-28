@@ -74,6 +74,9 @@
     <ClInclude Include="Header Files\Components\PacmanComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Header Files\Triple.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="data\Assets\Pacman_Spritesheet.png">
@@ -252,7 +255,6 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="data\Level\0.txt" />
     <Text Include="data\Assets\Level\0.txt" />
   </ItemGroup>
   <ItemGroup>
