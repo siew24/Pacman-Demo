@@ -127,6 +127,11 @@ public:
 		SpawnLocations.push_back(std::pair<std::filesystem::path, SDL_Rect>(assetDir / L"Pacman.png", { 14* w, 23* h, w, h }));		//4
 	}
 
+	Uint32 getPacmanID()
+	{
+		return AnimatedEntity[4]->getEntityID();
+	}
+
 protected:
 	std::vector<AnimatedObject*> AnimatedEntity;
 	std::vector<std::vector<TileObject*>> Tiles;
