@@ -5,9 +5,8 @@
 #include <thread>
 
 #include "Header Files/AnimatedObject.h"
-#include "Header Files/InputManager.h"
-#include "Header Files/AnimationChangerSystem.h"
 #include "Header Files/Level.h"
+#include "Header Files/MovementSystem.h"
 #include "getExePath.h"
 
 using namespace bloom;
@@ -51,23 +50,30 @@ void test_drawer(const std::filesystem::path& assetsPath)
 
 	entt::DefaultRegistry testRegistry;
 	bloom::systems::RenderSystem renderSysTest(testRegistry);
-	AnimationChangerSystem animChangerTest(testRegistry);
 	bloom::systems::AnimationSystem animSysTest(testRegistry);
+	MovementSystem moveSysTest(testRegistry);
 	Level Level1 = Level(assetsPath, TileDir, LevelDir);
 	Level1.initLevel(testRegistry, game);
 	Level1.generate();
 
 	while (game->isRunning()) {
-
+		if (game->input.isKeyDown(KEY_W) || game->input.isKeyPressed(KEY_W))
+			testRegistry.replace<Direction>(Level1.getPacmanID(), KEY_W);
+		if (game->input.isKeyDown(KEY_A) || game->input.isKeyPressed(KEY_A))
+			testRegistry.replace<Direction>(Level1.getPacmanID(), KEY_A);
+		if (game->input.isKeyDown(KEY_S) || game->input.isKeyPressed(KEY_S))
+			testRegistry.replace<Direction>(Level1.getPacmanID(), KEY_S);
+		if (game->input.isKeyDown(KEY_D) || game->input.isKeyPressed(KEY_D))
+			testRegistry.replace<Direction>(Level1.getPacmanID(), KEY_D);
 		// Demo ends here.
 		framestart = SDL_GetTicks();
 		game->handleEvents();
 		game->clear();
-		animChangerTest.update();
+		moveSysTest.update();
 		animSysTest.update(game->timer.lap());
 		renderSysTest.update(); // Test again.
 		game->render();
-		//game->update();
+		// game->update();
 
 		int frametime = SDL_GetTicks() - framestart;
 

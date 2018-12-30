@@ -21,9 +21,6 @@
     <ClCompile Include="getExePath.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="InputManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -33,9 +30,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Header Files\NoRandomComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Header Files\AnimationChangerSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Header Files\WallComponent.h">
@@ -83,10 +77,10 @@
     <ClInclude Include="Header Files\Components\PelletsComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header Files\InputManager.h">
+    <ClInclude Include="Header Files\Components\DirectionComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header Files\InputDefinitions.h">
+    <ClInclude Include="Header Files\MovementSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

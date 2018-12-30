@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Framework.h"
+#include "Components/DirectionComponent.h"
 #include "Components/PacmanComponent.h"
 #include "Components/GhostComponent.h"
 #include "Components/NoRandomComponent.h"
@@ -20,6 +21,7 @@ public:
 	void init(const std::filesystem::path texturePath, SDL_Rect pos_and_size = {0, 0, 256, 256}) {
 		m_registry.replace<Position>(m_entity, pos_and_size.x, pos_and_size.y);
 		m_registry.assign<Size>(m_entity, pos_and_size.w, pos_and_size.h);
+		m_registry.assign<Direction>(m_entity, bloom::KeyboardKey::KEY_W);
 		auto tmp = m_gameInstance->textures.load(texturePath);
 
 		m_registry.assign<Sprite>(m_entity, tmp, pos_and_size);
@@ -74,4 +76,5 @@ public:
 	{
 		m_registry.assign<Ghosts>(m_entity);
 	}
+
 };
