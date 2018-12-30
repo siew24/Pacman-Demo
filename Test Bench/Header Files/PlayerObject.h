@@ -1,30 +1,25 @@
 #pragma once
-
 #include "Framework.h"
-#include "Components/DirectionComponent.h"
-#include "Components/PacmanComponent.h"
-#include "Components/GhostComponent.h"
-#include "Components/NoRandomComponent.h"
+#include "Components/GridComponent.h"
 
-class AnimatedObject : public bloom::GameObject {
+class Player : public bloom::GameObject {
 	using Position = bloom::components::Position;
 	using Size = bloom::components::Size;
 	using Sprite = bloom::components::Sprite;
 	using AnimationPtr = bloom::components::AnimationPtr;
-	using Animation = bloom::components::Animation;
 	using AnimationSet = bloom::components::AnimationSet;
+	using Animation = bloom::components::Animation;
 	using bloom::GameObject::GameObject;
-
 public:
 	void init() override {}
 
-	void init(const std::filesystem::path texturePath, SDL_Rect pos_and_size = {0, 0, 256, 256}) {
-		m_registry.replace<Position>(m_entity, pos_and_size.x, pos_and_size.y);
-		m_registry.assign<Size>(m_entity, pos_and_size.w, pos_and_size.h);
-		m_registry.assign<Direction>(m_entity, bloom::KeyboardKey::KEY_W);
+	void init(const std::filesystem::path texturePath) {
+		m_registry.replace<Position>(m_entity, 13*19, 23*19);
+		m_registry.assign<Size>(m_entity, 19, 19);
+		m_registry.assign<GridComponent>(m_entity, 13, 23);
 		auto tmp = m_gameInstance->textures.load(texturePath);
 
-		m_registry.assign<Sprite>(m_entity, tmp, pos_and_size);
+		m_registry.assign<Sprite>(m_entity, tmp, SDL_Rect{ 13 * 19,23 * 19,19,19 });
 
 		AnimationPtr down = std::make_shared<Animation>();
 		down->animationFrames = {
@@ -64,17 +59,5 @@ public:
 
 		m_registry.assign<AnimationSet>(m_entity, animSet);
 		m_registry.assign<AnimationPtr>(m_entity, up);
-		m_registry.assign<NoRandomPos>(m_entity);
 	}
-
-	void isPacman()
-	{
-		m_registry.assign<Pacman>(m_entity);
-	}
-
-	void isGhost()
-	{
-		m_registry.assign<Ghosts>(m_entity);
-	}
-
 };

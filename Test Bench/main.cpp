@@ -4,9 +4,8 @@
 
 #include <thread>
 
-#include "Header Files/AnimatedObject.h"
 #include "Header Files/Level.h"
-#include "Header Files/MovementSystem.h"
+#include "Header Files/PlayerObject.h"
 #include "getExePath.h"
 
 using namespace bloom;
@@ -54,11 +53,15 @@ void test_drawer(const std::filesystem::path& assetsPath)
 	entt::DefaultRegistry testRegistry;
 	bloom::systems::RenderSystem renderSysTest(testRegistry);
 	bloom::systems::AnimationSystem animSysTest(testRegistry);
-	MovementSystem moveSysTest(testRegistry);
 	Level Level_1 = Level(game);
 	Level_1.load(LevelDir / "0.txt");
 	Level_1.generateTexture(TileDir);
 	Level_1.generatePellets(TileDir, testRegistry);
+
+	std::filesystem::path PacDir = assetsPath / L"Pacman.png";
+	Player player(testRegistry, game);
+	player.init(PacDir);
+	
 
 	while (game->isRunning()) {
 		
@@ -77,7 +80,6 @@ void test_drawer(const std::filesystem::path& assetsPath)
 			*/
 		game->clear();
 		Level_1.draw();
-		moveSysTest.update();
 		animSysTest.update(game->timer.lap());
 		renderSysTest.update(); // Test again.
 		game->render();
