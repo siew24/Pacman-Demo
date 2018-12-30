@@ -39,6 +39,7 @@ namespace bloom {
 		int getScreenWidth();
 		int getScreenHeight();
 		SDL_Event getEvent();
+		SDL_Renderer* getRenderer() { return m_renderer; }
 
 		TextureStore	textures = TextureStore(m_renderer);
 		Timer			timer;

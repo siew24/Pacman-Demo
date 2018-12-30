@@ -189,17 +189,19 @@
     <ClInclude Include="Header Files\Components\ComponentIncludes.h" />
     <ClInclude Include="Header Files\Components\DirectionComponent.h" />
     <ClInclude Include="Header Files\Components\NoRandomComponent.h" />
+    <ClInclude Include="Header Files\PelletObject.h" />
     <ClInclude Include="Header Files\Components\PelletsComponent.h" />
     <ClInclude Include="Header Files\Components\WallComponent.h" />
     <ClInclude Include="Header Files\Components\GhostComponent.h" />
     <ClInclude Include="Header Files\InputSystem.h" />
+    <ClInclude Include="Header Files\Level.h" />
     <ClInclude Include="Header Files\MovementSystem.h" />
     <ClInclude Include="Header Files\NoRandomComponent.h" />
     <ClInclude Include="Header Files\MovableAnimatedObject.h" />
     <ClInclude Include="Header Files\Components\PacmanComponent.h" />
     <ClInclude Include="Header Files\PelletsComponent.h" />
     <ClInclude Include="Header Files\TileObject.h" />
-    <ClInclude Include="Header Files\Level.h" />
+    <ClInclude Include="Header Files\Level_.h" />
     <ClInclude Include="Header Files\WallComponent.h" />
   </ItemGroup>
   <ItemGroup>

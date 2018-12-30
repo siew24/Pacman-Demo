@@ -31,7 +31,7 @@ void test_drawer(const std::filesystem::path& assetsPath)
 
 	Uint32 framestart;
 
-	game = new Game(WINDOW_WIDTH, WINDOW_HEIGHT);
+	game = new Game(WINDOW_WIDTH, WINDOW_HEIGHT,0, 6 | SDL_RENDERER_TARGETTEXTURE);
 	try {
 		game->create("Bloom Test", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
 	}
@@ -55,16 +55,17 @@ void test_drawer(const std::filesystem::path& assetsPath)
 	bloom::systems::RenderSystem renderSysTest(testRegistry);
 	bloom::systems::AnimationSystem animSysTest(testRegistry);
 	MovementSystem moveSysTest(testRegistry);
-	Level Level_1 = Level(assetsPath, TileDir, LevelDir);
-	Level_1.initLevel(testRegistry, game);
-	Level_1.generate(testRegistry);
+	Level Level_1 = Level(game);
+	Level_1.load(LevelDir / "0.txt");
+	Level_1.generateTexture(TileDir);
+	Level_1.generatePellets(TileDir, testRegistry);
 
 	while (game->isRunning()) {
 		
 		// Demo ends here.
 		framestart = SDL_GetTicks();
 		game->handleEvents();
-		
+		/*
 		if (game->input.isKeyDown(KEY_W))
 			testRegistry.get<Direction>(Level_1.getPacmanID()) = Direction(KEY_W);
 		if (game->input.isKeyDown(KEY_A))
@@ -73,8 +74,9 @@ void test_drawer(const std::filesystem::path& assetsPath)
 			testRegistry.get<Direction>(Level_1.getPacmanID()) = Direction(KEY_S);
 		if (game->input.isKeyDown(KEY_D))
 			testRegistry.get<Direction>(Level_1.getPacmanID()) = Direction(KEY_D);
-
+			*/
 		game->clear();
+		Level_1.draw();
 		moveSysTest.update();
 		animSysTest.update(game->timer.lap());
 		renderSysTest.update(); // Test again.
