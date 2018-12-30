@@ -21,6 +21,9 @@ Game* game = nullptr;
 const int WINDOW_WIDTH = 800;
 const int WINDOW_HEIGHT = 600;
 
+const int TILE_WIDTH = 19;
+const int TILE_HEIGHT = 19;
+
 void test_drawer(const std::filesystem::path& assetsPath)
 {
 	const int fps = 60;
