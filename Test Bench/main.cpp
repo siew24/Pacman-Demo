@@ -65,15 +65,14 @@ void test_drawer(const std::filesystem::path& assetsPath)
 		framestart = SDL_GetTicks();
 		game->handleEvents();
 		
-		if (game->input.isKeyDown(KEY_W) || game->input.isKeyPressed(KEY_W))
-			testRegistry.replace<Direction>(Level_1.getPacmanID(), KEY_W);
-		if (game->input.isKeyDown(KEY_A) || game->input.isKeyPressed(KEY_A))
-			testRegistry.replace<Direction>(Level_1.getPacmanID(), KEY_A);
-		if (game->input.isKeyDown(KEY_S) || game->input.isKeyPressed(KEY_S))
-			testRegistry.replace<Direction>(Level_1.getPacmanID(), KEY_S);
-		if (game->input.isKeyDown(KEY_D) || game->input.isKeyPressed(KEY_D))
-			testRegistry.replace<Direction>(Level_1.getPacmanID(), KEY_D);
-
+		if (game->input.isKeyDown(KEY_W))
+			testRegistry.get<Direction>(Level_1.getPacmanID()) = Direction(KEY_W);
+		if (game->input.isKeyDown(KEY_A))
+			testRegistry.get<Direction>(Level_1.getPacmanID()) = Direction(KEY_A);
+		if (game->input.isKeyDown(KEY_S))
+			testRegistry.get<Direction>(Level_1.getPacmanID()) = Direction(KEY_S);
+		if (game->input.isKeyDown(KEY_D))
+			testRegistry.get<Direction>(Level_1.getPacmanID()) = Direction(KEY_D);
 
 		game->clear();
 		moveSysTest.update();

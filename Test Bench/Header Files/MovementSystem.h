@@ -4,6 +4,7 @@
 #include "Level.h"
 #include "Components/ComponentIncludes.h"
 
+
 // focusing on Pacman for now
 class MovementSystem : bloom::systems::DefaultSystem
 {
@@ -35,20 +36,20 @@ class MovementSystem : bloom::systems::DefaultSystem
 							Wall_down = true;
 					}
 					);
-					if (direction.direction == "up" && !Wall_up)
+					if (direction.direction == up && !Wall_up)
 						tmp.y -= 2;
-					else if (direction.direction == "down" && !Wall_down)
+					else if (direction.direction == down && !Wall_down)
 						tmp.y += 2;
-					else if (direction.direction == "left" && !Wall_left)
+					else if (direction.direction == left && !Wall_left)
 						tmp.x -= 2;
-					else if (direction.direction == "right" && !Wall_right)
+					else if (direction.direction == right && !Wall_right)
 						tmp.x += 2;
 					entity_pos = tmp;
 					if (entity_pos.x <= 0)
 						entity_pos.x = 27 * 19;
 					else if (entity_pos.x > 27 * 19)
 						entity_pos.x = 0;
-					animSet.changeAnimation(direction.direction);
+					animSet.changeAnimation(animations[direction.direction]);
 					}
 			}
 			);
