@@ -60,6 +60,11 @@ void test_drawer(const std::filesystem::path& assetsPath)
 	Level_1.generate(testRegistry);
 
 	while (game->isRunning()) {
+		
+		// Demo ends here.
+		framestart = SDL_GetTicks();
+		game->handleEvents();
+		
 		if (game->input.isKeyDown(KEY_W) || game->input.isKeyPressed(KEY_W))
 			testRegistry.replace<Direction>(Level_1.getPacmanID(), KEY_W);
 		if (game->input.isKeyDown(KEY_A) || game->input.isKeyPressed(KEY_A))
@@ -68,9 +73,8 @@ void test_drawer(const std::filesystem::path& assetsPath)
 			testRegistry.replace<Direction>(Level_1.getPacmanID(), KEY_S);
 		if (game->input.isKeyDown(KEY_D) || game->input.isKeyPressed(KEY_D))
 			testRegistry.replace<Direction>(Level_1.getPacmanID(), KEY_D);
-		// Demo ends here.
-		framestart = SDL_GetTicks();
-		game->handleEvents();
+
+
 		game->clear();
 		moveSysTest.update();
 		animSysTest.update(game->timer.lap());
