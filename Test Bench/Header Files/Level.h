@@ -11,7 +11,10 @@
 
 class Level
 {
+	using Position = bloom::components::Position;
 public:
+
+	Level() {}
 	Level(std::filesystem::path assetDir, std::filesystem::path TileDir, std::filesystem::path LevelDir, int w = 19, int h = 19, Uint32 TextureAmount = 38)
 	{
 		initEntities(assetDir, w, h);
@@ -63,16 +66,13 @@ public:
 			tmp.clear();
 		}
 	}
-
 	~Level()
 	{
 		delete pTileObject;
 		delete pAnimatedObject;
 	}
-
 	void initLevel(entt::DefaultRegistry & registry, bloom::Game *& gameInstance)	// Creates a bunch of SmallWalls and AnimatedObjects
 	{
-
 		for (Uint32 i = 0; i < level.size(); i++)
 		{
 			std::vector<TileObject*> a;
@@ -84,15 +84,13 @@ public:
 			Tiles.push_back(a);
 			a.clear();
 		}
-
 		for (Uint32 i = 0; i < SpawnLocations.size(); i++)
 		{
 			pAnimatedObject = new AnimatedObject(registry, gameInstance);
 			AnimatedEntity.push_back(pAnimatedObject);
 		}
 	}
-
-	void generate(int w = 19, int h = 19)	// Uses Tiles to make the map (19 x 19 is the best size)
+	void generate(entt::DefaultRegistry & registry, int w = 19, int h = 19)	// Uses Tiles to make the map (19 x 19 is the best size)
 	{
 		for (Uint32 i = 0; i < level.size(); i++)
 			for (Uint32 j = 0; j < level[i].size(); j++)
@@ -112,12 +110,10 @@ public:
 				AnimatedEntity[i]->isPacman();
 		}
 	}
-
 	std::vector<std::vector<std::filesystem::path>> getLevelTexture()
 	{
 		return level;
 	}
-
 	void initEntities(std::filesystem::path assetDir, int w, int h)	// For now, the spawn locations will be fixed
 	{
 		SpawnLocations.push_back(std::pair<std::filesystem::path, SDL_Rect> (assetDir / L"Red.png", { 13* w, 11* h, w, h }));		//0
@@ -126,7 +122,6 @@ public:
 		SpawnLocations.push_back(std::pair<std::filesystem::path, SDL_Rect>(assetDir / L"Orange.png", { 14* w, 14* h, w, h }));		//3
 		SpawnLocations.push_back(std::pair<std::filesystem::path, SDL_Rect>(assetDir / L"Pacman.png", { 14* w, 23* h, w, h }));		//4
 	}
-
 	Uint32 getPacmanID()
 	{
 		return AnimatedEntity[4]->getEntityID();
@@ -138,7 +133,7 @@ protected:
 	std::set<std::filesystem::path> PelletTexturePath;
 	std::vector<std::filesystem::path> TileTexture;
 	std::vector<std::vector<std::filesystem::path>> level;
+	std::vector<std::pair<std::filesystem::path, SDL_Rect>> SpawnLocations;	// Texture, destRect
 	TileObject *pTileObject = NULL;
 	AnimatedObject *pAnimatedObject = NULL;
-	std::vector<std::pair<std::filesystem::path, SDL_Rect>> SpawnLocations;	// Texture, destRect
 };

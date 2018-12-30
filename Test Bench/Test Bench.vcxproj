@@ -186,6 +186,7 @@
   <ItemGroup>
     <ClInclude Include="Header Files\AnimatedObject.h" />
     <ClInclude Include="getExePath.h" />
+    <ClInclude Include="Header Files\Components\ComponentIncludes.h" />
     <ClInclude Include="Header Files\Components\DirectionComponent.h" />
     <ClInclude Include="Header Files\Components\NoRandomComponent.h" />
     <ClInclude Include="Header Files\Components\PelletsComponent.h" />

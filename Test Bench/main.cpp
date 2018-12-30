@@ -52,19 +52,19 @@ void test_drawer(const std::filesystem::path& assetsPath)
 	bloom::systems::RenderSystem renderSysTest(testRegistry);
 	bloom::systems::AnimationSystem animSysTest(testRegistry);
 	MovementSystem moveSysTest(testRegistry);
-	Level Level1 = Level(assetsPath, TileDir, LevelDir);
-	Level1.initLevel(testRegistry, game);
-	Level1.generate();
+	Level Level_1 = Level(assetsPath, TileDir, LevelDir);
+	Level_1.initLevel(testRegistry, game);
+	Level_1.generate(testRegistry);
 
 	while (game->isRunning()) {
 		if (game->input.isKeyDown(KEY_W) || game->input.isKeyPressed(KEY_W))
-			testRegistry.replace<Direction>(Level1.getPacmanID(), KEY_W);
+			testRegistry.replace<Direction>(Level_1.getPacmanID(), KEY_W);
 		if (game->input.isKeyDown(KEY_A) || game->input.isKeyPressed(KEY_A))
-			testRegistry.replace<Direction>(Level1.getPacmanID(), KEY_A);
+			testRegistry.replace<Direction>(Level_1.getPacmanID(), KEY_A);
 		if (game->input.isKeyDown(KEY_S) || game->input.isKeyPressed(KEY_S))
-			testRegistry.replace<Direction>(Level1.getPacmanID(), KEY_S);
+			testRegistry.replace<Direction>(Level_1.getPacmanID(), KEY_S);
 		if (game->input.isKeyDown(KEY_D) || game->input.isKeyPressed(KEY_D))
-			testRegistry.replace<Direction>(Level1.getPacmanID(), KEY_D);
+			testRegistry.replace<Direction>(Level_1.getPacmanID(), KEY_D);
 		// Demo ends here.
 		framestart = SDL_GetTicks();
 		game->handleEvents();

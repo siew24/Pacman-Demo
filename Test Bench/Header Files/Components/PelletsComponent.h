@@ -1,5 +1,9 @@
 #pragma once
 
-struct Pellet {
+class Pellet {
+	using Position = bloom::components::Position;
+	public:
+		Pellet(Position a) : PelletPosition(a) {}
 
+		Position PelletPosition;
 };

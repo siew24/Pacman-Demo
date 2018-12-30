@@ -1,9 +1,7 @@
 #pragma once
 
 #include "Framework.h"
-#include "Components/WallComponent.h"
-#include "Components/NoRandomComponent.h"
-#include "Components/PelletsComponent.h"
+#include "Components/ComponentIncludes.h"
 
 class TileObject : public bloom::GameObject
 {
@@ -28,11 +26,11 @@ class TileObject : public bloom::GameObject
 
 		void isWall()
 		{
-			m_registry.assign<Wall>(m_entity);
+			m_registry.assign<Wall>(m_entity, m_registry.get<Position>(m_entity));
 		}
 
 		void isPellet()
 		{
-			m_registry.assign<Pellet>(m_entity);
+			m_registry.assign<Pellet>(m_entity, m_registry.get<Position>(m_entity));
 		}
 };
