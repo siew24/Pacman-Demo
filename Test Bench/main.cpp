@@ -68,14 +68,16 @@ void test_drawer(const std::filesystem::path& assetsPath)
 		framestart = SDL_GetTicks();
 		game->handleEvents();
 		
-		if (game->input.isKeyDown(KEY_W))
+		if (game->input.isKeyDown(KEY_W) || game->input.isKeyPressed(KEY_W))
 			testRegistry.get<Pacman>(player.getEntityID()).nextDir = up;
-		if (game->input.isKeyDown(KEY_A))
+		else if (game->input.isKeyDown(KEY_A) || game->input.isKeyPressed(KEY_A))
 			testRegistry.get<Pacman>(player.getEntityID()).nextDir = left;
-		if (game->input.isKeyDown(KEY_S))
+		else if (game->input.isKeyDown(KEY_S) || game->input.isKeyPressed(KEY_S))
 			testRegistry.get<Pacman>(player.getEntityID()).nextDir = down;
-		if (game->input.isKeyDown(KEY_D))
+		else if (game->input.isKeyDown(KEY_D) || game->input.isKeyPressed(KEY_D))
 			testRegistry.get<Pacman>(player.getEntityID()).nextDir = right;
+		else
+			testRegistry.get<Pacman>(player.getEntityID()).nextDir = null;
 
 		game->clear();
 		level_1.draw();
