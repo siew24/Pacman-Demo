@@ -1,4 +1,8 @@
 #pragma once
 
-struct Pellet {};
-struct PowerPellet {};
+struct Pellet {
+	int points = 100;
+};
+struct PowerPellet {
+	int points = 200;
+};
