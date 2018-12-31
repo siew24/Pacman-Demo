@@ -11,7 +11,7 @@ class PelletObject : public bloom::GameObject {
 public:
 	void init() override {}
 
-	void init(std::filesystem::path texture, SDL_Rect destRect = { 0, 0, 19,19})
+	void init(std::filesystem::path texture, SDL_Rect destRect = { 0, 0, 8,8})
 	{
 		m_registry.replace<Position>(m_entity, destRect.x, destRect.y);
 		m_registry.assign<Size>(m_entity, destRect.w, destRect.h);

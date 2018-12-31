@@ -1,15 +1,10 @@
 #pragma once
 
 #include "Framework.h"
-/*enum Dir {
+enum Direction {
 	up,
 	down,
 	left,
 	right,
 	null
 };
-
-struct Direction
-{
-	Dir direction;
-};*/

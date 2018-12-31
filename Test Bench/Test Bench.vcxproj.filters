@@ -53,16 +53,7 @@
     <ClInclude Include="Header Files\Components\PacmanComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header Files\Components\NoRandomComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Header Files\Components\WallComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Header Files\Components\PelletsComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Header Files\Components\DirectionComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Header Files\Components\ComponentIncludes.h">
@@ -77,7 +68,13 @@
     <ClInclude Include="Header Files\PlayerObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header Files\Components\GridComponent.h">
+    <ClInclude Include="Header Files\Systems\GhostAI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header Files\Systems\PlayerMovement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header Files\Direction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

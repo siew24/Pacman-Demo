@@ -38,7 +38,7 @@ public:
 				if (layout[i][j] != 37 && layout[i][j] != 38) {
 					std::filesystem::path tile = tilePath / std::string{ std::to_string(layout[i][j]) + ".png" };
 					SDL_Rect src{ 0,0,6,6 };
-					SDL_Rect dest{ j * 19, i * 19,19,19 };
+					SDL_Rect dest{ j * 8, i * 8,8,8 };
 					gameInstance->textures.load(tile)->render(src, dest);
 				}
 
@@ -50,13 +50,15 @@ public:
 			for (int j = 0; j < layout[i].size(); ++j)
 				if (layout[i][j] == 37) {
 					auto pellet = std::make_shared<PelletObject>(registry, gameInstance);
-					pellet->init(pelletTexturePath / std::string{ std::to_string(37) + ".png" }, SDL_Rect{ j * 19,i * 19, 19,19 });
+					pellet->init(pelletTexturePath / std::string{ std::to_string(37) + ".png" }, SDL_Rect{ j * 8,i * 8, 8,8 });
 					pellets.emplace_back(pellet);
+					layout[i][j] = 0;
 				}
 				else if (layout[i][j] == 38) {
 					auto pellet = std::make_shared<PelletObject>(registry, gameInstance);
-					pellet->init(pelletTexturePath / std::string{ std::to_string(38) + ".png" }, SDL_Rect{ j * 19,i * 19, 19,19 });
+					pellet->init(pelletTexturePath / std::string{ std::to_string(38) + ".png" }, SDL_Rect{ j * 8,i * 8, 8,8 });
 					pellets.emplace_back(pellet);
+					layout[i][j] = 0;
 				}
 	}
 

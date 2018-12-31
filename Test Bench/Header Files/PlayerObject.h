@@ -1,6 +1,5 @@
 #pragma once
 #include "Framework.h"
-#include "Components/GridComponent.h"
 
 class Player : public bloom::GameObject {
 	using Position = bloom::components::Position;
@@ -14,12 +13,11 @@ public:
 	void init() override {}
 
 	void init(const std::filesystem::path texturePath) {
-		m_registry.replace<Position>(m_entity, 13*19, 23*19);
-		m_registry.assign<Size>(m_entity, 19, 19);
-		m_registry.assign<GridComponent>(m_entity, 13, 23);
+		m_registry.replace<Position>(m_entity, 13*8, 23*8);
+		m_registry.assign<Size>(m_entity, 8, 8);
 		auto tmp = m_gameInstance->textures.load(texturePath);
 
-		m_registry.assign<Sprite>(m_entity, tmp, SDL_Rect{ 13 * 19,23 * 19,19,19 });
+		m_registry.assign<Sprite>(m_entity, tmp, SDL_Rect{ 13 * 8,23 * 8,8,8 });
 
 		AnimationPtr down = std::make_shared<Animation>();
 		down->animationFrames = {
@@ -59,5 +57,6 @@ public:
 
 		m_registry.assign<AnimationSet>(m_entity, animSet);
 		m_registry.assign<AnimationPtr>(m_entity, up);
+		m_registry.assign<Pacman>(m_entity) = Pacman{Direction::right,Direction::right,0,0 };
 	}
 };
