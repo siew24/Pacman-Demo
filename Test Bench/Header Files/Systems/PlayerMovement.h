@@ -17,13 +17,12 @@ public:
 		m_registry.view<Pacman, Position>().each(
 			[&](auto entity, Pacman& player, Position& position) {
 				if (deltaTime.value() < 500.0)
-					lastUpdate += deltaTime.value() / 1000;
-				const double speed = 11.0;
-				const double unitTime = 11.0 / 1000.0;
+					lastUpdate += (deltaTime.value() / 1000)*speed;
+				
 				int potentialDistance = 0;
-				if (lastUpdate > unitTime) {
-					potentialDistance = static_cast<int>(lastUpdate / unitTime);
-					lastUpdate = std::fmod(lastUpdate, unitTime);
+				if (lastUpdate > 1.0) {
+					potentialDistance = static_cast<int>(lastUpdate/1.0);
+					lastUpdate = std::fmod(lastUpdate, 1.0);
 				}
 
 
