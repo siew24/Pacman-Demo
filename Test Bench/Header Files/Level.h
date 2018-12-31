@@ -3,6 +3,9 @@
 #include "PelletObject.h"
 #include <fstream>
 
+const int TILE_TEXTURE_WIDTH_CONSTANT = 6;
+const int TILE_TEXTURE_HEIGHT_CONSTANT = 6;
+
 class Level {
 public:
 	Level(bloom::Game*& gameInstance) : gameInstance(gameInstance), renderer(gameInstance->getRenderer()) {
@@ -37,7 +40,7 @@ public:
 			for (int j = 0; j < layout[i].size(); ++j)
 				if (layout[i][j] != 37 && layout[i][j] != 38) {
 					std::filesystem::path tile = tilePath / std::string{ std::to_string(layout[i][j]) + ".png" };
-					SDL_Rect src{ 0,0,6,6 };
+					SDL_Rect src{ 0,0,TILE_TEXTURE_WIDTH_CONSTANT,TILE_TEXTURE_HEIGHT_CONSTANT };
 					SDL_Rect dest{ j * 8, i * 8,8,8 };
 					gameInstance->textures.load(tile)->render(src, dest);
 				}
