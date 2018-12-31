@@ -22,7 +22,7 @@ public:
 			m_registry.assign<Pellet>(m_entity);
 		}
 		else if (texture.filename().u8string() == "38.png") {
-			m_registry.assign<MegaPellet>(m_entity);
+			m_registry.assign<PowerPellet>(m_entity);
 		}
 	}
 };

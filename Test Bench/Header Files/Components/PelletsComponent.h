@@ -1,4 +1,4 @@
 #pragma once
 
 struct Pellet {};
-struct MegaPellet {};
+struct PowerPellet {};
