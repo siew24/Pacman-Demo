@@ -1,6 +1,7 @@
 #pragma once
 #include "Framework.h"
 #include "../Components/ComponentIncludes.h"
+#include "../Configs.h"
 
 bool valid(int tile) {
 	return (tile < 1 || tile > 36);
@@ -28,41 +29,41 @@ public:
 
 				while (potentialDistance > 0) {
 					bool moved = 0;
-					if (position.x % 8 == 0 && position.y % 8 == 0 && player.moveX == 0 && player.moveY == 0) {
+					if (position.x % TILESIZE == 0 && position.y % TILESIZE == 0 && player.moveX == 0 && player.moveY == 0) {
 						player.direction = player.nextDir;
 						auto& AnimSet = m_registry.get<AnimationSet>(entity);
 						switch (player.direction) {
 						case right:
 							AnimSet.changeAnimation("right");
-							if (position.x / 8 >= 27)
-								player.moveX = +16;
-							else if (valid(layout[position.y / 8][(position.x / 8) + 1]))
-								player.moveX += 8;
+							if (position.x / TILESIZE >= 27)
+								player.moveX = +TILESIZE*2;
+							else if (valid(layout[position.y / TILESIZE][(position.x / TILESIZE) + 1]))
+								player.moveX += TILESIZE;
 							break;
 						case left:
 							AnimSet.changeAnimation("left");
-							if (position.x / 8 == 0)
-								player.moveX = -16;
-							else if (valid(layout[position.y / 8][(position.x / 8) - 1]))
-								player.moveX -= 8;
+							if (position.x / TILESIZE == 0)
+								player.moveX = -TILESIZE*2;
+							else if (valid(layout[position.y / TILESIZE][(position.x / TILESIZE) - 1]))
+								player.moveX -= TILESIZE;
 							break;
 						case up:
 							AnimSet.changeAnimation("up");
-							if (valid(layout[(position.y / 8) - 1][position.x / 8]))
-								player.moveY -= 8;
+							if (valid(layout[(position.y / TILESIZE) - 1][position.x / TILESIZE]))
+								player.moveY -= TILESIZE;
 							break;
 						case down:
 							AnimSet.changeAnimation("down");
-							if (valid(layout[(position.y / 8) + 1][position.x / 8]))
-								player.moveY += 8;
+							if (valid(layout[(position.y / TILESIZE) + 1][position.x / TILESIZE]))
+								player.moveY += TILESIZE;
 							break;
 						}
 					}
 
 					if (player.moveX > 0) {
 						position.x += 1;
-						if (position.x == 28 * 8) {
-							position.x = -8;
+						if (position.x == 28 * TILESIZE) {
+							position.x = -TILESIZE;
 						}
 						--potentialDistance;
 						--player.moveX;
@@ -70,8 +71,8 @@ public:
 					}
 					else if (player.moveX < 0) {
 						position.x -= 1;
-						if (position.x == -8) {
-							position.x = 28 * 8;
+						if (position.x == -TILESIZE) {
+							position.x = 28 * TILESIZE;
 						}
 						--potentialDistance;
 						++player.moveX;
@@ -99,4 +100,5 @@ public:
 
 	std::vector<std::vector<int>> layout;
 	double lastUpdate = 0;
+	const double speed = 11 * TILESIZE;
 };

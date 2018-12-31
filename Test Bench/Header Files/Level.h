@@ -1,10 +1,8 @@
 #pragma once
 #include "Framework.h"
 #include "PelletObject.h"
+#include "Configs.h"
 #include <fstream>
-
-const int TILE_TEXTURE_WIDTH_CONSTANT = 6;
-const int TILE_TEXTURE_HEIGHT_CONSTANT = 6;
 
 class Level {
 public:
@@ -40,8 +38,8 @@ public:
 			for (int j = 0; j < layout[i].size(); ++j)
 				if (layout[i][j] != 37 && layout[i][j] != 38) {
 					std::filesystem::path tile = tilePath / std::string{ std::to_string(layout[i][j]) + ".png" };
-					SDL_Rect src{ 0,0,TILE_TEXTURE_WIDTH_CONSTANT,TILE_TEXTURE_HEIGHT_CONSTANT };
-					SDL_Rect dest{ j * 8, i * 8,8,8 };
+					SDL_Rect src{ 0,0,TILETEXTURESIZE,TILETEXTURESIZE };
+					SDL_Rect dest{ j * TILESIZE, i * TILESIZE,TILESIZE,TILESIZE };
 					gameInstance->textures.load(tile)->render(src, dest);
 				}
 
@@ -53,13 +51,13 @@ public:
 			for (int j = 0; j < layout[i].size(); ++j)
 				if (layout[i][j] == 37) {
 					auto pellet = std::make_shared<PelletObject>(registry, gameInstance);
-					pellet->init(pelletTexturePath / std::string{ std::to_string(37) + ".png" }, SDL_Rect{ j * 8,i * 8, 8,8 });
+					pellet->init(pelletTexturePath / std::string{ std::to_string(37) + ".png" }, SDL_Rect{ j * TILESIZE,i * TILESIZE, TILESIZE,TILESIZE });
 					pellets.emplace_back(pellet);
 					layout[i][j] = 0;
 				}
 				else if (layout[i][j] == 38) {
 					auto pellet = std::make_shared<PelletObject>(registry, gameInstance);
-					pellet->init(pelletTexturePath / std::string{ std::to_string(38) + ".png" }, SDL_Rect{ j * 8,i * 8, 8,8 });
+					pellet->init(pelletTexturePath / std::string{ std::to_string(38) + ".png" }, SDL_Rect{ j * TILESIZE,i * TILESIZE, TILESIZE,TILESIZE });
 					pellets.emplace_back(pellet);
 					layout[i][j] = 0;
 				}

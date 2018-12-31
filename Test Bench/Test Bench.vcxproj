@@ -186,6 +186,7 @@
   <ItemGroup>
     <ClInclude Include="getExePath.h" />
     <ClInclude Include="Header Files\Components\ComponentIncludes.h" />
+    <ClInclude Include="Header Files\Configs.h" />
     <ClInclude Include="Header Files\Direction.h" />
     <ClInclude Include="Header Files\PelletObject.h" />
     <ClInclude Include="Header Files\Components\PelletsComponent.h" />

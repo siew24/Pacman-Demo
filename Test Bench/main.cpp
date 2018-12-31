@@ -3,11 +3,13 @@
 #include <Windows.h>
 
 #include <thread>
-
+#include "Header Files/Configs.h"
 #include "Header Files/Level.h"
 #include "Header Files/PlayerObject.h"
 #include "Header Files/Systems/PlayerMovement.h"
 #include "getExePath.h"
+
+
 
 using namespace bloom;
 using namespace bloom::audio;
@@ -18,8 +20,8 @@ using Layout = std::vector<std::vector<std::filesystem::path>>;
 
 Game* game = nullptr;
 
-const int WINDOW_WIDTH = 224;
-const int WINDOW_HEIGHT = 248;
+const int WINDOW_WIDTH = 28*TILESIZE;
+const int WINDOW_HEIGHT = 31*TILESIZE;
 
 void test_drawer(const std::filesystem::path& assetsPath)
 {

@@ -1,5 +1,6 @@
 #pragma once
 #include "Framework.h"
+#include "Configs.h"
 
 class Player : public bloom::GameObject {
 	using Position = bloom::components::Position;
@@ -13,11 +14,11 @@ public:
 	void init() override {}
 
 	void init(const std::filesystem::path texturePath) {
-		m_registry.replace<Position>(m_entity, 13*8, 23*8);
-		m_registry.assign<Size>(m_entity, 8, 8);
+		m_registry.replace<Position>(m_entity, 13* TILESIZE, 23* TILESIZE);
+		m_registry.assign<Size>(m_entity, TILESIZE, TILESIZE);
 		auto tmp = m_gameInstance->textures.load(texturePath);
 
-		m_registry.assign<Sprite>(m_entity, tmp, SDL_Rect{ 13 * 8,23 * 8,8,8 });
+		m_registry.assign<Sprite>(m_entity, tmp, SDL_Rect{ 13 * TILESIZE,23 * TILESIZE,TILESIZE,TILESIZE });
 
 		AnimationPtr down = std::make_shared<Animation>();
 		down->animationFrames = {
@@ -56,7 +57,7 @@ public:
 		animSet.addAnimation("right", right);
 
 		m_registry.assign<AnimationSet>(m_entity, animSet);
-		m_registry.assign<AnimationPtr>(m_entity, up);
-		m_registry.assign<Pacman>(m_entity) = Pacman{Direction::right,Direction::right,0,0 };
+		m_registry.assign<AnimationPtr>(m_entity, right);
+		m_registry.assign<Pacman>(m_entity) = Pacman{Direction::null,Direction::null,0,0 };
 	}
 };

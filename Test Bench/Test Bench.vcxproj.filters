@@ -77,6 +77,9 @@
     <ClInclude Include="Header Files\Direction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Header Files\Configs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="data\Assets\Pacman_Spritesheet.png">
