@@ -3,7 +3,7 @@
 #include "stdIncludes.h"
 #include "Graphics/TextureStore.h"
 #include "Timer.h"
-
+#include "Input/InputManager.h"
 namespace bloom {
 	class BLOOMFRAMEWORK_API Game {
 		using TextureStore = bloom::graphics::TextureStore;
@@ -39,10 +39,11 @@ namespace bloom {
 		int getScreenWidth();
 		int getScreenHeight();
 		SDL_Event getEvent();
+		SDL_Renderer* getRenderer() { return m_renderer; }
 
 		TextureStore	textures = TextureStore(m_renderer);
 		Timer			timer;
-
+		InputManager input;
 	protected:
 		SDL_Renderer *	m_renderer = nullptr;
 		SDL_Window *	m_window = nullptr;

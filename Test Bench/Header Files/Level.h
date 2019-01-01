@@ -1,134 +1,81 @@
 #pragma once
-
 #include "Framework.h"
-#include "TileObject.h"
-#include <set>
+#include "PelletObject.h"
+#include "Configs.h"
 #include <fstream>
-#include <codecvt>
-#include <sstream>
-#include <string>
 
-class Level
-{
-	public:
-		Level(std::filesystem::path TileDir, std::filesystem::path LevelDir, int w = 20, int h = 20, Uint32 TextureAmount = 38)
-		{
-			for (Uint32 i = 0; i <= TextureAmount; i++)
-			{
-				std::filesystem::path tmp = TileDir / (std::to_string(i) + ".png");
-				TileTexture.push_back(tmp);
-			}
-			for (size_t i = TileTexture.size() - 2; i < TileTexture.size(); i++)
-				PelletTexturePath.insert(TileTexture[i]);
-			std::filesystem::path LevelPath = LevelDir / "0.txt";
-			std::fstream LevelInput;
-			try
-			{
-				LevelInput = std::fstream(LevelPath.string(), std::fstream::in);
-			}
-			catch (const std::exception&)
-			{
-				std::cerr << "Error: [Level::LevelPath] Not Found" << std::endl;
-				exit(404);
-			}
+class Level {
+public:
+	Level(bloom::Game*& gameInstance) : gameInstance(gameInstance), renderer(gameInstance->getRenderer()) {
+		int w, h;
+		SDL_GetRendererOutputSize(renderer, &w, &h);
+		if (levelTex)
+			SDL_DestroyTexture(levelTex);
+		levelTex = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, w, h);
+		SDL_SetTextureBlendMode(levelTex, SDL_BLENDMODE_BLEND);
+	}
+	~Level() {
+		SDL_DestroyTexture(levelTex);
+	}
 
-			std::vector<std::vector<Uint32>> LevelCode;	// Use vector to initialize tiles
-			std::vector<Uint32> LevelCode1;
-			std::string Temp;
-			while (std::getline(LevelInput, Temp))
-			{
-				std::stringstream ss;
-				ss << Temp;
-				std::string temp;
-				while (!ss.eof())
-				{
-					ss >> temp;
-					int a;
-					std::stringstream(temp) >> a;
-					LevelCode1.push_back(a);
-				}
-				LevelCode.push_back(LevelCode1);
-				LevelCode1.clear();
-			}
-			for (Uint32 i = 0; i < LevelCode.size(); i++)
-			{
-				std::vector<std::filesystem::path> tmp;
-				for (Uint32 j = 0; j < LevelCode[i].size(); j++)
-				{
-					tmp.push_back(TileTexture[LevelCode[i][j]]);
-				}
-				level.push_back(tmp);
-				tmp.clear();
-			}
-			while (std::getline(LevelInput, Temp))
-			{
-				std::stringstream ss;
-				ss << Temp;
-				std::string temp;
-				while (!ss.eof())
-				{
-					ss >> temp;
-					int a;
-					std::stringstream(temp) >> a;
-					LevelCode1.push_back(a);
-				}
-				LevelCode.push_back(LevelCode1);
-				LevelCode1.clear();
-			}
-			for (Uint32 i = 0; i < LevelCode.size(); i++)
-			{
-				std::vector<std::filesystem::path> tmp;
-				for (Uint32 j = 0; j < LevelCode[i].size(); j++)
-				{
-					tmp.push_back(TileTexture[LevelCode[i][j]]);
-				}
-				level.push_back(tmp);
-				tmp.clear();
-			}
-		}
-		
-		~Level()
-		{
-			delete pTileObject;
-		}
+	void load(const std::filesystem::path& levelData) {
+		std::ifstream fin(levelData.u8string());
 
-		void init(entt::DefaultRegistry & registry, bloom::Game *& gameInstance)	// Creates a bunch of SmallWalls
-		{
+		int w, h;
+		fin >> w >> h;
 
-			for (Uint32 i = 0; i < level.size(); i++)
-			{
-				std::vector<TileObject*> a;
-				for (Uint32 j = 0; j < level[i].size(); j++)
-				{
-					pTileObject = new TileObject(registry, gameInstance);
-					a.push_back(pTileObject);
+		layout = std::vector<std::vector<int>>(h, std::vector<int>(w));
+
+		for (int i = 0; i < h; ++i)
+			for (int j = 0; j < w; ++j)
+				fin >> layout[i][j];
+	}
+
+	void generateTexture(const std::filesystem::path& tilePath) {
+		SDL_SetRenderTarget(renderer, levelTex);
+		SDL_RenderClear(renderer);
+		for (int i = 0; i < layout.size(); ++i)
+			for (int j = 0; j < layout[i].size(); ++j)
+				if (layout[i][j] != 37 && layout[i][j] != 38) {
+					std::filesystem::path tile = tilePath / std::string{ std::to_string(layout[i][j]) + ".png" };
+					SDL_Rect src{ 0,0,TILETEXTURESIZE,TILETEXTURESIZE };
+					SDL_Rect dest{ j * TILESIZE, i * TILESIZE,TILESIZE,TILESIZE };
+					gameInstance->textures.load(tile)->render(src, dest);
 				}
-				Tiles.push_back(a);
-				a.clear();
-			}
-		}
 
-		void generate(int w = 19, int h = 19)	// Uses Tiles to make the map (19 x 19 is the best size)
-		{
-			for(Uint32 i = 0; i < level.size(); i++)
-				for (Uint32 j = 0; j < level[i].size(); j++)
-				{
-					Tiles[i][j]->init(level[i][j], SDL_Rect{ static_cast<int> (j * w),  static_cast<int> (i * h), w, h }, SDL_Rect{ 0, 0, 6, 6 });
-					if (PelletTexturePath.count(level[i][j]) == 0)
-						Tiles[i][j]->isWall();
-					else
-						Tiles[i][j]->isPellet();
+		SDL_SetRenderTarget(renderer, nullptr);
+	}
+
+	void generatePellets(const std::filesystem::path& pelletTexturePath, entt::DefaultRegistry& registry) {
+		for (int i = 0; i < layout.size(); ++i)
+			for (int j = 0; j < layout[i].size(); ++j)
+				if (layout[i][j] == 37) {
+					auto pellet = std::make_shared<PelletObject>(registry, gameInstance);
+					pellet->init(pelletTexturePath / std::string{ std::to_string(37) + ".png" }, SDL_Rect{ j * TILESIZE,i * TILESIZE, TILESIZE,TILESIZE });
+					pellets.emplace_back(pellet);
+					layout[i][j] = 0;
 				}
-		}
+				else if (layout[i][j] == 38) {
+					auto pellet = std::make_shared<PelletObject>(registry, gameInstance);
+					pellet->init(pelletTexturePath / std::string{ std::to_string(38) + ".png" }, SDL_Rect{ j * TILESIZE,i * TILESIZE, TILESIZE,TILESIZE });
+					pellets.emplace_back(pellet);
+					layout[i][j] = 0;
+				}
+	}
 
-		std::vector<std::vector<std::filesystem::path>> getLevelTexture()
-		{
-			return level;
-		}
-	protected:
-		std::vector<std::vector<TileObject*>> Tiles;
-		std::set<std::filesystem::path> PelletTexturePath;
-		std::vector<std::filesystem::path> TileTexture;
-		std::vector<std::vector<std::filesystem::path>> level;
-		TileObject *pTileObject = NULL;
+	void draw() {
+		SDL_RenderCopyEx(renderer, levelTex, nullptr, nullptr, 0.0, nullptr, SDL_FLIP_NONE);
+	}
+
+	int pelletCount() {
+		return pellets.size();
+	}
+
+	std::vector<std::vector<int>> layout;
+
+private:
+	bloom::Game*& gameInstance;
+	SDL_Renderer* renderer;
+	SDL_Texture* levelTex = nullptr;
+	std::vector<std::shared_ptr<PelletObject>> pellets;
 };
