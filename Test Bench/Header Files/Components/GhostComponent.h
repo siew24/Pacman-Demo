@@ -1,5 +1,5 @@
 #pragma once
 
-struct Ghosts {
-
+struct Ghost {
+	double afraidTimer = 0.0;
 };
