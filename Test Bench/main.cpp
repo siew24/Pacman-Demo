@@ -70,13 +70,13 @@ void test_drawer(const std::filesystem::path& assetsPath)
 		framestart = SDL_GetTicks();
 		game->handleEvents();
 		
-		if (game->input.isKeyDown(KEY_W) || game->input.isKeyPressed(KEY_W))
+		if (game->input.isKeyPressed(KEY_W)  || game->input.isKeyPressed(KEY_UP))
 			testRegistry.get<Pacman>(player.getEntityID()).nextDir = up;
-		else if (game->input.isKeyDown(KEY_A) || game->input.isKeyPressed(KEY_A))
+		else if (game->input.isKeyPressed(KEY_A) || game->input.isKeyPressed(KEY_LEFT))
 			testRegistry.get<Pacman>(player.getEntityID()).nextDir = left;
-		else if (game->input.isKeyDown(KEY_S) || game->input.isKeyPressed(KEY_S))
+		else if (game->input.isKeyPressed(KEY_S) || game->input.isKeyPressed(KEY_DOWN))
 			testRegistry.get<Pacman>(player.getEntityID()).nextDir = down;
-		else if (game->input.isKeyDown(KEY_D) || game->input.isKeyPressed(KEY_D))
+		else if (game->input.isKeyPressed(KEY_D) || game->input.isKeyPressed(KEY_RIGHT))
 			testRegistry.get<Pacman>(player.getEntityID()).nextDir = right;
 		else
 			testRegistry.get<Pacman>(player.getEntityID()).nextDir = null;
