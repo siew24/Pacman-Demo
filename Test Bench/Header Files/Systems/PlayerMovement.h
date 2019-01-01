@@ -4,7 +4,7 @@
 #include "../Configs.h"
 
 bool valid(int tile) {
-	return (tile < 1 || tile > 36);
+	return (tile == 0);
 }
 
 class PlayerMovement : public bloom::systems::System {
