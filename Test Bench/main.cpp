@@ -7,9 +7,8 @@
 #include "Header Files/Level.h"
 #include "Header Files/PlayerObject.h"
 #include "Header Files/Systems/PlayerMovement.h"
+#include "Header Files/Systems/PelletSystem.h"
 #include "getExePath.h"
-
-
 
 using namespace bloom;
 
@@ -49,6 +48,7 @@ void test_drawer(const std::filesystem::path& assetsPath)
 	bloom::systems::RenderSystem renderSysTest(testRegistry);
 	bloom::systems::AnimationSystem animSysTest(testRegistry);
 	PlayerMovement playerMovement(testRegistry);
+	PelletSystem pelletSystem(testRegistry);
 	Level level_1 = Level(game);
 	level_1.load(LevelDir / "0.txt");
 	level_1.generateTexture(TileDir);
@@ -77,8 +77,9 @@ void test_drawer(const std::filesystem::path& assetsPath)
 
 		game->clear();
 		level_1.draw();
-		animSysTest.update(dt);
 		playerMovement.update(dt);
+		pelletSystem.update();
+		animSysTest.update(dt);
 		renderSysTest.update(); // Test again.
 		game->render();
 		// game->update();

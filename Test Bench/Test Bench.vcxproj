@@ -199,6 +199,7 @@
     <ClInclude Include="Header Files\PelletsComponent.h" />
     <ClInclude Include="Header Files\PlayerObject.h" />
     <ClInclude Include="Header Files\Systems\GhostAI.h" />
+    <ClInclude Include="Header Files\Systems\PelletSystem.h" />
     <ClInclude Include="Header Files\Systems\PlayerMovement.h" />
     <ClInclude Include="Header Files\WallComponent.h" />
   </ItemGroup>
