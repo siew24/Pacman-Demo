@@ -16,28 +16,34 @@ public:
 		Position& playerPos = m_registry.get<Position>(player);
 		Pacman& playerStat = m_registry.get<Pacman>(player);
 
-		m_registry.view<Pellet, Position>().each(
-			[&](auto entity, Pellet& pellet, Position& pelletPos) {
+		if (!m_registry.view<Pellet, Position>().empty() || !m_registry.view<PowerPellet, Position>().empty())
+		{
+			m_registry.view<Pellet, Position>().each(
+				[&](auto entity, Pellet& pellet, Position& pelletPos) {
 				if (((playerPos.x + (TILESIZE / 2)) / TILESIZE == pelletPos.x / TILESIZE) && ((playerPos.y + (TILESIZE / 2)) / TILESIZE == pelletPos.y / TILESIZE)) {
 					playerStat.score += pellet.points;
 					m_registry.destroy(entity);
 				}
 			}
-		);
-
-		m_registry.view<PowerPellet, Position>().each(
-			[&](auto entity, PowerPellet& pellet, Position& pelletPos) {
+			);
+			m_registry.view<PowerPellet, Position>().each(
+				[&](auto entity, PowerPellet& pellet, Position& pelletPos) {
 				if (((playerPos.x + (TILESIZE / 2)) / TILESIZE == pelletPos.x / TILESIZE) && ((playerPos.y + (TILESIZE / 2)) / TILESIZE == pelletPos.y / TILESIZE)) {
 					playerStat.score += pellet.points;
 					m_registry.destroy(entity);
 
 					m_registry.view<Ghost>().each(
 						[](auto entity, Ghost& ghost) {
-							ghost.afraidTimer = 10.0; // Ghosts are now scared for 10s.
-						}
+						ghost.afraidTimer = 10.0; // Ghosts are now scared for 10s.
+					}
 					);
 				}
 			}
-		);
+			);
+		}
+		else
+			Game_Done = true;
 	}
+
+	bool Game_Done = false;
 };

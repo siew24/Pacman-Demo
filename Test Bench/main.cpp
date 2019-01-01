@@ -94,6 +94,9 @@ void test_drawer(const std::filesystem::path& assetsPath)
 			game->delay(framedelay - frametime);
 		}
 		dt = game->timer.lap();
+
+		if (pelletSystem.Game_Done)
+			break;
 	}
 	game->destroy();
 }
