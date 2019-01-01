@@ -14,8 +14,8 @@ using namespace bloom;
 
 Game* game = nullptr;
 
-const int WINDOW_WIDTH = 28*TILESIZE;
-const int WINDOW_HEIGHT = 31*TILESIZE;
+const int WINDOW_WIDTH = 28 * TILESIZE;
+const int WINDOW_HEIGHT = 31 * TILESIZE;
 
 void test_drawer(const std::filesystem::path& assetsPath)
 {
@@ -24,7 +24,7 @@ void test_drawer(const std::filesystem::path& assetsPath)
 
 	Uint32 framestart;
 
-	game = new Game(WINDOW_WIDTH, WINDOW_HEIGHT, 0 , 6 | SDL_RENDERER_TARGETTEXTURE);
+	game = new Game(WINDOW_WIDTH, WINDOW_HEIGHT, 0, 6 | SDL_RENDERER_TARGETTEXTURE);
 	try {
 		game->create("Bloom Test", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
 	}
@@ -32,7 +32,7 @@ void test_drawer(const std::filesystem::path& assetsPath)
 		std::cerr << e.what() << std::endl;
 	}
 
-	SDL_Color Background{0,0,0};
+	SDL_Color Background{ 0,0,0 };
 
 	game->setColor(Background);
 	game->clear();
@@ -59,12 +59,16 @@ void test_drawer(const std::filesystem::path& assetsPath)
 	Player player(testRegistry, game);
 	player.init(PacDir);
 	auto dt = 0.0;
-
+	int frameCount = 0;
+	std::cout << "Level is started!" << std::endl;
 	while (game->isRunning()) {
+		if (!frameCount)
+			std::cout << "Current score:  " << testRegistry.get<Pacman>(player.getEntityID()).score << std::endl;
+		frameCount = (frameCount + 1) % 60;
 		framestart = SDL_GetTicks();
 		game->handleEvents();
-		
-		if (game->input.isKeyPressed(KEY_W)  || game->input.isKeyPressed(KEY_UP))
+
+		if (game->input.isKeyPressed(KEY_W) || game->input.isKeyPressed(KEY_UP))
 			testRegistry.get<Pacman>(player.getEntityID()).nextDir = up;
 		else if (game->input.isKeyPressed(KEY_A) || game->input.isKeyPressed(KEY_LEFT))
 			testRegistry.get<Pacman>(player.getEntityID()).nextDir = left;
