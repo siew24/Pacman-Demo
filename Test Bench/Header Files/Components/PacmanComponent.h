@@ -7,4 +7,5 @@ struct Pacman {
 	int moveX=0, moveY=0;
 
 	int score = 0;
+	int pelletsEaten = 0;
 };

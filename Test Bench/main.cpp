@@ -95,8 +95,11 @@ void test_drawer(const std::filesystem::path& assetsPath)
 		}
 		dt = game->timer.lap();
 
-		if (pelletSystem.Game_Done)
+		if (testRegistry.get<Pacman>(player.getEntityID()).pelletsEaten == level_1.pelletCount()) {
+			std::cout << "Level complete!" << std::endl;
+			game->delay(1000);
 			break;
+		}
 	}
 	game->destroy();
 }

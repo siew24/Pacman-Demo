@@ -67,9 +67,15 @@ public:
 		SDL_RenderCopyEx(renderer, levelTex, nullptr, nullptr, 0.0, nullptr, SDL_FLIP_NONE);
 	}
 
+	int pelletCount() {
+		return pellets.size();
+	}
+
+	std::vector<std::vector<int>> layout;
+
+private:
 	bloom::Game*& gameInstance;
 	SDL_Renderer* renderer;
-	std::vector<std::vector<int>> layout;
 	SDL_Texture* levelTex = nullptr;
 	std::vector<std::shared_ptr<PelletObject>> pellets;
 };
