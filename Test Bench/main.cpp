@@ -12,11 +12,6 @@
 
 
 using namespace bloom;
-using namespace bloom::audio;
-using namespace std::chrono_literals;
-using bloom::components::Position;
-using bloom::components::Size;
-using Layout = std::vector<std::vector<std::filesystem::path>>;
 
 Game* game = nullptr;
 
@@ -38,7 +33,7 @@ void test_drawer(const std::filesystem::path& assetsPath)
 		std::cerr << e.what() << std::endl;
 	}
 
-	SDL_Color Background{0,0,0,0};
+	SDL_Color Background{0,0,0};
 
 	game->setColor(Background);
 	game->clear();
@@ -64,9 +59,8 @@ void test_drawer(const std::filesystem::path& assetsPath)
 	Player player(testRegistry, game);
 	player.init(PacDir);
 	auto dt = 0.0;
+
 	while (game->isRunning()) {
-		
-		// Demo ends here.
 		framestart = SDL_GetTicks();
 		game->handleEvents();
 		
