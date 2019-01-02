@@ -13,7 +13,7 @@ public:
 	void changeLevel(const std::filesystem::path& levelFile, const std::filesystem::path& texturePath, entt::DefaultRegistry& registry);
 
 	void draw();
-	int pelletCount() {return m_pellets.size();}
+	size_t pelletCount() {return m_pellets.size();}
 
 	std::vector<std::vector<int>> layout;
 
