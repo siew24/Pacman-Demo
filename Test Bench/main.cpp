@@ -11,6 +11,7 @@
 #include "getExePath.h"
 
 using namespace bloom;
+using namespace bloom::audio;
 
 Game* game = nullptr;
 
@@ -43,6 +44,7 @@ void test_drawer(const std::filesystem::path& assetsPath)
 
 	std::filesystem::path tileDir = assetsPath / L"Tile";
 	std::filesystem::path levelDir = assetsPath / L"Level";
+	std::filesystem::path audioDir = assetsPath.parent_path() / L"Sounds";
 
 	entt::DefaultRegistry testRegistry;
 	bloom::systems::RenderSystem renderSysTest(testRegistry);
@@ -56,6 +58,16 @@ void test_drawer(const std::filesystem::path& assetsPath)
 	std::filesystem::path PacDir = assetsPath / L"Pacman.png";
 	Player player(testRegistry, game);
 	player.init(PacDir);
+	
+	level_1.draw();
+	animSysTest.update(0);
+	renderSysTest.update();
+	game->render();
+	sounds.add(audioDir / "pacman_beginning.wav");
+	sounds.add(audioDir / "pacman_intermission.wav");
+	sounds[0]->play();
+	SDL_Delay(5000);
+
 	auto dt = 0.0;
 	int frameCount = 0;
 	std::cout << "Level is started!" << std::endl;
@@ -95,7 +107,8 @@ void test_drawer(const std::filesystem::path& assetsPath)
 
 		if (testRegistry.get<Pacman>(player.getEntityID()).pelletsEaten == level_1.pelletCount()) {
 			std::cout << "Level complete!" << std::endl;
-			game->delay(1000);
+			sounds[1]->play();
+			game->delay(5500);
 			break;
 		}
 	}
@@ -122,8 +135,7 @@ int main()
 	fs::path soundsPath = dataDir / L"Sounds";
 
 	std::thread drawer_thread{ test_drawer, assetsPath };
-
 	drawer_thread.join();
-
+	sounds.clear();
 	return 0;
 }
