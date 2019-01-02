@@ -174,6 +174,7 @@
   <ItemGroup>
     <ClCompile Include="getExePath.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\Level.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BloomFramework\BloomFramework.vcxproj">
@@ -185,22 +186,22 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="getExePath.h" />
-    <ClInclude Include="Header Files\Components\ComponentIncludes.h" />
-    <ClInclude Include="Header Files\Configs.h" />
-    <ClInclude Include="Header Files\Direction.h" />
-    <ClInclude Include="Header Files\PelletObject.h" />
-    <ClInclude Include="Header Files\Components\PelletsComponent.h" />
-    <ClInclude Include="Header Files\Components\GhostComponent.h" />
+    <ClInclude Include="inc\Components\ComponentIncludes.h" />
+    <ClInclude Include="inc\Configs.h" />
+    <ClInclude Include="inc\Direction.h" />
+    <ClInclude Include="inc\PelletObject.h" />
+    <ClInclude Include="inc\Components\PelletsComponent.h" />
+    <ClInclude Include="inc\Components\GhostComponent.h" />
     <ClInclude Include="Header Files\InputSystem.h" />
-    <ClInclude Include="Header Files\Level.h" />
+    <ClInclude Include="inc\Level.h" />
     <ClInclude Include="Header Files\NoRandomComponent.h" />
     <ClInclude Include="Header Files\MovableAnimatedObject.h" />
-    <ClInclude Include="Header Files\Components\PacmanComponent.h" />
+    <ClInclude Include="inc\Components\PacmanComponent.h" />
     <ClInclude Include="Header Files\PelletsComponent.h" />
-    <ClInclude Include="Header Files\PlayerObject.h" />
-    <ClInclude Include="Header Files\Systems\GhostAI.h" />
-    <ClInclude Include="Header Files\Systems\PelletSystem.h" />
-    <ClInclude Include="Header Files\Systems\PlayerMovement.h" />
+    <ClInclude Include="inc\PlayerObject.h" />
+    <ClInclude Include="inc\Systems\GhostAI.h" />
+    <ClInclude Include="inc\Systems\PelletSystem.h" />
+    <ClInclude Include="inc\Systems\PlayerMovement.h" />
     <ClInclude Include="Header Files\WallComponent.h" />
   </ItemGroup>
   <ItemGroup>

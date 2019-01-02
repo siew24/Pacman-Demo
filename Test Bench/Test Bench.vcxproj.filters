@@ -21,6 +21,9 @@
     <ClCompile Include="getExePath.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Level.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -47,40 +50,40 @@
     <ClInclude Include="Header Files\Components\PelletsComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header Files\Components\GhostComponent.h">
+    <ClInclude Include="inc\Components\ComponentIncludes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header Files\Components\PacmanComponent.h">
+    <ClInclude Include="inc\Components\GhostComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header Files\Components\PelletsComponent.h">
+    <ClInclude Include="inc\Components\PacmanComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header Files\Components\ComponentIncludes.h">
+    <ClInclude Include="inc\Components\PelletsComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header Files\Level.h">
+    <ClInclude Include="inc\Systems\GhostAI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header Files\PelletObject.h">
+    <ClInclude Include="inc\Systems\PelletSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header Files\PlayerObject.h">
+    <ClInclude Include="inc\Systems\PlayerMovement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header Files\Systems\GhostAI.h">
+    <ClInclude Include="inc\Configs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header Files\Systems\PlayerMovement.h">
+    <ClInclude Include="inc\Direction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header Files\Direction.h">
+    <ClInclude Include="inc\Level.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header Files\Configs.h">
+    <ClInclude Include="inc\PelletObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header Files\Systems\PelletSystem.h">
+    <ClInclude Include="inc\PlayerObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

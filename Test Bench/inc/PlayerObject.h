@@ -1,5 +1,5 @@
 #pragma once
-#include "Framework.h"
+#include "GameObject.h"
 #include "Configs.h"
 
 class Player : public bloom::GameObject {

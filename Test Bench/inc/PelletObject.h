@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Framework.h"
+#include "GameObject.h"
 #include "Components/ComponentIncludes.h"
 #include "Configs.h"
 

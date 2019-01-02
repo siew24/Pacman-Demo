@@ -3,11 +3,11 @@
 #include <Windows.h>
 
 #include <thread>
-#include "Header Files/Configs.h"
-#include "Header Files/Level.h"
-#include "Header Files/PlayerObject.h"
-#include "Header Files/Systems/PlayerMovement.h"
-#include "Header Files/Systems/PelletSystem.h"
+#include "inc/Configs.h"
+#include "inc/Level.h"
+#include "inc/PlayerObject.h"
+#include "inc/Systems/PlayerMovement.h"
+#include "inc/Systems/PelletSystem.h"
 #include "getExePath.h"
 
 using namespace bloom;
@@ -41,8 +41,8 @@ void test_drawer(const std::filesystem::path& assetsPath)
 	if (!std::filesystem::exists(assetsPath))
 		throw bloom::Exception("Required assets can't be found.");
 
-	std::filesystem::path TileDir = assetsPath / L"Tile";
-	std::filesystem::path LevelDir = assetsPath / L"Level";
+	std::filesystem::path tileDir = assetsPath / L"Tile";
+	std::filesystem::path levelDir = assetsPath / L"Level";
 
 	entt::DefaultRegistry testRegistry;
 	bloom::systems::RenderSystem renderSysTest(testRegistry);
@@ -50,9 +50,7 @@ void test_drawer(const std::filesystem::path& assetsPath)
 	PlayerMovement playerMovement(testRegistry);
 	PelletSystem pelletSystem(testRegistry);
 	Level level_1 = Level(game);
-	level_1.load(LevelDir / "0.txt");
-	level_1.generateTexture(TileDir);
-	level_1.generatePellets(TileDir, testRegistry);
+	level_1.changeLevel(levelDir / "0.txt", tileDir, testRegistry);
 	playerMovement.layout = level_1.layout;
 
 	std::filesystem::path PacDir = assetsPath / L"Pacman.png";
