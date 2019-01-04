@@ -18,6 +18,7 @@ void Level::draw() {
 }
 
 void Level::changeLevel(const std::filesystem::path & levelFile, const std::filesystem::path & texturePath, entt::DefaultRegistry & registry){
+	m_pellets.clear();
 	m_load(levelFile);
 	m_generateTexture(texturePath);
 	m_generatePellets(texturePath, registry);

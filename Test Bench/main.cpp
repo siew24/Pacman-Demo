@@ -51,15 +51,15 @@ void test_drawer(const std::filesystem::path& assetsPath)
 	bloom::systems::AnimationSystem animSysTest(testRegistry);
 	PlayerMovement playerMovement(testRegistry);
 	PelletSystem pelletSystem(testRegistry);
-	Level level_1 = Level(game);
-	level_1.changeLevel(levelDir / "0.txt", tileDir, testRegistry);
-	playerMovement.layout = level_1.layout;
+	Level level = Level(game);
+	level.changeLevel(levelDir / "0.txt", tileDir, testRegistry);
+	playerMovement.layout = level.layout;
 
 	std::filesystem::path PacDir = assetsPath / L"Pacman.png";
 	Player player(testRegistry, game);
 	player.init(PacDir);
 	
-	level_1.draw();
+	level.draw();
 	animSysTest.update(0);
 	renderSysTest.update();
 	game->render();
@@ -90,7 +90,7 @@ void test_drawer(const std::filesystem::path& assetsPath)
 			testRegistry.get<Pacman>(player.getEntityID()).nextDir = null;
 
 		game->clear();
-		level_1.draw();
+		level.draw();
 		playerMovement.update(dt);
 		pelletSystem.update();
 		animSysTest.update(dt);
@@ -105,11 +105,12 @@ void test_drawer(const std::filesystem::path& assetsPath)
 		}
 		dt = game->timer.lap();
 
-		if (testRegistry.get<Pacman>(player.getEntityID()).pelletsEaten == level_1.pelletCount()) {
+		if (testRegistry.get<Pacman>(player.getEntityID()).pelletsEaten == level.pelletCount()) {
 			std::cout << "Level complete!" << std::endl;
 			sounds[1]->play();
 			game->delay(5500);
-			break;
+			level.changeLevel(levelDir / "0.txt", tileDir, testRegistry);
+			player.init(PacDir);
 		}
 	}
 	game->destroy();
