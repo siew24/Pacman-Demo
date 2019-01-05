@@ -10,8 +10,8 @@ using namespace bloom::components;
 enum Ghosts {
 	shadow,
 	speedy,
-	blue,
-	orange
+	bashful,
+	pokey
 };
 enum BehaviourModes {
 	chase,

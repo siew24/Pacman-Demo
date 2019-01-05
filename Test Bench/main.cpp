@@ -69,6 +69,12 @@ void test_drawer(const std::filesystem::path& assetsPath)
 
 	GhostObject speedy(testRegistry, game);
 	speedy.init(ghostDir, Ghosts::speedy, Tile{ 14,11 });
+
+	GhostObject bashful(testRegistry, game);
+	bashful.init(ghostDir, Ghosts::bashful, Tile{ 15,11 });
+
+	GhostObject pokey(testRegistry, game);
+	pokey.init(ghostDir, Ghosts::pokey, Tile{ 12,11 });
 	
 	level.draw();
 	animSysTest.update(0);
@@ -86,6 +92,8 @@ void test_drawer(const std::filesystem::path& assetsPath)
 	while (game->isRunning()) {
 		if (!frameCount)
 			std::cout << "Current score:  " << testRegistry.get<Pacman>(player.getEntityID()).score << std::endl;
+
+		std::cout << "Delta time: " << dt << "ms" << std::endl;
 		frameCount = (frameCount + 1) % 60;
 		framestart = SDL_GetTicks();
 		game->handleEvents();
@@ -126,6 +134,8 @@ void test_drawer(const std::filesystem::path& assetsPath)
 			player.init(pacDir);
 			shadow.init(ghostDir, Ghosts::shadow, Tile{ 13,11 });
 			speedy.init(ghostDir, Ghosts::speedy, Tile{ 14,11 });
+			bashful.init(ghostDir, Ghosts::bashful, Tile{ 15,11 });
+			pokey.init(ghostDir, Ghosts::pokey, Tile{ 12,11 });
 		}
 		else if (testRegistry.get<Pacman>(player.getEntityID()).dead) {
 			std::cout << "Game Over!" << std::endl;

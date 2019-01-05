@@ -29,6 +29,15 @@ public:
 			m_registry.accommodate<Ghost>(m_entity).behavior = behaviours::speedy;
 			tmp = m_gameInstance->textures.load(texturePath / "Pinky.png");
 		}
+		else if (id == bashful) {
+			m_registry.accommodate<entt::label<"bashful"_hs>>(m_entity);
+			m_registry.accommodate<Ghost>(m_entity).behavior = behaviours::bashful;
+			tmp = m_gameInstance->textures.load(texturePath / "Blue.png");
+		}else if (id == pokey) {
+			m_registry.accommodate<entt::label<"pokey"_hs>>(m_entity);
+			m_registry.accommodate<Ghost>(m_entity).behavior = behaviours::pokey;
+			tmp = m_gameInstance->textures.load(texturePath / "Orange.png");
+		}
 
 
 		m_registry.accommodate<Sprite>(m_entity, tmp, SDL_Rect{ spawnTile.x * TILESIZE, spawnTile.y * TILESIZE,TILESIZE,TILESIZE });
