@@ -6,12 +6,18 @@
 
 using namespace bloom::components;
 namespace behaviours {
-	Tile shadow(Ghost& ghost, Position& position, Pacman& pac, Position& pacPos, std::vector<std::vector<int>>& layout) {
+	Tile shadow(entt::DefaultRegistry& registry, std::vector<std::vector<int>>& layout) {
+		entt::DefaultRegistry::entity_type playerID = registry.view<Pacman>()[0];
+		entt::DefaultRegistry::entity_type ghostID = registry.view<entt::label<"shadow"_hs>>()[0];
+		auto& pacPos = registry.get<Position>(playerID);
+		auto& position = registry.get<Position>(ghostID);
+		auto& ghost = registry.get<Ghost>(ghostID);
+		std::vector<Tile> posibilities{};
 		Tile target{0,0};
 		if (ghost.currentMode == chase)
 			target = Tile{ (pacPos.x + (TILESIZE / 2)) / TILESIZE, (pacPos.y + (TILESIZE / 2)) / TILESIZE };
 		else if (ghost.currentMode == scatter)
-			target = Tile{ 0,0 }; // Need coordinates to corner
+			target = Tile{ 25 ,-2 }; // Need coordinates to corner
 
 
 
@@ -30,6 +36,7 @@ namespace behaviours {
 				next = candidate;
 				shortest = newDistance;
 			}
+			posibilities.emplace_back(candidate);
 		}
 		if (Tile candidate{ currentTile.x, currentTile.y + 1 }; layout[candidate.y][candidate.x] == 0 && candidate != ghost.lastTile) {
 			int xDist = std::abs(candidate.x - target.x), yDist = std::abs(candidate.y - target.y);
@@ -38,6 +45,7 @@ namespace behaviours {
 				next = candidate;
 				shortest = newDistance;
 			}
+			posibilities.emplace_back(candidate);
 		}
 		if (Tile candidate{ currentTile.x - 1, currentTile.y }; (position.x / TILESIZE == 0 || layout[candidate.y][candidate.x] == 0) && candidate != ghost.lastTile) {
 			int xDist = std::abs(candidate.x - target.x), yDist = std::abs(candidate.y - target.y);
@@ -46,6 +54,7 @@ namespace behaviours {
 				next = candidate;
 				shortest = newDistance;
 			}
+			posibilities.emplace_back(candidate);
 		}
 		if (Tile candidate{ currentTile.x + 1, currentTile.y }; (position.x / TILESIZE >= 27 || layout[candidate.y][candidate.x] == 0) && candidate != ghost.lastTile) {
 			int xDist = std::abs(candidate.x - target.x), yDist = std::abs(candidate.y - target.y);
@@ -54,13 +63,23 @@ namespace behaviours {
 				next = candidate;
 				shortest = newDistance;
 			}
+			posibilities.emplace_back(candidate);
 		}
 		if (shortest < 0.0) next = currentTile;
+		if (ghost.currentMode == afraid && !posibilities.empty())
+			next = posibilities[rand() % posibilities.size()];
 		return next;
 	}
 	
-	Tile speedy(Ghost& ghost, Position& position, Pacman& pac, Position& pacPos, std::vector<std::vector<int>> layout) {
-		Tile target{ 0,0 };
+	Tile speedy(entt::DefaultRegistry& registry, std::vector<std::vector<int>>& layout) {
+		entt::DefaultRegistry::entity_type playerID = registry.view<Pacman>()[0];
+		entt::DefaultRegistry::entity_type ghostID = registry.view<entt::label<"speedy"_hs>>()[0];
+		auto& pac = registry.get<Pacman>(playerID);
+		auto& pacPos = registry.get<Position>(playerID);
+		auto& position = registry.get<Position>(ghostID);
+		auto& ghost = registry.get<Ghost>(ghostID);
+		std::vector<Tile> posibilities{};
+		Tile target{ 2,-2 };
 		if (ghost.currentMode == chase)
 			switch (pac.lastDir) {
 			case up:
@@ -76,7 +95,6 @@ namespace behaviours {
 				target = Tile{ (pacPos.x + (TILESIZE / 2)) / TILESIZE + 4, (pacPos.y + (TILESIZE / 2)) / TILESIZE };
 				break;
 			}
-			
 		else if (ghost.currentMode == scatter)
 			target = Tile{ 0,0 }; // Need coordinates to corner
 
@@ -97,6 +115,7 @@ namespace behaviours {
 				next = candidate;
 				shortest = newDistance;
 			}
+			posibilities.emplace_back(candidate);
 		}
 		if (Tile candidate{ currentTile.x, currentTile.y + 1 }; layout[candidate.y][candidate.x] == 0 && candidate != ghost.lastTile) {
 			int xDist = std::abs(candidate.x - target.x), yDist = std::abs(candidate.y - target.y);
@@ -105,6 +124,7 @@ namespace behaviours {
 				next = candidate;
 				shortest = newDistance;
 			}
+			posibilities.emplace_back(candidate);
 		}
 		if (Tile candidate{ currentTile.x - 1, currentTile.y }; (position.x / TILESIZE == 0 || layout[candidate.y][candidate.x] == 0) && candidate != ghost.lastTile) {
 			int xDist = std::abs(candidate.x - target.x), yDist = std::abs(candidate.y - target.y);
@@ -113,6 +133,7 @@ namespace behaviours {
 				next = candidate;
 				shortest = newDistance;
 			}
+			posibilities.emplace_back(candidate);
 		}
 		if (Tile candidate{ currentTile.x + 1, currentTile.y }; (position.x / TILESIZE >= 27 || layout[candidate.y][candidate.x] == 0) && candidate != ghost.lastTile) {
 			int xDist = std::abs(candidate.x - target.x), yDist = std::abs(candidate.y - target.y);
@@ -121,8 +142,11 @@ namespace behaviours {
 				next = candidate;
 				shortest = newDistance;
 			}
+			posibilities.emplace_back(candidate);
 		}
 		if (shortest < 0.0) next = currentTile;
+		if (ghost.currentMode == afraid && !posibilities.empty())
+			next = posibilities[rand() % posibilities.size()];
 		return next;
 	}
 	/*
@@ -130,7 +154,7 @@ namespace behaviours {
 
 	}
 
-	Tile inky(Ghost& ghost, Position& position, Pacman& pac, Position& pacPos, std::vector<std::vector<int>> layout) {
+	Tile pokey(Ghost& ghost, Position& position, Pacman& pac, Position& pacPos, std::vector<std::vector<int>> layout) {
 
 	}*/
 }

@@ -149,7 +149,7 @@ int main()
 		system("pause");
 		exit(-1);
 	}
-
+	srand(static_cast<uint32_t>(time(0)));
 	namespace fs = std::filesystem;
 	fs::path dataDir = fs::path(getExePath()) / L"data";
 	fs::path assetsPath = dataDir / L"Assets";

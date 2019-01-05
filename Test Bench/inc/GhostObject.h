@@ -20,10 +20,12 @@ public:
 		bloom::graphics::TexturePtr tmp;
 
 		if (id == shadow) {
+			m_registry.accommodate<entt::label<"shadow"_hs>>(m_entity);
 			m_registry.accommodate<Ghost>(m_entity).behavior = behaviours::shadow;
 			tmp = m_gameInstance->textures.load(texturePath / "Red.png");
 		}
 		else if (id == speedy) {
+			m_registry.accommodate<entt::label<"speedy"_hs>>(m_entity);
 			m_registry.accommodate<Ghost>(m_entity).behavior = behaviours::speedy;
 			tmp = m_gameInstance->textures.load(texturePath / "Pinky.png");
 		}

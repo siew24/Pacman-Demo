@@ -26,11 +26,11 @@ public:
 					ghost.modeTimer -= deltaTime.value() / 1000;
 					if (ghost.modeTimer <= 0.0) {
 						if (ghost.currentMode == chase) {
-							ghost.modeTimer = 999.0; // Need timer
+							ghost.modeTimer = 10.0 - ghost.modeTimer; // Need timer
 							ghost.currentMode = scatter;
 						}
 						else {
-							ghost.modeTimer = 999.0; // Need timer
+							ghost.modeTimer = 10.0 - ghost.modeTimer; // Need timer
 							ghost.currentMode = chase;
 						}
 					}
@@ -46,7 +46,7 @@ public:
 				while (potentialDistance > 0 && moved) {
 					moved = false;
 					if (Tile currentTile{ position.x / TILESIZE,position.y / TILESIZE }; position.x % TILESIZE == 0 && position.y % TILESIZE == 0 && ghost.moveX == 0 && ghost.moveY == 0) {
-						Tile nextTile = ghost.behavior(ghost, position, playerState, playerPos, layout);
+						Tile nextTile = ghost.behavior(m_registry, layout);
 						AnimationSet& animSet = m_registry.get<AnimationSet>(entity);
 						if (nextTile.x > currentTile.x) {
 							animSet.changeAnimation("right");

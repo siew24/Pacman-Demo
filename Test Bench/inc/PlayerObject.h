@@ -16,6 +16,7 @@ public:
 	void init(const std::filesystem::path texturePath) {
 		m_registry.replace<Position>(m_entity, 13 * TILESIZE, 23 * TILESIZE);
 		m_registry.accommodate<Size>(m_entity, TILESIZE, TILESIZE);
+		m_registry.accommodate<entt::label<"pacman"_hs>>(m_entity);
 		auto tmp = m_gameInstance->textures.load(texturePath);
 
 		m_registry.accommodate<Sprite>(m_entity, tmp, SDL_Rect{ 13 * TILESIZE,23 * TILESIZE,TILESIZE,TILESIZE });

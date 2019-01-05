@@ -21,10 +21,10 @@ enum BehaviourModes {
 
 
 struct Ghost {
-	std::function<Tile(Ghost&, Position&, Pacman&, Position&, std::vector<std::vector<int>>&)> behavior;
+	std::function<Tile(entt::DefaultRegistry&, std::vector<std::vector<int>>&)> behavior;
 
 	BehaviourModes currentMode = chase;
-	double modeTimer = 9999999999.0;
+	double modeTimer = 10.0;
 
 	Tile lastTile = { 0,0 };
 	int moveX = 0, moveY = 0;
