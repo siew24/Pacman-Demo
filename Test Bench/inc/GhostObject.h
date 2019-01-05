@@ -14,12 +14,22 @@ class GhostObject : public bloom::GameObject {
 public:
 	void init() override {}
 
-	void init(const std::filesystem::path texturePath) {
-		m_registry.replace<Position>(m_entity, 13 * TILESIZE, 11 * TILESIZE);
+	void init(const std::filesystem::path texturePath, Ghosts id, Tile spawnTile) {
+		m_registry.replace<Position>(m_entity, spawnTile.x * TILESIZE, spawnTile.y * TILESIZE);
 		m_registry.accommodate<Size>(m_entity, TILESIZE, TILESIZE);
-		auto tmp = m_gameInstance->textures.load(texturePath);
+		bloom::graphics::TexturePtr tmp;
 
-		m_registry.accommodate<Sprite>(m_entity, tmp, SDL_Rect{ 13 * TILESIZE,11 * TILESIZE,TILESIZE,TILESIZE });
+		if (id == shadow) {
+			m_registry.accommodate<Ghost>(m_entity).behavior = behaviours::shadow;
+			tmp = m_gameInstance->textures.load(texturePath / "Red.png");
+		}
+		else if (id == speedy) {
+			m_registry.accommodate<Ghost>(m_entity).behavior = behaviours::speedy;
+			tmp = m_gameInstance->textures.load(texturePath / "Pinky.png");
+		}
+
+
+		m_registry.accommodate<Sprite>(m_entity, tmp, SDL_Rect{ spawnTile.x * TILESIZE, spawnTile.y * TILESIZE,TILESIZE,TILESIZE });
 
 		AnimationPtr down = std::make_shared<Animation>();
 		down->animationFrames = {
@@ -59,6 +69,5 @@ public:
 
 		m_registry.accommodate<AnimationSet>(m_entity, animSet);
 		m_registry.accommodate<AnimationPtr>(m_entity, right);
-		m_registry.accommodate<Ghost>(m_entity).behavior = behaviours::shadow;
 	}
 };

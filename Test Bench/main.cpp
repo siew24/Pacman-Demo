@@ -60,12 +60,15 @@ void test_drawer(const std::filesystem::path& assetsPath)
 	ghostMovement.layout = level.layout;
 
 	std::filesystem::path pacDir = assetsPath / L"Pacman.png";
-	std::filesystem::path shadowDir = assetsPath / L"Red.png";
+	std::filesystem::path ghostDir = assetsPath;
 	Player player(testRegistry, game);
 	player.init(pacDir);
 
 	GhostObject shadow(testRegistry, game); 
-	shadow.init(shadowDir);
+	shadow.init(ghostDir, Ghosts::shadow, Tile{13,11});
+
+	GhostObject speedy(testRegistry, game);
+	speedy.init(ghostDir, Ghosts::speedy, Tile{ 14,11 });
 	
 	level.draw();
 	animSysTest.update(0);
@@ -121,7 +124,8 @@ void test_drawer(const std::filesystem::path& assetsPath)
 			game->delay(5500);
 			level.changeLevel(levelDir / "0.txt", tileDir, testRegistry);
 			player.init(pacDir);
-			shadow.init(shadowDir);
+			shadow.init(ghostDir, Ghosts::shadow, Tile{ 13,11 });
+			speedy.init(ghostDir, Ghosts::speedy, Tile{ 14,11 });
 		}
 		else if (testRegistry.get<Pacman>(player.getEntityID()).dead) {
 			std::cout << "Game Over!" << std::endl;
