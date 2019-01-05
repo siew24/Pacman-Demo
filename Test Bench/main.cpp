@@ -64,8 +64,8 @@ void test_drawer(const std::filesystem::path& assetsPath)
 	Player player(testRegistry, game);
 	player.init(pacDir);
 
-	GhostObject blinky(testRegistry, game); 
-	blinky.init(shadowDir);
+	GhostObject shadow(testRegistry, game); 
+	shadow.init(shadowDir);
 	
 	level.draw();
 	animSysTest.update(0);
@@ -121,7 +121,7 @@ void test_drawer(const std::filesystem::path& assetsPath)
 			game->delay(5500);
 			level.changeLevel(levelDir / "0.txt", tileDir, testRegistry);
 			player.init(pacDir);
-			blinky.init(shadowDir);
+			shadow.init(shadowDir);
 		}
 		else if (testRegistry.get<Pacman>(player.getEntityID()).dead) {
 			std::cout << "Game Over!" << std::endl;

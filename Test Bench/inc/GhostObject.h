@@ -59,6 +59,6 @@ public:
 
 		m_registry.accommodate<AnimationSet>(m_entity, animSet);
 		m_registry.accommodate<AnimationPtr>(m_entity, right);
-		m_registry.accommodate<Ghost>(m_entity).behavior = shadow;
+		m_registry.accommodate<Ghost>(m_entity).behavior = behaviours::shadow;
 	}
 };
