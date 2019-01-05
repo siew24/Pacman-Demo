@@ -35,22 +35,27 @@ public:
 					moved = false;
 					if (Tile currentTile{ position.x / TILESIZE,position.y / TILESIZE }; position.x % TILESIZE == 0 && position.y % TILESIZE == 0 && ghost.moveX == 0 && ghost.moveY == 0) {
 						Tile nextTile = ghost.behavior(ghost, position, playerState, playerPos, layout);
+						AnimationSet& animSet = m_registry.get<AnimationSet>(entity);
 						if (nextTile.x > currentTile.x) {
+							animSet.changeAnimation("right");
 							if (currentTile.x >= 27)
 								ghost.moveX = +TILESIZE * 2;
 							else
 								ghost.moveX += TILESIZE;
 						}
 						else if (nextTile.x < currentTile.x) {
+							animSet.changeAnimation("left");
 							if (currentTile.x == 0)
 								ghost.moveX = -TILESIZE * 2;
 							else
 								ghost.moveX -= TILESIZE;
 						}
 						else if (nextTile.y > currentTile.y) {
+							animSet.changeAnimation("down");
 							ghost.moveY += TILESIZE;
 						}
 						else if (nextTile.y < currentTile.y) {
+							animSet.changeAnimation("up");
 							ghost.moveY -= TILESIZE;
 						}
 						ghost.lastTile = currentTile;
