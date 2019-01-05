@@ -12,16 +12,21 @@ namespace behaviours {
 		auto& pacPos = registry.get<Position>(playerID);
 		auto& position = registry.get<Position>(ghostID);
 		auto& ghost = registry.get<Ghost>(ghostID);
+		Tile currentTile{ (position.x + (TILESIZE / 2)) / TILESIZE, (position.y + (TILESIZE / 2)) / TILESIZE };
+
 		std::vector<Tile> posibilities{};
 		Tile target{ 0,0 };
 		if (ghost.currentMode == chase)
 			target = Tile{ (pacPos.x + (TILESIZE / 2)) / TILESIZE, (pacPos.y + (TILESIZE / 2)) / TILESIZE };
 		else if (ghost.currentMode == scatter)
 			target = Tile{ 25 ,-2 }; // Need coordinates to corner
+		else if (ghost.currentMode == dead)
+			if (currentTile == ghost.spawnPoint)
+				ghost.currentMode = chase;
+			else
+				target = ghost.spawnPoint;
 
-
-
-		Tile currentTile{ (position.x + (TILESIZE / 2)) / TILESIZE, (position.y + (TILESIZE / 2)) / TILESIZE };
+		
 
 		int xDist = std::abs(currentTile.x - target.x), yDist = std::abs(currentTile.y - target.y);
 		double currentDistance = std::sqrt(std::pow(xDist, 2) + std::pow(yDist, 2));
@@ -78,6 +83,9 @@ namespace behaviours {
 		auto& pacPos = registry.get<Position>(playerID);
 		auto& position = registry.get<Position>(ghostID);
 		auto& ghost = registry.get<Ghost>(ghostID);
+
+		Tile currentTile{ (position.x + (TILESIZE / 2)) / TILESIZE, (position.y + (TILESIZE / 2)) / TILESIZE };
+
 		std::vector<Tile> posibilities{};
 		Tile target{ 0,0 };
 		if (ghost.currentMode == chase)
@@ -97,10 +105,14 @@ namespace behaviours {
 			}
 		else if (ghost.currentMode == scatter)
 			target = Tile{ 2,-2 }; // Need coordinates to corner
+		else if (ghost.currentMode == dead)
+			if (currentTile == ghost.spawnPoint)
+				ghost.currentMode = chase;
+			else
+				target = ghost.spawnPoint;
 
 
 
-		Tile currentTile{ (position.x + (TILESIZE / 2)) / TILESIZE, (position.y + (TILESIZE / 2)) / TILESIZE };
 
 		int xDist = std::abs(currentTile.x - target.x), yDist = std::abs(currentTile.y - target.y);
 		double currentDistance = std::sqrt(std::pow(xDist, 2) + std::pow(yDist, 2));
@@ -159,6 +171,7 @@ namespace behaviours {
 		auto& position = registry.get<Position>(ghostID);
 		auto& ghost = registry.get<Ghost>(ghostID);
 		auto& shadowPos = registry.get<Position>(ghostID);
+		Tile currentTile{ (position.x + (TILESIZE / 2)) / TILESIZE, (position.y + (TILESIZE / 2)) / TILESIZE };
 
 		Tile shadowTile{ (shadowPos.x + (TILESIZE / 2)) / TILESIZE,(shadowPos.y + (TILESIZE / 2)) / TILESIZE };
 
@@ -185,10 +198,15 @@ namespace behaviours {
 		}
 		else if (ghost.currentMode == scatter)
 			target = Tile{ 27,31 }; // Need coordinates to corner
+		else if (ghost.currentMode == dead)
+			if (currentTile == ghost.spawnPoint)
+				ghost.currentMode = chase;
+			else
+				target = ghost.spawnPoint;
 
 
 
-		Tile currentTile{ (position.x + (TILESIZE / 2)) / TILESIZE, (position.y + (TILESIZE / 2)) / TILESIZE };
+
 
 		int xDist = std::abs(currentTile.x - target.x), yDist = std::abs(currentTile.y - target.y);
 		double currentDistance = std::sqrt(std::pow(xDist, 2) + std::pow(yDist, 2));
@@ -244,15 +262,23 @@ namespace behaviours {
 		auto& pacPos = registry.get<Position>(playerID);
 		auto& position = registry.get<Position>(ghostID);
 		auto& ghost = registry.get<Ghost>(ghostID);
-
-		std::vector<Tile> posibilities{};
-		Tile target{ (pacPos.x + (TILESIZE / 2)) / TILESIZE, (pacPos.y + (TILESIZE / 2)) / TILESIZE };;
-
 		Tile currentTile{ (position.x + (TILESIZE / 2)) / TILESIZE, (position.y + (TILESIZE / 2)) / TILESIZE };
+		std::vector<Tile> posibilities{};
+		Tile target{ (pacPos.x + (TILESIZE / 2)) / TILESIZE, (pacPos.y + (TILESIZE / 2)) / TILESIZE };
+
+	if (ghost.currentMode == dead)
+			if (currentTile == ghost.spawnPoint)
+				ghost.currentMode = chase;
+			else
+				target = ghost.spawnPoint;
+
+
+
 		int xDist = std::abs(currentTile.x - target.x), yDist = std::abs(currentTile.y - target.y);
 		double currentDistance = std::sqrt(std::pow(xDist, 2) + std::pow(yDist, 2));
 
-		if (currentDistance <= 8.0 || ghost.currentMode == scatter) {
+		
+		if (currentDistance <= 8.0 && ghost.currentMode == chase || ghost.currentMode == scatter) {
 			target = Tile{ 0,31 }; // Need coordinates to corner
 			xDist = std::abs(currentTile.x - target.x), yDist = std::abs(currentTile.y - target.y);
 			currentDistance = std::sqrt(std::pow(xDist, 2) + std::pow(yDist, 2));

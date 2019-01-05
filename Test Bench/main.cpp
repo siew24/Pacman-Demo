@@ -27,7 +27,7 @@ void test_drawer(const std::filesystem::path& assetsPath)
 
 	Uint32 framestart;
 
-	game = new Game(WINDOW_WIDTH, WINDOW_HEIGHT, 0, 6 | SDL_RENDERER_TARGETTEXTURE);
+	game = new Game(WINDOW_WIDTH, WINDOW_HEIGHT, 0, 0 | SDL_RENDERER_TARGETTEXTURE);
 	try {
 		game->create("Bloom Test", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
 	}
@@ -95,7 +95,6 @@ void test_drawer(const std::filesystem::path& assetsPath)
 
 		std::cout << "Delta time: " << dt << "ms" << std::endl;
 		frameCount = (frameCount + 1) % 60;
-		framestart = SDL_GetTicks();
 		game->handleEvents();
 
 		if (game->input.isKeyPressed(KEY_W) || game->input.isKeyPressed(KEY_UP))
@@ -118,12 +117,6 @@ void test_drawer(const std::filesystem::path& assetsPath)
 		renderSysTest.update(); // Test again.
 		game->render();
 		// game->update();
-
-		int frametime = SDL_GetTicks() - framestart;
-
-		if (framedelay > frametime) {
-			game->delay(framedelay - frametime);
-		}
 		dt = game->timer.lap();
 
 		if (testRegistry.get<Pacman>(player.getEntityID()).pelletsEaten == level.pelletCount()) {

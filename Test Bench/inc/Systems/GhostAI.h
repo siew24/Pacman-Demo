@@ -17,8 +17,6 @@ public:
 		Position& playerPos = m_registry.get<Position>(player);
 		Pacman& playerState = m_registry.get<Pacman>(player);
 
-
-
 		m_registry.view<Ghost, Position>().each(
 			[&](auto entity, Ghost& ghost, Position& position) {
 				if (deltaTime.value() < 500.0) {
@@ -29,6 +27,8 @@ public:
 							ghost.modeTimer = 10.0 - ghost.modeTimer; // Need timer
 							ghost.currentMode = scatter;
 						}
+						else if (ghost.currentMode == dead)
+							ghost.modeTimer = 0;
 						else {
 							ghost.modeTimer = 10.0 - ghost.modeTimer; // Need timer
 							ghost.currentMode = chase;
@@ -49,25 +49,45 @@ public:
 						Tile nextTile = ghost.behavior(m_registry, layout);
 						AnimationSet& animSet = m_registry.get<AnimationSet>(entity);
 						if (nextTile.x > currentTile.x) {
-							animSet.changeAnimation("right");
+							if (ghost.currentMode == afraid)
+								animSet.changeAnimation("afraid");
+							else if(ghost.currentMode == dead)
+								animSet.changeAnimation("rightd");
+							else
+								animSet.changeAnimation("right");
 							if (currentTile.x >= 27)
 								ghost.moveX = +TILESIZE * 2;
 							else
 								ghost.moveX += TILESIZE;
 						}
 						else if (nextTile.x < currentTile.x) {
-							animSet.changeAnimation("left");
+							if (ghost.currentMode == afraid)
+								animSet.changeAnimation("afraid");
+							else if (ghost.currentMode == dead)
+								animSet.changeAnimation("leftd");
+							else
+								animSet.changeAnimation("left");
 							if (currentTile.x == 0)
 								ghost.moveX = -TILESIZE * 2;
 							else
 								ghost.moveX -= TILESIZE;
 						}
 						else if (nextTile.y > currentTile.y) {
-							animSet.changeAnimation("down");
+							if (ghost.currentMode == afraid)
+								animSet.changeAnimation("afraid");
+							else if (ghost.currentMode == dead)
+								animSet.changeAnimation("downd");
+							else
+								animSet.changeAnimation("down");
 							ghost.moveY += TILESIZE;
 						}
 						else if (nextTile.y < currentTile.y) {
-							animSet.changeAnimation("up");
+							if (ghost.currentMode == afraid)
+								animSet.changeAnimation("afraid");
+							else if (ghost.currentMode == dead)
+								animSet.changeAnimation("upd");
+							else
+								animSet.changeAnimation("up");
 							ghost.moveY -= TILESIZE;
 						}
 						ghost.lastTile = currentTile;
@@ -105,13 +125,18 @@ public:
 					}
 
 				}
-				if (Tile ghost{ (position.x+ (TILESIZE / 2)) / TILESIZE,(position.y+(TILESIZE / 2)) / TILESIZE },pac{ (playerPos.x+ (TILESIZE / 2)) / TILESIZE,(playerPos.y+ (TILESIZE / 2)) / TILESIZE }; pac == ghost ) {
-					playerState.dead = true;
+				if (Tile ghostT{ (position.x + (TILESIZE / 2)) / TILESIZE,(position.y + (TILESIZE / 2)) / TILESIZE }, pac{ (playerPos.x + (TILESIZE / 2)) / TILESIZE,(playerPos.y + (TILESIZE / 2)) / TILESIZE }; pac == ghostT) {
+					if (ghost.currentMode == afraid) {
+						playerState.score += 6000;
+						ghost.currentMode = dead;
+					}
+					else if (ghost.currentMode != dead)
+						playerState.dead = true;
 				}
 			}
 		);
 	};
 	std::vector<std::vector<int>> layout;
 	double lastUpdate = 0;
-	const double speed = 8* TILESIZE;
+	const double speed = 8 * TILESIZE;
 };
