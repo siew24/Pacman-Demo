@@ -89,6 +89,9 @@
     <ClInclude Include="inc\GhostBehavior.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="inc\Tile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="data\Assets\Pacman_Spritesheet.png">

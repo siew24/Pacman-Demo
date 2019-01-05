@@ -21,8 +21,20 @@ public:
 
 		m_registry.view<Ghost, Position>().each(
 			[&](auto entity, Ghost& ghost, Position& position) {
-				if (deltaTime.value() < 500.0)
+				if (deltaTime.value() < 500.0) {
 					lastUpdate += (deltaTime.value() / 1000)*speed;
+					ghost.modeTimer -= deltaTime.value() / 1000;
+					if (ghost.modeTimer <= 0.0) {
+						if (ghost.currentMode == chase) {
+							ghost.modeTimer = 999.0; // Need timer
+							ghost.currentMode = scatter;
+						}
+						else {
+							ghost.modeTimer = 999.0; // Need timer
+							ghost.currentMode = chase;
+						}
+					}
+				}
 
 				int potentialDistance = 0;
 				if (lastUpdate > 1.0) {

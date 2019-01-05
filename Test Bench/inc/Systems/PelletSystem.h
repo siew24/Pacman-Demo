@@ -34,11 +34,14 @@ public:
 					++playerState.pelletsEaten;
 					m_registry.destroy(entity);
 
-					m_registry.view<Ghost>().each(
+					//NOT IMPLEMENTED YET
+					/*m_registry.view<Ghost>().each(
 						[](auto entity, Ghost& ghost) {
-							ghost.afraidTimer = 10.0; // Ghosts are now scared for 10s.
+							ghost.currentMode = afraid;
+							ghost.modeTimer = 10;
 						}
-					);
+					);*/
+					
 				}
 			}
 		);

@@ -205,6 +205,7 @@
     <ClInclude Include="inc\Systems\PelletSystem.h" />
     <ClInclude Include="inc\Systems\PlayerMovement.h" />
     <ClInclude Include="Header Files\WallComponent.h" />
+    <ClInclude Include="inc\Tile.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="data\Assets\Blue.png" />
