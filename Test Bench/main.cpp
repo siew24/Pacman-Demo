@@ -8,6 +8,8 @@
 #include "inc/PlayerObject.h"
 #include "inc/Systems/PlayerMovement.h"
 #include "inc/Systems/PelletSystem.h"
+#include "inc/GhostObject.h"
+#include "inc/Systems/GhostAI.h"
 #include "getExePath.h"
 
 using namespace bloom;
@@ -50,14 +52,20 @@ void test_drawer(const std::filesystem::path& assetsPath)
 	bloom::systems::RenderSystem renderSysTest(testRegistry);
 	bloom::systems::AnimationSystem animSysTest(testRegistry);
 	PlayerMovement playerMovement(testRegistry);
+	GhostAI ghostMovement(testRegistry);
 	PelletSystem pelletSystem(testRegistry);
 	Level level = Level(game);
 	level.changeLevel(levelDir / "0.txt", tileDir, testRegistry);
 	playerMovement.layout = level.layout;
+	ghostMovement.layout = level.layout;
 
-	std::filesystem::path PacDir = assetsPath / L"Pacman.png";
+	std::filesystem::path pacDir = assetsPath / L"Pacman.png";
+	std::filesystem::path shadowDir = assetsPath / L"Red.png";
 	Player player(testRegistry, game);
-	player.init(PacDir);
+	player.init(pacDir);
+
+	GhostObject blinky(testRegistry, game); 
+	blinky.init(shadowDir);
 	
 	level.draw();
 	animSysTest.update(0);
@@ -65,6 +73,7 @@ void test_drawer(const std::filesystem::path& assetsPath)
 	game->render();
 	sounds.add(audioDir / "pacman_beginning.wav");
 	sounds.add(audioDir / "pacman_intermission.wav");
+	sounds.add(audioDir / "pacman_death.wav");
 	sounds[0]->play();
 	SDL_Delay(5000);
 
@@ -92,6 +101,7 @@ void test_drawer(const std::filesystem::path& assetsPath)
 		game->clear();
 		level.draw();
 		playerMovement.update(dt);
+		ghostMovement.update(dt);
 		pelletSystem.update();
 		animSysTest.update(dt);
 		renderSysTest.update(); // Test again.
@@ -110,7 +120,14 @@ void test_drawer(const std::filesystem::path& assetsPath)
 			sounds[1]->play();
 			game->delay(5500);
 			level.changeLevel(levelDir / "0.txt", tileDir, testRegistry);
-			player.init(PacDir);
+			player.init(pacDir);
+			blinky.init(shadowDir);
+		}
+		else if (testRegistry.get<Pacman>(player.getEntityID()).dead) {
+			std::cout << "Game Over!" << std::endl;
+			sounds[2]->play();
+			game->delay(1500);
+			break;
 		}
 	}
 	game->destroy();

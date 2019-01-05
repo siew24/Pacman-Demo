@@ -8,4 +8,6 @@ struct Pacman {
 
 	int score = 0;
 	int pelletsEaten = 0;
+
+	bool dead = false;
 };

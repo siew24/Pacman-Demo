@@ -189,6 +189,8 @@
     <ClInclude Include="inc\Components\ComponentIncludes.h" />
     <ClInclude Include="inc\Configs.h" />
     <ClInclude Include="inc\Direction.h" />
+    <ClInclude Include="inc\GhostBehavior.h" />
+    <ClInclude Include="inc\GhostObject.h" />
     <ClInclude Include="inc\PelletObject.h" />
     <ClInclude Include="inc\Components\PelletsComponent.h" />
     <ClInclude Include="inc\Components\GhostComponent.h" />
