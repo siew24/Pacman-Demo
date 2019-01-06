@@ -1,4 +1,6 @@
 #include "..\inc\Level.h"
+#include "..\inc\GhostObject.h"
+
 
 Level::Level(bloom::Game *& gameInstance) : m_gameInstance(gameInstance), m_renderer(gameInstance->getRenderer()) {
 	int w, h;
@@ -18,10 +20,11 @@ void Level::draw() {
 }
 
 void Level::changeLevel(const std::filesystem::path & levelFile, const std::filesystem::path & texturePath, entt::DefaultRegistry & registry){
-	m_pellets.clear();
+	m_entities.clear();
 	m_load(levelFile);
 	m_generateTexture(texturePath);
-	m_generatePellets(texturePath, registry);
+	m_generateEntities(texturePath, registry);
+	m_cleanup();
 }
 
 void Level::m_load(const std::filesystem::path & levelData) {
@@ -42,8 +45,8 @@ void Level::m_generateTexture(const std::filesystem::path & tilePath) {
 	SDL_RenderClear(m_renderer);
 	for (int i = 0; i < layout.size(); ++i)
 		for (int j = 0; j < layout[i].size(); ++j)
-			if (layout[i][j] != 37 && layout[i][j] != 38) {
-				std::filesystem::path tile = tilePath / std::string{ std::to_string(layout[i][j]) + ".png" };
+			if (layout[i][j] > 0) {
+				std::filesystem::path tile = tilePath / "Tile" / std::string{ std::to_string(layout[i][j]) + ".png" };
 				SDL_Rect src{ 0,0,TILETEXTURESIZE,TILETEXTURESIZE };
 				SDL_Rect dest{ j * TILESIZE, i * TILESIZE,TILESIZE,TILESIZE };
 				m_gameInstance->textures.load(tile)->render(src, dest);
@@ -51,20 +54,58 @@ void Level::m_generateTexture(const std::filesystem::path & tilePath) {
 
 	SDL_SetRenderTarget(m_renderer, nullptr);
 }
+void Level::m_generateEntities(const std::filesystem::path & texturePath, entt::DefaultRegistry & registry) {
+	for (int i = 0; i < layout.size(); ++i)
+		for (int j = 0; j < layout[i].size(); ++j) {
+			if (layout[i][j] < 0 && (std::abs(layout[i][j]) & 1) == 1) {
+				auto player = std::make_shared<Player>(registry, m_gameInstance);
+				player->init(texturePath/"Pacman.png", Tile{ j,i });
+				m_entities.emplace_back(player);
+				playerEntity = player;
+				layout[i][j] |= 1;
+			}
+			if (layout[i][j] < 0 && (std::abs(layout[i][j]) & 2) == 2) {
+				auto ghost = std::make_shared<GhostObject>(registry, m_gameInstance);
+				ghost->init(texturePath, shadow, Tile{ j,i });
+				m_entities.emplace_back(ghost);
+				layout[i][j] |= 2;
+			}
+			if (layout[i][j] < 0 && (std::abs(layout[i][j]) & 4) == 4) {
+				auto ghost = std::make_shared<GhostObject>(registry, m_gameInstance);
+				ghost->init(texturePath, speedy, Tile{ j,i });
+				m_entities.emplace_back(ghost);
+				layout[i][j] |= 4;
+			}
+			if (layout[i][j] < 0 && (std::abs(layout[i][j]) & 8) == 8) {
+				auto ghost = std::make_shared<GhostObject>(registry, m_gameInstance);
+				ghost->init(texturePath, bashful, Tile{ j,i });
+				m_entities.emplace_back(ghost);
+				layout[i][j] |= 8;
+			}
+			if (layout[i][j] < 0 && (std::abs(layout[i][j]) & 16) == 16) {
+				auto ghost = std::make_shared<GhostObject>(registry, m_gameInstance);
+				ghost->init(texturePath, pokey, Tile{ j,i });
+				m_entities.emplace_back(ghost);
+				layout[i][j] |= 16;
+			}
+			if (layout[i][j] < 0 && (std::abs(layout[i][j]) & 512) == 512) {
+				auto pellet = std::make_shared<PelletObject>(registry, m_gameInstance);
+				pellet->init(texturePath / "Tile" / std::string{ std::to_string(37) + ".png" }, SDL_Rect{ j * TILESIZE,i * TILESIZE, TILESIZE,TILESIZE });
+				m_entities.emplace_back(pellet);
+				layout[i][j] |= 512;
+				++m_pellets;
+			}if (layout[i][j] < 0 && (std::abs(layout[i][j]) & 1024) == 1024) {
+				auto pellet = std::make_shared<PelletObject>(registry, m_gameInstance);
+				pellet->init(texturePath / "Tile" / std::string{ std::to_string(38) + ".png" }, SDL_Rect{ j * TILESIZE,i * TILESIZE, TILESIZE,TILESIZE });
+				m_entities.emplace_back(pellet);
+				layout[i][j] |= 1024;
+				++m_pellets;
+			}
+		}
+}
 
-void Level::m_generatePellets(const std::filesystem::path & pelletTexturePath, entt::DefaultRegistry & registry) {
+void Level::m_cleanup() {
 	for (int i = 0; i < layout.size(); ++i)
 		for (int j = 0; j < layout[i].size(); ++j)
-			if (layout[i][j] == 37) {
-				auto pellet = std::make_shared<PelletObject>(registry, m_gameInstance);
-				pellet->init(pelletTexturePath / std::string{ std::to_string(37) + ".png" }, SDL_Rect{ j * TILESIZE,i * TILESIZE, TILESIZE,TILESIZE });
-				m_pellets.emplace_back(pellet);
-				layout[i][j] = 0;
-			}
-			else if (layout[i][j] == 38) {
-				auto pellet = std::make_shared<PelletObject>(registry, m_gameInstance);
-				pellet->init(pelletTexturePath / std::string{ std::to_string(38) + ".png" }, SDL_Rect{ j * TILESIZE,i * TILESIZE, TILESIZE,TILESIZE });
-				m_pellets.emplace_back(pellet);
-				layout[i][j] = 0;
-			}
+			layout[i][j] = layout[i][j] < 0 ? 0 : layout[i][j];
 }

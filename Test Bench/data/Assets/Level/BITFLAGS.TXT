@@ -10,3 +10,5 @@ Negative serves as bit flags for special tiles
 7: Intersection
 8: Tunnel
 9: NO-UP tiles
+10: Pellet
+11: Energizer
