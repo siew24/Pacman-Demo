@@ -286,6 +286,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="data\Assets\Level\0.txt" />
+    <Text Include="data\Assets\Level\BITFLAGS.TXT" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="data\Music\pacman_beginning.wav">

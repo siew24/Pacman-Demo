@@ -34,7 +34,7 @@ void Level::m_load(const std::filesystem::path & levelData) {
 
 	for (int i = 0; i < h; ++i)
 		for (int j = 0; j < w; ++j)
-			fin >> layout[i][j];
+			fin >> std::hex >> layout[i][j];
 }
 
 void Level::m_generateTexture(const std::filesystem::path & tilePath) {
