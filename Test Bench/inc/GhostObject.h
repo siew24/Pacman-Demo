@@ -2,7 +2,8 @@
 #include "GameObject.h"
 #include "Configs.h"
 #include "Components/GhostComponent.h"
-#include "GhostBehavior.h"
+#include "GhostBehaviors/GhostBehavior.h"
+
 class GhostObject : public bloom::GameObject {
 	using Position = bloom::components::Position;
 	using Size = bloom::components::Size;
@@ -21,21 +22,21 @@ public:
 
 		if (id == shadow) {
 			m_registry.accommodate<entt::label<"shadow"_hs>>(m_entity);
-			m_registry.accommodate<Ghost>(m_entity) = Ghost{ behaviours::shadow, spawnTile };
+			m_registry.accommodate<Ghost>(m_entity) = Ghost{ ghostBehaviors::shadow, spawnTile };
 			tmp = m_gameInstance->textures.load(texturePath / "Red.png");
 		}
 		else if (id == speedy) {
 			m_registry.accommodate<entt::label<"speedy"_hs>>(m_entity);
-			m_registry.accommodate<Ghost>(m_entity) = Ghost{ behaviours::speedy, spawnTile };
+			m_registry.accommodate<Ghost>(m_entity) = Ghost{ ghostBehaviors::speedy, spawnTile };
 			tmp = m_gameInstance->textures.load(texturePath / "Pinky.png");
 		}
 		else if (id == bashful) {
 			m_registry.accommodate<entt::label<"bashful"_hs>>(m_entity);
-			m_registry.accommodate<Ghost>(m_entity) = Ghost{ behaviours::bashful, spawnTile };
+			m_registry.accommodate<Ghost>(m_entity) = Ghost{ ghostBehaviors::bashful, spawnTile };
 			tmp = m_gameInstance->textures.load(texturePath / "Blue.png");
 		}else if (id == pokey) {
 			m_registry.accommodate<entt::label<"pokey"_hs>>(m_entity);
-			m_registry.accommodate<Ghost>(m_entity) = Ghost{ behaviours::pokey, spawnTile };
+			m_registry.accommodate<Ghost>(m_entity) = Ghost{ ghostBehaviors::pokey, spawnTile };
 			tmp = m_gameInstance->textures.load(texturePath / "Orange.png");
 		}
 

@@ -86,10 +86,25 @@
     <ClInclude Include="inc\GhostObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="inc\GhostBehavior.h">
+    <ClInclude Include="inc\Tile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="inc\Tile.h">
+    <ClInclude Include="inc\GhostBehaviors\Speedy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\GhostBehaviors\Shadow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\GhostBehaviors\Bashful.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\GhostBehaviors\Pokey.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\GhostBehaviors\Pathfinding.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\GhostBehaviors\GhostBehavior.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

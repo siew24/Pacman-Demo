@@ -38,8 +38,8 @@ public:
 
 				int potentialDistance = 0;
 				if (lastUpdate > 1.0) {
-					potentialDistance = static_cast<int>(lastUpdate / 1.0);
-					lastUpdate = std::fmod(lastUpdate, 1.0);
+					potentialDistance = static_cast<int>((lastUpdate ) / 1.0);
+					lastUpdate = std::fmod((lastUpdate), 1.0);
 				}
 
 				bool moved = true;

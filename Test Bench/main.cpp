@@ -27,7 +27,7 @@ void test_drawer(const std::filesystem::path& assetsPath)
 
 	Uint32 framestart;
 
-	game = new Game(WINDOW_WIDTH, WINDOW_HEIGHT, 0, 0 | SDL_RENDERER_TARGETTEXTURE);
+	game = new Game(WINDOW_WIDTH, WINDOW_HEIGHT, 0, 6 | SDL_RENDERER_TARGETTEXTURE);
 	try {
 		game->create("Bloom Test", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
 	}

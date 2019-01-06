@@ -189,7 +189,12 @@
     <ClInclude Include="inc\Components\ComponentIncludes.h" />
     <ClInclude Include="inc\Configs.h" />
     <ClInclude Include="inc\Direction.h" />
-    <ClInclude Include="inc\GhostBehavior.h" />
+    <ClInclude Include="inc\GhostBehaviors\GhostBehavior.h" />
+    <ClInclude Include="inc\GhostBehaviors\Bashful.h" />
+    <ClInclude Include="inc\GhostBehaviors\Pathfinding.h" />
+    <ClInclude Include="inc\GhostBehaviors\Pokey.h" />
+    <ClInclude Include="inc\GhostBehaviors\Shadow.h" />
+    <ClInclude Include="inc\GhostBehaviors\Speedy.h" />
     <ClInclude Include="inc\GhostObject.h" />
     <ClInclude Include="inc\PelletObject.h" />
     <ClInclude Include="inc\Components\PelletsComponent.h" />
