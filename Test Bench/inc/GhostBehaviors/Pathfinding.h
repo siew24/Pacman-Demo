@@ -25,7 +25,7 @@ namespace ghostBehaviors {
 			double distance = std::sqrt(std::pow(xDist, 2) + std::pow(yDist, 2));
 			posibilities.emplace_back(std::make_pair(candidate, distance));
 		}
-		if (Tile candidate{ currentTile.x + 1, currentTile.y }; (currentTile.x / TILESIZE >= 27 || layout[candidate.y][candidate.x] == 0) && candidate != ghost.lastTile) {
+		if (Tile candidate{ currentTile.x + 1, currentTile.y }; (currentTile.x >= 27 || layout[candidate.y][candidate.x] == 0) && candidate != ghost.lastTile) {
 			int xDist = std::abs(candidate.x - target.x), yDist = std::abs(candidate.y - target.y);
 			double distance = std::sqrt(std::pow(xDist, 2) + std::pow(yDist, 2));
 			posibilities.emplace_back(std::make_pair(candidate, distance));
