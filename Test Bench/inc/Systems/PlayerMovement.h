@@ -12,9 +12,11 @@ public:
 	virtual void update(std::optional<double> deltaTime = std::nullopt) override {
 		m_registry.view<Pacman, Position>().each(
 			[&](auto entity, Pacman& player, Position& position) {
-				if (deltaTime.value() < 500.0)
+				if (deltaTime.value() < 500.0) {
 					lastUpdate += (deltaTime.value() / 1000)*speed;
-
+					lastUpdate -= (player.penalty/1000) * speed;
+					player.penalty = 0.0;
+				}
 				int potentialDistance = 0;
 				if (lastUpdate > 1.0) {
 					potentialDistance = static_cast<int>(lastUpdate / 1.0);
