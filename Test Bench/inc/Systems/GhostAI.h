@@ -138,5 +138,5 @@ public:
 	};
 	std::vector<std::vector<int>> layout;
 	double lastUpdate = 0;
-	const double speed = 8 * TILESIZE;
+	const double speed = 11 * TILESIZE;
 };
