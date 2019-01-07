@@ -44,9 +44,6 @@ public:
 							break;
 						}
 					}
-					//Snap tile
-					/*position.x = playerTile.x;
-					position.y = playerTile.y;*/
 					player.lastDir = player.direction != null ? player.direction : player.lastDir;
 				}
 
