@@ -89,8 +89,8 @@ void test_drawer(const std::filesystem::path& assetsPath)
 			level.changeDir(testRegistry, down);
 		else if (game->input.isKeyPressed(KEY_D) || game->input.isKeyPressed(KEY_RIGHT))
 			level.changeDir(testRegistry, right);
-		else
-			level.changeDir(testRegistry, null);
+		/*else
+			level.changeDir(testRegistry, null);*/
 
 		game->clear();
 		level.draw();
