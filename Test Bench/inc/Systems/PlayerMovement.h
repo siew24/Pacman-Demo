@@ -92,9 +92,9 @@ public:
 					if (!moved)
 						break;
 
-					if (position.x == 28 * TILESIZE)
+					if (position.x >= 28 * TILESIZE)
 						position.x = -TILESIZE;
-					else if (position.x == -TILESIZE)
+					else if (position.x <= -TILESIZE)
 						position.x = 28 * TILESIZE;
 				}
 			}
