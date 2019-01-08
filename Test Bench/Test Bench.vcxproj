@@ -252,6 +252,7 @@
     <Image Include="data\Assets\Tile\34.png" />
     <Image Include="data\Assets\Tile\35.png" />
     <Image Include="data\Assets\Tile\36.png" />
+    <Image Include="data\Assets\Tile\39.png" />
     <Image Include="data\Assets\Tile\4.png" />
     <Image Include="data\Assets\Tile\5.png" />
     <Image Include="data\Assets\Tile\6.png" />
