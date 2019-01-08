@@ -29,6 +29,7 @@ public:
 				while (potentialDistance > 0) {
 					bool moved = 0;
 					if (position.x % TILESIZE == 0 && position.y % TILESIZE == 0 && player.moveX == 0 && player.moveY == 0) {
+						player.lastDir = player.direction != null ? player.direction : player.lastDir;
 						player.direction = player.nextDir;
 						auto& AnimSet = m_registry.get<AnimationSet>(entity);
 						switch (player.direction) {

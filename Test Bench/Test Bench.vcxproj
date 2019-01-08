@@ -189,6 +189,13 @@
     <ClInclude Include="inc\Components\ComponentIncludes.h" />
     <ClInclude Include="inc\Configs.h" />
     <ClInclude Include="inc\Direction.h" />
+    <ClInclude Include="inc\GhostBehaviors\GhostBehavior.h" />
+    <ClInclude Include="inc\GhostBehaviors\Bashful.h" />
+    <ClInclude Include="inc\GhostBehaviors\Pathfinding.h" />
+    <ClInclude Include="inc\GhostBehaviors\Pokey.h" />
+    <ClInclude Include="inc\GhostBehaviors\Shadow.h" />
+    <ClInclude Include="inc\GhostBehaviors\Speedy.h" />
+    <ClInclude Include="inc\GhostObject.h" />
     <ClInclude Include="inc\PelletObject.h" />
     <ClInclude Include="inc\Components\PelletsComponent.h" />
     <ClInclude Include="inc\Components\GhostComponent.h" />
@@ -203,6 +210,7 @@
     <ClInclude Include="inc\Systems\PelletSystem.h" />
     <ClInclude Include="inc\Systems\PlayerMovement.h" />
     <ClInclude Include="Header Files\WallComponent.h" />
+    <ClInclude Include="inc\Tile.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="data\Assets\Blue.png" />
@@ -266,6 +274,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="data\Assets\Level\0.txt" />
+    <Text Include="data\Assets\Level\BITFLAGS.TXT" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="data\Music\pacman_beginning.wav" />

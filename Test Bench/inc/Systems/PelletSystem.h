@@ -16,8 +16,8 @@ public:
 		Position& playerPos = m_registry.get<Position>(player);
 		Pacman& playerState = m_registry.get<Pacman>(player);
 
-		 
-		 m_registry.view<Pellet, Position>().each(
+
+		m_registry.view<Pellet, Position>().each(
 			[&](auto entity, Pellet& pellet, Position& pelletPos) {
 				if (((playerPos.x + (TILESIZE / 2)) / TILESIZE == pelletPos.x / TILESIZE) && ((playerPos.y + (TILESIZE / 2)) / TILESIZE == pelletPos.y / TILESIZE)) {
 					playerState.score += pellet.points;
@@ -27,7 +27,7 @@ public:
 			}
 		);
 
-		 m_registry.view<PowerPellet, Position>().each(
+		m_registry.view<PowerPellet, Position>().each(
 			[&](auto entity, PowerPellet& pellet, Position& pelletPos) {
 				if (((playerPos.x + (TILESIZE / 2)) / TILESIZE == pelletPos.x / TILESIZE) && ((playerPos.y + (TILESIZE / 2)) / TILESIZE == pelletPos.y / TILESIZE)) {
 					playerState.score += pellet.points;
@@ -36,9 +36,14 @@ public:
 
 					m_registry.view<Ghost>().each(
 						[](auto entity, Ghost& ghost) {
-							ghost.afraidTimer = 10.0; // Ghosts are now scared for 10s.
+							if (ghost.currentMode != dead) {
+								ghost.lastTile = Tile{ 0,0 };
+								ghost.currentMode = afraid;
+								ghost.modeTimer = 10.0;
+							}
 						}
 					);
+
 				}
 			}
 		);

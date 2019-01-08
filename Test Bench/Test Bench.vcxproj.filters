@@ -47,9 +47,6 @@
     <ClInclude Include="getExePath.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header Files\Components\PelletsComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="inc\Components\ComponentIncludes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -84,6 +81,30 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="inc\PlayerObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\GhostObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Tile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\GhostBehaviors\Speedy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\GhostBehaviors\Shadow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\GhostBehaviors\Bashful.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\GhostBehaviors\Pokey.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\GhostBehaviors\Pathfinding.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\GhostBehaviors\GhostBehavior.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -265,6 +286,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="data\Assets\Level\0.txt" />
+    <Text Include="data\Assets\Level\BITFLAGS.TXT" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="data\Music\pacman_beginning.wav">

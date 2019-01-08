@@ -1,8 +1,8 @@
 #pragma once
 
 struct Pellet {
-	int points = 100;
+	int points = 10;
 };
 struct PowerPellet {
-	int points = 200;
+	int points = 50;
 };

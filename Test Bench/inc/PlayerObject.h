@@ -1,6 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include "Configs.h"
+#include "Tile.h"
 
 class Player : public bloom::GameObject {
 	using Position = bloom::components::Position;
@@ -13,12 +14,13 @@ class Player : public bloom::GameObject {
 public:
 	void init() override {}
 
-	void init(const std::filesystem::path texturePath) {
-		m_registry.replace<Position>(m_entity, 13* TILESIZE, 23* TILESIZE);
-		m_registry.assign<Size>(m_entity, TILESIZE, TILESIZE);
+	void init(const std::filesystem::path texturePath, Tile spawnTile) {
+		m_registry.replace<Position>(m_entity, spawnTile.x * TILESIZE, spawnTile.y * TILESIZE);
+		m_registry.accommodate<Size>(m_entity, TILESIZE, TILESIZE);
+		m_registry.accommodate<entt::label<"pacman"_hs>>(m_entity);
 		auto tmp = m_gameInstance->textures.load(texturePath);
 
-		m_registry.assign<Sprite>(m_entity, tmp, SDL_Rect{ 13 * TILESIZE,23 * TILESIZE,TILESIZE,TILESIZE });
+		m_registry.accommodate<Sprite>(m_entity, tmp, SDL_Rect{ spawnTile.x * TILESIZE, spawnTile.y * TILESIZE,TILESIZE,TILESIZE });
 
 		AnimationPtr down = std::make_shared<Animation>();
 		down->animationFrames = {
@@ -56,8 +58,13 @@ public:
 		animSet.addAnimation("left", left);
 		animSet.addAnimation("right", right);
 
-		m_registry.assign<AnimationSet>(m_entity, animSet);
-		m_registry.assign<AnimationPtr>(m_entity, right);
-		m_registry.assign<Pacman>(m_entity) = Pacman{Direction::null,Direction::null,0,0 };
+		m_registry.accommodate<AnimationSet>(m_entity, animSet);
+		m_registry.accommodate<AnimationPtr>(m_entity, right);
+		if (!m_registry.has<Pacman>(m_entity))
+			m_registry.assign<Pacman>(m_entity) = Pacman{ Direction::null,Direction::null,0,0 };
+		else {
+			auto& pac = m_registry.get<Pacman>(m_entity);
+			pac = Pacman{ null,null,0,0,pac.score };
+		}
 	}
 };

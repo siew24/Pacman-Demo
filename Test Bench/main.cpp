@@ -8,6 +8,7 @@
 #include "inc/PlayerObject.h"
 #include "inc/Systems/PlayerMovement.h"
 #include "inc/Systems/PelletSystem.h"
+#include "inc/Systems/GhostAI.h"
 #include "getExePath.h"
 
 using namespace bloom;
@@ -42,7 +43,7 @@ void test_drawer(const std::filesystem::path& assetsPath)
 	if (!std::filesystem::exists(assetsPath))
 		throw bloom::Exception("Required assets can't be found.");
 
-	std::filesystem::path tileDir = assetsPath / L"Tile";
+	std::filesystem::path tileDir = assetsPath;
 	std::filesystem::path levelDir = assetsPath / L"Level";
 	std::filesystem::path audioDir = assetsPath.parent_path() / L"Sounds";
 
@@ -50,21 +51,23 @@ void test_drawer(const std::filesystem::path& assetsPath)
 	bloom::systems::RenderSystem renderSysTest(testRegistry);
 	bloom::systems::AnimationSystem animSysTest(testRegistry);
 	PlayerMovement playerMovement(testRegistry);
+	GhostAI ghostMovement(testRegistry);
 	PelletSystem pelletSystem(testRegistry);
-	Level level_1 = Level(game);
-	level_1.changeLevel(levelDir / "0.txt", tileDir, testRegistry);
-	playerMovement.layout = level_1.layout;
+	Level level = Level(game);
+	level.changeLevel(levelDir / "0.txt", tileDir, testRegistry);
+	playerMovement.layout = level.layout;
+	ghostMovement.layout = level.layout;
 
-	std::filesystem::path PacDir = assetsPath / L"Pacman.png";
-	Player player(testRegistry, game);
-	player.init(PacDir);
+	std::filesystem::path pacDir = assetsPath / L"Pacman.png";
+	std::filesystem::path ghostDir = assetsPath;
 	
-	level_1.draw();
+	level.draw();
 	animSysTest.update(0);
 	renderSysTest.update();
 	game->render();
 	sounds.add(audioDir / "pacman_beginning.wav");
 	sounds.add(audioDir / "pacman_intermission.wav");
+	sounds.add(audioDir / "pacman_death.wav");
 	sounds[0]->play();
 	SDL_Delay(5000);
 
@@ -73,42 +76,43 @@ void test_drawer(const std::filesystem::path& assetsPath)
 	std::cout << "Level is started!" << std::endl;
 	while (game->isRunning()) {
 		if (!frameCount)
-			std::cout << "Current score:  " << testRegistry.get<Pacman>(player.getEntityID()).score << std::endl;
+			std::cout << "Current score:  " << level.getScore(testRegistry) << std::endl;
+
 		frameCount = (frameCount + 1) % 60;
-		framestart = SDL_GetTicks();
 		game->handleEvents();
 
 		if (game->input.isKeyPressed(KEY_W) || game->input.isKeyPressed(KEY_UP))
-			testRegistry.get<Pacman>(player.getEntityID()).nextDir = up;
+			level.changeDir(testRegistry, up);
 		else if (game->input.isKeyPressed(KEY_A) || game->input.isKeyPressed(KEY_LEFT))
-			testRegistry.get<Pacman>(player.getEntityID()).nextDir = left;
+			level.changeDir(testRegistry, left);
 		else if (game->input.isKeyPressed(KEY_S) || game->input.isKeyPressed(KEY_DOWN))
-			testRegistry.get<Pacman>(player.getEntityID()).nextDir = down;
+			level.changeDir(testRegistry, down);
 		else if (game->input.isKeyPressed(KEY_D) || game->input.isKeyPressed(KEY_RIGHT))
-			testRegistry.get<Pacman>(player.getEntityID()).nextDir = right;
+			level.changeDir(testRegistry, right);
 		else
-			testRegistry.get<Pacman>(player.getEntityID()).nextDir = null;
+			level.changeDir(testRegistry, null);
 
 		game->clear();
-		level_1.draw();
+		level.draw();
 		playerMovement.update(dt);
+		ghostMovement.update(dt);
 		pelletSystem.update();
 		animSysTest.update(dt);
 		renderSysTest.update(); // Test again.
 		game->render();
 		// game->update();
-
-		int frametime = SDL_GetTicks() - framestart;
-
-		if (framedelay > frametime) {
-			game->delay(framedelay - frametime);
-		}
 		dt = game->timer.lap();
 
-		if (testRegistry.get<Pacman>(player.getEntityID()).pelletsEaten == level_1.pelletCount()) {
+		if (level.complete(testRegistry)) {
 			std::cout << "Level complete!" << std::endl;
 			sounds[1]->play();
 			game->delay(5500);
+			level.changeLevel(levelDir / "0.txt", tileDir, testRegistry);
+		}
+		else if (level.gameOver(testRegistry)) {
+			std::cout << "Game Over!" << std::endl;
+			sounds[2]->play();
+			game->delay(1500);
 			break;
 		}
 	}
@@ -127,7 +131,7 @@ int main()
 		system("pause");
 		exit(-1);
 	}
-
+	srand(static_cast<uint32_t>(time(0)));
 	namespace fs = std::filesystem;
 	fs::path dataDir = fs::path(getExePath()) / L"data";
 	fs::path assetsPath = dataDir / L"Assets";
