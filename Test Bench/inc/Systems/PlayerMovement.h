@@ -12,15 +12,16 @@ public:
 	virtual void update(std::optional<double> deltaTime = std::nullopt) override {
 		m_registry.view<Pacman, Position>().each(
 			[&](auto entity, Pacman& player, Position& position) {
-				if (deltaTime.value() < 500.0) {
-					lastUpdate += (deltaTime.value() / 1000)*speed;
-					lastUpdate -= (player.penalty/1000) * speed;
-					player.penalty = 0.0;
-				}
 				int potentialDistance = 0;
-				if (lastUpdate > 1.0) {
-					potentialDistance = static_cast<int>(lastUpdate / 1.0);
-					lastUpdate = std::fmod(lastUpdate, 1.0);
+				if (deltaTime.value() < 500.0) {
+					auto timeAvailable = (deltaTime.value()+0.5) / 1000.0;
+					player.penalty -= timeAvailable;
+					if (player.penalty <= 0.0) {
+						timeAvailable = -player.penalty;
+						player.penalty = 0.0;
+					}
+
+					potentialDistance = static_cast<int>(timeAvailable*speed);
 				}
 
 				Tile playerTile{ (position.x + TILESIZE / 2) / TILESIZE, (position.y + TILESIZE / 2) / TILESIZE };
@@ -60,10 +61,10 @@ public:
 						tmp = { nextTile.x, nextTile.y + 1 };
 						break;
 					case left:
-						tmp = { nextTile.x-1, nextTile.y};
+						tmp = { nextTile.x - 1, nextTile.y };
 						break;
 					case right:
-						tmp = { nextTile.x+1, nextTile.y};
+						tmp = { nextTile.x + 1, nextTile.y };
 						break;
 					}
 					if (valid(tmp))
@@ -100,7 +101,6 @@ public:
 	};
 
 	std::vector<std::vector<int>> layout;
-	double lastUpdate = 0;
 	const double speed = 11 * TILESIZE;
 
 private:

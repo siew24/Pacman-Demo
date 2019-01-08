@@ -22,7 +22,7 @@ public:
 				if (((playerPos.x + (TILESIZE / 2)) / TILESIZE == pelletPos.x / TILESIZE) && ((playerPos.y + (TILESIZE / 2)) / TILESIZE == pelletPos.y / TILESIZE)) {
 					playerState.score += pellet.points;
 					++playerState.pelletsEaten;
-					playerState.penalty += 1000.0 / 60.0;
+					//playerState.penalty += 1000.0 / 60.0;
 					m_registry.destroy(entity);
 				}
 			}
@@ -33,7 +33,7 @@ public:
 				if (((playerPos.x + (TILESIZE / 2)) / TILESIZE == pelletPos.x / TILESIZE) && ((playerPos.y + (TILESIZE / 2)) / TILESIZE == pelletPos.y / TILESIZE)) {
 					playerState.score += pellet.points;
 					++playerState.pelletsEaten;
-					playerState.penalty += (1000.0 / 60.0)*3;
+					//playerState.penalty += (1000.0 / 60.0)*3;
 					m_registry.destroy(entity);
 
 					m_registry.view<Ghost>().each(

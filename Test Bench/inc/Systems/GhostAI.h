@@ -19,9 +19,9 @@ public:
 
 		m_registry.view<Ghost, Position>().each(
 			[&](auto entity, Ghost& ghost, Position& position) {
+				int potentialDistance = 0;
 				if (deltaTime.value() < 500.0) {
-					lastUpdate += (deltaTime.value() / 1000)*speed;
-					ghost.modeTimer -= deltaTime.value() / 1000;
+					ghost.modeTimer -= (deltaTime.value()+0.5) / 1000;
 					if (ghost.modeTimer <= 0.0) {
 						if (ghost.currentMode == chase) {
 							ghost.modeTimer = 10.0 - ghost.modeTimer; // Need timer
@@ -34,13 +34,11 @@ public:
 							ghost.currentMode = chase;
 						}
 					}
+					potentialDistance = static_cast<int>(((deltaTime.value()+0.5) / 1000)*speed);
 				}
 
-				int potentialDistance = 0;
-				if (lastUpdate > 1.0) {
-					potentialDistance = static_cast<int>((lastUpdate ) / 1.0);
-					lastUpdate = std::fmod((lastUpdate), 1.0);
-				}
+				
+				
 
 				bool moved = true;
 				while (potentialDistance > 0 && moved) {
@@ -51,7 +49,7 @@ public:
 						if (nextTile.x > currentTile.x) {
 							if (ghost.currentMode == afraid)
 								animSet.changeAnimation("afraid");
-							else if(ghost.currentMode == dead)
+							else if (ghost.currentMode == dead)
 								animSet.changeAnimation("rightd");
 							else
 								animSet.changeAnimation("right");
