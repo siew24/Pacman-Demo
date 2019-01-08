@@ -20,8 +20,13 @@ public:
 		m_registry.view<Ghost, Position>().each(
 			[&](auto entity, Ghost& ghost, Position& position) {
 				int potentialDistance = 0;
+
 				if (deltaTime.value() < 500.0) {
-					ghost.modeTimer -= (deltaTime.value()+0.5) / 1000;
+					ghost.timeAvailable += (deltaTime.value() / 1000);
+					potentialDistance = static_cast<int>(ghost.timeAvailable*speed);
+					ghost.timeAvailable -= potentialDistance / speed;
+					ghost.modeTimer -= potentialDistance / speed;
+
 					if (ghost.modeTimer <= 0.0) {
 						if (ghost.currentMode == chase) {
 							ghost.modeTimer = 10.0 - ghost.modeTimer; // Need timer
@@ -34,11 +39,7 @@ public:
 							ghost.currentMode = chase;
 						}
 					}
-					potentialDistance = static_cast<int>(((deltaTime.value()+0.5) / 1000)*speed);
 				}
-
-				
-				
 
 				bool moved = true;
 				while (potentialDistance > 0 && moved) {

@@ -14,7 +14,7 @@ public:
 			[&](auto entity, Pacman& player, Position& position) {
 				int potentialDistance = 0;
 				if (deltaTime.value() < 500.0) {
-					auto timeAvailable = (deltaTime.value()+0.5) / 1000.0;
+					timeAvailable += deltaTime.value() / 1000.0;
 					player.penalty -= timeAvailable;
 					if (player.penalty <= 0.0) {
 						timeAvailable = -player.penalty;
@@ -22,6 +22,7 @@ public:
 					}
 
 					potentialDistance = static_cast<int>(timeAvailable*speed);
+					timeAvailable -= potentialDistance / speed;
 				}
 
 				Tile playerTile{ (position.x + TILESIZE / 2) / TILESIZE, (position.y + TILESIZE / 2) / TILESIZE };
@@ -102,6 +103,7 @@ public:
 
 	std::vector<std::vector<int>> layout;
 	const double speed = 11 * TILESIZE;
+	double timeAvailable = 0.0;
 
 private:
 	bool valid(Tile tile) {

@@ -31,5 +31,7 @@ struct Ghost {
 
 	Tile lastTile = { 0,0 };
 	int moveX = 0, moveY = 0;	
+
+	double timeAvailable = 0.0;
 	
 };
