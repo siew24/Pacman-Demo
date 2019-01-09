@@ -1,6 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include "Configs.h"
+#include "Tile.h"
 
 class Player : public bloom::GameObject {
 	using Position = bloom::components::Position;
@@ -13,13 +14,13 @@ class Player : public bloom::GameObject {
 public:
 	void init() override {}
 
-	void init(const std::filesystem::path texturePath) {
-		m_registry.replace<Position>(m_entity, 13 * TILESIZE, 23 * TILESIZE);
+	void init(const std::filesystem::path texturePath, Tile spawnTile) {
+		m_registry.replace<Position>(m_entity, spawnTile.x * TILESIZE, spawnTile.y * TILESIZE);
 		m_registry.accommodate<Size>(m_entity, TILESIZE, TILESIZE);
 		m_registry.accommodate<entt::label<"pacman"_hs>>(m_entity);
 		auto tmp = m_gameInstance->textures.load(texturePath);
 
-		m_registry.accommodate<Sprite>(m_entity, tmp, SDL_Rect{ 13 * TILESIZE,23 * TILESIZE,TILESIZE,TILESIZE });
+		m_registry.accommodate<Sprite>(m_entity, tmp, SDL_Rect{ spawnTile.x * TILESIZE, spawnTile.y * TILESIZE,TILESIZE,TILESIZE });
 
 		AnimationPtr down = std::make_shared<Animation>();
 		down->animationFrames = {

@@ -1,0 +1,14 @@
+Positive numbers: TileID's for texture
+
+Negative serves as bit flags for special tiles
+1: Player Spawn point
+2: Blinky Spawn point
+3: Pinky Spawn point
+4: Bashful Spawn point
+5: Pokey Spawn point
+6: BONUS spawn
+7: Intersection
+8: Tunnel
+9: NO-UP tiles
+10: Pellet
+11: Energizer

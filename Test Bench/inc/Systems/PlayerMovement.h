@@ -3,10 +3,6 @@
 #include "../Components/ComponentIncludes.h"
 #include "../Configs.h"
 
-bool valid(int tile) {
-	return (tile == 0);
-}
-
 class PlayerMovement : public bloom::systems::System {
 	using Position = bloom::components::Position;
 	using AnimationSet = bloom::components::AnimationSet;
@@ -16,89 +12,99 @@ public:
 	virtual void update(std::optional<double> deltaTime = std::nullopt) override {
 		m_registry.view<Pacman, Position>().each(
 			[&](auto entity, Pacman& player, Position& position) {
-				if (deltaTime.value() < 500.0)
-					lastUpdate += (deltaTime.value() / 1000)*speed;
-				
 				int potentialDistance = 0;
-				if (lastUpdate > 1.0) {
-					potentialDistance = static_cast<int>(lastUpdate/1.0);
-					lastUpdate = std::fmod(lastUpdate, 1.0);
+				if (deltaTime.value() < 500.0) {
+					player.timeAvailable += deltaTime.value() / 1000.0;
+
+					potentialDistance = static_cast<int>(player.timeAvailable*speed);
+					player.timeAvailable -= potentialDistance / speed;
 				}
 
+				Tile playerTile{ (position.x + TILESIZE / 2) / TILESIZE, (position.y + TILESIZE / 2) / TILESIZE };
 
-				while (potentialDistance > 0) {
-					bool moved = 0;
-					if (position.x % TILESIZE == 0 && position.y % TILESIZE == 0 && player.moveX == 0 && player.moveY == 0) {
-						player.lastDir = player.direction != null ? player.direction : player.lastDir;
+				if (playerTile.x < 27 || playerTile.x >= 0)
+				{
+					// Change anim
+					auto& AnimSet = m_registry.get<AnimationSet>(entity);
+					if (player.nextDir != player.direction) {
 						player.direction = player.nextDir;
-						auto& AnimSet = m_registry.get<AnimationSet>(entity);
 						switch (player.direction) {
 						case right:
 							AnimSet.changeAnimation("right");
-							if (position.x / TILESIZE >= 27)
-								player.moveX = +TILESIZE*2;
-							else if (valid(layout[position.y / TILESIZE][(position.x / TILESIZE) + 1]))
-								player.moveX += TILESIZE;
 							break;
 						case left:
 							AnimSet.changeAnimation("left");
-							if (position.x / TILESIZE == 0)
-								player.moveX = -TILESIZE*2;
-							else if (valid(layout[position.y / TILESIZE][(position.x / TILESIZE) - 1]))
-								player.moveX -= TILESIZE;
 							break;
 						case up:
 							AnimSet.changeAnimation("up");
-							if (valid(layout[(position.y / TILESIZE) - 1][position.x / TILESIZE]))
-								player.moveY -= TILESIZE;
 							break;
 						case down:
 							AnimSet.changeAnimation("down");
-							if (valid(layout[(position.y / TILESIZE) + 1][position.x / TILESIZE]))
-								player.moveY += TILESIZE;
 							break;
 						}
 					}
+					player.lastDir = player.direction != null ? player.direction : player.lastDir;
+				}
 
-					if (player.moveX > 0) {
-						position.x += 1;
-						if (position.x == 28 * TILESIZE) {
-							position.x = -TILESIZE;
-						}
-						--potentialDistance;
-						--player.moveX;
+				Tile nextTile = playerTile;
+				{
+					auto tmp = nextTile;
+					switch (player.direction) {
+					case up:
+						tmp = { nextTile.x, nextTile.y - 1 };
+						break;
+					case down:
+						tmp = { nextTile.x, nextTile.y + 1 };
+						break;
+					case left:
+						tmp = { nextTile.x - 1, nextTile.y };
+						break;
+					case right:
+						tmp = { nextTile.x + 1, nextTile.y };
+						break;
+					}
+					if (valid(tmp))
+						nextTile = tmp;
+				}
+
+				while (potentialDistance > 0) {
+					bool moved = 0;
+					if (nextTile.x * TILESIZE > position.x) {
+						++position.x;
 						moved = true;
 					}
-					else if (player.moveX < 0) {
-						position.x -= 1;
-						if (position.x == -TILESIZE) {
-							position.x = 28 * TILESIZE;
-						}
-						--potentialDistance;
-						++player.moveX;
-						moved = true;
+					else if (nextTile.x * TILESIZE < position.x) {
+						--position.x; moved = true;
 					}
-					else if (player.moveY < 0) {
-						position.y -= 1;
-						--potentialDistance;
-						++player.moveY;
-						moved = true;
+					if (nextTile.y  * TILESIZE > position.y) {
+						++position.y; moved = true;
 					}
-					else if (player.moveY > 0) {
-						position.y += 1;
-						--potentialDistance;
-						--player.moveY;
-						moved = true;
+					else if (nextTile.y * TILESIZE < position.y) {
+						--position.y; moved = true;
 					}
+					--potentialDistance;
 
 					if (!moved)
 						break;
+
+					if (position.x >= 28 * TILESIZE)
+						position.x = -TILESIZE;
+					else if (position.x <= -TILESIZE)
+						position.x = 28 * TILESIZE;
 				}
 			}
 		);
 	};
 
 	std::vector<std::vector<int>> layout;
-	double lastUpdate = 0;
 	const double speed = 11 * TILESIZE;
+	
+
+private:
+	bool valid(Tile tile) {
+		tile.x = tile.x < 0 ? layout[0].size() + tile.x : tile.x;
+		tile.x = tile.x >= layout[0].size() ? tile.x % layout[0].size() : tile.x;
+
+		return (layout[tile.y][tile.x] == 0);
+	}
 };

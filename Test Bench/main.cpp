@@ -8,7 +8,6 @@
 #include "inc/PlayerObject.h"
 #include "inc/Systems/PlayerMovement.h"
 #include "inc/Systems/PelletSystem.h"
-#include "inc/GhostObject.h"
 #include "inc/Systems/GhostAI.h"
 #include "getExePath.h"
 
@@ -27,13 +26,15 @@ void test_drawer(const std::filesystem::path& assetsPath)
 
 	Uint32 framestart;
 
-	game = new Game(WINDOW_WIDTH, WINDOW_HEIGHT, 0, 6 | SDL_RENDERER_TARGETTEXTURE);
+	game = new Game(WINDOW_WIDTH*2, WINDOW_HEIGHT*2, 0, 6 | SDL_RENDERER_TARGETTEXTURE);
 	try {
 		game->create("Bloom Test", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
 	}
 	catch (Exception & e) {
 		std::cerr << e.what() << std::endl;
 	}
+
+	SDL_RenderSetLogicalSize(game->getRenderer(), WINDOW_WIDTH, WINDOW_HEIGHT);
 
 	SDL_Color Background{ 0,0,0 };
 
@@ -44,7 +45,7 @@ void test_drawer(const std::filesystem::path& assetsPath)
 	if (!std::filesystem::exists(assetsPath))
 		throw bloom::Exception("Required assets can't be found.");
 
-	std::filesystem::path tileDir = assetsPath / L"Tile";
+	std::filesystem::path tileDir = assetsPath;
 	std::filesystem::path levelDir = assetsPath / L"Level";
 	std::filesystem::path audioDir = assetsPath.parent_path() / L"Sounds";
 
@@ -61,20 +62,6 @@ void test_drawer(const std::filesystem::path& assetsPath)
 
 	std::filesystem::path pacDir = assetsPath / L"Pacman.png";
 	std::filesystem::path ghostDir = assetsPath;
-	Player player(testRegistry, game);
-	player.init(pacDir);
-
-	GhostObject shadow(testRegistry, game); 
-	shadow.init(ghostDir, Ghosts::shadow, Tile{13,11});
-
-	GhostObject speedy(testRegistry, game);
-	speedy.init(ghostDir, Ghosts::speedy, Tile{ 14,11 });
-
-	GhostObject bashful(testRegistry, game);
-	bashful.init(ghostDir, Ghosts::bashful, Tile{ 15,11 });
-
-	GhostObject pokey(testRegistry, game);
-	pokey.init(ghostDir, Ghosts::pokey, Tile{ 12,11 });
 	
 	level.draw();
 	animSysTest.update(0);
@@ -90,23 +77,24 @@ void test_drawer(const std::filesystem::path& assetsPath)
 	int frameCount = 0;
 	std::cout << "Level is started!" << std::endl;
 	while (game->isRunning()) {
-		if (!frameCount)
-			std::cout << "Current score:  " << testRegistry.get<Pacman>(player.getEntityID()).score << std::endl;
+		/*if (!frameCount)
+			std::cout << "Current score:  " << level.getScore(testRegistry) << std::endl;*/
 
 		std::cout << "Delta time: " << dt << "ms" << std::endl;
+
 		frameCount = (frameCount + 1) % 60;
 		game->handleEvents();
 
 		if (game->input.isKeyPressed(KEY_W) || game->input.isKeyPressed(KEY_UP))
-			testRegistry.get<Pacman>(player.getEntityID()).nextDir = up;
+			level.changeDir(testRegistry, up);
 		else if (game->input.isKeyPressed(KEY_A) || game->input.isKeyPressed(KEY_LEFT))
-			testRegistry.get<Pacman>(player.getEntityID()).nextDir = left;
+			level.changeDir(testRegistry, left);
 		else if (game->input.isKeyPressed(KEY_S) || game->input.isKeyPressed(KEY_DOWN))
-			testRegistry.get<Pacman>(player.getEntityID()).nextDir = down;
+			level.changeDir(testRegistry, down);
 		else if (game->input.isKeyPressed(KEY_D) || game->input.isKeyPressed(KEY_RIGHT))
-			testRegistry.get<Pacman>(player.getEntityID()).nextDir = right;
-		else
-			testRegistry.get<Pacman>(player.getEntityID()).nextDir = null;
+			level.changeDir(testRegistry, right);
+		/*else
+			level.changeDir(testRegistry, null);*/
 
 		game->clear();
 		level.draw();
@@ -119,18 +107,13 @@ void test_drawer(const std::filesystem::path& assetsPath)
 		// game->update();
 		dt = game->timer.lap();
 
-		if (testRegistry.get<Pacman>(player.getEntityID()).pelletsEaten == level.pelletCount()) {
+		if (level.complete(testRegistry)) {
 			std::cout << "Level complete!" << std::endl;
 			sounds[1]->play();
 			game->delay(5500);
 			level.changeLevel(levelDir / "0.txt", tileDir, testRegistry);
-			player.init(pacDir);
-			shadow.init(ghostDir, Ghosts::shadow, Tile{ 13,11 });
-			speedy.init(ghostDir, Ghosts::speedy, Tile{ 14,11 });
-			bashful.init(ghostDir, Ghosts::bashful, Tile{ 15,11 });
-			pokey.init(ghostDir, Ghosts::pokey, Tile{ 12,11 });
 		}
-		else if (testRegistry.get<Pacman>(player.getEntityID()).dead) {
+		else if (level.gameOver(testRegistry)) {
 			std::cout << "Game Over!" << std::endl;
 			sounds[2]->play();
 			game->delay(1500);
