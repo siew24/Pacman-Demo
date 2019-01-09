@@ -19,9 +19,14 @@ public:
 
 		m_registry.view<Ghost, Position>().each(
 			[&](auto entity, Ghost& ghost, Position& position) {
+				int potentialDistance = 0;
+
 				if (deltaTime.value() < 500.0) {
-					lastUpdate += (deltaTime.value() / 1000)*speed;
-					ghost.modeTimer -= deltaTime.value() / 1000;
+					ghost.timeAvailable += (deltaTime.value() / 1000);
+					potentialDistance = static_cast<int>(ghost.timeAvailable*speed);
+					ghost.timeAvailable -= potentialDistance / speed;
+					ghost.modeTimer -= potentialDistance / speed;
+
 					if (ghost.modeTimer <= 0.0) {
 						if (ghost.currentMode == chase) {
 							ghost.modeTimer = 10.0 - ghost.modeTimer; // Need timer
@@ -36,12 +41,6 @@ public:
 					}
 				}
 
-				int potentialDistance = 0;
-				if (lastUpdate > 1.0) {
-					potentialDistance = static_cast<int>((lastUpdate ) / 1.0);
-					lastUpdate = std::fmod((lastUpdate), 1.0);
-				}
-
 				bool moved = true;
 				while (potentialDistance > 0 && moved) {
 					moved = false;
@@ -51,7 +50,7 @@ public:
 						if (nextTile.x > currentTile.x) {
 							if (ghost.currentMode == afraid)
 								animSet.changeAnimation("afraid");
-							else if(ghost.currentMode == dead)
+							else if (ghost.currentMode == dead)
 								animSet.changeAnimation("rightd");
 							else
 								animSet.changeAnimation("right");
@@ -138,5 +137,5 @@ public:
 	};
 	std::vector<std::vector<int>> layout;
 	double lastUpdate = 0;
-	const double speed = 8 * TILESIZE;
+	const double speed = 11 * TILESIZE;
 };

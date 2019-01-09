@@ -13,4 +13,6 @@ struct Pacman {
 
 	bool dead = false;
 	Direction lastDir;
+
+	double timeAvailable = 0.0;
 };

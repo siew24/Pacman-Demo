@@ -4,7 +4,9 @@
 
 Level::Level(bloom::Game *& gameInstance) : m_gameInstance(gameInstance), m_renderer(gameInstance->getRenderer()) {
 	int w, h;
-	SDL_GetRendererOutputSize(m_renderer, &w, &h);
+	SDL_RenderGetLogicalSize(m_renderer, &w, &h);
+	if (w == 0 || h == 0)
+		SDL_GetRendererOutputSize(m_renderer, &w, &h);
 	if (m_levelTex)
 		SDL_DestroyTexture(m_levelTex);
 	m_levelTex = SDL_CreateTexture(m_renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, w, h);
