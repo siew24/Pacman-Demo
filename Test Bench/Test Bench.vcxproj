@@ -232,6 +232,7 @@
     <Image Include="data\Assets\Pacman_Spritesheet.png" />
     <Image Include="data\Assets\Pinky.png" />
     <Image Include="data\Assets\Red.png" />
+    <Image Include="data\Assets\Tile\12.png" />
     <Image Include="data\Assets\Tile\37.png" />
     <Image Include="data\Assets\Tile\38.png" />
     <Image Include="data\Assets\Tile\0.png" />
@@ -261,7 +262,6 @@
     <Image Include="data\Assets\Tile\9.png" />
     <Image Include="data\Assets\Tile\10.png" />
     <Image Include="data\Assets\Tile\11.png" />
-    <Image Include="data\Assets\Tile\12.png" />
     <Image Include="data\Assets\Tile\13.png" />
     <Image Include="data\Assets\Tile\14.png" />
     <Image Include="data\Assets\Tile\15.png" />

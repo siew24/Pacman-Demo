@@ -208,9 +208,6 @@
     <Image Include="data\Assets\Tile\11.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="data\Assets\Tile\12.png">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="data\Assets\Tile\13.png">
       <Filter>Resource Files</Filter>
     </Image>
@@ -284,6 +281,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="data\Assets\Tile\39.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\Tile\12.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

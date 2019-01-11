@@ -1,3 +1,3 @@
 #pragma once
-const int TILETEXTURESIZE = 6;
+const int TILETEXTURESIZE = 8;
 const int TILESIZE = 8;
