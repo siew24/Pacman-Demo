@@ -98,14 +98,14 @@ public:
 			Sprite(tmp3, SDL_Rect{ 1 * ENTITYSIZE,0,ENTITYSIZE,ENTITYSIZE })
 		};
 
-		up->setFrameTime(150);
-		down->setFrameTime(150);
-		left->setFrameTime(150);
-		right->setFrameTime(150);
-		upd->setFrameTime(150);
-		downd->setFrameTime(150);
-		leftd->setFrameTime(150);
-		rightd->setFrameTime(150);
+		up->setFrameTime(ENTITYFRAMETIME);
+		down->setFrameTime(ENTITYFRAMETIME);
+		left->setFrameTime(ENTITYFRAMETIME);
+		right->setFrameTime(ENTITYFRAMETIME);
+		upd->setFrameTime(ENTITYFRAMETIME);
+		downd->setFrameTime(ENTITYFRAMETIME);
+		leftd->setFrameTime(ENTITYFRAMETIME);
+		rightd->setFrameTime(ENTITYFRAMETIME);
 		afraid->setFrameTime(500);
 
 		AnimationSet animSet;

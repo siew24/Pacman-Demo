@@ -47,10 +47,10 @@ public:
 			Sprite(tmp, SDL_Rect{ 1 * ENTITYSIZE,0,ENTITYSIZE,ENTITYSIZE })
 		};
 
-		up->setFrameTime(150);
-		down->setFrameTime(150);
-		left->setFrameTime(150);
-		right->setFrameTime(150);
+		up->setFrameTime(ENTITYFRAMETIME);
+		down->setFrameTime(ENTITYFRAMETIME);
+		left->setFrameTime(ENTITYFRAMETIME);
+		right->setFrameTime(ENTITYFRAMETIME);
 
 		AnimationSet animSet;
 		animSet.addAnimation("up", up);
