@@ -47,57 +47,55 @@ public:
 
 		AnimationPtr down = std::make_shared<Animation>();
 		down->animationFrames = {
-			Sprite(tmp, SDL_Rect{ 24,0,11,11 }),
-			Sprite(tmp, SDL_Rect{ 36,0,11,11 })
+			Sprite(tmp, SDL_Rect{ 2 * ENTITYSIZE,0,ENTITYSIZE,ENTITYSIZE }),
+			Sprite(tmp, SDL_Rect{ 3 * ENTITYSIZE,0,ENTITYSIZE,ENTITYSIZE })
 		};
-
 
 		AnimationPtr up = std::make_shared<Animation>();
 		up->animationFrames = {
-			Sprite(tmp, SDL_Rect{ 72,0,11,11 }),
-			Sprite(tmp, SDL_Rect{ 84,0,11,11 })
+			Sprite(tmp, SDL_Rect{ 6 * ENTITYSIZE,0,ENTITYSIZE,ENTITYSIZE }),
+			Sprite(tmp, SDL_Rect{ 7 * ENTITYSIZE,0,ENTITYSIZE,ENTITYSIZE })
 		};
 
 		AnimationPtr left = std::make_shared<Animation>();
 		left->animationFrames = {
-			Sprite(tmp, SDL_Rect{ 48,0,11,11 }),
-			Sprite(tmp, SDL_Rect{ 60,0,11,11 })
+			Sprite(tmp, SDL_Rect{ 4 * ENTITYSIZE,0,ENTITYSIZE,ENTITYSIZE }),
+			Sprite(tmp, SDL_Rect{ 5 * ENTITYSIZE,0,ENTITYSIZE,ENTITYSIZE })
 		};
 
 		AnimationPtr right = std::make_shared<Animation>();
 		right->animationFrames = {
-			Sprite(tmp, SDL_Rect{ 0,0,11,11 }),
-			Sprite(tmp, SDL_Rect{ 12,0,11,11 })
+			Sprite(tmp, SDL_Rect{ 0 * ENTITYSIZE,0,ENTITYSIZE,ENTITYSIZE }),
+			Sprite(tmp, SDL_Rect{ 1 * ENTITYSIZE,0,ENTITYSIZE,ENTITYSIZE })
 		};
 		AnimationPtr afraid = std::make_shared<Animation>();
 		afraid->animationFrames = {
-			Sprite(tmp2, SDL_Rect{ 72,48,11,11 }),
-			//Sprite(tmp2, SDL_Rect{ 96,0,11,11 })
+			Sprite(tmp2, SDL_Rect{ 0 * ENTITYSIZE,0,ENTITYSIZE,ENTITYSIZE }),
+			//Sprite(tmp2, SDL_Rect{ 1 * ENTITYSIZE,0,ENTITYSIZE,ENTITYSIZE })
 		};
 
 		AnimationPtr downd = std::make_shared<Animation>();
 		downd->animationFrames = {
-			Sprite(tmp3, SDL_Rect{ 24,0,11,11 }),
-			Sprite(tmp3, SDL_Rect{ 36,0,11,11 })
+			Sprite(tmp3, SDL_Rect{ 2 * ENTITYSIZE,0,ENTITYSIZE,ENTITYSIZE }),
+			Sprite(tmp3, SDL_Rect{ 3 * ENTITYSIZE,0,ENTITYSIZE,ENTITYSIZE })
 		};
-
 
 		AnimationPtr upd = std::make_shared<Animation>();
 		upd->animationFrames = {
-			Sprite(tmp3, SDL_Rect{ 72,0,11,11 }),
-			Sprite(tmp3, SDL_Rect{ 84,0,11,11 })
+			Sprite(tmp3, SDL_Rect{ 6 * ENTITYSIZE,0,ENTITYSIZE,ENTITYSIZE }),
+			Sprite(tmp3, SDL_Rect{ 7 * ENTITYSIZE,0,ENTITYSIZE,ENTITYSIZE })
 		};
 
 		AnimationPtr leftd = std::make_shared<Animation>();
 		leftd->animationFrames = {
-			Sprite(tmp3, SDL_Rect{ 48,0,11,11 }),
-			Sprite(tmp3, SDL_Rect{ 60,0,11,11 })
+			Sprite(tmp3, SDL_Rect{ 4 * ENTITYSIZE,0,ENTITYSIZE,ENTITYSIZE }),
+			Sprite(tmp3, SDL_Rect{ 5 * ENTITYSIZE,0,ENTITYSIZE,ENTITYSIZE })
 		};
 
 		AnimationPtr rightd = std::make_shared<Animation>();
 		rightd->animationFrames = {
-			Sprite(tmp3, SDL_Rect{ 0,0,11,11 }),
-			Sprite(tmp3, SDL_Rect{ 12,0,11,11 })
+			Sprite(tmp3, SDL_Rect{ 0 * ENTITYSIZE,0,ENTITYSIZE,ENTITYSIZE }),
+			Sprite(tmp3, SDL_Rect{ 1 * ENTITYSIZE,0,ENTITYSIZE,ENTITYSIZE })
 		};
 
 		up->setFrameTime(150);
