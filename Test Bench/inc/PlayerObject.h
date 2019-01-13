@@ -16,35 +16,35 @@ public:
 
 	void init(const std::filesystem::path texturePath, Tile spawnTile) {
 		m_registry.replace<Position>(m_entity, spawnTile.x * TILESIZE-6 , spawnTile.y * TILESIZE-2);
-		m_registry.accommodate<Size>(m_entity, ENTITYSIZE+1, ENTITYSIZE+1);
+		m_registry.accommodate<Size>(m_entity, ENTITYSIZE, ENTITYSIZE);
 		m_registry.accommodate<entt::label<"pacman"_hs>>(m_entity);
 		auto tmp = m_gameInstance->textures.load(texturePath);
 
-		m_registry.accommodate<Sprite>(m_entity, tmp, SDL_Rect{ 0  , 0  ,ENTITYSIZE,ENTITYSIZE });
+		m_registry.accommodate<Sprite>(m_entity, tmp, SDL_Rect{ 0  , 0  ,PACMAN_TEXTURESIZE,PACMAN_TEXTURESIZE });
 
 		AnimationPtr down = std::make_shared<Animation>();
 		down->animationFrames = {
-			Sprite(tmp, SDL_Rect{ 2 * ENTITYSIZE,0,ENTITYSIZE,ENTITYSIZE }),
-			Sprite(tmp, SDL_Rect{ 3 * ENTITYSIZE,0,ENTITYSIZE,ENTITYSIZE })
+			Sprite(tmp, SDL_Rect{ 2 * PACMAN_TEXTURESIZE,0,PACMAN_TEXTURESIZE,PACMAN_TEXTURESIZE }),
+			Sprite(tmp, SDL_Rect{ 3 * PACMAN_TEXTURESIZE,0,PACMAN_TEXTURESIZE,PACMAN_TEXTURESIZE })
 		};
 
 
 		AnimationPtr up = std::make_shared<Animation>();
 		up->animationFrames = {
-			Sprite(tmp, SDL_Rect{ 6 * ENTITYSIZE,0,ENTITYSIZE,ENTITYSIZE }),
-			Sprite(tmp, SDL_Rect{ 7 * ENTITYSIZE,0,ENTITYSIZE,ENTITYSIZE })
+			Sprite(tmp, SDL_Rect{ 6 * PACMAN_TEXTURESIZE,0,PACMAN_TEXTURESIZE,PACMAN_TEXTURESIZE }),
+			Sprite(tmp, SDL_Rect{ 7 * PACMAN_TEXTURESIZE,0,PACMAN_TEXTURESIZE,PACMAN_TEXTURESIZE })
 		};
 
 		AnimationPtr left = std::make_shared<Animation>();
 		left->animationFrames = {
-			Sprite(tmp, SDL_Rect{ 4 * ENTITYSIZE,0,ENTITYSIZE,ENTITYSIZE }),
-			Sprite(tmp, SDL_Rect{ 5 * ENTITYSIZE,0,ENTITYSIZE,ENTITYSIZE })
+			Sprite(tmp, SDL_Rect{ 4 * PACMAN_TEXTURESIZE,0,PACMAN_TEXTURESIZE,PACMAN_TEXTURESIZE }),
+			Sprite(tmp, SDL_Rect{ 5 * PACMAN_TEXTURESIZE,0,PACMAN_TEXTURESIZE,PACMAN_TEXTURESIZE })
 		};
 
 		AnimationPtr right = std::make_shared<Animation>();
 		right->animationFrames = {
-			Sprite(tmp, SDL_Rect{ 0 * ENTITYSIZE,0,ENTITYSIZE,ENTITYSIZE }),
-			Sprite(tmp, SDL_Rect{ 1 * ENTITYSIZE,0,ENTITYSIZE,ENTITYSIZE })
+			Sprite(tmp, SDL_Rect{ 0 * PACMAN_TEXTURESIZE,0,PACMAN_TEXTURESIZE,PACMAN_TEXTURESIZE }),
+			Sprite(tmp, SDL_Rect{ 1 * PACMAN_TEXTURESIZE,0,PACMAN_TEXTURESIZE,PACMAN_TEXTURESIZE })
 		};
 
 		up->setFrameTime(ENTITYFRAMETIME);

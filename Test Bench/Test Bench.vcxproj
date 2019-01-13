@@ -216,6 +216,7 @@
     <Image Include="data\Assets\Blue.png" />
     <Image Include="data\Assets\Ghosts_afraid.png" />
     <Image Include="data\Assets\Ghosts_eaten.png" />
+    <Image Include="data\Assets\Miss_Pacman.png" />
     <Image Include="data\Assets\Orange.png" />
     <Image Include="data\Assets\Pacman.png" />
     <Image Include="data\Assets\Pacman_Death_00.png" />

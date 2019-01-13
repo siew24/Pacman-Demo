@@ -17,7 +17,7 @@ public:
 
 	void init(const std::filesystem::path texturePath, Ghosts id, Tile spawnTile) {
 		m_registry.replace<Position>(m_entity, spawnTile.x * TILESIZE, spawnTile.y * TILESIZE);
-		m_registry.accommodate<Size>(m_entity, TILESIZE, TILESIZE);
+		m_registry.accommodate<Size>(m_entity, ENTITYSIZE, ENTITYSIZE);
 		bloom::graphics::TexturePtr tmp;
 
 		if (id == shadow) {
@@ -47,55 +47,55 @@ public:
 
 		AnimationPtr down = std::make_shared<Animation>();
 		down->animationFrames = {
-			Sprite(tmp, SDL_Rect{ 2 * ENTITYSIZE,0,ENTITYSIZE,ENTITYSIZE }),
-			Sprite(tmp, SDL_Rect{ 3 * ENTITYSIZE,0,ENTITYSIZE,ENTITYSIZE })
+			Sprite(tmp, SDL_Rect{ 2 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE }),
+			Sprite(tmp, SDL_Rect{ 3 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE })
 		};
 
 		AnimationPtr up = std::make_shared<Animation>();
 		up->animationFrames = {
-			Sprite(tmp, SDL_Rect{ 6 * ENTITYSIZE,0,ENTITYSIZE,ENTITYSIZE }),
-			Sprite(tmp, SDL_Rect{ 7 * ENTITYSIZE,0,ENTITYSIZE,ENTITYSIZE })
+			Sprite(tmp, SDL_Rect{ 6 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE }),
+			Sprite(tmp, SDL_Rect{ 7 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE })
 		};
 
 		AnimationPtr left = std::make_shared<Animation>();
 		left->animationFrames = {
-			Sprite(tmp, SDL_Rect{ 4 * ENTITYSIZE,0,ENTITYSIZE,ENTITYSIZE }),
-			Sprite(tmp, SDL_Rect{ 5 * ENTITYSIZE,0,ENTITYSIZE,ENTITYSIZE })
+			Sprite(tmp, SDL_Rect{ 4 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE }),
+			Sprite(tmp, SDL_Rect{ 5 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE })
 		};
 
 		AnimationPtr right = std::make_shared<Animation>();
 		right->animationFrames = {
-			Sprite(tmp, SDL_Rect{ 0 * ENTITYSIZE,0,ENTITYSIZE,ENTITYSIZE }),
-			Sprite(tmp, SDL_Rect{ 1 * ENTITYSIZE,0,ENTITYSIZE,ENTITYSIZE })
+			Sprite(tmp, SDL_Rect{ 0 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE }),
+			Sprite(tmp, SDL_Rect{ 1 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE })
 		};
 		AnimationPtr afraid = std::make_shared<Animation>();
 		afraid->animationFrames = {
-			Sprite(tmp2, SDL_Rect{ 0 * ENTITYSIZE,0,ENTITYSIZE,ENTITYSIZE }),
-			//Sprite(tmp2, SDL_Rect{ 1 * ENTITYSIZE,0,ENTITYSIZE,ENTITYSIZE })
+			Sprite(tmp2, SDL_Rect{ 0 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE }),
+			//Sprite(tmp2, SDL_Rect{ 1 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE })
 		};
 
 		AnimationPtr downd = std::make_shared<Animation>();
 		downd->animationFrames = {
-			Sprite(tmp3, SDL_Rect{ 2 * ENTITYSIZE,0,ENTITYSIZE,ENTITYSIZE }),
-			Sprite(tmp3, SDL_Rect{ 3 * ENTITYSIZE,0,ENTITYSIZE,ENTITYSIZE })
+			Sprite(tmp3, SDL_Rect{ 2 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE }),
+			Sprite(tmp3, SDL_Rect{ 3 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE })
 		};
 
 		AnimationPtr upd = std::make_shared<Animation>();
 		upd->animationFrames = {
-			Sprite(tmp3, SDL_Rect{ 6 * ENTITYSIZE,0,ENTITYSIZE,ENTITYSIZE }),
-			Sprite(tmp3, SDL_Rect{ 7 * ENTITYSIZE,0,ENTITYSIZE,ENTITYSIZE })
+			Sprite(tmp3, SDL_Rect{ 6 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE }),
+			Sprite(tmp3, SDL_Rect{ 7 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE })
 		};
 
 		AnimationPtr leftd = std::make_shared<Animation>();
 		leftd->animationFrames = {
-			Sprite(tmp3, SDL_Rect{ 4 * ENTITYSIZE,0,ENTITYSIZE,ENTITYSIZE }),
-			Sprite(tmp3, SDL_Rect{ 5 * ENTITYSIZE,0,ENTITYSIZE,ENTITYSIZE })
+			Sprite(tmp3, SDL_Rect{ 4 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE }),
+			Sprite(tmp3, SDL_Rect{ 5 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE })
 		};
 
 		AnimationPtr rightd = std::make_shared<Animation>();
 		rightd->animationFrames = {
-			Sprite(tmp3, SDL_Rect{ 0 * ENTITYSIZE,0,ENTITYSIZE,ENTITYSIZE }),
-			Sprite(tmp3, SDL_Rect{ 1 * ENTITYSIZE,0,ENTITYSIZE,ENTITYSIZE })
+			Sprite(tmp3, SDL_Rect{ 0 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE }),
+			Sprite(tmp3, SDL_Rect{ 1 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE })
 		};
 
 		up->setFrameTime(ENTITYFRAMETIME);
