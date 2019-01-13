@@ -3,7 +3,7 @@
 #include "Pathfinding.h"
 
 namespace ghostBehaviors {
-	Tile shadow(entt::DefaultRegistry& registry, std::vector<std::vector<int>>& layout) {
+	Direction shadow(entt::DefaultRegistry& registry, std::vector<std::vector<int>>& layout) {
 		entt::DefaultRegistry::entity_type playerID = registry.view<Pacman>()[0];
 		entt::DefaultRegistry::entity_type ghostID = registry.view<entt::label<"shadow"_hs>>()[0];
 		auto& pacPos = registry.get<Position>(playerID);
@@ -28,7 +28,7 @@ namespace ghostBehaviors {
 		auto posibilities = generateCandidates(target, currentTile, ghost, layout);
 
 		if (posibilities.empty())
-			return currentTile;
+			return ghost.direction;
 		else if (ghost.currentMode == afraid)
 			return posibilities[rand() % posibilities.size()].first;
 		else
