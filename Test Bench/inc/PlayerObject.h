@@ -15,12 +15,12 @@ public:
 	void init() override {}
 
 	void init(const std::filesystem::path texturePath, Tile spawnTile) {
-		m_registry.replace<Position>(m_entity, spawnTile.x * TILESIZE, spawnTile.y * TILESIZE);
-		m_registry.accommodate<Size>(m_entity, TILESIZE, TILESIZE);
+		m_registry.replace<Position>(m_entity, spawnTile.x * TILESIZE-6 , spawnTile.y * TILESIZE-2);
+		m_registry.accommodate<Size>(m_entity, ENTITYSIZE+1, ENTITYSIZE+1);
 		m_registry.accommodate<entt::label<"pacman"_hs>>(m_entity);
 		auto tmp = m_gameInstance->textures.load(texturePath);
 
-		m_registry.accommodate<Sprite>(m_entity, tmp, SDL_Rect{ spawnTile.x * TILESIZE, spawnTile.y * TILESIZE,TILESIZE,TILESIZE });
+		m_registry.accommodate<Sprite>(m_entity, tmp, SDL_Rect{ 0  , 0  ,ENTITYSIZE,ENTITYSIZE });
 
 		AnimationPtr down = std::make_shared<Animation>();
 		down->animationFrames = {
@@ -64,7 +64,7 @@ public:
 			m_registry.assign<Pacman>(m_entity) = Pacman{ Direction::null,Direction::null,0,0 };
 		else {
 			auto& pac = m_registry.get<Pacman>(m_entity);
-			pac = Pacman{ null,null,0,0,pac.score };
+			pac = Pacman{ null,null,pac.score };
 		}
 	}
 };

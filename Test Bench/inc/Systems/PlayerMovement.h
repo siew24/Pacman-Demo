@@ -20,7 +20,7 @@ public:
 					player.timeAvailable -= potentialDistance / speed;
 				}
 
-				Tile playerTile{ (position.x + TILESIZE / 2) / TILESIZE, (position.y + TILESIZE / 2) / TILESIZE };
+				Tile playerTile{ (position.x + ENTITYSIZE / 2) / TILESIZE, (position.y + ENTITYSIZE / 2) / TILESIZE };
 
 				if (playerTile.x < 27 || playerTile.x >= 0)
 				{
@@ -45,52 +45,53 @@ public:
 					}
 					player.lastDir = player.direction != null ? player.direction : player.lastDir;
 				}
+				if (player.direction != null) {
+					Tile nextTile = playerTile;
+					{
+						auto tmp = nextTile;
+						switch (player.direction) {
+						case up:
+							tmp = { nextTile.x, nextTile.y - 1 };
+							break;
+						case down:
+							tmp = { nextTile.x, nextTile.y + 1 };
+							break;
+						case left:
+							tmp = { nextTile.x - 1, nextTile.y };
+							break;
+						case right:
+							tmp = { nextTile.x + 1, nextTile.y };
+							break;
+						}
+						if (valid(tmp))
+							nextTile = tmp;
+					}
 
-				Tile nextTile = playerTile;
-				{
-					auto tmp = nextTile;
-					switch (player.direction) {
-					case up:
-						tmp = { nextTile.x, nextTile.y - 1 };
-						break;
-					case down:
-						tmp = { nextTile.x, nextTile.y + 1 };
-						break;
-					case left:
-						tmp = { nextTile.x - 1, nextTile.y };
-						break;
-					case right:
-						tmp = { nextTile.x + 1, nextTile.y };
-						break;
-					}
-					if (valid(tmp))
-						nextTile = tmp;
-				}
+					while (potentialDistance > 0) {
+						bool moved = 0;
+						if (nextTile.x * TILESIZE > position.x + 2) {
+							++position.x;
+							moved = true;
+						}
+						else if (nextTile.x * TILESIZE < position.x + 2) {
+							--position.x; moved = true;
+						}
+						if (nextTile.y  * TILESIZE > position.y + 2) {
+							++position.y; moved = true;
+						}
+						else if (nextTile.y * TILESIZE < position.y + 2) {
+							--position.y; moved = true;
+						}
+						--potentialDistance;
 
-				while (potentialDistance > 0) {
-					bool moved = 0;
-					if (nextTile.x * TILESIZE > position.x) {
-						++position.x;
-						moved = true;
-					}
-					else if (nextTile.x * TILESIZE < position.x) {
-						--position.x; moved = true;
-					}
-					if (nextTile.y  * TILESIZE > position.y) {
-						++position.y; moved = true;
-					}
-					else if (nextTile.y * TILESIZE < position.y) {
-						--position.y; moved = true;
-					}
-					--potentialDistance;
+						if (!moved)
+							break;
 
-					if (!moved)
-						break;
-
-					if (position.x >= 28 * TILESIZE)
-						position.x = -TILESIZE;
-					else if (position.x <= -TILESIZE)
-						position.x = 28 * TILESIZE;
+						if (position.x >= 28 * TILESIZE)
+							position.x = -TILESIZE;
+						else if (position.x <= -TILESIZE)
+							position.x = 28 * TILESIZE;
+					}
 				}
 			}
 		);
@@ -98,7 +99,7 @@ public:
 
 	std::vector<std::vector<int>> layout;
 	const double speed = 11 * TILESIZE;
-	
+
 
 private:
 	bool valid(Tile tile) {

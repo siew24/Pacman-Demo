@@ -19,7 +19,7 @@ public:
 
 		m_registry.view<Pellet, Position>().each(
 			[&](auto entity, Pellet& pellet, Position& pelletPos) {
-				if (((playerPos.x + (TILESIZE / 2)) / TILESIZE == pelletPos.x / TILESIZE) && ((playerPos.y + (TILESIZE / 2)) / TILESIZE == pelletPos.y / TILESIZE)) {
+				if (((playerPos.x + (ENTITYSIZE / 2)) / TILESIZE == pelletPos.x / TILESIZE) && ((playerPos.y + (ENTITYSIZE / 2)) / TILESIZE == pelletPos.y / TILESIZE)) {
 					playerState.score += pellet.points;
 					++playerState.pelletsEaten;
 					playerState.timeAvailable -= 1000.0 / 60.0;
@@ -30,7 +30,7 @@ public:
 
 		m_registry.view<PowerPellet, Position>().each(
 			[&](auto entity, PowerPellet& pellet, Position& pelletPos) {
-				if (((playerPos.x + (TILESIZE / 2)) / TILESIZE == pelletPos.x / TILESIZE) && ((playerPos.y + (TILESIZE / 2)) / TILESIZE == pelletPos.y / TILESIZE)) {
+				if (((playerPos.x + (ENTITYSIZE / 2)) / TILESIZE == pelletPos.x / TILESIZE) && ((playerPos.y + (ENTITYSIZE / 2)) / TILESIZE == pelletPos.y / TILESIZE)) {
 					playerState.score += pellet.points;
 					++playerState.pelletsEaten;
 					playerState.timeAvailable -= (1000.0 / 60.0)*3;
