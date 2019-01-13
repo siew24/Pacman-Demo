@@ -33,5 +33,5 @@ struct Ghost {
 	int moveX = 0, moveY = 0;	
 
 	double timeAvailable = 0.0;
-	Direction direction = null;
+	Direction direction = left;
 };

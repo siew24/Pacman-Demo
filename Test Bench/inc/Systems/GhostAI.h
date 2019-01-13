@@ -42,7 +42,9 @@ public:
 				}
 				AnimationSet& animSet = m_registry.get<AnimationSet>(entity);
 				while (potentialDistance > 0) {
-					if ((position.x+1 ) % TILESIZE == 0 && (position.y+2) % TILESIZE == 0) {
+					Tile currentTile = { (position.x + ENTITYSIZE / 2) / TILESIZE,(position.y + ENTITYSIZE / 2) / TILESIZE };
+					if (((position.x+2 ) % TILESIZE == 0 && (position.y+2) % TILESIZE == 0) || ghost.direction == null ) {
+						if(currentTile.x > 0 && currentTile.x <= 27 && currentTile.y > 0 && currentTile.y <= 30)
 						ghost.direction = ghost.behavior(m_registry, layout);
 
 						std::string animset = "";
