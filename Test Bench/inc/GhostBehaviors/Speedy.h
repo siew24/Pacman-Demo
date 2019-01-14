@@ -43,7 +43,7 @@ namespace ghostBehaviors {
 		auto posibilities = generateCandidates(target, currentTile, ghost, layout);
 
 		if (posibilities.empty())
-			return ghost.direction;
+			return null;
 		else if (ghost.currentMode == afraid)
 			return posibilities[rand() % posibilities.size()].first;
 		else
