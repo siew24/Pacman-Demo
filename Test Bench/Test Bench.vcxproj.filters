@@ -289,6 +289,9 @@
     <Image Include="data\Assets\Miss_Pacman.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="data\Assets\Fruits.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Text Include="data\Assets\Level\0.txt" />
