@@ -27,7 +27,7 @@ struct Ghost {
 	BehaviourModes currentMode = chase;
 	double modeTimer = 10.0;
 	
-
+	int dotLimit = 0;
 
 	Tile lastTile = { 0,0 };
 	int moveX = 0, moveY = 0;	

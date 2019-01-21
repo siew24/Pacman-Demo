@@ -257,6 +257,7 @@
     <Image Include="data\Assets\Tile\36.png" />
     <Image Include="data\Assets\Tile\39.png" />
     <Image Include="data\Assets\Tile\4.png" />
+    <Image Include="data\Assets\Tile\40.png" />
     <Image Include="data\Assets\Tile\5.png" />
     <Image Include="data\Assets\Tile\6.png" />
     <Image Include="data\Assets\Tile\7.png" />
