@@ -22,25 +22,21 @@ public:
 
 		if (id == shadow) {
 			m_registry.accommodate<entt::label<"shadow"_hs>>(m_entity);
-			m_registry.accommodate<Ghost>(m_entity) = Ghost{ ghostBehaviors::shadow, spawnTile };
-			m_registry.get<Ghost>(m_entity).dotLimit = 0;
+			m_registry.accommodate<Ghost>(m_entity) = Ghost{ ghostBehaviors::shadow, spawnTile,0, true };
 			tmp = m_gameInstance->textures.load(texturePath / "Red.png");
 		}
 		else if (id == speedy) {
 			m_registry.accommodate<entt::label<"speedy"_hs>>(m_entity);
-			m_registry.accommodate<Ghost>(m_entity) = Ghost{ ghostBehaviors::speedy, spawnTile };
-			m_registry.get<Ghost>(m_entity).dotLimit = 0;
+			auto ghost = m_registry.accommodate<Ghost>(m_entity) = Ghost{ ghostBehaviors::speedy, spawnTile, 0, true };
 			tmp = m_gameInstance->textures.load(texturePath / "Pinky.png");
 		}
 		else if (id == bashful) {
 			m_registry.accommodate<entt::label<"bashful"_hs>>(m_entity);
-			m_registry.accommodate<Ghost>(m_entity) = Ghost{ ghostBehaviors::bashful, spawnTile };
-			m_registry.get<Ghost>(m_entity).dotLimit = 30;
+			m_registry.accommodate<Ghost>(m_entity) = Ghost{ ghostBehaviors::bashful, spawnTile , 30 };
 			tmp = m_gameInstance->textures.load(texturePath / "Blue.png");
 		}else if (id == pokey) {
 			m_registry.accommodate<entt::label<"pokey"_hs>>(m_entity);
-			m_registry.accommodate<Ghost>(m_entity) = Ghost{ ghostBehaviors::pokey, spawnTile };
-			m_registry.get<Ghost>(m_entity).dotLimit = 60;
+			m_registry.accommodate<Ghost>(m_entity) = Ghost{ ghostBehaviors::pokey, spawnTile,60 };
 			tmp = m_gameInstance->textures.load(texturePath / "Orange.png");
 		}
 

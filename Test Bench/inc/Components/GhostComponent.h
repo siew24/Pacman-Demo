@@ -24,14 +24,17 @@ enum BehaviourModes {
 struct Ghost {
 	std::function<Direction(entt::DefaultRegistry&, std::vector<std::vector<int>>&)> behavior;
 	Tile spawnPoint;
+	int dotLimit = 0;
+	bool released = false;
+
 	BehaviourModes currentMode = chase;
 	double modeTimer = 10.0;
-	
-	int dotLimit = 0;
 
 	Tile lastTile = { 0,0 };
 	int moveX = 0, moveY = 0;	
 
 	double timeAvailable = 0.0;
 	Direction direction = left;
+
+
 };

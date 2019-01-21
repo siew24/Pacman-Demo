@@ -206,6 +206,7 @@
     <ClInclude Include="inc\Components\PacmanComponent.h" />
     <ClInclude Include="Header Files\PelletsComponent.h" />
     <ClInclude Include="inc\PlayerObject.h" />
+    <ClInclude Include="inc\Systems\GameDirectorSystem.h" />
     <ClInclude Include="inc\Systems\GhostAI.h" />
     <ClInclude Include="inc\Systems\PelletSystem.h" />
     <ClInclude Include="inc\Systems\PlayerMovement.h" />

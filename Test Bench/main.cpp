@@ -9,6 +9,7 @@
 #include "inc/Systems/PlayerMovement.h"
 #include "inc/Systems/PelletSystem.h"
 #include "inc/Systems/GhostAI.h"
+#include "inc/Systems/GameDirectorSystem.h"
 #include "getExePath.h"
 
 using namespace bloom;
@@ -59,6 +60,8 @@ void test_drawer(const std::filesystem::path& assetsPath)
 	level.changeLevel(levelDir / "0.txt", tileDir, testRegistry);
 	playerMovement.layout = level.layout;
 	ghostMovement.layout = level.layout;
+	GameDirectorSystem director(testRegistry);
+	director.init();
 
 	std::filesystem::path pacDir = assetsPath / L"Pacman.png";
 	std::filesystem::path ghostDir = assetsPath;
@@ -101,6 +104,7 @@ void test_drawer(const std::filesystem::path& assetsPath)
 		playerMovement.update(dt);
 		ghostMovement.update(dt);
 		pelletSystem.update();
+		director.update();
 		animSysTest.update(dt);
 		renderSysTest.update(); // Test again.
 		game->render();
@@ -112,6 +116,7 @@ void test_drawer(const std::filesystem::path& assetsPath)
 			sounds[1]->play();
 			game->delay(5500);
 			level.changeLevel(levelDir / "0.txt", tileDir, testRegistry);
+			director.init();
 		}
 		else if (level.gameOver(testRegistry)) {
 			std::cout << "Game Over!" << std::endl;

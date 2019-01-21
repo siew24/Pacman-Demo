@@ -107,6 +107,9 @@
     <ClInclude Include="inc\GhostBehaviors\GhostBehavior.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="inc\Systems\GameDirectorSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="data\Assets\Pacman_Spritesheet.png">
