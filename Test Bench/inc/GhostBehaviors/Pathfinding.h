@@ -31,7 +31,7 @@ namespace ghostBehaviors {
 			posibilities.emplace_back(std::make_pair(right, distance));
 		}
 
-		if (Tile candidate{ currentTile.x, currentTile.y - 1 };(candidate.y!=1) && ((layout[candidate.y][candidate.x] == 39||layout[candidate.y-1][candidate.x] == 39) && ghost.released)) {
+		if (Tile candidate{ currentTile.x, currentTile.y - 1 };(candidate.y!=0) && ((layout[candidate.y][candidate.x] == 39||layout[candidate.y-1][candidate.x] == 39) && ghost.released)) {
 			posibilities.clear();
 			posibilities.emplace_back(std::make_pair(up, 0.0));
 		}
