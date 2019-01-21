@@ -39,8 +39,8 @@ namespace ghostBehaviors {
 			}
 			else
 				target = ghost.spawnPoint;
-			
-		auto posibilities = generateCandidates(target, currentTile, ghost, layout, pac.pelletsEaten >= ghost.dotLimit);
+
+		auto posibilities = generateCandidates(target, currentTile, ghost, layout);
 
 		if (posibilities.empty())
 			return null;

@@ -6,7 +6,6 @@ namespace ghostBehaviors {
 	Direction shadow(entt::DefaultRegistry& registry, std::vector<std::vector<int>>& layout) {
 		entt::DefaultRegistry::entity_type playerID = registry.view<Pacman>()[0];
 		entt::DefaultRegistry::entity_type ghostID = registry.view<entt::label<"shadow"_hs>>()[0];
-		auto& pac = registry.get<Pacman>(playerID);
 		auto& pacPos = registry.get<Position>(playerID);
 		auto& position = registry.get<Position>(ghostID);
 		auto& ghost = registry.get<Ghost>(ghostID);
@@ -26,7 +25,7 @@ namespace ghostBehaviors {
 			else
 				target = ghost.spawnPoint;
 
-		auto posibilities = generateCandidates(target, currentTile, ghost, layout, true);
+		auto posibilities = generateCandidates(target, currentTile, ghost, layout);
 
 		if (posibilities.empty())
 			return null;
