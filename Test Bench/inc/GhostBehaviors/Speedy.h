@@ -3,7 +3,7 @@
 #include "Pathfinding.h"
 
 namespace ghostBehaviors {
-	Tile speedy(entt::DefaultRegistry& registry, std::vector<std::vector<int>>& layout) {
+	Direction speedy(entt::DefaultRegistry& registry, std::vector<std::vector<int>>& layout) {
 		entt::DefaultRegistry::entity_type playerID = registry.view<Pacman>()[0];
 		entt::DefaultRegistry::entity_type ghostID = registry.view<entt::label<"speedy"_hs>>()[0];
 		auto& pac = registry.get<Pacman>(playerID);
@@ -11,23 +11,23 @@ namespace ghostBehaviors {
 		auto& position = registry.get<Position>(ghostID);
 		auto& ghost = registry.get<Ghost>(ghostID);
 
-		Tile currentTile{ (position.x + (TILESIZE / 2)) / TILESIZE, (position.y + (TILESIZE / 2)) / TILESIZE };
+		Tile currentTile{ (position.x + (ENTITYSIZE / 2)) / TILESIZE, (position.y + (ENTITYSIZE / 2)) / TILESIZE };
 
 		Tile target{ 0,0 };
 	reevaluate:
 		if (ghost.currentMode == chase)
 			switch (pac.lastDir) {
 			case up:
-				target = Tile{ (pacPos.x + (TILESIZE / 2)) / TILESIZE, (pacPos.y + (TILESIZE / 2)) / TILESIZE - 4 };
+				target = Tile{ (pacPos.x + (ENTITYSIZE / 2)) / TILESIZE, (pacPos.y + (ENTITYSIZE / 2)) / TILESIZE - 4 };
 				break;
 			case down:
-				target = Tile{ (pacPos.x + (TILESIZE / 2)) / TILESIZE, (pacPos.y + (TILESIZE / 2)) / TILESIZE + 4 };
+				target = Tile{ (pacPos.x + (ENTITYSIZE / 2)) / TILESIZE, (pacPos.y + (ENTITYSIZE / 2)) / TILESIZE + 4 };
 				break;
 			case left:
-				target = Tile{ (pacPos.x + (TILESIZE / 2)) / TILESIZE - 4, (pacPos.y + (TILESIZE / 2)) / TILESIZE };
+				target = Tile{ (pacPos.x + (ENTITYSIZE / 2)) / TILESIZE - 4, (pacPos.y + (ENTITYSIZE / 2)) / TILESIZE };
 				break;
 			case right:
-				target = Tile{ (pacPos.x + (TILESIZE / 2)) / TILESIZE + 4, (pacPos.y + (TILESIZE / 2)) / TILESIZE };
+				target = Tile{ (pacPos.x + (ENTITYSIZE / 2)) / TILESIZE + 4, (pacPos.y + (ENTITYSIZE / 2)) / TILESIZE };
 				break;
 			}
 		else if (ghost.currentMode == scatter)
@@ -43,7 +43,7 @@ namespace ghostBehaviors {
 		auto posibilities = generateCandidates(target, currentTile, ghost, layout);
 
 		if (posibilities.empty())
-			return currentTile;
+			return null;
 		else if (ghost.currentMode == afraid)
 			return posibilities[rand() % posibilities.size()].first;
 		else

@@ -3,7 +3,7 @@
 #include "Pathfinding.h"
 
 namespace ghostBehaviors {
-	Tile bashful(entt::DefaultRegistry& registry, std::vector<std::vector<int>>& layout) {
+	Direction bashful(entt::DefaultRegistry& registry, std::vector<std::vector<int>>& layout) {
 		entt::DefaultRegistry::entity_type playerID = registry.view<Pacman>()[0];
 		entt::DefaultRegistry::entity_type ghostID = registry.view<entt::label<"bashful"_hs>>()[0];
 		entt::DefaultRegistry::entity_type shadowID = registry.view<entt::label<"shadow"_hs>>()[0];
@@ -12,25 +12,25 @@ namespace ghostBehaviors {
 		auto& position = registry.get<Position>(ghostID);
 		auto& ghost = registry.get<Ghost>(ghostID);
 		auto& shadowPos = registry.get<Position>(ghostID);
-		Tile currentTile{ (position.x + (TILESIZE / 2)) / TILESIZE, (position.y + (TILESIZE / 2)) / TILESIZE };
+		Tile currentTile{ (position.x + (ENTITYSIZE / 2)) / TILESIZE, (position.y + (ENTITYSIZE / 2)) / TILESIZE };
 
-		Tile shadowTile{ (shadowPos.x + (TILESIZE / 2)) / TILESIZE,(shadowPos.y + (TILESIZE / 2)) / TILESIZE };
+		Tile shadowTile{ (shadowPos.x + (ENTITYSIZE / 2)) / TILESIZE,(shadowPos.y + (ENTITYSIZE / 2)) / TILESIZE };
 
 		Tile target{ 2,-2 };
 	reevaluate:
 		if (ghost.currentMode == chase) {
 			switch (pac.lastDir) {
 			case up:
-				target = Tile{ (pacPos.x + (TILESIZE / 2)) / TILESIZE, (pacPos.y + (TILESIZE / 2)) / TILESIZE - 4 };
+				target = Tile{ (pacPos.x + (ENTITYSIZE / 2)) / TILESIZE, (pacPos.y + (ENTITYSIZE / 2)) / TILESIZE - 4 };
 				break;
 			case down:
-				target = Tile{ (pacPos.x + (TILESIZE / 2)) / TILESIZE, (pacPos.y + (TILESIZE / 2)) / TILESIZE + 4 };
+				target = Tile{ (pacPos.x + (ENTITYSIZE / 2)) / TILESIZE, (pacPos.y + (ENTITYSIZE / 2)) / TILESIZE + 4 };
 				break;
 			case left:
-				target = Tile{ (pacPos.x + (TILESIZE / 2)) / TILESIZE - 4, (pacPos.y + (TILESIZE / 2)) / TILESIZE };
+				target = Tile{ (pacPos.x + (ENTITYSIZE / 2)) / TILESIZE - 4, (pacPos.y + (ENTITYSIZE / 2)) / TILESIZE };
 				break;
 			case right:
-				target = Tile{ (pacPos.x + (TILESIZE / 2)) / TILESIZE + 4, (pacPos.y + (TILESIZE / 2)) / TILESIZE };
+				target = Tile{ (pacPos.x + (ENTITYSIZE / 2)) / TILESIZE + 4, (pacPos.y + (ENTITYSIZE / 2)) / TILESIZE };
 				break;
 			}
 			target.x += target.x - shadowTile.x;
@@ -49,7 +49,7 @@ namespace ghostBehaviors {
 		auto posibilities = generateCandidates(target, currentTile, ghost, layout);
 
 		if (posibilities.empty())
-			return currentTile;
+			return null;
 		else if (ghost.currentMode == afraid)
 			return posibilities[rand() % posibilities.size()].first;
 		else

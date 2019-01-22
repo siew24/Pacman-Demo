@@ -15,42 +15,42 @@ public:
 	void init() override {}
 
 	void init(const std::filesystem::path texturePath, Tile spawnTile) {
-		m_registry.replace<Position>(m_entity, spawnTile.x * TILESIZE, spawnTile.y * TILESIZE);
-		m_registry.accommodate<Size>(m_entity, TILESIZE, TILESIZE);
+		m_registry.replace<Position>(m_entity, spawnTile.x * TILESIZE-6 , spawnTile.y * TILESIZE-2);
+		m_registry.accommodate<Size>(m_entity, ENTITYSIZE, ENTITYSIZE);
 		m_registry.accommodate<entt::label<"pacman"_hs>>(m_entity);
 		auto tmp = m_gameInstance->textures.load(texturePath);
 
-		m_registry.accommodate<Sprite>(m_entity, tmp, SDL_Rect{ spawnTile.x * TILESIZE, spawnTile.y * TILESIZE,TILESIZE,TILESIZE });
+		m_registry.accommodate<Sprite>(m_entity, tmp, SDL_Rect{ 0  , 0  ,PACMAN_TEXTURESIZE,PACMAN_TEXTURESIZE });
 
 		AnimationPtr down = std::make_shared<Animation>();
 		down->animationFrames = {
-			Sprite(tmp, SDL_Rect{ 24,0,11,11 }),
-			Sprite(tmp, SDL_Rect{ 36,0,11,11 })
+			Sprite(tmp, SDL_Rect{ 2 * PACMAN_TEXTURESIZE,0,PACMAN_TEXTURESIZE,PACMAN_TEXTURESIZE }),
+			Sprite(tmp, SDL_Rect{ 3 * PACMAN_TEXTURESIZE,0,PACMAN_TEXTURESIZE,PACMAN_TEXTURESIZE })
 		};
 
 
 		AnimationPtr up = std::make_shared<Animation>();
 		up->animationFrames = {
-			Sprite(tmp, SDL_Rect{ 72,0,11,11 }),
-			Sprite(tmp, SDL_Rect{ 84,0,11,11 })
+			Sprite(tmp, SDL_Rect{ 6 * PACMAN_TEXTURESIZE,0,PACMAN_TEXTURESIZE,PACMAN_TEXTURESIZE }),
+			Sprite(tmp, SDL_Rect{ 7 * PACMAN_TEXTURESIZE,0,PACMAN_TEXTURESIZE,PACMAN_TEXTURESIZE })
 		};
 
 		AnimationPtr left = std::make_shared<Animation>();
 		left->animationFrames = {
-			Sprite(tmp, SDL_Rect{ 48,0,11,11 }),
-			Sprite(tmp, SDL_Rect{ 60,0,11,11 })
+			Sprite(tmp, SDL_Rect{ 4 * PACMAN_TEXTURESIZE,0,PACMAN_TEXTURESIZE,PACMAN_TEXTURESIZE }),
+			Sprite(tmp, SDL_Rect{ 5 * PACMAN_TEXTURESIZE,0,PACMAN_TEXTURESIZE,PACMAN_TEXTURESIZE })
 		};
 
 		AnimationPtr right = std::make_shared<Animation>();
 		right->animationFrames = {
-			Sprite(tmp, SDL_Rect{ 0,0,11,11 }),
-			Sprite(tmp, SDL_Rect{ 12,0,11,11 })
+			Sprite(tmp, SDL_Rect{ 0 * PACMAN_TEXTURESIZE,0,PACMAN_TEXTURESIZE,PACMAN_TEXTURESIZE }),
+			Sprite(tmp, SDL_Rect{ 1 * PACMAN_TEXTURESIZE,0,PACMAN_TEXTURESIZE,PACMAN_TEXTURESIZE })
 		};
 
-		up->setFrameTime(150);
-		down->setFrameTime(150);
-		left->setFrameTime(150);
-		right->setFrameTime(150);
+		up->setFrameTime(ENTITYFRAMETIME);
+		down->setFrameTime(ENTITYFRAMETIME);
+		left->setFrameTime(ENTITYFRAMETIME);
+		right->setFrameTime(ENTITYFRAMETIME);
 
 		AnimationSet animSet;
 		animSet.addAnimation("up", up);
@@ -64,7 +64,7 @@ public:
 			m_registry.assign<Pacman>(m_entity) = Pacman{ Direction::null,Direction::null,0,0 };
 		else {
 			auto& pac = m_registry.get<Pacman>(m_entity);
-			pac = Pacman{ null,null,0,0,pac.score };
+			pac = Pacman{ null,null,pac.score };
 		}
 	}
 };

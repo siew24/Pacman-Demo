@@ -16,27 +16,31 @@ public:
 	void init() override {}
 
 	void init(const std::filesystem::path texturePath, Ghosts id, Tile spawnTile) {
-		m_registry.replace<Position>(m_entity, spawnTile.x * TILESIZE, spawnTile.y * TILESIZE);
-		m_registry.accommodate<Size>(m_entity, TILESIZE, TILESIZE);
+		m_registry.replace<Position>(m_entity, spawnTile.x * TILESIZE-2 - 4, spawnTile.y * TILESIZE-2);
+		m_registry.accommodate<Size>(m_entity, ENTITYSIZE, ENTITYSIZE);
 		bloom::graphics::TexturePtr tmp;
 
 		if (id == shadow) {
 			m_registry.accommodate<entt::label<"shadow"_hs>>(m_entity);
 			m_registry.accommodate<Ghost>(m_entity) = Ghost{ ghostBehaviors::shadow, spawnTile };
+			m_registry.get<Ghost>(m_entity).dotLimit = 0;
 			tmp = m_gameInstance->textures.load(texturePath / "Red.png");
 		}
 		else if (id == speedy) {
 			m_registry.accommodate<entt::label<"speedy"_hs>>(m_entity);
 			m_registry.accommodate<Ghost>(m_entity) = Ghost{ ghostBehaviors::speedy, spawnTile };
+			m_registry.get<Ghost>(m_entity).dotLimit = 0;
 			tmp = m_gameInstance->textures.load(texturePath / "Pinky.png");
 		}
 		else if (id == bashful) {
 			m_registry.accommodate<entt::label<"bashful"_hs>>(m_entity);
 			m_registry.accommodate<Ghost>(m_entity) = Ghost{ ghostBehaviors::bashful, spawnTile };
+			m_registry.get<Ghost>(m_entity).dotLimit = 30;
 			tmp = m_gameInstance->textures.load(texturePath / "Blue.png");
 		}else if (id == pokey) {
 			m_registry.accommodate<entt::label<"pokey"_hs>>(m_entity);
 			m_registry.accommodate<Ghost>(m_entity) = Ghost{ ghostBehaviors::pokey, spawnTile };
+			m_registry.get<Ghost>(m_entity).dotLimit = 60;
 			tmp = m_gameInstance->textures.load(texturePath / "Orange.png");
 		}
 
@@ -47,67 +51,65 @@ public:
 
 		AnimationPtr down = std::make_shared<Animation>();
 		down->animationFrames = {
-			Sprite(tmp, SDL_Rect{ 24,0,11,11 }),
-			Sprite(tmp, SDL_Rect{ 36,0,11,11 })
+			Sprite(tmp, SDL_Rect{ 2 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE }),
+			Sprite(tmp, SDL_Rect{ 3 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE })
 		};
-
 
 		AnimationPtr up = std::make_shared<Animation>();
 		up->animationFrames = {
-			Sprite(tmp, SDL_Rect{ 72,0,11,11 }),
-			Sprite(tmp, SDL_Rect{ 84,0,11,11 })
+			Sprite(tmp, SDL_Rect{ 6 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE }),
+			Sprite(tmp, SDL_Rect{ 7 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE })
 		};
 
 		AnimationPtr left = std::make_shared<Animation>();
 		left->animationFrames = {
-			Sprite(tmp, SDL_Rect{ 48,0,11,11 }),
-			Sprite(tmp, SDL_Rect{ 60,0,11,11 })
+			Sprite(tmp, SDL_Rect{ 4 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE }),
+			Sprite(tmp, SDL_Rect{ 5 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE })
 		};
 
 		AnimationPtr right = std::make_shared<Animation>();
 		right->animationFrames = {
-			Sprite(tmp, SDL_Rect{ 0,0,11,11 }),
-			Sprite(tmp, SDL_Rect{ 12,0,11,11 })
+			Sprite(tmp, SDL_Rect{ 0 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE }),
+			Sprite(tmp, SDL_Rect{ 1 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE })
 		};
 		AnimationPtr afraid = std::make_shared<Animation>();
 		afraid->animationFrames = {
-			Sprite(tmp2, SDL_Rect{ 72,48,11,11 }),
-			//Sprite(tmp2, SDL_Rect{ 96,0,11,11 })
+			Sprite(tmp2, SDL_Rect{ 0 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE }),
+			//Sprite(tmp2, SDL_Rect{ 1 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE })
 		};
 
 		AnimationPtr downd = std::make_shared<Animation>();
 		downd->animationFrames = {
-			Sprite(tmp3, SDL_Rect{ 24,0,11,11 }),
-			Sprite(tmp3, SDL_Rect{ 36,0,11,11 })
+			Sprite(tmp3, SDL_Rect{ 2 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE }),
+			Sprite(tmp3, SDL_Rect{ 3 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE })
 		};
-
 
 		AnimationPtr upd = std::make_shared<Animation>();
 		upd->animationFrames = {
-			Sprite(tmp3, SDL_Rect{ 72,0,11,11 }),
-			Sprite(tmp3, SDL_Rect{ 84,0,11,11 })
+			Sprite(tmp3, SDL_Rect{ 6 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE }),
+			Sprite(tmp3, SDL_Rect{ 7 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE })
 		};
 
 		AnimationPtr leftd = std::make_shared<Animation>();
 		leftd->animationFrames = {
-			Sprite(tmp3, SDL_Rect{ 48,0,11,11 }),
-			Sprite(tmp3, SDL_Rect{ 60,0,11,11 })
+			Sprite(tmp3, SDL_Rect{ 4 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE }),
+			Sprite(tmp3, SDL_Rect{ 5 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE })
 		};
 
 		AnimationPtr rightd = std::make_shared<Animation>();
 		rightd->animationFrames = {
-			Sprite(tmp3, SDL_Rect{ 0,0,11,11 }),
-			Sprite(tmp3, SDL_Rect{ 12,0,11,11 })
+			Sprite(tmp3, SDL_Rect{ 0 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE }),
+			Sprite(tmp3, SDL_Rect{ 1 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE })
 		};
 
-		up->setFrameTime(150);
-		down->setFrameTime(150);
-		left->setFrameTime(150);
-		right->setFrameTime(150);
-		upd->setFrameTime(150);
-		downd->setFrameTime(150);
-		leftd->setFrameTime(150);
-		rightd->setFrameTime(150);
+		up->setFrameTime(ENTITYFRAMETIME);
+		down->setFrameTime(ENTITYFRAMETIME);
+		left->setFrameTime(ENTITYFRAMETIME);
+		right->setFrameTime(ENTITYFRAMETIME);
+		upd->setFrameTime(ENTITYFRAMETIME);
+		downd->setFrameTime(ENTITYFRAMETIME);
+		leftd->setFrameTime(ENTITYFRAMETIME);
+		rightd->setFrameTime(ENTITYFRAMETIME);
 		afraid->setFrameTime(500);
 
 		AnimationSet animSet;

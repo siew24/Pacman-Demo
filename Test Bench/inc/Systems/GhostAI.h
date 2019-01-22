@@ -40,89 +40,63 @@ public:
 						}
 					}
 				}
+				AnimationSet& animSet = m_registry.get<AnimationSet>(entity);
+				while (potentialDistance > 0) {
+					Tile currentTile = { (position.x + ENTITYSIZE / 2) / TILESIZE,(position.y + ENTITYSIZE / 2) / TILESIZE };
+					if (((position.x+2 ) % TILESIZE == 0 && (position.y+2) % TILESIZE == 0) || ghost.direction == null ) {
+						if(currentTile.x > 0 && currentTile.x <= 27 && currentTile.y > 0 && currentTile.y <= 30)
+						ghost.direction = ghost.behavior(m_registry, layout);
 
-				bool moved = true;
-				while (potentialDistance > 0 && moved) {
-					moved = false;
-					if (Tile currentTile{ position.x / TILESIZE,position.y / TILESIZE }; position.x % TILESIZE == 0 && position.y % TILESIZE == 0 && ghost.moveX == 0 && ghost.moveY == 0) {
-						Tile nextTile = ghost.behavior(m_registry, layout);
-						AnimationSet& animSet = m_registry.get<AnimationSet>(entity);
-						if (nextTile.x > currentTile.x) {
-							if (ghost.currentMode == afraid)
-								animSet.changeAnimation("afraid");
-							else if (ghost.currentMode == dead)
-								animSet.changeAnimation("rightd");
-							else
-								animSet.changeAnimation("right");
-							if (currentTile.x >= 27)
-								ghost.moveX = +TILESIZE * 2;
-							else
-								ghost.moveX += TILESIZE;
+						std::string animset = "";
+						switch (ghost.direction) {
+						case left:
+							animset += "left";
+							break;
+						case right:
+							animset += "right";
+							break;
+						case up:
+							animset += "up";
+							break;
+						case down:
+							animset += "down";
+							break;
+						default:
+							animset += "left";
+							break;
 						}
-						else if (nextTile.x < currentTile.x) {
-							if (ghost.currentMode == afraid)
-								animSet.changeAnimation("afraid");
-							else if (ghost.currentMode == dead)
-								animSet.changeAnimation("leftd");
-							else
-								animSet.changeAnimation("left");
-							if (currentTile.x == 0)
-								ghost.moveX = -TILESIZE * 2;
-							else
-								ghost.moveX -= TILESIZE;
+						switch (ghost.currentMode) {
+						case dead:
+							animset += "d";
+							break;
+						case afraid:
+							animset = "afraid";
+							break;
 						}
-						else if (nextTile.y > currentTile.y) {
-							if (ghost.currentMode == afraid)
-								animSet.changeAnimation("afraid");
-							else if (ghost.currentMode == dead)
-								animSet.changeAnimation("downd");
-							else
-								animSet.changeAnimation("down");
-							ghost.moveY += TILESIZE;
-						}
-						else if (nextTile.y < currentTile.y) {
-							if (ghost.currentMode == afraid)
-								animSet.changeAnimation("afraid");
-							else if (ghost.currentMode == dead)
-								animSet.changeAnimation("upd");
-							else
-								animSet.changeAnimation("up");
-							ghost.moveY -= TILESIZE;
-						}
-						ghost.lastTile = currentTile;
-					}
 
-					if (ghost.moveX > 0) {
-						position.x += 1;
-						if (position.x == 28 * TILESIZE) {
-							position.x = -TILESIZE;
-						}
-						--potentialDistance;
-						--ghost.moveX;
-						moved = true;
+						animSet.changeAnimation(animset);
 					}
-					else if (ghost.moveX < 0) {
-						position.x -= 1;
-						if (position.x == -TILESIZE) {
-							position.x = 28 * TILESIZE;
-						}
+					switch (ghost.direction) {
+					case left:
+						position.x = (position.x - 1) == -TILESIZE ? 28 * TILESIZE: position.x-1;
 						--potentialDistance;
-						++ghost.moveX;
-						moved = true;
-					}
-					else if (ghost.moveY < 0) {
-						position.y -= 1;
+						break;
+					case right:
+						position.x = (position.x + 1) == 28 * TILESIZE ? -TILESIZE : position.x + 1;
 						--potentialDistance;
-						++ghost.moveY;
-						moved = true;
-					}
-					else if (ghost.moveY > 0) {
-						position.y += 1;
+						break;
+					case up:
+						position.y = (position.y - 1) == -TILESIZE ? 31 * TILESIZE : position.y - 1;
 						--potentialDistance;
-						--ghost.moveY;
-						moved = true;
+						break;
+					case down:
+						position.y = (position.y + 1) == 31 * TILESIZE ? -TILESIZE : position.y + 1;
+						--potentialDistance;
+						break;
+					default:
+						--potentialDistance;
+						break;
 					}
-
 				}
 				if (Tile ghostT{ (position.x + (TILESIZE / 2)) / TILESIZE,(position.y + (TILESIZE / 2)) / TILESIZE }, pac{ (playerPos.x + (TILESIZE / 2)) / TILESIZE,(playerPos.y + (TILESIZE / 2)) / TILESIZE }; pac == ghostT) {
 					if (ghost.currentMode == afraid) {
