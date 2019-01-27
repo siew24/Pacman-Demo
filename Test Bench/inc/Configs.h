@@ -5,3 +5,5 @@ const int GHOST_TEXTURESIZE = 14;
 const int ENTITYSIZE = 12;
 const int TILESIZE = 8;
 const int ENTITYFRAMETIME = 150;
+const int FRUIT_POS_X = 14;
+const int FRUIT_POS_Y = 17;
