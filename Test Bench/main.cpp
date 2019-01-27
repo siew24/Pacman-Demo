@@ -8,7 +8,6 @@
 #include "inc/PlayerObject.h"
 #include "inc/Systems/PlayerMovement.h"
 #include "inc/Systems/PelletSystem.h"
-#include "inc/Systems/FruitSystem.h"
 #include "inc/Systems/GhostAI.h"
 #include "inc/Systems/GameDirectorSystem.h"
 #include "getExePath.h"
@@ -48,6 +47,7 @@ void test_drawer(const std::filesystem::path& assetsPath)
 		throw bloom::Exception("Required assets can't be found.");
 
 	std::filesystem::path tileDir = assetsPath;
+	std::filesystem::path entityDir = assetsPath / L"Entity";
 	std::filesystem::path levelDir = assetsPath / L"Level";
 	std::filesystem::path audioDir = assetsPath.parent_path() / L"Sounds";
 
@@ -57,13 +57,13 @@ void test_drawer(const std::filesystem::path& assetsPath)
 	PlayerMovement playerMovement(testRegistry);
 	GhostAI ghostMovement(testRegistry);
 	PelletSystem pelletSystem(testRegistry);
-	FruitSystem fruitSystem(testRegistry);
 	
 	Level level = Level(game);
 	level.changeLevel(levelDir / "0.txt", tileDir, testRegistry);
 	playerMovement.layout = level.layout;
 	ghostMovement.layout = level.layout;
 	GameDirectorSystem director(testRegistry);
+	director.setGame(game);
 	director.init();
 
 	std::filesystem::path pacDir = assetsPath / L"Pacman.png";
@@ -107,7 +107,6 @@ void test_drawer(const std::filesystem::path& assetsPath)
 		playerMovement.update(dt);
 		ghostMovement.update(dt);
 		pelletSystem.update();
-		fruitSystem.update();
 		director.update();
 		animSysTest.update(dt);
 		renderSysTest.update(); // Test again.

@@ -208,7 +208,6 @@
     <ClInclude Include="inc\Components\PacmanComponent.h" />
     <ClInclude Include="Header Files\PelletsComponent.h" />
     <ClInclude Include="inc\PlayerObject.h" />
-    <ClInclude Include="inc\Systems\FruitSystem.h" />
     <ClInclude Include="inc\Systems\GameDirectorSystem.h" />
     <ClInclude Include="inc\Systems\GhostAI.h" />
     <ClInclude Include="inc\Systems\PelletSystem.h" />
@@ -217,12 +216,12 @@
     <ClInclude Include="inc\Tile.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="data\Assets\Blue.png" />
-    <Image Include="data\Assets\Ghosts_afraid.png" />
-    <Image Include="data\Assets\Ghosts_eaten.png" />
-    <Image Include="data\Assets\Miss_Pacman.png" />
-    <Image Include="data\Assets\Orange.png" />
-    <Image Include="data\Assets\Pacman.png" />
+    <Image Include="data\Assets\Entity\Blue.png" />
+    <Image Include="data\Assets\Entity\Ghosts_afraid.png" />
+    <Image Include="data\Assets\Entity\Ghosts_eaten.png" />
+    <Image Include="data\Assets\Entity\Miss_Pacman.png" />
+    <Image Include="data\Assets\Entity\Orange.png" />
+    <Image Include="data\Assets\Entity\Pacman.png" />
     <Image Include="data\Assets\Pacman_Death_00.png" />
     <Image Include="data\Assets\Pacman_Death_01.png" />
     <Image Include="data\Assets\Pacman_Death_02.png" />
@@ -235,11 +234,11 @@
     <Image Include="data\Assets\Pacman_Death_09.png" />
     <Image Include="data\Assets\Pacman_Death_10.png" />
     <Image Include="data\Assets\Pacman_Spritesheet.png" />
-    <Image Include="data\Assets\Pinky.png" />
-    <Image Include="data\Assets\Red.png" />
+    <Image Include="data\Assets\Entity\Pinky.png" />
+    <Image Include="data\Assets\Entity\Red.png" />
     <Image Include="data\Assets\Tile\12.png" />
-    <Image Include="data\Assets\Tile\37.png" />
-    <Image Include="data\Assets\Tile\38.png" />
+    <Image Include="data\Assets\Entity\Pellet.png" />
+    <Image Include="data\Assets\Entity\PowerPellet.png" />
     <Image Include="data\Assets\Tile\0.png" />
     <Image Include="data\Assets\Tile\1.png" />
     <Image Include="data\Assets\Tile\2.png" />
@@ -261,14 +260,14 @@
     <Image Include="data\Assets\Tile\39.png" />
     <Image Include="data\Assets\Tile\4.png" />
     <Image Include="data\Assets\Tile\40.png" />
-    <Image Include="data\Assets\Tile\41.png" />
-    <Image Include="data\Assets\Tile\42.png" />
-    <Image Include="data\Assets\Tile\43.png" />
-    <Image Include="data\Assets\Tile\44.png" />
-    <Image Include="data\Assets\Tile\45.png" />
-    <Image Include="data\Assets\Tile\46.png" />
-    <Image Include="data\Assets\Tile\47.png" />
-    <Image Include="data\Assets\Tile\48.png" />
+    <Image Include="data\Assets\Entity\Cherry.png" />
+    <Image Include="data\Assets\Entity\Peach.png" />
+    <Image Include="data\Assets\Entity\Apple.png" />
+    <Image Include="data\Assets\Entity\Strawberry.png" />
+    <Image Include="data\Assets\Entity\Galaxian.png" />
+    <Image Include="data\Assets\Entity\Bell.png" />
+    <Image Include="data\Assets\Entity\Grape.png" />
+    <Image Include="data\Assets\Entity\Key.png" />
     <Image Include="data\Assets\Tile\5.png" />
     <Image Include="data\Assets\Tile\6.png" />
     <Image Include="data\Assets\Tile\7.png" />

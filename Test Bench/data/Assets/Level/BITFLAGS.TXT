@@ -12,4 +12,3 @@ Negative serves as bit flags for special tiles
 9: NO-UP tiles
 10: Pellet
 11: Energizer
-12: Fruit

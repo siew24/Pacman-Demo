@@ -107,9 +107,6 @@
     <ClInclude Include="inc\Systems\GameDirectorSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="inc\Systems\FruitSystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="inc\FruitObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -122,21 +119,6 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="data\Assets\Pacman_Spritesheet.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="data\Assets\Blue.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="data\Assets\Ghosts_afraid.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="data\Assets\Ghosts_eaten.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="data\Assets\Orange.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="data\Assets\Pacman.png">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="data\Assets\Pacman_Death_00.png">
@@ -170,18 +152,6 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="data\Assets\Pacman_Death_10.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="data\Assets\Pinky.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="data\Assets\Red.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="data\Assets\Tile\38.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="data\Assets\Tile\37.png">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="data\Assets\Tile\0.png">
@@ -298,34 +268,61 @@
     <Image Include="data\Assets\Tile\12.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="data\Assets\Miss_Pacman.png">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="data\Assets\Tile\40.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="data\Assets\Tile\41.png">
+    <Image Include="data\Assets\Entity\Pellet.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="data\Assets\Tile\42.png">
+    <Image Include="data\Assets\Entity\PowerPellet.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="data\Assets\Tile\43.png">
+    <Image Include="data\Assets\Entity\Cherry.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="data\Assets\Tile\44.png">
+    <Image Include="data\Assets\Entity\Peach.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="data\Assets\Tile\45.png">
+    <Image Include="data\Assets\Entity\Apple.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="data\Assets\Tile\46.png">
+    <Image Include="data\Assets\Entity\Strawberry.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="data\Assets\Tile\47.png">
+    <Image Include="data\Assets\Entity\Galaxian.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="data\Assets\Tile\48.png">
+    <Image Include="data\Assets\Entity\Bell.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\Entity\Grape.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\Entity\Key.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\Entity\Pacman.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\Entity\Orange.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\Entity\Pinky.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\Entity\Red.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\Entity\Blue.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\Entity\Miss_Pacman.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\Entity\Ghosts_afraid.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\Entity\Ghosts_eaten.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
