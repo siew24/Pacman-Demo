@@ -21,7 +21,7 @@ public:
 			[&](auto entity, Fruit& fruit, Position& fruitPos) {
 			if (((playerPos.x + (ENTITYSIZE / 2)) / TILESIZE == fruitPos.x / TILESIZE) && ((playerPos.y + (ENTITYSIZE / 2)) / TILESIZE == fruitPos.y / TILESIZE)) {
 
-				if(m_registry.has<entt::label<"cherry"_hs>>(entity))
+				if (m_registry.has<entt::label<"cherry"_hs>>(entity))
 					playerState.score += 100;
 				if (m_registry.has<entt::label<"strawberry"_hs>>(entity))
 					playerState.score += 300;
@@ -39,6 +39,13 @@ public:
 					playerState.score += 5000;
 
 				m_registry.destroy(entity);
+			}
+			else
+			{
+				if (fruit.timeSpawned / 1000 > 9 && fruit.timeSpawned / 1000 < 10)
+					m_registry.destroy(entity);
+				else
+					fruit.timeSpawned += deltaTime.value();
 			}
 		}
 		);

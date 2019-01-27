@@ -1,5 +1,5 @@
 #pragma once
 
 struct Fruit {
-	bool spawned = false;
+	double timeSpawned = 0.0;
 };

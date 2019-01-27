@@ -109,7 +109,7 @@ void test_drawer(const std::filesystem::path& assetsPath)
 		playerMovement.update(dt);
 		ghostMovement.update(dt);
 		pelletSystem.update();
-		fruitSystem.update();
+		fruitSystem.update(dt);
 		director.update();
 		animSysTest.update(dt);
 		renderSysTest.update(); // Test again.
