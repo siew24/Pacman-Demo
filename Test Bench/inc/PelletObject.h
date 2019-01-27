@@ -19,10 +19,10 @@ public:
 		auto tmp = m_gameInstance->textures.load(texture);
 
 		m_registry.assign<Sprite>(m_entity, tmp, SDL_Rect{ 0,0,TILETEXTURESIZE,TILETEXTURESIZE });
-		if (texture.filename().u8string() == "37.png") {
+		if (texture.filename().u8string() == "Pellet.png") {
 			m_registry.assign<Pellet>(m_entity);
 		}
-		else if (texture.filename().u8string() == "38.png") {
+		else if (texture.filename().u8string() == "PowerPellet.png") {
 			m_registry.assign<PowerPellet>(m_entity);
 		}
 	}
