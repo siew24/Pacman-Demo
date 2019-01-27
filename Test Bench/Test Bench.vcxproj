@@ -187,8 +187,11 @@
   <ItemGroup>
     <ClInclude Include="getExePath.h" />
     <ClInclude Include="inc\Components\ComponentIncludes.h" />
+    <ClInclude Include="inc\Components\FruitComponent.h" />
+    <ClInclude Include="inc\Components\PelletsComponent.h" />
     <ClInclude Include="inc\Configs.h" />
     <ClInclude Include="inc\Direction.h" />
+    <ClInclude Include="inc\FruitObject.h" />
     <ClInclude Include="inc\GhostBehaviors\GhostBehavior.h" />
     <ClInclude Include="inc\GhostBehaviors\Bashful.h" />
     <ClInclude Include="inc\GhostBehaviors\Pathfinding.h" />
@@ -197,7 +200,6 @@
     <ClInclude Include="inc\GhostBehaviors\Speedy.h" />
     <ClInclude Include="inc\GhostObject.h" />
     <ClInclude Include="inc\PelletObject.h" />
-    <ClInclude Include="inc\Components\PelletsComponent.h" />
     <ClInclude Include="inc\Components\GhostComponent.h" />
     <ClInclude Include="Header Files\InputSystem.h" />
     <ClInclude Include="inc\Level.h" />
@@ -206,6 +208,7 @@
     <ClInclude Include="inc\Components\PacmanComponent.h" />
     <ClInclude Include="Header Files\PelletsComponent.h" />
     <ClInclude Include="inc\PlayerObject.h" />
+    <ClInclude Include="inc\Systems\FruitSystem.h" />
     <ClInclude Include="inc\Systems\GameDirectorSystem.h" />
     <ClInclude Include="inc\Systems\GhostAI.h" />
     <ClInclude Include="inc\Systems\PelletSystem.h" />
@@ -219,7 +222,6 @@
     <Image Include="data\Assets\Ghosts_eaten.png" />
     <Image Include="data\Assets\Miss_Pacman.png" />
     <Image Include="data\Assets\Orange.png" />
-    <Image Include="data\Assets\Fruits.png" />
     <Image Include="data\Assets\Pacman.png" />
     <Image Include="data\Assets\Pacman_Death_00.png" />
     <Image Include="data\Assets\Pacman_Death_01.png" />
@@ -259,6 +261,14 @@
     <Image Include="data\Assets\Tile\39.png" />
     <Image Include="data\Assets\Tile\4.png" />
     <Image Include="data\Assets\Tile\40.png" />
+    <Image Include="data\Assets\Tile\41.png" />
+    <Image Include="data\Assets\Tile\42.png" />
+    <Image Include="data\Assets\Tile\43.png" />
+    <Image Include="data\Assets\Tile\44.png" />
+    <Image Include="data\Assets\Tile\45.png" />
+    <Image Include="data\Assets\Tile\46.png" />
+    <Image Include="data\Assets\Tile\47.png" />
+    <Image Include="data\Assets\Tile\48.png" />
     <Image Include="data\Assets\Tile\5.png" />
     <Image Include="data\Assets\Tile\6.png" />
     <Image Include="data\Assets\Tile\7.png" />

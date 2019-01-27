@@ -2,6 +2,7 @@
 
 #include "Game.h"
 #include "PelletObject.h"
+#include "FruitObject.h"
 #include "Configs.h"
 #include <fstream>
 #include "PlayerObject.h"

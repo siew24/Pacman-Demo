@@ -56,9 +56,6 @@
     <ClInclude Include="inc\Components\PacmanComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="inc\Components\PelletsComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="inc\Systems\GhostAI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -108,6 +105,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="inc\Systems\GameDirectorSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Systems\FruitSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\FruitObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Components\PelletsComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Components\FruitComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -292,10 +301,31 @@
     <Image Include="data\Assets\Miss_Pacman.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="data\Assets\Fruits.png">
+    <Image Include="data\Assets\Tile\40.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="data\Assets\Tile\40.png">
+    <Image Include="data\Assets\Tile\41.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\Tile\42.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\Tile\43.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\Tile\44.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\Tile\45.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\Tile\46.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\Tile\47.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\Tile\48.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
