@@ -116,6 +116,9 @@
     <ClInclude Include="inc\Components\FruitComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="inc\Systems\FruitSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="data\Assets\Pacman_Spritesheet.png">

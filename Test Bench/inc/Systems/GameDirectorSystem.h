@@ -13,8 +13,9 @@ public:
 		m_registry.view<entt::label<"bashful"_hs>, Ghost>().each([&](auto entity,auto label, auto& ghost) { bashful = &ghost; });
 		m_registry.view<entt::label<"pokey"_hs>, Ghost>().each([&](auto entity, auto label, auto& ghost) { pokey = &ghost; });
 	}
-	void setGame(bloom::Game*& Game) {
+	void setParameters(bloom::Game*& Game, const std::filesystem::path & assetPath) {
 		m_gameInstance = Game;
+		texturePath = assetPath;
 	}
 	virtual void update(std::optional<double> deltaTime = std::nullopt) override {
 		if (player->pelletsEaten == bashful->dotLimit)
@@ -22,8 +23,12 @@ public:
 		else if (player->pelletsEaten == pokey->dotLimit)
 			pokey->released = true;
 
-		if (player->pelletsEaten == 70)
-			;
+		if (player->pelletsEaten == 0)
+		{
+			auto fruit = std::make_shared<FruitObject>(m_registry, m_gameInstance);
+			fruit->init(texturePath / "Entity" / "Cherry.png", SDL_Rect{ FRUIT_POS_X * TILESIZE - 4, FRUIT_POS_Y * TILESIZE, TILESIZE + 1, TILESIZE + 1 });
+			m_entities.emplace_back(fruit);
+		}
 	}
 
 private:
@@ -32,6 +37,7 @@ private:
 	Ghost* pokey;
 
 	bloom::Game*  m_gameInstance;
+	std::filesystem::path texturePath;
 
 	std::vector<std::shared_ptr<bloom::GameObject>> m_entities;
 };
