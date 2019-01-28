@@ -21,22 +21,7 @@ public:
 			[&](auto entity, Fruit& fruit, Position& fruitPos) {
 			if (((playerPos.x + (ENTITYSIZE / 2)) / TILESIZE == fruitPos.x / TILESIZE) && ((playerPos.y + (ENTITYSIZE / 2)) / TILESIZE == fruitPos.y / TILESIZE)) {
 
-				if (m_registry.has<entt::label<"cherry"_hs>>(entity))
-					playerState.score += 100;
-				if (m_registry.has<entt::label<"strawberry"_hs>>(entity))
-					playerState.score += 300;
-				if (m_registry.has<entt::label<"peach"_hs>>(entity))
-					playerState.score += 500;
-				if (m_registry.has<entt::label<"apple"_hs>>(entity))
-					playerState.score += 700;
-				if (m_registry.has<entt::label<"grape"_hs>>(entity))
-					playerState.score += 1000;
-				if (m_registry.has<entt::label<"galaxian"_hs>>(entity))
-					playerState.score += 2000;
-				if (m_registry.has<entt::label<"bell"_hs>>(entity))
-					playerState.score += 3000;
-				if (m_registry.has<entt::label<"key"_hs>>(entity))
-					playerState.score += 5000;
+				playerState.score += fruit.type;
 
 				m_registry.destroy(entity);
 			}
