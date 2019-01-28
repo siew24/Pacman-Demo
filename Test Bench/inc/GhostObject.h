@@ -22,7 +22,7 @@ public:
 
 		if (id == shadow) {
 			m_registry.accommodate<entt::label<"shadow"_hs>>(m_entity);
-			m_registry.accommodate<Ghost>(m_entity) = Ghost{ ghostBehaviors::shadow, spawnTile,0, true };
+			m_registry.accommodate<Ghost>(m_entity) = Ghost{ ghostBehaviors::shadow, Tile{spawnTile.x, spawnTile.y+3},0, true, false };
 			tmp = m_gameInstance->textures.load(texturePath / "Red.png");
 		}
 		else if (id == speedy) {

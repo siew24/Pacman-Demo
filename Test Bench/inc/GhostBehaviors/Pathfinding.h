@@ -31,9 +31,16 @@ namespace ghostBehaviors {
 			posibilities.emplace_back(std::make_pair(right, distance));
 		}
 
-		if (Tile candidate{ currentTile.x, currentTile.y - 1 };(candidate.y!=0) && ((layout[candidate.y][candidate.x] == 39||layout[candidate.y-1][candidate.x] == 39) && ghost.released)) {
+		if (Tile candidate{ currentTile.x, currentTile.y - 1 };(candidate.y!=0) && ((layout[candidate.y][candidate.x] == 39||layout[candidate.y-1][candidate.x] == 39) && ghost.released && (ghost.currentMode == chase || ghost.currentMode == scatter))) {
 			posibilities.clear();
 			posibilities.emplace_back(std::make_pair(up, 0.0));
+			ghost.inHouse = false;
+		}
+
+		if (Tile candidate{ currentTile.x, currentTile.y + 1 }; (candidate.y != layout.size()-1) && ((layout[candidate.y][candidate.x] == 39 || layout[candidate.y - 1][candidate.x] == 39) && ghost.currentMode == dead)) {
+			posibilities.clear();
+			posibilities.emplace_back(std::make_pair(down, 0.0));
+			ghost.inHouse = true;
 		}
 
 		std::sort(posibilities.begin(), posibilities.end(), [](auto& lhs, auto& rhs) {return lhs.second < rhs.second; });

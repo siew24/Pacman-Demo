@@ -26,6 +26,7 @@ struct Ghost {
 	Tile spawnPoint;
 	int dotLimit = 0;
 	bool released = false;
+	bool inHouse = true;
 
 	BehaviourModes currentMode = chase;
 	double modeTimer = 10.0;

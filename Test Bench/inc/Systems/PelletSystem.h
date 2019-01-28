@@ -38,7 +38,7 @@ public:
 
 					m_registry.view<Ghost>().each(
 						[](auto entity, Ghost& ghost) {
-							if (ghost.currentMode != dead) {
+							if (ghost.currentMode != dead && !ghost.inHouse) {
 								ghost.lastTile = Tile{ 0,0 };
 								ghost.currentMode = afraid;
 								ghost.modeTimer = 10.0;
