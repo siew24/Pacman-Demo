@@ -27,24 +27,47 @@ public:
 					// Change anim
 					auto& AnimSet = m_registry.get<AnimationSet>(entity);
 					if (player.nextDir != player.direction) {
-						player.direction = player.nextDir;
-						switch (player.direction) {
-						case right:
-							AnimSet.changeAnimation("right");
-							break;
-						case left:
-							AnimSet.changeAnimation("left");
-							break;
-						case up:
-							AnimSet.changeAnimation("up");
-							break;
-						case down:
-							AnimSet.changeAnimation("down");
-							break;
+						Tile nextTile = playerTile;
+						{
+							auto tmp = nextTile;
+							switch (player.nextDir) {
+							case up:
+								tmp = { nextTile.x, nextTile.y - 1 };
+								break;
+							case down:
+								tmp = { nextTile.x, nextTile.y + 1 };
+								break;
+							case left:
+								tmp = { nextTile.x - 1, nextTile.y };
+								break;
+							case right:
+								tmp = { nextTile.x + 1, nextTile.y };
+								break;
+							}
+							if (valid(tmp)) {
+								nextTile = tmp;
+								player.direction = player.nextDir;
+								switch (player.direction) {
+								case right:
+									AnimSet.changeAnimation("right");
+									break;
+								case left:
+									AnimSet.changeAnimation("left");
+									break;
+								case up:
+									AnimSet.changeAnimation("up");
+									break;
+								case down:
+									AnimSet.changeAnimation("down");
+									break;
+								}
+							}
 						}
 					}
 					player.lastDir = player.direction != null ? player.direction : player.lastDir;
 				}
+
+
 				if (player.direction != null) {
 					Tile nextTile = playerTile;
 					{
