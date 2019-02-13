@@ -68,7 +68,7 @@ public:
 				}
 
 
-				if (player.direction != null) {
+				if (player.direction != null && potentialDistance > 0) {
 					Tile nextTile = playerTile;
 					{
 						auto tmp = nextTile;
