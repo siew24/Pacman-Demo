@@ -11,6 +11,7 @@
 #include "inc/Systems/FruitSystem.h"
 #include "inc/Systems/GhostAI.h"
 #include "inc/Systems/GameDirectorSystem.h"
+#include "inc/Systems/SpeedDirectorSystem.h"
 #include "getExePath.h"
 
 using namespace bloom;
@@ -67,6 +68,7 @@ void test_drawer(const std::filesystem::path& assetsPath)
 	GameDirectorSystem director(testRegistry);
 	director.setParameters(game, assetsPath);
 	director.init();
+	SpeedDirectorSystem speedDir(testRegistry);
 
 	std::filesystem::path pacDir = assetsPath / L"Pacman.png";
 	std::filesystem::path ghostDir = assetsPath;
@@ -111,6 +113,7 @@ void test_drawer(const std::filesystem::path& assetsPath)
 		pelletSystem.update();
 		fruitSystem.update(dt);
 		director.update();
+		speedDir.update();
 		animSysTest.update(dt);
 		renderSysTest.update(); // Test again.
 		game->render();

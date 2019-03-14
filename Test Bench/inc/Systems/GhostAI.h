@@ -23,9 +23,9 @@ public:
 
 				if (deltaTime.value() < 500.0) {
 					ghost.timeAvailable += (deltaTime.value() / 1000);
-					potentialDistance = static_cast<int>(ghost.timeAvailable*speed);
-					ghost.timeAvailable -= potentialDistance / speed;
-					ghost.modeTimer -= potentialDistance / speed;
+					potentialDistance = static_cast<int>(ghost.timeAvailable*ghost.currspeed);
+					ghost.timeAvailable -= potentialDistance / ghost.currspeed;
+					ghost.modeTimer -= potentialDistance / ghost.currspeed;
 
 					if (ghost.modeTimer <= 0.0) {
 						if (ghost.currentMode == chase) {
@@ -111,5 +111,4 @@ public:
 	};
 	std::vector<std::vector<int>> layout;
 	double lastUpdate = 0;
-	const double speed = 11 * TILESIZE;
 };

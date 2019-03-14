@@ -1,6 +1,7 @@
 #pragma once
 #include "../Direction.h"
 #include "../Tile.h"
+#include "../Configs.h"
 
 struct Pacman {
 	
@@ -14,4 +15,6 @@ struct Pacman {
 	Direction lastDir;
 
 	double timeAvailable = 0.0;
+	double speed = 11 * TILESIZE;
+	double currspeed = speed;
 };

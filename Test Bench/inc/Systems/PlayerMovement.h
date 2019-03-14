@@ -16,8 +16,8 @@ public:
 				if (deltaTime.value() < 500.0) {
 					player.timeAvailable += deltaTime.value() / 1000.0;
 
-					potentialDistance = static_cast<int>(player.timeAvailable*speed);
-					player.timeAvailable -= potentialDistance / speed;
+					potentialDistance = static_cast<int>(player.timeAvailable*player.currspeed);
+					player.timeAvailable -= potentialDistance / player.currspeed;
 				}
 
 				Tile playerTile{ (position.x + ENTITYSIZE / 2) / TILESIZE, (position.y + ENTITYSIZE / 2) / TILESIZE };
@@ -121,7 +121,6 @@ public:
 	};
 
 	std::vector<std::vector<int>> layout;
-	const double speed = 11 * TILESIZE;
 
 
 private:

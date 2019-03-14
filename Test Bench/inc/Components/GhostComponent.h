@@ -4,6 +4,7 @@
 #include "Components/Position.h"
 #include "../Components/PacmanComponent.h"
 #include "../Tile.h"
+#include "../Configs.h"
 
 using namespace bloom::components;
 
@@ -35,6 +36,8 @@ struct Ghost {
 	int moveX = 0, moveY = 0;	
 
 	double timeAvailable = 0.0;
+	double speed = 11 * TILESIZE;
+	double currspeed = speed;
 	Direction direction = left;
 
 
