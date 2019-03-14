@@ -69,6 +69,7 @@ void test_drawer(const std::filesystem::path& assetsPath)
 	director.setParameters(game, assetsPath);
 	director.init();
 	SpeedDirectorSystem speedDir(testRegistry);
+	speedDir.layout = level.layout;
 
 	std::filesystem::path pacDir = assetsPath / L"Pacman.png";
 	std::filesystem::path ghostDir = assetsPath;
@@ -112,8 +113,8 @@ void test_drawer(const std::filesystem::path& assetsPath)
 		ghostMovement.update(dt);
 		pelletSystem.update();
 		fruitSystem.update(dt);
-		director.update();
 		speedDir.update();
+		director.update();
 		animSysTest.update(dt);
 		renderSysTest.update(); // Test again.
 		game->render();

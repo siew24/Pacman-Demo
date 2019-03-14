@@ -8,7 +8,8 @@ Negative serves as bit flags for special tiles
 5: Pokey Spawn point
 6: BONUS spawn
 7: Intersection
-8: Tunnel
+8: Gate
 9: NO-UP tiles
 10: Pellet
 11: Energizer
+12: Tunnel

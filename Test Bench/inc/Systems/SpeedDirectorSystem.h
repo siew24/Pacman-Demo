@@ -10,9 +10,8 @@ class SpeedDirectorSystem : public bloom::systems::System {
 public:
 	virtual void update(std::optional<double> deltaTime = std::nullopt) override {
 		m_registry.view<Position, Ghost>().each([&](auto entity, auto& position, auto& ghost) {
-			Tile ghostTile{ (position.x + ENTITYSIZE / 2) / TILESIZE, (position.y + ENTITYSIZE / 2) / TILESIZE };
 
-			if (Check_Tunnel(ghostTile))
+			if (Check_Tunnel(position))
 				ghost.currspeed = ghost.speed * 0.4;
 			else if (ghost.currentMode == 2)			// Frightened
 			{
@@ -24,10 +23,9 @@ public:
 		}
 		);
 		m_registry.view<Position, Pacman>().each([&](auto entity, auto& position, auto& pac) {
-			Tile playerTile{ (position.x + ENTITYSIZE / 2) / TILESIZE, (position.y + ENTITYSIZE / 2) / TILESIZE };
 
-			if (Check_Tunnel(playerTile))
-				pac.currspeed = pac.speed * 0.5;
+			if (Check_Tunnel(position))
+				pac.currspeed = pac.speed * 0.4;
 			else if (is_Frightened)						// Frightened Ghosts
 			{
 				pac.currspeed = pac.speed * 0.9;
@@ -39,11 +37,13 @@ public:
 		);
 			
 	}
+	std::vector<std::vector<int>> layout;
 
 private:
-	bool Check_Tunnel(Tile pos) {
-		if (pos.y == 15 * TILESIZE && (pos.x > 0 && pos.x < 5 * TILESIZE) || (pos.x > 22 * TILESIZE && pos.x < 27 * TILESIZE))
-			return true;
+	bool Check_Tunnel(Position pos) {
+		if(pos.x >= 0 && pos.x <= 27)
+			if (Tile currTile{ (pos.x + (ENTITYSIZE / 2)) / TILESIZE, (pos.y + (ENTITYSIZE / 2)) / TILESIZE };std::abs(layout[currTile.y][currTile.x]) == 12)
+				return true;
 		return false;
 	}
 	bool is_Frightened = false;

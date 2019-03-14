@@ -23,7 +23,7 @@ public:
 		else if (player->pelletsEaten == pokey->dotLimit)
 			pokey->released = true;
 
-		if (player->pelletsEaten == 0)
+		if (player->pelletsEaten == 70)
 		{
 			auto fruit = std::make_shared<FruitObject>(m_registry, m_gameInstance);
 			fruit->init(texturePath / "Entity" / "Cherry.png", SDL_Rect{ FRUIT_POS_X * TILESIZE - 4, FRUIT_POS_Y * TILESIZE, TILESIZE + 1, TILESIZE + 1 });
