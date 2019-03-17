@@ -11,7 +11,9 @@ public:
 	virtual void update(std::optional<double> deltaTime = std::nullopt) override {
 		m_registry.view<Position, Ghost>().each([&](auto entity, auto& position, auto& ghost) {
 
-			if (Check_Tunnel(position))
+			Tile ghostTile{ (position.x + (ENTITYSIZE / 2)) / TILESIZE, (position.y + (ENTITYSIZE / 2)) / TILESIZE };
+
+			if (Check_Tunnel(ghostTile))
 				ghost.currspeed = ghost.speed * 0.4;
 			else if (ghost.currentMode == 2)			// Frightened
 			{
@@ -24,9 +26,9 @@ public:
 		);
 		m_registry.view<Position, Pacman>().each([&](auto entity, auto& position, auto& pac) {
 
-			if (Check_Tunnel(position))
-				pac.currspeed = pac.speed * 0.4;
-			else if (is_Frightened)						// Frightened Ghosts
+			Tile pacTile{ (position.x + (ENTITYSIZE / 2)) / TILESIZE, (position.y + (ENTITYSIZE / 2)) / TILESIZE };
+
+			if (is_Frightened)						// Frightened Ghosts
 			{
 				pac.currspeed = pac.speed * 0.9;
 				is_Frightened = false;
@@ -40,9 +42,8 @@ public:
 	std::vector<std::vector<int>> layout;
 
 private:
-	bool Check_Tunnel(Position pos) {
-		if(pos.x >= 0 && pos.x <= 27)
-			if (Tile currTile{ (pos.x + (ENTITYSIZE / 2)) / TILESIZE, (pos.y + (ENTITYSIZE / 2)) / TILESIZE };std::abs(layout[currTile.y][currTile.x]) == 12)
+	bool Check_Tunnel(Tile currTile) {
+			if (currTile.y == 14 && (currTile.x < 5 || currTile.x > 22))
 				return true;
 		return false;
 	}
