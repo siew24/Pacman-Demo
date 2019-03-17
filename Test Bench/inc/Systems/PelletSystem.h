@@ -40,8 +40,9 @@ public:
 						[](auto entity, Ghost& ghost) {
 							if (ghost.currentMode != dead && !ghost.inHouse) {
 								ghost.lastTile = Tile{ 0,0 };
+								ghost.previousMode = ghost.currentMode;
 								ghost.currentMode = afraid;
-								ghost.modeTimer = 10.0;
+								ghost.afraidTimer = 6.0;
 							}
 						}
 					);

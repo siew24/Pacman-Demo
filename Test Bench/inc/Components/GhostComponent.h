@@ -29,8 +29,11 @@ struct Ghost {
 	bool released = false;
 	bool inHouse = true;
 
-	BehaviourModes currentMode = chase;
-	double modeTimer = 10.0;
+	BehaviourModes previousMode = scatter;
+	BehaviourModes currentMode = scatter;
+	double modeTimer = 70.0;
+	double afraidTimer = 60.0;
+	int modeLooped = 0;						// Between scatter and chase
 
 	Tile lastTile = { 0,0 };
 	int moveX = 0, moveY = 0;	
