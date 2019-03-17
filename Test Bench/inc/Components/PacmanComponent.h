@@ -16,5 +16,5 @@ struct Pacman {
 
 	double timeAvailable = 0.0;
 	double speed = 11 * TILESIZE;
-	double currspeed = speed;
+	double currSpeed = speed;
 };

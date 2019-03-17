@@ -31,8 +31,8 @@ struct Ghost {
 
 	BehaviourModes previousMode = scatter;
 	BehaviourModes currentMode = scatter;
-	double modeTimer = 70.0;
-	double afraidTimer = 60.0;
+	double modeTimer = 7.0;
+	double afraidTimer = 6.0;
 	int modeLooped = 0;						// Between scatter and chase
 
 	Tile lastTile = { 0,0 };
@@ -40,7 +40,7 @@ struct Ghost {
 
 	double timeAvailable = 0.0;
 	double speed = 11 * TILESIZE;
-	double currspeed = speed;
+	double currSpeed = speed;
 	Direction direction = left;
 
 

@@ -23,26 +23,29 @@ public:
 
 				if (deltaTime.value() < 500.0) {
 					ghost.timeAvailable += (deltaTime.value() / 1000);
-					potentialDistance = static_cast<int>(ghost.timeAvailable*ghost.currspeed);
-					ghost.timeAvailable -= potentialDistance / ghost.currspeed;
-					if(ghost.currentMode != afraid)
-						ghost.modeTimer -= potentialDistance / ghost.currspeed;
-					else if(ghost.currentMode == afraid)
-						ghost.afraidTimer -= potentialDistance / ghost.currspeed;
+					potentialDistance = static_cast<int>(ghost.timeAvailable*ghost.currSpeed);
+					ghost.timeAvailable -= potentialDistance / ghost.currSpeed;
+					if(ghost.currentMode == afraid)
+						ghost.afraidTimer -= potentialDistance / ghost.currSpeed;
+					else
+						ghost.modeTimer -= potentialDistance / ghost.currSpeed;
 
 					if (ghost.modeTimer <= 0.0) {
 						if (ghost.currentMode == chase) {
-							ghost.modeTimer = 200.0;
+							ghost.modeTimer = 20.0 + ghost.modeTimer;
 							ghost.currentMode = scatter;
 						}
 						else if (ghost.currentMode == dead)
 							ghost.modeTimer = 0;
-						else if (ghost.currentMode == afraid)
-							ghost.currentMode = ghost.previousMode;
 						else {
-							ghost.modeTimer = 70.0;
+							ghost.modeTimer = 7.0 + ghost.modeTimer;
 							ghost.currentMode = chase;
 						}
+					}
+
+					if (ghost.afraidTimer <= 0.0) {
+						ghost.currentMode = ghost.previousMode;
+						ghost.afraidTimer = 60.0;
 					}
 				}
 				AnimationSet& animSet = m_registry.get<AnimationSet>(entity);

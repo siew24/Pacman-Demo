@@ -16,8 +16,8 @@ public:
 				if (deltaTime.value() < 500.0) {
 					player.timeAvailable += deltaTime.value() / 1000.0;
 
-					potentialDistance = static_cast<int>(player.timeAvailable*player.currspeed);
-					player.timeAvailable -= potentialDistance / player.currspeed;
+					potentialDistance = static_cast<int>(player.timeAvailable*player.currSpeed);
+					player.timeAvailable -= potentialDistance / player.currSpeed;
 				}
 
 				Tile playerTile{ (position.x + ENTITYSIZE / 2) / TILESIZE, (position.y + ENTITYSIZE / 2) / TILESIZE };

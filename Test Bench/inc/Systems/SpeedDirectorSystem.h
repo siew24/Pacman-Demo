@@ -13,28 +13,28 @@ public:
 
 			Tile ghostTile{ (position.x + (ENTITYSIZE / 2)) / TILESIZE, (position.y + (ENTITYSIZE / 2)) / TILESIZE };
 
-			if (Check_Tunnel(ghostTile))
-				ghost.currspeed = ghost.speed * 0.4;
+			if (checkTunnel(ghostTile))
+				ghost.currSpeed = ghost.speed * 0.4;
 			else if (ghost.currentMode == 2)			// Frightened
 			{
-				ghost.currspeed = ghost.speed * 0.5;
-				is_Frightened = true;
+				ghost.currSpeed = ghost.speed * 0.5;
+				m_isFrightened = true;
 			}
 			else
-				ghost.currspeed = ghost.speed * 0.75;
+				ghost.currSpeed = ghost.speed * 0.75;
 		}
 		);
 		m_registry.view<Position, Pacman>().each([&](auto entity, auto& position, auto& pac) {
 
 			Tile pacTile{ (position.x + (ENTITYSIZE / 2)) / TILESIZE, (position.y + (ENTITYSIZE / 2)) / TILESIZE };
 
-			if (is_Frightened)						// Frightened Ghosts
+			if (m_isFrightened)						// Frightened Ghosts
 			{
-				pac.currspeed = pac.speed * 0.9;
-				is_Frightened = false;
+				pac.currSpeed = pac.speed * 0.9;
+				m_isFrightened = false;
 			}
 			else
-				pac.currspeed = pac.speed * 0.8;
+				pac.currSpeed = pac.speed * 0.8;
 		}
 		);
 			
@@ -42,10 +42,10 @@ public:
 	std::vector<std::vector<int>> layout;
 
 private:
-	bool Check_Tunnel(Tile currTile) {
+	bool checkTunnel(Tile currTile) {
 			if (currTile.y == 14 && (currTile.x < 5 || currTile.x > 22))
 				return true;
 		return false;
 	}
-	bool is_Frightened = false;
+	bool m_isFrightened = false;
 };
