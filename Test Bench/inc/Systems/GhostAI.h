@@ -25,21 +25,21 @@ public:
 					ghost.timeAvailable += (deltaTime.value() / 1000);
 					potentialDistance = static_cast<int>(ghost.timeAvailable*ghost.currSpeed);
 					ghost.timeAvailable -= potentialDistance / ghost.currSpeed;
-					if(ghost.currentMode == afraid)
+					if(ghost.currentMode == BehaviourModes::afraid)
 						ghost.afraidTimer -= potentialDistance / ghost.currSpeed;
 					else
 						ghost.modeTimer -= potentialDistance / ghost.currSpeed;
 
 					if (ghost.modeTimer <= 0.0) {
-						if (ghost.currentMode == chase) {
+						if (ghost.currentMode == BehaviourModes::chase) {
 							ghost.modeTimer = 20.0 + ghost.modeTimer;
-							ghost.currentMode = scatter;
+							ghost.currentMode = BehaviourModes::scatter;
 						}
-						else if (ghost.currentMode == dead)
+						else if (ghost.currentMode == BehaviourModes::dead)
 							ghost.modeTimer = 0;
 						else {
 							ghost.modeTimer = 7.0 + ghost.modeTimer;
-							ghost.currentMode = chase;
+							ghost.currentMode = BehaviourModes::chase;
 						}
 					}
 
@@ -51,22 +51,22 @@ public:
 				AnimationSet& animSet = m_registry.get<AnimationSet>(entity);
 				while (potentialDistance > 0) {
 					Tile currentTile = { (position.x + ENTITYSIZE / 2) / TILESIZE,(position.y + ENTITYSIZE / 2) / TILESIZE };
-					if (((position.x+2 ) % TILESIZE == 0 && (position.y+2) % TILESIZE == 0) || ghost.direction == null ) {
+					if (((position.x+2 ) % TILESIZE == 0 && (position.y+2) % TILESIZE == 0) || ghost.direction == Direction::null ) {
 						if(currentTile.x > 0 && currentTile.x <= 27 && currentTile.y > 0 && currentTile.y <= 30)
 						ghost.direction = ghost.behavior(m_registry, layout);
 
 						std::string animset = "";
 						switch (ghost.direction) {
-						case left:
+						case Direction::left:
 							animset += "left";
 							break;
-						case right:
+						case Direction::right:
 							animset += "right";
 							break;
-						case up:
+						case Direction::up:
 							animset += "up";
 							break;
-						case down:
+						case Direction::down:
 							animset += "down";
 							break;
 						default:
@@ -74,10 +74,10 @@ public:
 							break;
 						}
 						switch (ghost.currentMode) {
-						case dead:
+						case BehaviourModes::dead:
 							animset += "d";
 							break;
-						case afraid:
+						case BehaviourModes::afraid:
 							animset = "afraid";
 							break;
 						}
@@ -85,19 +85,19 @@ public:
 						animSet.changeAnimation(animset);
 					}
 					switch (ghost.direction) {
-					case left:
+					case Direction::left:
 						position.x = (position.x - 1) == -TILESIZE ? 28 * TILESIZE: position.x-1;
 						--potentialDistance;
 						break;
-					case right:
+					case Direction::right:
 						position.x = (position.x + 1) == 28 * TILESIZE ? -TILESIZE : position.x + 1;
 						--potentialDistance;
 						break;
-					case up:
+					case Direction::up:
 						position.y = (position.y - 1) == -TILESIZE ? 31 * TILESIZE : position.y - 1;
 						--potentialDistance;
 						break;
-					case down:
+					case Direction::down:
 						position.y = (position.y + 1) == 31 * TILESIZE ? -TILESIZE : position.y + 1;
 						--potentialDistance;
 						break;
@@ -107,11 +107,11 @@ public:
 					}
 				}
 				if (Tile ghostT{ (position.x + (TILESIZE / 2)) / TILESIZE,(position.y + (TILESIZE / 2)) / TILESIZE }, pac{ (playerPos.x + (TILESIZE / 2)) / TILESIZE,(playerPos.y + (TILESIZE / 2)) / TILESIZE }; pac == ghostT) {
-					if (ghost.currentMode == afraid) {
+					if (ghost.currentMode == BehaviourModes::afraid) {
 						playerState.score += 6000;
-						ghost.currentMode = dead;
+						ghost.currentMode = BehaviourModes::dead;
 					}
-					else if (ghost.currentMode != dead)
+					else if (ghost.currentMode != BehaviourModes::dead)
 						playerState.dead = true;
 				}
 			}

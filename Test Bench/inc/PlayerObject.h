@@ -64,7 +64,7 @@ public:
 			m_registry.assign<Pacman>(m_entity) = Pacman{ Direction::null,Direction::null,0,0 };
 		else {
 			auto& pac = m_registry.get<Pacman>(m_entity);
-			pac = Pacman{ null,null,pac.score };
+			pac = Pacman{ Direction::null,Direction::null,pac.score };
 		}
 	}
 };

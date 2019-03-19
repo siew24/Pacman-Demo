@@ -1,6 +1,6 @@
 #pragma once
 
-enum FruitType {
+enum class FruitType {
 	cherry = 100,
 	strawberry = 300,
 	peach = 500,
@@ -12,5 +12,5 @@ enum FruitType {
 };
 struct Fruit {
 	double timeSpawned = 0.0;
-	FruitType type;
+	FruitType type = FruitType::cherry;
 };

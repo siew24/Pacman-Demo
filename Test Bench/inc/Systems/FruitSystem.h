@@ -21,7 +21,7 @@ public:
 			[&](auto entity, Fruit& fruit, Position& fruitPos) {
 			if (((playerPos.x + (ENTITYSIZE / 2)) / TILESIZE == fruitPos.x / TILESIZE) && ((playerPos.y + (ENTITYSIZE / 2)) / TILESIZE == fruitPos.y / TILESIZE)) {
 
-				playerState.score += fruit.type;
+				playerState.score += static_cast<int>(fruit.type);
 
 				m_registry.destroy(entity);
 			}

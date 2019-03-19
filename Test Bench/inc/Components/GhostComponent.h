@@ -8,13 +8,13 @@
 
 using namespace bloom::components;
 
-enum Ghosts {
+enum class Ghosts {
 	shadow,
 	speedy,
 	bashful,
 	pokey
 };
-enum BehaviourModes {
+enum class BehaviourModes {
 	chase,
 	scatter,
 	afraid,
@@ -29,8 +29,8 @@ struct Ghost {
 	bool released = false;
 	bool inHouse = true;
 
-	BehaviourModes previousMode = scatter;
-	BehaviourModes currentMode = scatter;
+	BehaviourModes previousMode = BehaviourModes::scatter;
+	BehaviourModes currentMode = BehaviourModes::scatter;
 	double modeTimer = 7.0;
 	double afraidTimer = 6.0;
 	int modeLooped = 0;						// Between scatter and chase
@@ -41,7 +41,7 @@ struct Ghost {
 	double timeAvailable = 0.0;
 	double speed = 11 * TILESIZE;
 	double currSpeed = speed;
-	Direction direction = left;
+	Direction direction = Direction::left;
 
 
 };

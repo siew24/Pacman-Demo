@@ -97,13 +97,13 @@ void test_drawer(const std::filesystem::path& assetsPath)
 		game->handleEvents();
 
 		if (game->input.isKeyPressed(KEY_W) || game->input.isKeyPressed(KEY_UP))
-			level.changeDir(testRegistry, up);
+			level.changeDir(testRegistry, Direction::up);
 		else if (game->input.isKeyPressed(KEY_A) || game->input.isKeyPressed(KEY_LEFT))
-			level.changeDir(testRegistry, left);
+			level.changeDir(testRegistry, Direction::left);
 		else if (game->input.isKeyPressed(KEY_S) || game->input.isKeyPressed(KEY_DOWN))
-			level.changeDir(testRegistry, down);
+			level.changeDir(testRegistry, Direction::down);
 		else if (game->input.isKeyPressed(KEY_D) || game->input.isKeyPressed(KEY_RIGHT))
-			level.changeDir(testRegistry, right);
+			level.changeDir(testRegistry, Direction::right);
 		/*else
 			level.changeDir(testRegistry, null);*/
 

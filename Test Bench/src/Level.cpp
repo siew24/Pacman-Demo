@@ -70,25 +70,25 @@ void Level::m_generateEntities(const std::filesystem::path & texturePath, entt::
 			}
 			if (layout[i][j] < 0 && (std::abs(layout[i][j]) & 2) == 2) {
 				auto ghost = std::make_shared<GhostObject>(registry, m_gameInstance);
-				ghost->init(texturePath / "Entity", shadow, Tile{ j,i });
+				ghost->init(texturePath / "Entity", Ghosts::shadow, Tile{ j,i });
 				m_entities.emplace_back(ghost);
 				layout[i][j] |= 2;
 			}
 			if (layout[i][j] < 0 && (std::abs(layout[i][j]) & 4) == 4) {
 				auto ghost = std::make_shared<GhostObject>(registry, m_gameInstance);
-				ghost->init(texturePath / "Entity", speedy, Tile{ j,i });
+				ghost->init(texturePath / "Entity", Ghosts::speedy, Tile{ j,i });
 				m_entities.emplace_back(ghost);
 				layout[i][j] |= 4;
 			}
 			if (layout[i][j] < 0 && (std::abs(layout[i][j]) & 8) == 8) {
 				auto ghost = std::make_shared<GhostObject>(registry, m_gameInstance);
-				ghost->init(texturePath / "Entity", bashful, Tile{ j,i });
+				ghost->init(texturePath / "Entity", Ghosts::bashful, Tile{ j,i });
 				m_entities.emplace_back(ghost);
 				layout[i][j] |= 8;
 			}
 			if (layout[i][j] < 0 && (std::abs(layout[i][j]) & 16) == 16) {
 				auto ghost = std::make_shared<GhostObject>(registry, m_gameInstance);
-				ghost->init(texturePath / "Entity", pokey, Tile{ j,i });
+				ghost->init(texturePath / "Entity", Ghosts::pokey, Tile{ j,i });
 				m_entities.emplace_back(ghost);
 				layout[i][j] |= 16;
 			}

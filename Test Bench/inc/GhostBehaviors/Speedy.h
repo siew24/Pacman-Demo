@@ -15,26 +15,26 @@ namespace ghostBehaviors {
 
 		Tile target{ 0,0 };
 	reevaluate:
-		if (ghost.currentMode == chase)
+		if (ghost.currentMode == BehaviourModes::chase)
 			switch (pac.lastDir) {
-			case up:
+			case Direction::up:
 				target = Tile{ (pacPos.x + (ENTITYSIZE / 2)) / TILESIZE, (pacPos.y + (ENTITYSIZE / 2)) / TILESIZE - 4 };
 				break;
-			case down:
+			case Direction::down:
 				target = Tile{ (pacPos.x + (ENTITYSIZE / 2)) / TILESIZE, (pacPos.y + (ENTITYSIZE / 2)) / TILESIZE + 4 };
 				break;
-			case left:
+			case Direction::left:
 				target = Tile{ (pacPos.x + (ENTITYSIZE / 2)) / TILESIZE - 4, (pacPos.y + (ENTITYSIZE / 2)) / TILESIZE };
 				break;
-			case right:
+			case Direction::right:
 				target = Tile{ (pacPos.x + (ENTITYSIZE / 2)) / TILESIZE + 4, (pacPos.y + (ENTITYSIZE / 2)) / TILESIZE };
 				break;
 			}
-		else if (ghost.currentMode == scatter)
+		else if (ghost.currentMode == BehaviourModes::scatter)
 			target = Tile{ 2,-2 }; // Need coordinates to corner
-		else if (ghost.currentMode == dead)
+		else if (ghost.currentMode == BehaviourModes::dead)
 			if (currentTile == ghost.spawnPoint) {
-				ghost.currentMode = chase;
+				ghost.currentMode = BehaviourModes::chase;
 				goto reevaluate;
 			}
 			else
@@ -43,8 +43,8 @@ namespace ghostBehaviors {
 		auto posibilities = generateCandidates(target, currentTile, ghost, layout);
 
 		if (posibilities.empty())
-			return null;
-		else if (ghost.currentMode == afraid)
+			return Direction::null;
+		else if (ghost.currentMode == BehaviourModes::afraid)
 			return posibilities[rand() % posibilities.size()].first;
 		else
 			return posibilities[0].first;

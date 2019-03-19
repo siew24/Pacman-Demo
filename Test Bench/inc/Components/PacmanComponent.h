@@ -5,8 +5,8 @@
 
 struct Pacman {
 	
-	Direction direction=null;
-	Direction nextDir=null;
+	Direction direction= Direction::null;
+	Direction nextDir= Direction::null;
 
 	int score = 0;
 	int pelletsEaten = 0;

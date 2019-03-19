@@ -16,11 +16,11 @@ namespace ghostBehaviors {
 		double currentDistance = std::sqrt(std::pow(xDist, 2) + std::pow(yDist, 2));
 
 	reevaluate:
-		if (currentDistance <= 8.0 && ghost.currentMode == chase || ghost.currentMode == scatter)
+		if (currentDistance <= 8.0 && ghost.currentMode == BehaviourModes::chase || ghost.currentMode == BehaviourModes::scatter)
 			target = Tile{ 0,31 }; // Need coordinates to corner
-		else if (ghost.currentMode == dead)
+		else if (ghost.currentMode == BehaviourModes::dead)
 			if (currentTile == ghost.spawnPoint) {
-				ghost.currentMode = chase;
+				ghost.currentMode = BehaviourModes::chase;
 				goto reevaluate;
 			}
 			else
@@ -29,8 +29,8 @@ namespace ghostBehaviors {
 		auto posibilities = generateCandidates(target, currentTile, ghost, layout);
 
 		if (posibilities.empty())
-			return null;
-		else if (ghost.currentMode == afraid)
+			return Direction::null;
+		else if (ghost.currentMode == BehaviourModes::afraid)
 			return posibilities[rand() % posibilities.size()].first;
 		else
 			return posibilities[0].first;

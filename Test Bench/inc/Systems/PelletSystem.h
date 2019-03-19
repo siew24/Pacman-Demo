@@ -38,10 +38,10 @@ public:
 
 					m_registry.view<Ghost>().each(
 						[](auto entity, Ghost& ghost) {
-							if (ghost.currentMode != dead && !ghost.inHouse) {
+							if (ghost.currentMode != BehaviourModes::dead && !ghost.inHouse) {
 								ghost.lastTile = Tile{ 0,0 };
 								ghost.previousMode = ghost.currentMode;
-								ghost.currentMode = afraid;
+								ghost.currentMode = BehaviourModes::afraid;
 								ghost.afraidTimer = 6.0;
 							}
 						}

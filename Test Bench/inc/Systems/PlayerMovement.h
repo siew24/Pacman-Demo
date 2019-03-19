@@ -31,16 +31,16 @@ public:
 						{
 							auto tmp = nextTile;
 							switch (player.nextDir) {
-							case up:
+							case Direction::up:
 								tmp = { nextTile.x, nextTile.y - 1 };
 								break;
-							case down:
+							case Direction::down:
 								tmp = { nextTile.x, nextTile.y + 1 };
 								break;
-							case left:
+							case Direction::left:
 								tmp = { nextTile.x - 1, nextTile.y };
 								break;
-							case right:
+							case Direction::right:
 								tmp = { nextTile.x + 1, nextTile.y };
 								break;
 							}
@@ -48,41 +48,41 @@ public:
 								nextTile = tmp;
 								player.direction = player.nextDir;
 								switch (player.direction) {
-								case right:
+								case Direction::right:
 									AnimSet.changeAnimation("right");
 									break;
-								case left:
+								case Direction::left:
 									AnimSet.changeAnimation("left");
 									break;
-								case up:
+								case Direction::up:
 									AnimSet.changeAnimation("up");
 									break;
-								case down:
+								case Direction::down:
 									AnimSet.changeAnimation("down");
 									break;
 								}
 							}
 						}
 					}
-					player.lastDir = player.direction != null ? player.direction : player.lastDir;
+					player.lastDir = player.direction != Direction::null ? player.direction : player.lastDir;
 				}
 
 
-				if (player.direction != null && potentialDistance > 0) {
+				if (player.direction != Direction::null && potentialDistance > 0) {
 					Tile nextTile = playerTile;
 					{
 						auto tmp = nextTile;
 						switch (player.direction) {
-						case up:
+						case Direction::up:
 							tmp = { nextTile.x, nextTile.y - 1 };
 							break;
-						case down:
+						case Direction::down:
 							tmp = { nextTile.x, nextTile.y + 1 };
 							break;
-						case left:
+						case Direction::left:
 							tmp = { nextTile.x - 1, nextTile.y };
 							break;
-						case right:
+						case Direction::right:
 							tmp = { nextTile.x + 1, nextTile.y };
 							break;
 						}
