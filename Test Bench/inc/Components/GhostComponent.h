@@ -33,6 +33,8 @@ struct Ghost {
 	BehaviourModes currentMode = BehaviourModes::scatter;
 	double modeTimer = 7.0;
 	double afraidTimer = 6.0;
+	double chaseTimer = 20.0;
+	double scatterTimer = 7.0;
 	int modeLooped = 0;						// Between scatter and chase
 
 	Tile lastTile = { 0,0 };

@@ -31,15 +31,16 @@ public:
 						ghost.modeTimer -= potentialDistance / ghost.currSpeed;
 
 					if (ghost.modeTimer <= 0.0) {
-						if (ghost.currentMode == BehaviourModes::chase) {
-							ghost.modeTimer = 20.0 + ghost.modeTimer;
-							ghost.currentMode = BehaviourModes::scatter;
+						if (ghost.currentMode == chase) {
+							ghost.modeTimer = ghost.scatterTimer;
+							ghost.currentMode = scatter;
 						}
 						else if (ghost.currentMode == BehaviourModes::dead)
 							ghost.modeTimer = 0;
 						else {
-							ghost.modeTimer = 7.0 + ghost.modeTimer;
-							ghost.currentMode = BehaviourModes::chase;
+							ghost.modeTimer = ghost.chaseTimer;
+							ghost.currentMode = chase;
+							ghost.modeLooped++;
 						}
 					}
 

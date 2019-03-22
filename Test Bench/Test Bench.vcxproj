@@ -215,6 +215,7 @@
     <ClInclude Include="inc\Systems\PlayerMovement.h" />
     <ClInclude Include="Header Files\WallComponent.h" />
     <ClInclude Include="inc\Systems\SpeedDirectorSystem.h" />
+    <ClInclude Include="inc\Systems\TimeDirectorSystem.h" />
     <ClInclude Include="inc\Tile.h" />
   </ItemGroup>
   <ItemGroup>

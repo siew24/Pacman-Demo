@@ -12,6 +12,7 @@
 #include "inc/Systems/GhostAI.h"
 #include "inc/Systems/GameDirectorSystem.h"
 #include "inc/Systems/SpeedDirectorSystem.h"
+#include "inc/Systems/TimeDirectorSystem.h"
 #include "getExePath.h"
 
 using namespace bloom;
@@ -65,11 +66,13 @@ void test_drawer(const std::filesystem::path& assetsPath)
 	level.changeLevel(levelDir / "0.txt", tileDir, testRegistry);
 	playerMovement.layout = level.layout;
 	ghostMovement.layout = level.layout;
-	GameDirectorSystem director(testRegistry);
-	director.setParameters(game, assetsPath);
-	director.init();
-	SpeedDirectorSystem speedDir(testRegistry);
-	speedDir.layout = level.layout;
+	GameDirectorSystem gameDirector(testRegistry);
+	gameDirector.setParameters(game, assetsPath);
+	gameDirector.init();
+	SpeedDirectorSystem speedDirector(testRegistry);
+	speedDirector.layout = level.layout;
+	TimeDirectorSystem timeDirector(testRegistry);
+	timeDirector.levelNumber = 1;
 
 	std::filesystem::path pacDir = assetsPath / L"Pacman.png";
 	std::filesystem::path ghostDir = assetsPath;
@@ -113,8 +116,9 @@ void test_drawer(const std::filesystem::path& assetsPath)
 		ghostMovement.update(dt);
 		pelletSystem.update();
 		fruitSystem.update(dt);
-		speedDir.update();
-		director.update();
+		speedDirector.update();
+		timeDirector.update();
+		gameDirector.update();
 		animSysTest.update(dt);
 		renderSysTest.update(); // Test again.
 		game->render();
@@ -126,7 +130,8 @@ void test_drawer(const std::filesystem::path& assetsPath)
 			sounds[1]->play();
 			game->delay(5500);
 			level.changeLevel(levelDir / "0.txt", tileDir, testRegistry);
-			director.init();
+			gameDirector.init();
+			timeDirector.levelNumber++;
 		}
 		else if (level.gameOver(testRegistry)) {
 			std::cout << "Game Over!" << std::endl;
