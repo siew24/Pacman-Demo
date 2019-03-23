@@ -66,12 +66,17 @@ void test_drawer(const std::filesystem::path& assetsPath)
 	level.changeLevel(levelDir / "0.txt", tileDir, testRegistry);
 	playerMovement.layout = level.layout;
 	ghostMovement.layout = level.layout;
+	
 	GameDirectorSystem gameDirector(testRegistry);
+	SpeedDirectorSystem speedDirector(testRegistry);
+	TimeDirectorSystem timeDirector(testRegistry);
+	
 	gameDirector.setParameters(game, assetsPath);
 	gameDirector.init();
-	SpeedDirectorSystem speedDirector(testRegistry);
+	
+	speedDirector.init(); 
 	speedDirector.layout = level.layout;
-	TimeDirectorSystem timeDirector(testRegistry);
+	
 	timeDirector.levelNumber = 1;
 
 	std::filesystem::path pacDir = assetsPath / L"Pacman.png";
@@ -130,6 +135,7 @@ void test_drawer(const std::filesystem::path& assetsPath)
 			sounds[1]->play();
 			game->delay(5500);
 			level.changeLevel(levelDir / "0.txt", tileDir, testRegistry);
+			speedDirector.init();
 			gameDirector.init();
 			timeDirector.levelNumber++;
 		}

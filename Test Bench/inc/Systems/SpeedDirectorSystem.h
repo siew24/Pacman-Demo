@@ -8,6 +8,9 @@ class SpeedDirectorSystem : public bloom::systems::System {
 	using bloom::systems::System::DefaultSystem;
 
 public:
+	void init() {
+		m_registry.view<Pacman>().each([&](auto entity, auto& pac) { player = &pac; });
+	}
 	virtual void update(std::optional<double> deltaTime = std::nullopt) override {
 		m_registry.view<Position, Ghost>().each([&](auto entity, auto& position, auto& ghost) {
 
@@ -19,6 +22,15 @@ public:
 			{
 				ghost.currSpeed = ghost.speed * 0.5;
 				m_isFrightened = true;
+			}
+			else if (m_registry.has<entt::label<"shadow"_hs>>(entity)) {
+				
+				if (244 - player->pelletsEaten == Elroy_1_dotsLeft)
+					ghost.currSpeed = ghost.speed * Elroy_1_Speed;
+				else if (244 - player->pelletsEaten == Elroy_2_dotsLeft)
+					ghost.currSpeed = ghost.speed * Elroy_2_Speed;
+				else
+					ghost.currSpeed = ghost.speed * 0.75;
 			}
 			else
 				ghost.currSpeed = ghost.speed * 0.75;
@@ -48,4 +60,11 @@ private:
 		return false;
 	}
 	bool m_isFrightened = false;
+
+	Pacman* player;
+
+	int Elroy_1_dotsLeft = 20;
+	int Elroy_1_Speed = 0.8;
+	int Elroy_2_dotsLeft = 10;
+	int Elroy_2_Speed = 0.85;
 };

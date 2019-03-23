@@ -31,22 +31,22 @@ public:
 						ghost.modeTimer -= potentialDistance / ghost.currSpeed;
 
 					if (ghost.modeTimer <= 0.0) {
-						if (ghost.currentMode == chase) {
+						if (ghost.currentMode == BehaviourModes::chase) {
 							ghost.modeTimer = ghost.scatterTimer;
-							ghost.currentMode = scatter;
+							ghost.currentMode = BehaviourModes::scatter;
 						}
 						else if (ghost.currentMode == BehaviourModes::dead)
 							ghost.modeTimer = 0;
 						else {
 							ghost.modeTimer = ghost.chaseTimer;
-							ghost.currentMode = chase;
+							ghost.currentMode = BehaviourModes::chase;
 							ghost.modeLooped++;
 						}
 					}
 
 					if (ghost.afraidTimer <= 0.0) {
 						ghost.currentMode = ghost.previousMode;
-						ghost.afraidTimer = 60.0;
+						ghost.afraidTimer = 6.0;
 					}
 				}
 				AnimationSet& animSet = m_registry.get<AnimationSet>(entity);
