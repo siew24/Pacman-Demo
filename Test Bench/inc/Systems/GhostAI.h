@@ -30,14 +30,14 @@ public:
 					else
 						ghost.modeTimes[ghost.modeLooped] -= potentialDistance / ghost.currSpeed;
 
-					if (ghost.modeLooped <= 8 && ghost.modeTimes[ghost.modeLooped] <= 0.0 ) {
+					if (ghost.modeLooped < 8 && ghost.modeTimes[ghost.modeLooped] <= 0.0 ) {
 						if (ghost.currentMode == BehaviourModes::chase) {
 							ghost.currentMode = BehaviourModes::scatter;
 							++ghost.modeLooped;
 						}
 						else {
 							ghost.currentMode = BehaviourModes::chase;
-							ghost.modeLooped++;
+							++ghost.modeLooped;
 						}
 					}
 

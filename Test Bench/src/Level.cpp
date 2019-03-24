@@ -70,7 +70,7 @@ void Level::m_generateEntities(const std::filesystem::path& TimeData, int levelN
 		for (int j = 0; j < 8; ++j)
 			fin >> times[j];
 
-		if (levelNumber >= l && levelNumber < r)
+		if (levelNumber >= l && levelNumber < r || r == -1)
 			break;
 
 	}
