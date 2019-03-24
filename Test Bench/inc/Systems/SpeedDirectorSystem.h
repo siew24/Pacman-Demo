@@ -3,6 +3,10 @@
 #include "../Components/ComponentIncludes.h"
 #include "../Configs.h"
 
+namespace ghostBehaviors {
+	Direction shadow(entt::DefaultRegistry& registry, std::vector<std::vector<int>>& layout);
+}
+
 class SpeedDirectorSystem : public bloom::systems::System {
 	using Position = bloom::components::Position;
 	using bloom::systems::System::DefaultSystem;
@@ -17,13 +21,13 @@ public:
 			Tile ghostTile{ (position.x + (ENTITYSIZE / 2)) / TILESIZE, (position.y + (ENTITYSIZE / 2)) / TILESIZE };
 
 			if (checkTunnel(ghostTile))
-				ghost.currSpeed = ghost.speed * 0.4;
+				ghost.currSpeed = ghost.speed * ghost.levelVars.multipliers[1];
 			else if (ghost.currentMode == BehaviourModes::afraid)			// Frightened
 			{
-				ghost.currSpeed = ghost.speed * 0.5;
+				ghost.currSpeed = ghost.speed * ghost.levelVars.multipliers[2];
 				isFrightened = true;
 			}
-			else if (m_registry.has<entt::label<"shadow"_hs>>(entity)) {
+			else if (ghost.behavior.target<Direction(entt::DefaultRegistry&, std::vector<std::vector<int>>&)>() == ghostBehaviors::shadow) {
 
 				if (244 - player->pelletsEaten == Elroy_1_dotsLeft)
 					ghost.currSpeed = ghost.speed * Elroy_1_Speed;
@@ -33,7 +37,7 @@ public:
 					ghost.currSpeed = ghost.speed * 0.75;
 			}
 			else
-				ghost.currSpeed = ghost.speed * 0.75;
+				ghost.currSpeed = ghost.speed * ghost.levelVars.multipliers[0];
 			}
 		);
 		player->currSpeed = isFrightened ? player->speed * player->multipliers[1] : player->speed * player->multipliers[0];

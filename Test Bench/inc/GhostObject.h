@@ -15,29 +15,52 @@ class GhostObject : public bloom::GameObject {
 public:
 	void init() override {}
 
-	void init(const std::filesystem::path texturePath, Ghosts id, Tile spawnTile, std::array<double, 8> modeTimes, int flashAmount = 6) {
+	void init(const std::filesystem::path texturePath, Ghosts id, Tile spawnTile, GhostInitDetails details) {
 		m_registry.replace<Position>(m_entity, spawnTile.x * TILESIZE - 2 - 4, spawnTile.y * TILESIZE - 2);
 		m_registry.accommodate<Size>(m_entity, ENTITYSIZE, ENTITYSIZE);
 		bloom::graphics::TexturePtr tmp;
 
 		if (id == Ghosts::shadow) {
 			m_registry.accommodate<entt::label<"shadow"_hs>>(m_entity);
-			m_registry.accommodate<Ghost>(m_entity) = Ghost{ ghostBehaviors::shadow, Tile{spawnTile.x, spawnTile.y + 3},modeTimes,flashAmount,0, true, false };
+			m_registry.accommodate<Ghost>(m_entity)= Ghost{ 
+				ghostBehaviors::shadow,
+				Tile{spawnTile.x, spawnTile.y + 3},
+				details,
+				0,
+				true,
+				false 
+			};
 			tmp = m_gameInstance->textures.load(texturePath / "Red.png");
 		}
 		else if (id == Ghosts::speedy) {
 			m_registry.accommodate<entt::label<"speedy"_hs>>(m_entity);
-			auto ghost = m_registry.accommodate<Ghost>(m_entity) = Ghost{ ghostBehaviors::speedy, spawnTile,modeTimes,flashAmount, 0, true };
+			auto ghost = m_registry.accommodate<Ghost>(m_entity) = Ghost{ 
+				ghostBehaviors::speedy, 
+				spawnTile,
+				details,
+				0, 
+				true 
+			};
 			tmp = m_gameInstance->textures.load(texturePath / "Pinky.png");
 		}
 		else if (id == Ghosts::bashful) {
 			m_registry.accommodate<entt::label<"bashful"_hs>>(m_entity);
-			m_registry.accommodate<Ghost>(m_entity) = Ghost{ ghostBehaviors::bashful, spawnTile , modeTimes,flashAmount,30 };
+			m_registry.accommodate<Ghost>(m_entity) = Ghost{ 
+				ghostBehaviors::bashful, 
+				spawnTile ,
+				details,
+				30 
+			};
 			tmp = m_gameInstance->textures.load(texturePath / "Blue.png");
 		}
 		else if (id == Ghosts::pokey) {
 			m_registry.accommodate<entt::label<"pokey"_hs>>(m_entity);
-			m_registry.accommodate<Ghost>(m_entity) = Ghost{ ghostBehaviors::pokey, spawnTile,modeTimes,flashAmount,60 };
+			m_registry.accommodate<Ghost>(m_entity) = Ghost{ 
+				ghostBehaviors::pokey, 
+				spawnTile,
+				details,
+				60 
+			};
 			tmp = m_gameInstance->textures.load(texturePath / "Orange.png");
 		}
 

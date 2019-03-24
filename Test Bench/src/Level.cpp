@@ -57,16 +57,15 @@ void Level::m_generateTexture(const std::filesystem::path & tilePath) {
 	SDL_SetRenderTarget(m_renderer, nullptr);
 }
 void Level::m_generateEntities(const std::filesystem::path& TimeDataPath, int levelNumber, const std::filesystem::path & texturePath, entt::DefaultRegistry & registry) {
-	// Load times
+	GhostInitDetails ghostDet;
 	std::ifstream fin(TimeDataPath / "TimerData.txt");
 	int entries;
 	fin >> entries;
 	int l, r;
-	std::array<double, 8> ghostModeTimes;
 	for (int i = 0; i < entries; ++i) {
 		fin >> l >> r;
 		for (int j = 0; j < 8; ++j)
-			fin >> ghostModeTimes[j];
+			fin >> ghostDet.modeTimes[j];
 
 		if (levelNumber >= l && levelNumber < r || r == -1)
 			break;
@@ -86,10 +85,28 @@ void Level::m_generateEntities(const std::filesystem::path& TimeDataPath, int le
 
 	fin = std::ifstream(TimeDataPath / "AfraidFlash.txt");
 	fin >> entries;
-	int flashNumber;
 	for (int i = 0; i < entries; ++i) {
 		fin >> l >> r;
-		fin >> flashNumber;
+		fin >> ghostDet.flashAmount;
+
+		if (levelNumber >= l && levelNumber < r || r == -1)
+			break;
+	}
+
+	fin = std::ifstream(TimeDataPath / "FrightTimes.txt");
+	fin >> entries;
+	for (int i = 0; i < entries; ++i) {
+		fin >> ghostDet.afraidTime;
+		if (i == levelNumber)
+			break;
+	}
+
+	fin = std::ifstream(TimeDataPath / "GhostSpeed.txt");
+	fin >> entries;
+	for (int i = 0; i < entries; ++i) {
+		fin >> l >> r;
+		for (int j = 0; j < 3; ++j)
+			fin >> ghostDet.multipliers[j];
 
 		if (levelNumber >= l && levelNumber < r || r == -1)
 			break;
@@ -106,25 +123,25 @@ void Level::m_generateEntities(const std::filesystem::path& TimeDataPath, int le
 			}
 			if (layout[i][j] < 0 && (std::abs(layout[i][j]) & 2) == 2) {
 				auto ghost = std::make_shared<GhostObject>(registry, m_gameInstance);
-				ghost->init(texturePath / "Entity", Ghosts::shadow, Tile{ j,i }, ghostModeTimes, flashNumber);
+				ghost->init(texturePath / "Entity", Ghosts::shadow, Tile{ j,i }, ghostDet);
 				m_entities.emplace_back(ghost);
 				layout[i][j] |= 2;
 			}
 			if (layout[i][j] < 0 && (std::abs(layout[i][j]) & 4) == 4) {
 				auto ghost = std::make_shared<GhostObject>(registry, m_gameInstance);
-				ghost->init(texturePath / "Entity", Ghosts::speedy, Tile{ j,i }, ghostModeTimes, flashNumber);
+				ghost->init(texturePath / "Entity", Ghosts::speedy, Tile{ j,i }, ghostDet);
 				m_entities.emplace_back(ghost);
 				layout[i][j] |= 4;
 			}
 			if (layout[i][j] < 0 && (std::abs(layout[i][j]) & 8) == 8) {
 				auto ghost = std::make_shared<GhostObject>(registry, m_gameInstance);
-				ghost->init(texturePath / "Entity", Ghosts::bashful, Tile{ j,i }, ghostModeTimes, flashNumber);
+				ghost->init(texturePath / "Entity", Ghosts::bashful, Tile{ j,i }, ghostDet);
 				m_entities.emplace_back(ghost);
 				layout[i][j] |= 8;
 			}
 			if (layout[i][j] < 0 && (std::abs(layout[i][j]) & 16) == 16) {
 				auto ghost = std::make_shared<GhostObject>(registry, m_gameInstance);
-				ghost->init(texturePath / "Entity", Ghosts::pokey, Tile{ j,i }, ghostModeTimes, flashNumber);
+				ghost->init(texturePath / "Entity", Ghosts::pokey, Tile{ j,i }, ghostDet);
 				m_entities.emplace_back(ghost);
 				layout[i][j] |= 16;
 			}

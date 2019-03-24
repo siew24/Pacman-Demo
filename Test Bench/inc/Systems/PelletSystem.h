@@ -42,6 +42,7 @@ public:
 								ghost.lastTile = Tile{ 0,0 };
 								ghost.previousMode = ghost.currentMode;
 								ghost.currentMode = BehaviourModes::afraid;
+								ghost.afraidTimer = ghost.levelVars.afraidTime;
 							}
 						}
 					);

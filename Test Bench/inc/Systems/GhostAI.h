@@ -28,9 +28,9 @@ public:
 					if(ghost.currentMode == BehaviourModes::afraid)
 						ghost.afraidTimer -= potentialDistance / ghost.currSpeed;
 					else
-						ghost.modeTimes[ghost.modeLooped] -= potentialDistance / ghost.currSpeed;
+						ghost.levelVars.modeTimes[ghost.modeLooped] -= potentialDistance / ghost.currSpeed;
 
-					if (ghost.modeLooped < 8 && ghost.modeTimes[ghost.modeLooped] <= 0.0 ) {
+					if (ghost.modeLooped < 8 && ghost.levelVars.modeTimes[ghost.modeLooped] <= 0.0 ) {
 						if (ghost.currentMode == BehaviourModes::chase) {
 							ghost.currentMode = BehaviourModes::scatter;
 							++ghost.modeLooped;
@@ -41,10 +41,9 @@ public:
 						}
 					}
 
-					if (ghost.afraidTimer <= 0.0) {
+					if (ghost.currentMode == BehaviourModes::afraid && ghost.afraidTimer <= 0.0 )
 						ghost.currentMode = ghost.previousMode;
-						ghost.afraidTimer = 6.0;
-					}
+
 				}
 				AnimationSet& animSet = m_registry.get<AnimationSet>(entity);
 				while (potentialDistance > 0) {
@@ -76,7 +75,7 @@ public:
 							animset += "d";
 							break;
 						case BehaviourModes::afraid:
-							animset = (ghost.afraidTimer <= ghost.flashes * (ENTITYFRAMETIME / 1000.0) * 4)?  "afraidFlash" : "afraid";
+							animset = (ghost.afraidTimer <= ghost.levelVars.flashAmount * (ENTITYFRAMETIME / 1000.0) * 4)?  "afraidFlash" : "afraid";
 							break;
 						}
 
