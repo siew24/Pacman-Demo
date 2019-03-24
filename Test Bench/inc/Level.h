@@ -12,7 +12,7 @@ public:
 	Level(bloom::Game*& gameInstance);
 	~Level();
 
-	void changeLevel(const std::filesystem::path& levelFile, const std::filesystem::path& texturePath, entt::DefaultRegistry& registry);
+	void changeLevel(const std::filesystem::path& levelFile,int levelNumber, const std::filesystem::path& texturePath, entt::DefaultRegistry& registry);
 
 	void draw();
 	size_t pelletCount() {return m_pellets;}
@@ -35,7 +35,7 @@ public:
 private:
 	void m_load(const std::filesystem::path& levelData);
 	void m_generateTexture(const std::filesystem::path& tilePath);
-	void m_generateEntities(const std::filesystem::path& pelletTexturePath, entt::DefaultRegistry& registry);
+	void m_generateEntities(const std::filesystem::path& TimeData, int levelNumber, const std::filesystem::path& pelletTexturePath, entt::DefaultRegistry& registry);
 	void m_cleanup();
 
 
@@ -44,6 +44,7 @@ private:
 	SDL_Texture* m_levelTex = nullptr;
 	std::vector<std::shared_ptr<bloom::GameObject>> m_entities;
 	std::shared_ptr<Player> playerEntity;
+	std::array<double, 8> m_ghostTimes;
 
 	int m_pellets = 0;
 };

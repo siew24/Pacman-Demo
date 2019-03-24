@@ -25,17 +25,17 @@ enum class BehaviourModes {
 struct Ghost {
 	std::function<Direction(entt::DefaultRegistry&, std::vector<std::vector<int>>&)> behavior;
 	Tile spawnPoint;
+	std::array<double, 8> modeTimes;
 	int dotLimit = 0;
+	
 	bool released = false;
 	bool inHouse = true;
 
 	BehaviourModes previousMode = BehaviourModes::scatter;
 	BehaviourModes currentMode = BehaviourModes::scatter;
-	double modeTimer = 7.0;
+
 	double afraidTimer = 6.0;
-	double chaseTimer = 20.0;
-	double scatterTimer = 7.0;
-	int modeLooped = 0;						// Between scatter and chase
+	int modeLooped = 0;
 
 	Tile lastTile = { 0,0 };
 	int moveX = 0, moveY = 0;	
@@ -45,5 +45,5 @@ struct Ghost {
 	double currSpeed = speed;
 	Direction direction = Direction::left;
 
-
+	
 };

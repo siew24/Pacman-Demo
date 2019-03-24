@@ -338,6 +338,7 @@
   <ItemGroup>
     <Text Include="data\Assets\Level\0.txt" />
     <Text Include="data\Assets\Level\BITFLAGS.TXT" />
+    <Text Include="data\Assets\Level\TimerData.txt" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="data\Music\pacman_beginning.wav">

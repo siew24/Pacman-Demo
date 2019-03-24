@@ -28,17 +28,14 @@ public:
 					if(ghost.currentMode == BehaviourModes::afraid)
 						ghost.afraidTimer -= potentialDistance / ghost.currSpeed;
 					else
-						ghost.modeTimer -= potentialDistance / ghost.currSpeed;
+						ghost.modeTimes[ghost.modeLooped] -= potentialDistance / ghost.currSpeed;
 
-					if (ghost.modeTimer <= 0.0) {
+					if (ghost.modeLooped <= 8 && ghost.modeTimes[ghost.modeLooped] <= 0.0 ) {
 						if (ghost.currentMode == BehaviourModes::chase) {
-							ghost.modeTimer = ghost.scatterTimer;
 							ghost.currentMode = BehaviourModes::scatter;
+							++ghost.modeLooped;
 						}
-						else if (ghost.currentMode == BehaviourModes::dead)
-							ghost.modeTimer = 0;
 						else {
-							ghost.modeTimer = ghost.chaseTimer;
 							ghost.currentMode = BehaviourModes::chase;
 							ghost.modeLooped++;
 						}
