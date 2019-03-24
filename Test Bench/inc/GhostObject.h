@@ -69,12 +69,7 @@ public:
 			Sprite(tmp, SDL_Rect{ 0 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE }),
 			Sprite(tmp, SDL_Rect{ 1 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE })
 		};
-		AnimationPtr afraid = std::make_shared<Animation>();
-		afraid->animationFrames = {
-			Sprite(tmp2, SDL_Rect{ 0 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE }),
-			//Sprite(tmp2, SDL_Rect{ 1 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE })
-		};
-
+		
 		AnimationPtr downd = std::make_shared<Animation>();
 		downd->animationFrames = {
 			Sprite(tmp3, SDL_Rect{ 2 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE }),
@@ -98,6 +93,17 @@ public:
 			Sprite(tmp3, SDL_Rect{ 0 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE }),
 			Sprite(tmp3, SDL_Rect{ 1 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE })
 		};
+		AnimationPtr afraid = std::make_shared<Animation>();
+		afraid->animationFrames = {
+			//Sprite(tmp2, SDL_Rect{ 0 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE }),
+			Sprite(tmp2, SDL_Rect{ 1 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE })
+		};
+		AnimationPtr afraidFlash = std::make_shared<Animation>();
+		afraidFlash->animationFrames = {
+			Sprite(tmp2, SDL_Rect{ 0 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE }),
+			Sprite(tmp2, SDL_Rect{ 1 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE })
+		};
+
 
 		up->setFrameTime(ENTITYFRAMETIME);
 		down->setFrameTime(ENTITYFRAMETIME);
@@ -107,7 +113,8 @@ public:
 		downd->setFrameTime(ENTITYFRAMETIME);
 		leftd->setFrameTime(ENTITYFRAMETIME);
 		rightd->setFrameTime(ENTITYFRAMETIME);
-		afraid->setFrameTime(500);
+		afraid->setFrameTime(ENTITYFRAMETIME);
+		afraidFlash->setFrameTime(200);
 
 		AnimationSet animSet;
 		animSet.addAnimation("up", up);

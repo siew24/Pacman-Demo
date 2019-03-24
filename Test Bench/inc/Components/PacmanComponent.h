@@ -1,4 +1,5 @@
 #pragma once
+#include <array>
 #include "../Direction.h"
 #include "../Tile.h"
 #include "../Configs.h"
@@ -10,6 +11,7 @@ struct Pacman {
 
 	int score = 0;
 	int pelletsEaten = 0;
+	std::array<double, 2> multipliers;
 
 	bool dead = false;
 	Direction lastDir;

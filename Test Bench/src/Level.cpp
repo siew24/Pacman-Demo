@@ -25,7 +25,7 @@ void Level::changeLevel(const std::filesystem::path & levelFile, int levelNumber
 	m_entities.clear();
 	m_load(levelFile);
 	m_generateTexture(texturePath);
-	m_generateEntities(levelFile.parent_path() / "TimerData.txt" ,  levelNumber, texturePath, registry);
+	m_generateEntities(levelFile.parent_path(),  levelNumber, texturePath, registry);
 	m_cleanup();
 }
 
@@ -40,8 +40,6 @@ void Level::m_load(const std::filesystem::path & levelData) {
 	for (int i = 0; i < h; ++i)
 		for (int j = 0; j < w; ++j)
 			fin >> std::hex >> layout[i][j];
-
-	
 }
 
 void Level::m_generateTexture(const std::filesystem::path & tilePath) {
@@ -58,53 +56,64 @@ void Level::m_generateTexture(const std::filesystem::path & tilePath) {
 
 	SDL_SetRenderTarget(m_renderer, nullptr);
 }
-void Level::m_generateEntities(const std::filesystem::path& TimeData, int levelNumber, const std::filesystem::path & texturePath, entt::DefaultRegistry & registry) {
+void Level::m_generateEntities(const std::filesystem::path& TimeDataPath, int levelNumber, const std::filesystem::path & texturePath, entt::DefaultRegistry & registry) {
 	// Load times
-	std::ifstream fin(TimeData);
+	std::ifstream fin(TimeDataPath / "TimerData.txt");
 	int entries;
 	fin >> entries;
 	int l, r;
-	std::array<double, 8> times;
+	std::array<double, 8> ghostModeTimes;
 	for (int i = 0; i < entries; ++i) {
 		fin >> l >> r;
 		for (int j = 0; j < 8; ++j)
-			fin >> times[j];
+			fin >> ghostModeTimes[j];
 
 		if (levelNumber >= l && levelNumber < r || r == -1)
 			break;
+	}
 
+	fin = std::ifstream(TimeDataPath / "PacmanSpeed.txt");
+	fin >> entries;
+	std::array<double, 2> pacmanSpeeds;
+	for (int i = 0; i < entries; ++i) {
+		fin >> l >> r;
+		for (int j = 0; j < 2; ++j)
+			fin >> pacmanSpeeds[j];
+
+		if (levelNumber >= l && levelNumber < r || r == -1)
+			break;
 	}
 
 	for (int i = 0; i < layout.size(); ++i)
 		for (int j = 0; j < layout[i].size(); ++j) {
 			if (layout[i][j] < 0 && (std::abs(layout[i][j]) & 1) == 1) {
 				auto player = std::make_shared<Player>(registry, m_gameInstance);
-				player->init(texturePath / "Entity" / "Pacman.png", Tile{ j,i });
+				player->init(texturePath / "Entity" / "Pacman.png", Tile{ j,i }, pacmanSpeeds);
 				m_entities.emplace_back(player);
 				playerEntity = player;
 				layout[i][j] |= 1;
 			}
 			if (layout[i][j] < 0 && (std::abs(layout[i][j]) & 2) == 2) {
 				auto ghost = std::make_shared<GhostObject>(registry, m_gameInstance);
-				ghost->init(texturePath / "Entity", Ghosts::shadow, Tile{ j,i }, times);
+				ghost->init(texturePath / "Entity", Ghosts::shadow, Tile{ j,i }, ghostModeTimes);
 				m_entities.emplace_back(ghost);
 				layout[i][j] |= 2;
 			}
 			if (layout[i][j] < 0 && (std::abs(layout[i][j]) & 4) == 4) {
 				auto ghost = std::make_shared<GhostObject>(registry, m_gameInstance);
-				ghost->init(texturePath / "Entity", Ghosts::speedy, Tile{ j,i }, times);
+				ghost->init(texturePath / "Entity", Ghosts::speedy, Tile{ j,i }, ghostModeTimes);
 				m_entities.emplace_back(ghost);
 				layout[i][j] |= 4;
 			}
 			if (layout[i][j] < 0 && (std::abs(layout[i][j]) & 8) == 8) {
 				auto ghost = std::make_shared<GhostObject>(registry, m_gameInstance);
-				ghost->init(texturePath / "Entity", Ghosts::bashful, Tile{ j,i }, times);
+				ghost->init(texturePath / "Entity", Ghosts::bashful, Tile{ j,i }, ghostModeTimes);
 				m_entities.emplace_back(ghost);
 				layout[i][j] |= 8;
 			}
 			if (layout[i][j] < 0 && (std::abs(layout[i][j]) & 16) == 16) {
 				auto ghost = std::make_shared<GhostObject>(registry, m_gameInstance);
-				ghost->init(texturePath / "Entity", Ghosts::pokey, Tile{ j,i }, times);
+				ghost->init(texturePath / "Entity", Ghosts::pokey, Tile{ j,i }, ghostModeTimes);
 				m_entities.emplace_back(ghost);
 				layout[i][j] |= 16;
 			}

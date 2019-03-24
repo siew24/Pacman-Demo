@@ -122,9 +122,6 @@
     <ClInclude Include="inc\Systems\SpeedDirectorSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="inc\Systems\TimeDirectorSystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="data\Assets\Pacman_Spritesheet.png">
@@ -339,6 +336,7 @@
     <Text Include="data\Assets\Level\0.txt" />
     <Text Include="data\Assets\Level\BITFLAGS.TXT" />
     <Text Include="data\Assets\Level\TimerData.txt" />
+    <Text Include="data\Assets\Level\PacmanSpeed.txt" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="data\Music\pacman_beginning.wav">

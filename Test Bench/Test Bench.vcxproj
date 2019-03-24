@@ -215,7 +215,6 @@
     <ClInclude Include="inc\Systems\PlayerMovement.h" />
     <ClInclude Include="Header Files\WallComponent.h" />
     <ClInclude Include="inc\Systems\SpeedDirectorSystem.h" />
-    <ClInclude Include="inc\Systems\TimeDirectorSystem.h" />
     <ClInclude Include="inc\Tile.h" />
   </ItemGroup>
   <ItemGroup>
@@ -292,6 +291,7 @@
   <ItemGroup>
     <Text Include="data\Assets\Level\0.txt" />
     <Text Include="data\Assets\Level\BITFLAGS.TXT" />
+    <Text Include="data\Assets\Level\PacmanSpeed.txt" />
     <Text Include="data\Assets\Level\TimerData.txt" />
   </ItemGroup>
   <ItemGroup>
