@@ -16,6 +16,7 @@ public:
 		m_registry.view<Pacman>().each([&](auto entity, auto & pac) { player = &pac; });
 	}
 	virtual void update(std::optional<double> deltaTime = std::nullopt) override {
+		
 		bool isFrightened = false;
 		m_registry.view<Position, Ghost>().each([&](auto entity, auto & position, auto & ghost) {
 			Tile ghostTile{ (position.x + (ENTITYSIZE / 2)) / TILESIZE, (position.y + (ENTITYSIZE / 2)) / TILESIZE };
@@ -27,7 +28,7 @@ public:
 				ghost.currSpeed = ghost.speed * ghost.levelVars.multipliers[2];
 				isFrightened = true;
 			}
-			else if (ghost.behavior.target<Direction(entt::DefaultRegistry&, std::vector<std::vector<int>>&)>() == ghostBehaviors::shadow) {
+			else if (ghost.behavior == ghostBehaviors::shadow) {
 
 				if (244 - player->pelletsEaten == Elroy_1_dotsLeft)
 					ghost.currSpeed = ghost.speed * Elroy_1_Speed;

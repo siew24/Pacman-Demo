@@ -32,7 +32,7 @@ struct GhostInitDetails {
 
 
 struct Ghost {
-	std::function<Direction(entt::DefaultRegistry&, std::vector<std::vector<int>>&)> behavior;
+	Direction(*behavior)(entt::DefaultRegistry&, std::vector<std::vector<int>>&);
 	Tile spawnPoint;
 	GhostInitDetails levelVars;
 
