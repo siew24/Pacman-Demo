@@ -50,7 +50,7 @@ private:
 	Pacman* player;
 
 	int Elroy_1_dotsLeft = 20;
-	int Elroy_1_Speed = 0.8;
+	double Elroy_1_Speed = 0.8;
 	int Elroy_2_dotsLeft = 10;
-	int Elroy_2_Speed = 0.85;
+	double Elroy_2_Speed = 0.85;
 };
