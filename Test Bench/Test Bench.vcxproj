@@ -290,6 +290,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="data\Assets\Level\0.txt" />
+    <Text Include="data\Assets\Level\AfraidFlash.txt" />
     <Text Include="data\Assets\Level\BITFLAGS.TXT" />
     <Text Include="data\Assets\Level\PacmanSpeed.txt" />
     <Text Include="data\Assets\Level\TimerData.txt" />

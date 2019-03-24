@@ -337,6 +337,7 @@
     <Text Include="data\Assets\Level\BITFLAGS.TXT" />
     <Text Include="data\Assets\Level\TimerData.txt" />
     <Text Include="data\Assets\Level\PacmanSpeed.txt" />
+    <Text Include="data\Assets\Level\AfraidFlash.txt" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="data\Music\pacman_beginning.wav">

@@ -84,6 +84,17 @@ void Level::m_generateEntities(const std::filesystem::path& TimeDataPath, int le
 			break;
 	}
 
+	fin = std::ifstream(TimeDataPath / "AfraidFlash.txt");
+	fin >> entries;
+	int flashNumber;
+	for (int i = 0; i < entries; ++i) {
+		fin >> l >> r;
+		fin >> flashNumber;
+
+		if (levelNumber >= l && levelNumber < r || r == -1)
+			break;
+	}
+
 	for (int i = 0; i < layout.size(); ++i)
 		for (int j = 0; j < layout[i].size(); ++j) {
 			if (layout[i][j] < 0 && (std::abs(layout[i][j]) & 1) == 1) {
@@ -95,25 +106,25 @@ void Level::m_generateEntities(const std::filesystem::path& TimeDataPath, int le
 			}
 			if (layout[i][j] < 0 && (std::abs(layout[i][j]) & 2) == 2) {
 				auto ghost = std::make_shared<GhostObject>(registry, m_gameInstance);
-				ghost->init(texturePath / "Entity", Ghosts::shadow, Tile{ j,i }, ghostModeTimes);
+				ghost->init(texturePath / "Entity", Ghosts::shadow, Tile{ j,i }, ghostModeTimes, flashNumber);
 				m_entities.emplace_back(ghost);
 				layout[i][j] |= 2;
 			}
 			if (layout[i][j] < 0 && (std::abs(layout[i][j]) & 4) == 4) {
 				auto ghost = std::make_shared<GhostObject>(registry, m_gameInstance);
-				ghost->init(texturePath / "Entity", Ghosts::speedy, Tile{ j,i }, ghostModeTimes);
+				ghost->init(texturePath / "Entity", Ghosts::speedy, Tile{ j,i }, ghostModeTimes, flashNumber);
 				m_entities.emplace_back(ghost);
 				layout[i][j] |= 4;
 			}
 			if (layout[i][j] < 0 && (std::abs(layout[i][j]) & 8) == 8) {
 				auto ghost = std::make_shared<GhostObject>(registry, m_gameInstance);
-				ghost->init(texturePath / "Entity", Ghosts::bashful, Tile{ j,i }, ghostModeTimes);
+				ghost->init(texturePath / "Entity", Ghosts::bashful, Tile{ j,i }, ghostModeTimes, flashNumber);
 				m_entities.emplace_back(ghost);
 				layout[i][j] |= 8;
 			}
 			if (layout[i][j] < 0 && (std::abs(layout[i][j]) & 16) == 16) {
 				auto ghost = std::make_shared<GhostObject>(registry, m_gameInstance);
-				ghost->init(texturePath / "Entity", Ghosts::pokey, Tile{ j,i }, ghostModeTimes);
+				ghost->init(texturePath / "Entity", Ghosts::pokey, Tile{ j,i }, ghostModeTimes, flashNumber);
 				m_entities.emplace_back(ghost);
 				layout[i][j] |= 16;
 			}

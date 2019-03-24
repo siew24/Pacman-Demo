@@ -26,6 +26,7 @@ struct Ghost {
 	std::function<Direction(entt::DefaultRegistry&, std::vector<std::vector<int>>&)> behavior;
 	Tile spawnPoint;
 	std::array<double, 8> modeTimes;
+	int flashes =6;
 	int dotLimit = 0;
 	
 	bool released = false;
@@ -44,6 +45,4 @@ struct Ghost {
 	double speed = 11 * TILESIZE;
 	double currSpeed = speed;
 	Direction direction = Direction::left;
-
-	
 };

@@ -15,29 +15,29 @@ class GhostObject : public bloom::GameObject {
 public:
 	void init() override {}
 
-	void init(const std::filesystem::path texturePath, Ghosts id, Tile spawnTile, std::array<double, 8> modeTimes) {
+	void init(const std::filesystem::path texturePath, Ghosts id, Tile spawnTile, std::array<double, 8> modeTimes, int flashAmount = 6) {
 		m_registry.replace<Position>(m_entity, spawnTile.x * TILESIZE - 2 - 4, spawnTile.y * TILESIZE - 2);
 		m_registry.accommodate<Size>(m_entity, ENTITYSIZE, ENTITYSIZE);
 		bloom::graphics::TexturePtr tmp;
 
 		if (id == Ghosts::shadow) {
 			m_registry.accommodate<entt::label<"shadow"_hs>>(m_entity);
-			m_registry.accommodate<Ghost>(m_entity) = Ghost{ ghostBehaviors::shadow, Tile{spawnTile.x, spawnTile.y + 3},modeTimes,0, true, false };
+			m_registry.accommodate<Ghost>(m_entity) = Ghost{ ghostBehaviors::shadow, Tile{spawnTile.x, spawnTile.y + 3},modeTimes,flashAmount,0, true, false };
 			tmp = m_gameInstance->textures.load(texturePath / "Red.png");
 		}
 		else if (id == Ghosts::speedy) {
 			m_registry.accommodate<entt::label<"speedy"_hs>>(m_entity);
-			auto ghost = m_registry.accommodate<Ghost>(m_entity) = Ghost{ ghostBehaviors::speedy, spawnTile,modeTimes, 0, true };
+			auto ghost = m_registry.accommodate<Ghost>(m_entity) = Ghost{ ghostBehaviors::speedy, spawnTile,modeTimes,flashAmount, 0, true };
 			tmp = m_gameInstance->textures.load(texturePath / "Pinky.png");
 		}
 		else if (id == Ghosts::bashful) {
 			m_registry.accommodate<entt::label<"bashful"_hs>>(m_entity);
-			m_registry.accommodate<Ghost>(m_entity) = Ghost{ ghostBehaviors::bashful, spawnTile , modeTimes,30 };
+			m_registry.accommodate<Ghost>(m_entity) = Ghost{ ghostBehaviors::bashful, spawnTile , modeTimes,flashAmount,30 };
 			tmp = m_gameInstance->textures.load(texturePath / "Blue.png");
 		}
 		else if (id == Ghosts::pokey) {
 			m_registry.accommodate<entt::label<"pokey"_hs>>(m_entity);
-			m_registry.accommodate<Ghost>(m_entity) = Ghost{ ghostBehaviors::pokey, spawnTile,modeTimes,60 };
+			m_registry.accommodate<Ghost>(m_entity) = Ghost{ ghostBehaviors::pokey, spawnTile,modeTimes,flashAmount,60 };
 			tmp = m_gameInstance->textures.load(texturePath / "Orange.png");
 		}
 
@@ -95,13 +95,15 @@ public:
 		};
 		AnimationPtr afraid = std::make_shared<Animation>();
 		afraid->animationFrames = {
-			//Sprite(tmp2, SDL_Rect{ 0 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE }),
+			Sprite(tmp2, SDL_Rect{ 0 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE }),
 			Sprite(tmp2, SDL_Rect{ 1 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE })
 		};
 		AnimationPtr afraidFlash = std::make_shared<Animation>();
 		afraidFlash->animationFrames = {
 			Sprite(tmp2, SDL_Rect{ 0 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE }),
-			Sprite(tmp2, SDL_Rect{ 1 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE })
+			Sprite(tmp2, SDL_Rect{ 1 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE }),
+			Sprite(tmp2, SDL_Rect{ 2 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE }),
+			Sprite(tmp2, SDL_Rect{ 3 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE })
 		};
 
 
@@ -114,7 +116,7 @@ public:
 		leftd->setFrameTime(ENTITYFRAMETIME);
 		rightd->setFrameTime(ENTITYFRAMETIME);
 		afraid->setFrameTime(ENTITYFRAMETIME);
-		afraidFlash->setFrameTime(200);
+		afraidFlash->setFrameTime(ENTITYFRAMETIME);
 
 		AnimationSet animSet;
 		animSet.addAnimation("up", up);
@@ -126,6 +128,7 @@ public:
 		animSet.addAnimation("leftd", leftd);
 		animSet.addAnimation("rightd", rightd);
 		animSet.addAnimation("afraid", afraid);
+		animSet.addAnimation("afraidFlash", afraidFlash);
 
 		m_registry.accommodate<AnimationSet>(m_entity, animSet);
 		m_registry.accommodate<AnimationPtr>(m_entity, right);

@@ -76,7 +76,7 @@ public:
 							animset += "d";
 							break;
 						case BehaviourModes::afraid:
-							animset = "afraid";
+							animset = (ghost.afraidTimer <= ghost.flashes * (ENTITYFRAMETIME / 1000.0) * 4)?  "afraidFlash" : "afraid";
 							break;
 						}
 
