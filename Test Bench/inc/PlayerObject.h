@@ -15,8 +15,8 @@ public:
 	void init() override {}
 
 	void init(const std::filesystem::path texturePath, Tile spawnTile, std::array<double, 2> speedMultipliers) {
-		m_registry.replace<Position>(m_entity, spawnTile.x * TILESIZE-6 , spawnTile.y * TILESIZE-2);
-		m_registry.accommodate<Size>(m_entity, ENTITYSIZE, ENTITYSIZE);
+		m_registry.replace<Position>(m_entity, spawnTile.x * TILESIZE-4 , spawnTile.y * TILESIZE-2);
+		m_registry.accommodate<Size>(m_entity, PACMAN_TEXTURESIZE,PACMAN_TEXTURESIZE);
 		m_registry.accommodate<entt::label<"pacman"_hs>>(m_entity);
 		auto tmp = m_gameInstance->textures.load(texturePath);
 
