@@ -7,3 +7,5 @@ const int TILESIZE = 8;
 const int ENTITYFRAMETIME = 150;
 const int FRUIT_POS_X = 14;
 const int FRUIT_POS_Y = 17;
+
+const SDL_Rect GAMEAREA { 0,3 * TILESIZE, 28 * TILESIZE, 31 * TILESIZE };

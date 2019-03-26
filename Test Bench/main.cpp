@@ -5,13 +5,7 @@
 #include <thread>
 #include "inc/Configs.h"
 #include "inc/Level.h"
-#include "inc/PlayerObject.h"
-#include "inc/Systems/PlayerMovement.h"
-#include "inc/Systems/PelletSystem.h"
-#include "inc/Systems/FruitSystem.h"
-#include "inc/Systems/GhostAI.h"
-#include "inc/Systems/GameDirectorSystem.h"
-#include "inc/Systems/SpeedDirectorSystem.h"
+
 #include "getExePath.h"
 
 using namespace bloom;
@@ -20,7 +14,7 @@ using namespace bloom::audio;
 Game* game = nullptr;
 
 const int WINDOW_WIDTH = 28 * TILESIZE;
-const int WINDOW_HEIGHT = 31 * TILESIZE;
+const int WINDOW_HEIGHT = 36 * TILESIZE;
 
 void test_drawer(const std::filesystem::path& assetsPath)
 {
@@ -29,7 +23,7 @@ void test_drawer(const std::filesystem::path& assetsPath)
 
 	Uint32 framestart;
 
-	game = new Game(WINDOW_WIDTH*2, WINDOW_HEIGHT*2, 0, 6 | SDL_RENDERER_TARGETTEXTURE);
+	game = new Game(WINDOW_WIDTH * 2, WINDOW_HEIGHT * 2, 0, 6 | SDL_RENDERER_TARGETTEXTURE);
 	try {
 		game->create("Bloom Test", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
 	}
@@ -53,36 +47,14 @@ void test_drawer(const std::filesystem::path& assetsPath)
 	std::filesystem::path levelDir = assetsPath / L"Level";
 	std::filesystem::path audioDir = assetsPath.parent_path() / L"Sounds";
 
-	entt::DefaultRegistry testRegistry;
-	bloom::systems::RenderSystem renderSysTest(testRegistry);
-	bloom::systems::AnimationSystem animSysTest(testRegistry);
-	PlayerMovement playerMovement(testRegistry);
-	GhostAI ghostMovement(testRegistry);
-	PelletSystem pelletSystem(testRegistry);
-	FruitSystem fruitSystem(testRegistry);
-	
 	Level level = Level(game);
 	int levelNumber = 0;
-	level.changeLevel(levelDir / "0.txt",levelNumber, tileDir, testRegistry);
-	playerMovement.layout = level.layout;
-	ghostMovement.layout = level.layout;
-	
-	GameDirectorSystem gameDirector(testRegistry);
-	SpeedDirectorSystem speedDirector(testRegistry);
-	
-	gameDirector.setParameters(game, assetsPath);
-	gameDirector.init();
-	
-	speedDirector.init(); 
-	speedDirector.layout = level.layout;
-	
+	level.changeLevel(levelDir / "0.txt", levelNumber, tileDir);
 
 	std::filesystem::path pacDir = assetsPath / L"Pacman.png";
 	std::filesystem::path ghostDir = assetsPath;
-	
+
 	level.draw();
-	animSysTest.update(0);
-	renderSysTest.update();
 	game->render();
 	sounds.add(audioDir / "pacman_beginning.wav");
 	sounds.add(audioDir / "pacman_intermission.wav");
@@ -103,41 +75,32 @@ void test_drawer(const std::filesystem::path& assetsPath)
 		game->handleEvents();
 
 		if (game->input.isKeyPressed(KEY_W) || game->input.isKeyPressed(KEY_UP))
-			level.changeDir(testRegistry, Direction::up);
+			level.changeDir(Direction::up);
 		else if (game->input.isKeyPressed(KEY_A) || game->input.isKeyPressed(KEY_LEFT))
-			level.changeDir(testRegistry, Direction::left);
+			level.changeDir(Direction::left);
 		else if (game->input.isKeyPressed(KEY_S) || game->input.isKeyPressed(KEY_DOWN))
-			level.changeDir(testRegistry, Direction::down);
+			level.changeDir(Direction::down);
 		else if (game->input.isKeyPressed(KEY_D) || game->input.isKeyPressed(KEY_RIGHT))
-			level.changeDir(testRegistry, Direction::right);
+			level.changeDir(Direction::right);
 		/*else
 			level.changeDir(testRegistry, null);*/
 
 		game->clear();
+		level.update(dt);
 		level.draw();
-		playerMovement.update(dt);
-		ghostMovement.update(dt);
-		pelletSystem.update();
-		fruitSystem.update(dt);
-		speedDirector.update();
-		gameDirector.update();
-		animSysTest.update(dt);
-		renderSysTest.update(); // Test again.
 		game->render();
 		// game->update();
 		dt = game->timer.lap();
 
-		if (level.complete(testRegistry)) {
+		if (level.complete()) {
 			std::cout << "Level complete!" << std::endl;
 			sounds[1]->play();
 			game->delay(5500);
 			++levelNumber;
-			level.changeLevel(levelDir / "0.txt", levelNumber, tileDir, testRegistry);
-			speedDirector.init();
-			gameDirector.init();
-			
+			level.changeLevel(levelDir / "0.txt", levelNumber, tileDir);
+
 		}
-		else if (level.gameOver(testRegistry)) {
+		else if (level.gameOver()) {
 			std::cout << "Game Over!" << std::endl;
 			sounds[2]->play();
 			game->delay(1500);

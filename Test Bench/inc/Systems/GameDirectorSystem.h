@@ -13,8 +13,10 @@ public:
 		m_registry.view<entt::label<"bashful"_hs>, Ghost>().each([&](auto entity,auto label, auto& ghost) { bashful = &ghost; });
 		m_registry.view<entt::label<"pokey"_hs>, Ghost>().each([&](auto entity, auto label, auto& ghost) { pokey = &ghost; });
 	}
-	void setParameters(bloom::Game*& Game, const std::filesystem::path & assetPath) {
+	void setParameters(bloom::Game*& Game) {
 		m_gameInstance = Game;
+	}
+	void setParameters(const std::filesystem::path& assetPath) {
 		texturePath = assetPath;
 	}
 	virtual void update(std::optional<double> deltaTime = std::nullopt) override {
