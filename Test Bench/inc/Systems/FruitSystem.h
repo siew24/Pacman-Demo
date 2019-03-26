@@ -19,7 +19,7 @@ public:
 
 		m_registry.view<Fruit, Position>().each(
 			[&](auto entity, Fruit& fruit, Position& fruitPos) {
-			if (((playerPos.x + (ENTITYSIZE / 2)) / TILESIZE == fruitPos.x / TILESIZE) && ((playerPos.y + (ENTITYSIZE / 2)) / TILESIZE == fruitPos.y / TILESIZE)) {
+			if (((playerPos.x + (ENTITYSIZE / 2)) / TILESIZE == (fruitPos.x+ ((12 - 8) / 2)) / TILESIZE) && ((playerPos.y + (ENTITYSIZE / 2)) / TILESIZE == (fruitPos.y + ((12 - 8)) / 2) / TILESIZE)) {
 
 				playerState.score += static_cast<int>(fruit.type);
 
