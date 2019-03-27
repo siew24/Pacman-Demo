@@ -146,6 +146,17 @@ void Level::m_generateEntities(const std::filesystem::path& TimeDataPath, int le
 			break;
 	}
 
+	fin = std::ifstream(TimeDataPath / "ElroySpeed.txt");
+	fin >> entries;
+	for (int i = 0; i < entries; ++i) {
+		fin >> l >> r;
+		for (int j = 0; j < 4; ++j)
+			fin >> ghostDet.elroyMultipliers[j];
+
+		if (levelNumber >= l && levelNumber < r || r == -1)
+			break;
+	}
+
 	for (int i = 0; i < layout.size(); ++i)
 		for (int j = 0; j < layout[i].size(); ++j) {
 			if (layout[i][j] < 0 && (std::abs(layout[i][j]) & 1) == 1) {

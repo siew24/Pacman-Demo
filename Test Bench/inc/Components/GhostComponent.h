@@ -27,6 +27,7 @@ struct GhostInitDetails {
 	int flashAmount = 5;
 	double afraidTime = 6.0;
 	std::array<double, 3> multipliers{ 1.0,1.0,1.0 };
+	std::array<double, 4> elroyMultipliers{ 1.0,1.0,1.0,1.0 };
 };
 
 

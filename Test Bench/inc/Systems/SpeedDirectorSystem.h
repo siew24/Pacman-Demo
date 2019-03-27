@@ -30,12 +30,12 @@ public:
 			}
 			else if (ghost.behavior == ghostBehaviors::shadow) {
 
-				if (244 - player->pelletsEaten == Elroy_1_dotsLeft)
-					ghost.currSpeed = ghost.speed * Elroy_1_Speed;
-				else if (244 - player->pelletsEaten == Elroy_2_dotsLeft)
-					ghost.currSpeed = ghost.speed * Elroy_2_Speed;
+				if (244 - player->pelletsEaten == ghost.levelVars.elroyMultipliers[0])
+					ghost.currSpeed = ghost.speed * ghost.levelVars.elroyMultipliers[1];
+				else if (244 - player->pelletsEaten == ghost.levelVars.elroyMultipliers[2])
+					ghost.currSpeed = ghost.speed * ghost.levelVars.elroyMultipliers[3];
 				else
-					ghost.currSpeed = ghost.speed * 0.75;
+					ghost.currSpeed = ghost.speed * ghost.levelVars.multipliers[0];
 			}
 			else
 				ghost.currSpeed = ghost.speed * ghost.levelVars.multipliers[0];
@@ -53,9 +53,4 @@ private:
 	}
 
 	Pacman* player;
-
-	int Elroy_1_dotsLeft = 20;
-	double Elroy_1_Speed = 0.8;
-	int Elroy_2_dotsLeft = 10;
-	double Elroy_2_Speed = 0.85;
 };
