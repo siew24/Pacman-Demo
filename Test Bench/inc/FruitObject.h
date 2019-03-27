@@ -9,6 +9,7 @@ class FruitObject : public bloom::GameObject {
 	using Size = bloom::components::Size;
 	using Sprite = bloom::components::Sprite;
 	using bloom::GameObject::GameObject;
+
 public:
 	void init() override {}
 

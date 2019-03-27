@@ -20,7 +20,7 @@ public:
 		texturePath = assetPath;
 		m_fruitType = fruit;
 	}
-	virtual void update(std::optional<double> deltaTime = std::nullopt) override {
+	void update(std::optional<double> deltaTime = std::nullopt) override {
 		if (player->pelletsEaten == bashful->dotLimit)
 			bashful->released = true;
 		else if (player->pelletsEaten == pokey->dotLimit)

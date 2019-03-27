@@ -9,7 +9,7 @@ class PlayerMovement : public bloom::systems::System {
 	using bloom::systems::System::DefaultSystem;
 
 public:
-	virtual void update(std::optional<double> deltaTime = std::nullopt) override {
+	void update(std::optional<double> deltaTime = std::nullopt) override {
 		m_registry.view<Pacman, Position>().each(
 			[&](auto entity, Pacman& player, Position& position) {
 				int potentialDistance = 0;

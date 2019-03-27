@@ -8,7 +8,7 @@ class PelletSystem : public bloom::systems::System {
 	using bloom::systems::System::DefaultSystem;
 
 public:
-	virtual void update(std::optional<double> deltaTime = std::nullopt) override {
+	void update(std::optional<double> deltaTime = std::nullopt) override {
 		entt::DefaultRegistry::entity_type player;
 		m_registry.view<Pacman>().each([&](auto entity, Pacman & pac) { player = entity; });
 
@@ -47,7 +47,6 @@ public:
 							}
 						}
 					);
-
 				}
 			}
 		);

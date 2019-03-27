@@ -5,7 +5,6 @@
 #include "../Configs.h"
 
 struct Pacman {
-	
 	Direction direction= Direction::null;
 	Direction nextDir= Direction::null;
 
@@ -17,6 +16,6 @@ struct Pacman {
 	Direction lastDir;
 
 	double timeAvailable = 0.0;
-	double speed = 11 * TILESIZE;
+	double speed = 11.0 * TILESIZE;
 	double currSpeed = speed;
 };

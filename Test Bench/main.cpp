@@ -98,7 +98,6 @@ void test_drawer(const std::filesystem::path& assetsPath)
 			game->delay(5500);
 			++levelNumber;
 			level.changeLevel(levelDir / "0.txt", levelNumber, tileDir);
-
 		}
 		else if (level.gameOver()) {
 			std::cout << "Game Over!" << std::endl;

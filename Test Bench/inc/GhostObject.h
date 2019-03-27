@@ -12,6 +12,7 @@ class GhostObject : public bloom::GameObject {
 	using AnimationSet = bloom::components::AnimationSet;
 	using Animation = bloom::components::Animation;
 	using bloom::GameObject::GameObject;
+
 public:
 	void init() override {}
 

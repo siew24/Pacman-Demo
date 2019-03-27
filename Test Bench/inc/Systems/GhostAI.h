@@ -10,7 +10,7 @@ class GhostAI : public bloom::systems::System {
 	using bloom::systems::System::DefaultSystem;
 
 public:
-	virtual void update(std::optional<double> deltaTime = std::nullopt) override {
+	void update(std::optional<double> deltaTime = std::nullopt) override {
 		entt::DefaultRegistry::entity_type player;
 		m_registry.view<Pacman>().each([&](auto entity, Pacman& pac) { player = entity; });
 		//We do not want to keep fetching this, so lets cache this info here.
@@ -43,7 +43,6 @@ public:
 
 					if (ghost.currentMode == BehaviourModes::afraid && ghost.afraidTimer <= 0.0 )
 						ghost.currentMode = ghost.previousMode;
-
 				}
 				AnimationSet& animSet = m_registry.get<AnimationSet>(entity);
 				while (potentialDistance > 0) {

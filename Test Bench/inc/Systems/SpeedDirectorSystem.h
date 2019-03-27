@@ -15,7 +15,7 @@ public:
 	void init() {
 		m_registry.view<Pacman>().each([&](auto entity, auto & pac) { player = &pac; });
 	}
-	virtual void update(std::optional<double> deltaTime = std::nullopt) override {
+	void update(std::optional<double> deltaTime = std::nullopt) override {
 		
 		bool isFrightened = false;
 		m_registry.view<Position, Ghost>().each([&](auto entity, auto & position, auto & ghost) {
@@ -29,7 +29,6 @@ public:
 				isFrightened = true;
 			}
 			else if (ghost.behavior == ghostBehaviors::shadow) {
-
 				if (244 - player->pelletsEaten == ghost.levelVars.elroyMultipliers[0].first)
 					ghost.currSpeed = ghost.speed * ghost.levelVars.elroyMultipliers[0].second;
 				else if (244 - player->pelletsEaten == ghost.levelVars.elroyMultipliers[1].first)
