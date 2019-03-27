@@ -10,7 +10,7 @@ class PelletSystem : public bloom::systems::System {
 public:
 	virtual void update(std::optional<double> deltaTime = std::nullopt) override {
 		entt::DefaultRegistry::entity_type player;
-		m_registry.view<Pacman>().each([&](auto entity, Pacman& pac) { player = entity; });
+		m_registry.view<Pacman>().each([&](auto entity, Pacman & pac) { player = entity; });
 
 		//We do not want to keep fetching this, so lets cache this info here.
 		Position& playerPos = m_registry.get<Position>(player);
@@ -18,7 +18,7 @@ public:
 
 
 		m_registry.view<Pellet, Position>().each(
-			[&](auto entity, Pellet& pellet, Position& pelletPos) {
+			[&](auto entity, Pellet & pellet, Position & pelletPos) {
 				if (((playerPos.x + (ENTITYSIZE / 2)) / TILESIZE == pelletPos.x / TILESIZE) && ((playerPos.y + (ENTITYSIZE / 2)) / TILESIZE == pelletPos.y / TILESIZE)) {
 					playerState.score += pellet.points;
 					++playerState.pelletsEaten;
@@ -29,18 +29,19 @@ public:
 		);
 
 		m_registry.view<PowerPellet, Position>().each(
-			[&](auto entity, PowerPellet& pellet, Position& pelletPos) {
+			[&](auto entity, PowerPellet & pellet, Position & pelletPos) {
 				if (((playerPos.x + (ENTITYSIZE / 2)) / TILESIZE == pelletPos.x / TILESIZE) && ((playerPos.y + (ENTITYSIZE / 2)) / TILESIZE == pelletPos.y / TILESIZE)) {
 					playerState.score += pellet.points;
 					++playerState.pelletsEaten;
-					playerState.timeAvailable -= (1000.0 / 60.0)*3;
+					playerState.timeAvailable -= (1000.0 / 60.0) * 3;
 					m_registry.destroy(entity);
 
 					m_registry.view<Ghost>().each(
-						[](auto entity, Ghost& ghost) {
+						[](auto entity, Ghost & ghost) {
 							if (ghost.currentMode != BehaviourModes::dead && !ghost.inHouse) {
 								ghost.lastTile = Tile{ 0,0 };
-								ghost.previousMode = ghost.currentMode;
+								if (ghost.currentMode != BehaviourModes::afraid)
+									ghost.previousMode = ghost.currentMode;
 								ghost.currentMode = BehaviourModes::afraid;
 								ghost.afraidTimer = ghost.levelVars.afraidTime;
 							}
