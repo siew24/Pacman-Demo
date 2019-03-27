@@ -92,17 +92,17 @@ public:
 
 					while (potentialDistance > 0) {
 						bool moved = 0;
-						if (nextTile.x * TILESIZE > position.x + 2) {
+						if (nextTile.x * TILESIZE > position.x + (PACMAN_TEXTURESIZE - TILESIZE) / 2) {
 							++position.x;
 							moved = true;
 						}
-						else if (nextTile.x * TILESIZE < position.x + 2) {
+						else if (nextTile.x * TILESIZE < position.x + (PACMAN_TEXTURESIZE - TILESIZE) / 2) {
 							--position.x; moved = true;
 						}
-						if (nextTile.y  * TILESIZE > position.y + 2) {
+						if (nextTile.y  * TILESIZE > position.y + (PACMAN_TEXTURESIZE - TILESIZE) / 2) {
 							++position.y; moved = true;
 						}
-						else if (nextTile.y * TILESIZE < position.y + 2) {
+						else if (nextTile.y * TILESIZE < position.y + (PACMAN_TEXTURESIZE - TILESIZE) / 2) {
 							--position.y; moved = true;
 						}
 						--potentialDistance;

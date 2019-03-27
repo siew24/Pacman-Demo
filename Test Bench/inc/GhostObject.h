@@ -16,7 +16,7 @@ public:
 	void init() override {}
 
 	void init(const std::filesystem::path texturePath, Ghosts id, Tile spawnTile, GhostInitDetails details) {
-		m_registry.replace<Position>(m_entity, spawnTile.x * TILESIZE - 3 - 4, spawnTile.y * TILESIZE - 3);
+		m_registry.replace<Position>(m_entity, spawnTile.x * TILESIZE - 4 - (GHOST_TEXTURESIZE-TILESIZE)/2, spawnTile.y * TILESIZE - (GHOST_TEXTURESIZE - TILESIZE) / 2);
 		m_registry.accommodate<Size>(m_entity, GHOST_TEXTURESIZE, GHOST_TEXTURESIZE);
 		bloom::graphics::TexturePtr tmp;
 
