@@ -13,4 +13,5 @@ enum class FruitType {
 struct Fruit {
 	double timeSpawned = 0.0;
 	FruitType type = FruitType::cherry;
+	SDL_Rect rect;
 };

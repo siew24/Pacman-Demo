@@ -340,6 +340,7 @@
     <Text Include="data\Assets\Level\AfraidFlash.txt" />
     <Text Include="data\Assets\Level\FrightTimes.txt" />
     <Text Include="data\Assets\Level\GhostSpeed.txt" />
+    <Text Include="data\Assets\Level\LevelFruits.txt" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="data\Music\pacman_beginning.wav">

@@ -42,7 +42,21 @@ void Level::changeLevel(const std::filesystem::path & levelFile, int levelNumber
 	playerMovement.layout = layout;
 	ghostMovement.layout = layout;
 	speedDirector.layout = layout;
-	gameDirector.setParameters(texturePath);
+	
+	FruitType fruit;
+	{
+		std::ifstream fin(levelFile.parent_path() / "LevelFruits.txt");
+		int n;
+		fin >> n;
+		for (int i = 0; i < n ; ++i) {
+			int score;
+			fin >> score;
+			fruit = static_cast<FruitType>(score);
+			if (i == levelNumber)
+				break;
+		}
+	}
+	gameDirector.setParameters(texturePath, fruit);
 	gameDirector.init();
 	speedDirector.init();
 

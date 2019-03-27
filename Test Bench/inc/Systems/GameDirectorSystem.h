@@ -16,8 +16,9 @@ public:
 	void setParameters(bloom::Game*& Game) {
 		m_gameInstance = Game;
 	}
-	void setParameters(const std::filesystem::path& assetPath) {
+	void setParameters(const std::filesystem::path& assetPath, FruitType fruit) {
 		texturePath = assetPath;
+		m_fruitType = fruit;
 	}
 	virtual void update(std::optional<double> deltaTime = std::nullopt) override {
 		if (player->pelletsEaten == bashful->dotLimit)
@@ -28,7 +29,7 @@ public:
 		if (player->pelletsEaten == 70)
 		{
 			auto fruit = std::make_shared<FruitObject>(m_registry, m_gameInstance);
-			fruit->init(texturePath / "Entity" / "Cherry.png", SDL_Rect{ FRUIT_POS_X * TILESIZE - 4 -((12-8)/2), FRUIT_POS_Y * TILESIZE - ((12 - 8) / 2), TILESIZE + 1, TILESIZE + 1 });
+			fruit->init(texturePath / "Entity" , m_fruitType);
 			m_entities.emplace_back(fruit);
 		}
 	}
@@ -42,4 +43,6 @@ private:
 	std::filesystem::path texturePath;
 
 	std::vector<std::shared_ptr<bloom::GameObject>> m_entities;
+
+	FruitType m_fruitType;
 };

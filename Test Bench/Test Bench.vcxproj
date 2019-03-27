@@ -295,6 +295,7 @@
     <Text Include="data\Assets\Level\FrightTimes.txt" />
     <Text Include="data\Assets\Level\GhostSpeed.txt" />
     <Text Include="data\Assets\Level\PacmanSpeed.txt" />
+    <Text Include="data\Assets\Level\LevelFruits.txt" />
     <Text Include="data\Assets\Level\TimerData.txt" />
   </ItemGroup>
   <ItemGroup>
