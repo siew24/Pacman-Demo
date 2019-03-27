@@ -150,8 +150,11 @@ void Level::m_generateEntities(const std::filesystem::path& TimeDataPath, int le
 	fin >> entries;
 	for (int i = 0; i < entries; ++i) {
 		fin >> l >> r;
-		for (int j = 0; j < 4; ++j)
-			fin >> ghostDet.elroyMultipliers[j];
+		std::pair<int, double> tmp;
+		for (int j = 0; j < 2; ++j) {
+			fin >> tmp.first >> tmp.second;
+			ghostDet.elroyMultipliers[j] = tmp;
+		}
 
 		if (levelNumber >= l && levelNumber < r || r == -1)
 			break;

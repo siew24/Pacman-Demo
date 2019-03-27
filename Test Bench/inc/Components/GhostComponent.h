@@ -1,6 +1,7 @@
 #pragma once
 
 #include <array>
+#include <utility>
 #include <functional>
 #include "Components/Position.h"
 #include "../Components/PacmanComponent.h"
@@ -27,7 +28,7 @@ struct GhostInitDetails {
 	int flashAmount = 5;
 	double afraidTime = 6.0;
 	std::array<double, 3> multipliers{ 1.0,1.0,1.0 };
-	std::array<double, 4> elroyMultipliers{ 1.0,1.0,1.0,1.0 };
+	std::array<std::pair<int, double>, 2> elroyMultipliers{ std::make_pair(1,1.0),std::make_pair(1,1.0) };
 };
 
 

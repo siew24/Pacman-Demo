@@ -30,10 +30,10 @@ public:
 			}
 			else if (ghost.behavior == ghostBehaviors::shadow) {
 
-				if (244 - player->pelletsEaten == ghost.levelVars.elroyMultipliers[0])
-					ghost.currSpeed = ghost.speed * ghost.levelVars.elroyMultipliers[1];
-				else if (244 - player->pelletsEaten == ghost.levelVars.elroyMultipliers[2])
-					ghost.currSpeed = ghost.speed * ghost.levelVars.elroyMultipliers[3];
+				if (244 - player->pelletsEaten == ghost.levelVars.elroyMultipliers[0].first)
+					ghost.currSpeed = ghost.speed * ghost.levelVars.elroyMultipliers[0].second;
+				else if (244 - player->pelletsEaten == ghost.levelVars.elroyMultipliers[1].first)
+					ghost.currSpeed = ghost.speed * ghost.levelVars.elroyMultipliers[1].second;
 				else
 					ghost.currSpeed = ghost.speed * ghost.levelVars.multipliers[0];
 			}
