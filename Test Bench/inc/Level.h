@@ -13,6 +13,7 @@
 #include "Systems/GhostAI.h"
 #include "Systems/GameDirectorSystem.h"
 #include "Systems/SpeedDirectorSystem.h"
+#include "Systems/AltAnimationSystem.h"
 
 class Level {
 public:
@@ -64,7 +65,7 @@ private:
 
 	entt::DefaultRegistry m_registry;
 	bloom::systems::RenderSystem renderSysTest = bloom::systems::RenderSystem(m_registry);
-	bloom::systems::AnimationSystem animSysTest = bloom::systems::AnimationSystem(m_registry);
+	AltAnimationSystem animSysTest = AltAnimationSystem(m_registry);
 	PlayerMovement playerMovement= PlayerMovement(m_registry);
 	GhostAI ghostMovement = GhostAI(m_registry);
 	EdibleSystem edibleSystem = EdibleSystem(m_registry);

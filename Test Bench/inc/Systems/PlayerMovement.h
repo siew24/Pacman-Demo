@@ -11,12 +11,12 @@ class PlayerMovement : public bloom::systems::System {
 public:
 	void update(std::optional<double> deltaTime = std::nullopt) override {
 		m_registry.view<Pacman, Position>().each(
-			[&](auto entity, Pacman& player, Position& position) {
+			[&](auto entity, Pacman & player, Position & position) {
 				int potentialDistance = 0;
 				if (deltaTime.value() < 500.0) {
 					player.timeAvailable += deltaTime.value() / 1000.0;
 
-					potentialDistance = static_cast<int>(player.timeAvailable*player.currSpeed);
+					potentialDistance = static_cast<int>(player.timeAvailable * player.currSpeed);
 					player.timeAvailable -= potentialDistance / player.currSpeed;
 				}
 
@@ -90,25 +90,30 @@ public:
 							nextTile = tmp;
 					}
 
+					auto oldPos = position;
+					bool moved = false;
 					while (potentialDistance > 0) {
-						bool moved = 0;
-						int i = 0;
+						moved = false;
+						auto newPos = position;
 						if (nextTile.x * TILESIZE > position.x + (PACMAN_TEXTURESIZE - TILESIZE) / 2) {
-							++position.x;
-							moved = true; ++i;
+							++newPos.x;
 						}
 						else if (nextTile.x * TILESIZE < position.x + (PACMAN_TEXTURESIZE - TILESIZE) / 2) {
-							--position.x; moved = true; ++i;
+							--newPos.x;
 						}
-						if (nextTile.y  * TILESIZE > position.y + (PACMAN_TEXTURESIZE - TILESIZE) / 2) {
-							++position.y; moved = true; ++i;
+						if (nextTile.y * TILESIZE > position.y + (PACMAN_TEXTURESIZE - TILESIZE) / 2) {
+							++newPos.y;
 						}
 						else if (nextTile.y * TILESIZE < position.y + (PACMAN_TEXTURESIZE - TILESIZE) / 2) {
-							--position.y; moved = true; ++i;
+							--newPos.y;
 						}
-						--potentialDistance;
-						if (i >= 2)
-							std::cout << "Saved a pixel due to cornering" << std::endl;
+
+
+						if (newPos.x != position.x || newPos.y != position.y) {
+							moved = true;
+							position = newPos;
+							--potentialDistance;
+						}
 
 						if (!moved)
 							break;
@@ -118,6 +123,8 @@ public:
 						else if (position.x <= -TILESIZE)
 							position.x = 28 * TILESIZE;
 					}
+					if (!(oldPos.x == position.x && oldPos.y == position.y))
+						m_registry.get<bloom::graphics::AnimationPtr>(entity)->update(1);
 				}
 			}
 		);
