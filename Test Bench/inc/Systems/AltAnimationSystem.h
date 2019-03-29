@@ -22,8 +22,6 @@ public:
 					m_registry.replace<Sprite>(entity, anim->update(0.0));
 				else
 					m_registry.replace<Sprite>(entity, anim->update(deltaTime.value()));
-
-				
 			}
 		);
 	}
