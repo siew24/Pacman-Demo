@@ -20,7 +20,7 @@ public:
 					player.timeAvailable -= potentialDistance / player.currSpeed;
 				}
 
-				Tile playerTile{ (position.x + ENTITYSIZE / 2) / TILESIZE, (position.y + ENTITYSIZE / 2) / TILESIZE };
+				Tile playerTile{ (position.x + PACMAN_TEXTURESIZE / 2) / TILESIZE, (position.y + PACMAN_TEXTURESIZE / 2) / TILESIZE };
 
 				if (playerTile.x < 27 || playerTile.x >= 0)
 				{
@@ -92,20 +92,23 @@ public:
 
 					while (potentialDistance > 0) {
 						bool moved = 0;
+						int i = 0;
 						if (nextTile.x * TILESIZE > position.x + (PACMAN_TEXTURESIZE - TILESIZE) / 2) {
 							++position.x;
-							moved = true;
+							moved = true; ++i;
 						}
 						else if (nextTile.x * TILESIZE < position.x + (PACMAN_TEXTURESIZE - TILESIZE) / 2) {
-							--position.x; moved = true;
+							--position.x; moved = true; ++i;
 						}
 						if (nextTile.y  * TILESIZE > position.y + (PACMAN_TEXTURESIZE - TILESIZE) / 2) {
-							++position.y; moved = true;
+							++position.y; moved = true; ++i;
 						}
 						else if (nextTile.y * TILESIZE < position.y + (PACMAN_TEXTURESIZE - TILESIZE) / 2) {
-							--position.y; moved = true;
+							--position.y; moved = true; ++i;
 						}
 						--potentialDistance;
+						if (i >= 2)
+							std::cout << "Saved a pixel due to cornering" << std::endl;
 
 						if (!moved)
 							break;

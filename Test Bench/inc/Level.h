@@ -9,8 +9,7 @@
 #include "entt/entt.hpp"
 #include "PlayerObject.h"
 #include "Systems/PlayerMovement.h"
-#include "Systems/PelletSystem.h"
-#include "Systems/FruitSystem.h"
+#include "Systems/EdibleSystem.h"
 #include "Systems/GhostAI.h"
 #include "Systems/GameDirectorSystem.h"
 #include "Systems/SpeedDirectorSystem.h"
@@ -39,10 +38,9 @@ public:
 	void update(double dt) {
 		playerMovement.update(dt);
 		ghostMovement.update(dt);
-		pelletSystem.update();
-		fruitSystem.update(dt);
-		speedDirector.update();
-		gameDirector.update();
+		edibleSystem.update(dt);
+		speedDirector.update(dt);
+		gameDirector.update(dt);
 		animSysTest.update(dt);
 	}
 
@@ -69,8 +67,7 @@ private:
 	bloom::systems::AnimationSystem animSysTest = bloom::systems::AnimationSystem(m_registry);
 	PlayerMovement playerMovement= PlayerMovement(m_registry);
 	GhostAI ghostMovement = GhostAI(m_registry);
-	PelletSystem pelletSystem = PelletSystem(m_registry);
-	FruitSystem fruitSystem = FruitSystem(m_registry);
+	EdibleSystem edibleSystem = EdibleSystem(m_registry);
 	GameDirectorSystem gameDirector = GameDirectorSystem(m_registry);
 	SpeedDirectorSystem speedDirector = SpeedDirectorSystem(m_registry);
 

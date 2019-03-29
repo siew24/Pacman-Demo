@@ -59,9 +59,6 @@
     <ClInclude Include="inc\Systems\GhostAI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="inc\Systems\PelletSystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="inc\Systems\PlayerMovement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -116,10 +113,10 @@
     <ClInclude Include="inc\Components\FruitComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="inc\Systems\FruitSystem.h">
+    <ClInclude Include="inc\Systems\SpeedDirectorSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="inc\Systems\SpeedDirectorSystem.h">
+    <ClInclude Include="inc\Systems\EdibleSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

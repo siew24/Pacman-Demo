@@ -3,7 +3,7 @@
 #include "../Components/ComponentIncludes.h"
 #include "../Configs.h"
 
-class PelletSystem : public bloom::systems::System {
+class EdibleSystem : public bloom::systems::System {
 	using Position = bloom::components::Position;
 	using bloom::systems::System::DefaultSystem;
 
@@ -16,10 +16,12 @@ public:
 		Position& playerPos = m_registry.get<Position>(player);
 		Pacman& playerState = m_registry.get<Pacman>(player);
 
+		Tile playerTile = Tile{ (playerPos.x + (PACMAN_TEXTURESIZE / 2)) / TILESIZE ,(playerPos.y + (PACMAN_TEXTURESIZE / 2)) / TILESIZE };
 
+		// Regular Pellets
 		m_registry.view<Pellet, Position>().each(
 			[&](auto entity, Pellet & pellet, Position & pelletPos) {
-				if (((playerPos.x + (ENTITYSIZE / 2)) / TILESIZE == pelletPos.x / TILESIZE) && ((playerPos.y + (ENTITYSIZE / 2)) / TILESIZE == pelletPos.y / TILESIZE)) {
+				if (playerTile.x == pelletPos.x / TILESIZE && playerTile.y == pelletPos.y / TILESIZE) {
 					playerState.score += pellet.points;
 					++playerState.pelletsEaten;
 					playerState.timeAvailable -= 1000.0 / 60.0;
@@ -28,9 +30,10 @@ public:
 			}
 		);
 
+		// Power Pellets
 		m_registry.view<PowerPellet, Position>().each(
 			[&](auto entity, PowerPellet & pellet, Position & pelletPos) {
-				if (((playerPos.x + (ENTITYSIZE / 2)) / TILESIZE == pelletPos.x / TILESIZE) && ((playerPos.y + (ENTITYSIZE / 2)) / TILESIZE == pelletPos.y / TILESIZE)) {
+				if (playerTile.x == pelletPos.x / TILESIZE && playerTile.y == pelletPos.y / TILESIZE) {
 					playerState.score += pellet.points;
 					++playerState.pelletsEaten;
 					playerState.timeAvailable -= (1000.0 / 60.0) * 3;
@@ -47,6 +50,25 @@ public:
 							}
 						}
 					);
+				}
+			}
+		);
+
+		// Fruits
+		m_registry.view<Fruit, Position>().each(
+			[&](auto entity, Fruit & fruit, Position & fruitPos) {
+				if ((playerPos.x + PACMAN_TEXTURESIZE / 2) / TILESIZE == (fruitPos.x + fruit.rect.w / 2) / TILESIZE
+					&& (playerPos.y + PACMAN_TEXTURESIZE / 2) / TILESIZE == (fruitPos.y + fruit.rect.h / 2) / TILESIZE) {
+					playerState.score += static_cast<int>(fruit.type);
+
+					m_registry.destroy(entity);
+				}
+				else
+				{
+					if (fruit.timeSpawned / 1000 > 9 && fruit.timeSpawned / 1000 < 10)
+						m_registry.destroy(entity);
+					else
+						fruit.timeSpawned += deltaTime.value();
 				}
 			}
 		);

@@ -102,7 +102,7 @@ public:
 						break;
 					}
 				}
-				if (Tile ghostT{ (position.x + (TILESIZE / 2)) / TILESIZE,(position.y + (TILESIZE / 2)) / TILESIZE }, pac{ (playerPos.x + (TILESIZE / 2)) / TILESIZE,(playerPos.y + (TILESIZE / 2)) / TILESIZE }; pac == ghostT) {
+				if (Tile ghostT{ (position.x + (GHOST_TEXTURESIZE / 2)) / TILESIZE,(position.y + (GHOST_TEXTURESIZE / 2)) / TILESIZE }, pac{ (playerPos.x + (PACMAN_TEXTURESIZE / 2)) / TILESIZE,(playerPos.y + (PACMAN_TEXTURESIZE / 2)) / TILESIZE }; pac == ghostT) {
 					if (ghost.currentMode == BehaviourModes::afraid) {
 						playerState.score += 6000;
 						ghost.currentMode = BehaviourModes::dead;
