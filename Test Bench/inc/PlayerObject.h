@@ -48,10 +48,10 @@ public:
 			Sprite(tmp, SDL_Rect{ 1 * PACMAN_TEXTURESIZE,0,PACMAN_TEXTURESIZE,PACMAN_TEXTURESIZE })
 		};
 
-		up->setFrameTime(ENTITYFRAMETIME);
-		down->setFrameTime(ENTITYFRAMETIME);
-		left->setFrameTime(ENTITYFRAMETIME);
-		right->setFrameTime(ENTITYFRAMETIME);
+		up->setFrameTime(2);
+		down->setFrameTime(2);
+		left->setFrameTime(2);
+		right->setFrameTime(2);
 
 		AnimationSet animSet;
 		animSet.addAnimation("up", up);
