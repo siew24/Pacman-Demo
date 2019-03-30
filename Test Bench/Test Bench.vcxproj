@@ -177,11 +177,6 @@
     <ClCompile Include="src\Level.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BloomFramework\BloomFramework.vcxproj">
-      <Project>{c640c874-d67e-4b31-af02-378fe5c4d3a3}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
