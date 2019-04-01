@@ -143,16 +143,16 @@ public:
 		afraidFlash->setFrameTime(ENTITYFRAMETIME);
 
 		AnimationSet animSet;
-		animSet.addAnimation("up", up);
-		animSet.addAnimation("down", down);
-		animSet.addAnimation("left", left);
-		animSet.addAnimation("right", right);
-		animSet.addAnimation("upd", upd);
-		animSet.addAnimation("downd", downd);
-		animSet.addAnimation("leftd", leftd);
-		animSet.addAnimation("rightd", rightd);
-		animSet.addAnimation("afraid", afraid);
-		animSet.addAnimation("afraidFlash", afraidFlash);
+		animSet.add("up", up);
+		animSet.add("down", down);
+		animSet.add("left", left);
+		animSet.add("right", right);
+		animSet.add("upd", upd);
+		animSet.add("downd", downd);
+		animSet.add("leftd", leftd);
+		animSet.add("rightd", rightd);
+		animSet.add("afraid", afraid);
+		animSet.add("afraidFlash", afraidFlash);
 
 		m_registry.accommodate<AnimationSet>(m_entity, animSet);
 		m_registry.accommodate<AnimationPtr>(m_entity, right);

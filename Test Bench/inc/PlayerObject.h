@@ -54,10 +54,10 @@ public:
 		right->setFrameTime(2);
 
 		AnimationSet animSet;
-		animSet.addAnimation("up", up);
-		animSet.addAnimation("down", down);
-		animSet.addAnimation("left", left);
-		animSet.addAnimation("right", right);
+		animSet.add("up", up);
+		animSet.add("down", down);
+		animSet.add("left", left);
+		animSet.add("right", right);
 
 		m_registry.accommodate<AnimationSet>(m_entity, animSet);
 		m_registry.accommodate<AnimationPtr>(m_entity, right);

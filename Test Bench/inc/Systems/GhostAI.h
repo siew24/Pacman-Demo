@@ -78,7 +78,7 @@ public:
 							break;
 						}
 
-						animSet.changeAnimation(animset);
+						animSet.changeCurrent(animset);
 					}
 					switch (ghost.direction) {
 					case Direction::left:
