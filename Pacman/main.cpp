@@ -73,14 +73,15 @@ void test_drawer(const std::filesystem::path& assetsPath)
 
 		frameCount = (frameCount + 1) % 60;
 		game->handleEvents();
+		using namespace bloom::input;
 
-		if (game->input.isKeyPressed(KEY_W) || game->input.isKeyPressed(KEY_UP))
+		if (game->input.keyboard.wasDown(KeyboardKey::KEY_W) || game->input.keyboard.wasDown(KeyboardKey::KEY_UP))
 			level.changeDir(Direction::up);
-		else if (game->input.isKeyPressed(KEY_A) || game->input.isKeyPressed(KEY_LEFT))
+		else if (game->input.keyboard.wasDown(KeyboardKey::KEY_A) || game->input.keyboard.wasDown(KeyboardKey::KEY_LEFT))
 			level.changeDir(Direction::left);
-		else if (game->input.isKeyPressed(KEY_S) || game->input.isKeyPressed(KEY_DOWN))
+		else if (game->input.keyboard.wasDown(KeyboardKey::KEY_S) || game->input.keyboard.wasDown(KeyboardKey::KEY_DOWN))
 			level.changeDir(Direction::down);
-		else if (game->input.isKeyPressed(KEY_D) || game->input.isKeyPressed(KEY_RIGHT))
+		else if (game->input.keyboard.wasDown(KeyboardKey::KEY_D) || game->input.keyboard.wasDown(KeyboardKey::KEY_RIGHT))
 			level.changeDir(Direction::right);
 		/*else
 			level.changeDir(testRegistry, null);*/

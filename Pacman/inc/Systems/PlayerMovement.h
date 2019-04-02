@@ -49,16 +49,16 @@ public:
 								player.direction = player.nextDir;
 								switch (player.direction) {
 								case Direction::right:
-									AnimSet.changeAnimation("right");
+									AnimSet.changeCurrent("right");
 									break;
 								case Direction::left:
-									AnimSet.changeAnimation("left");
+									AnimSet.changeCurrent("left");
 									break;
 								case Direction::up:
-									AnimSet.changeAnimation("up");
+									AnimSet.changeCurrent("up");
 									break;
 								case Direction::down:
-									AnimSet.changeAnimation("down");
+									AnimSet.changeCurrent("down");
 									break;
 								}
 							}
