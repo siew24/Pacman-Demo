@@ -103,7 +103,7 @@
       <Message>Copying required data to output directory.</Message>
     </PostBuildEvent>
     <Link>
-      <AdditionalDependencies>$(OutDir)\BloomFramework.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -121,7 +121,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>$(OutDir)\BloomFramework.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>(robocopy "$(ProjectDir)data\\" "$(OutDir)data\\" /S /NDL /NJH /NJS /nc /ns /np) ^&amp; IF %ERRORLEVEL% LSS 8 SET ERRORLEVEL = 0</Command>
@@ -146,7 +146,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>$(OutDir)\BloomFramework.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>(robocopy "$(ProjectDir)data\\" "$(OutDir)data\\" /S /NDL /NJH /NJS /nc /ns /np) ^&amp; IF %ERRORLEVEL% LSS 8 SET ERRORLEVEL = 0</Command>
@@ -171,7 +171,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>$(OutDir)\BloomFramework.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>(robocopy "$(ProjectDir)data\\" "$(OutDir)data\\" /S /NDL /NJH /NJS /nc /ns /np) ^&amp; IF %ERRORLEVEL% LSS 8 SET ERRORLEVEL = 0</Command>
@@ -303,6 +303,11 @@
   </ItemGroup>
   <ItemGroup>
     <Media Include="data\Music\pacman_beginning.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BloomFramework\BloomFramework\BloomFramework.vcxproj">
+      <Project>{c640c874-d67e-4b31-af02-378fe5c4d3a3}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
