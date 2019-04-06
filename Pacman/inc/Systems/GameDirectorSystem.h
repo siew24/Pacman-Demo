@@ -26,11 +26,13 @@ public:
 		else if (player->pelletsEaten == pokey->dotLimit)
 			pokey->released = true;
 
-		if (player->pelletsEaten == 70)
-		{
+		if (player->pelletsEaten == 70 || player->pelletsEaten == 170){
+			if (fruitEntity == nullptr) {
+				fruitEntity.reset();
+			}
 			auto fruit = std::make_shared<FruitObject>(m_registry, m_gameInstance);
 			fruit->init(texturePath / "Entity" , m_fruitType);
-			m_entities.emplace_back(fruit);
+			fruitEntity = fruit;
 		}
 	}
 
@@ -42,7 +44,7 @@ private:
 	bloom::Game*  m_gameInstance;
 	std::filesystem::path texturePath;
 
-	std::vector<std::shared_ptr<bloom::GameObject>> m_entities;
+	std::shared_ptr<bloom::GameObject> fruitEntity;
 
 	FruitType m_fruitType;
 };
