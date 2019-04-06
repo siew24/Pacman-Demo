@@ -27,12 +27,12 @@ public:
 			pokey->released = true;
 
 		if (player->pelletsEaten == 70 || player->pelletsEaten == 170){
-			if (fruitEntity == nullptr) {
-				fruitEntity.reset();
+			if (fruitEntityPtr) {
+				fruitEntityPtr.reset();
 			}
 			auto fruit = std::make_shared<FruitObject>(m_registry, m_gameInstance);
 			fruit->init(texturePath / "Entity" , m_fruitType);
-			fruitEntity = fruit;
+			fruitEntityPtr= fruit;
 		}
 	}
 
@@ -44,7 +44,7 @@ private:
 	bloom::Game*  m_gameInstance;
 	std::filesystem::path texturePath;
 
-	std::shared_ptr<bloom::GameObject> fruitEntity;
+	std::shared_ptr<bloom::GameObject> fruitEntityPtr;
 
 	FruitType m_fruitType;
 };
