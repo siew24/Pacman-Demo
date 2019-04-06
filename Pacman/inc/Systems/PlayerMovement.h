@@ -138,6 +138,6 @@ private:
 		tile.x = tile.x < 0 ? layout[0].size() + tile.x : tile.x;
 		tile.x = tile.x >= layout[0].size() ? tile.x % layout[0].size() : tile.x;
 
-		return (layout[tile.y][tile.x] == 0);
+		return layout[tile.y][tile.x] == 0 || (std::abs(layout[tile.y][tile.x]) & 256) == 256;
 	}
 };
