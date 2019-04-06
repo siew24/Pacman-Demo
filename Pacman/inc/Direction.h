@@ -1,8 +1,8 @@
 #pragma once
 enum class Direction {
 	up,
-	down,
 	left,
+	down,
 	right,
 	null
 };
