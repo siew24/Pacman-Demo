@@ -10,6 +10,7 @@ struct Pacman {
 
 	int score = 0;
 	int pelletsEaten = 0;
+	int ghostsEaten = 0;					// Resets after a energizer (PowerPellet) is eaten
 	std::array<double, 2> multipliers;
 
 	bool dead = false;

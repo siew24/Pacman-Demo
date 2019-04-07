@@ -66,8 +66,8 @@ void test_drawer(const std::filesystem::path& assetsPath)
 	int frameCount = 0;
 	std::cout << "Level is started!" << std::endl;
 	while (game->isRunning()) {
-		/*if (!frameCount)
-			std::cout << "Current score:  " << level.getScore(testRegistry) << std::endl;*/
+		/* if (!frameCount)
+			std::cout << "Current score:  " << level.getScore(testRegistry) << std::endl; */
 
 		std::cout << "Delta time: " << dt << "ms" << std::endl;
 
