@@ -59,17 +59,24 @@ void test_drawer(const std::filesystem::path& assetsPath)
 	sounds.add(audioDir / "pacman_beginning.wav");
 	sounds.add(audioDir / "pacman_intermission.wav");
 	sounds.add(audioDir / "pacman_death.wav");
+
+	std::cout << std::endl;
+	std::string consoleText{ "Level started!" };
+	std::cout << consoleText;
 	sounds[0]->play();
 	SDL_Delay(5000);
 
 	auto dt = 0.0;
 	int frameCount = 0;
-	std::cout << "Level is started!" << std::endl;
-	while (game->isRunning()) {
-		/* if (!frameCount)
-			std::cout << "Current score:  " << level.getScore(testRegistry) << std::endl; */
 
-		std::cout << "Delta time: " << dt << "ms" << std::endl;
+	while (game->isRunning()) {
+		for (char c : consoleText)
+			std::cout << "\b";
+		consoleText = "[FPS:" + std::to_string(static_cast<int>(1000.0 / dt + 0.5 > 99 ? 99 : 1000.0 / dt + 0.5)) + "] ";
+		consoleText += "Current score:  " + std::to_string(level.getScore());
+		std::cout << consoleText;
+
+		//std::cout << "Delta time: " << dt << "ms" << std::endl;
 
 		frameCount = (frameCount + 1) % 60;
 		game->handleEvents();
@@ -94,19 +101,22 @@ void test_drawer(const std::filesystem::path& assetsPath)
 		dt = game->timer.lap();
 
 		if (level.complete()) {
-			std::cout << "Level complete!" << std::endl;
+			consoleText += " -- Level complete!";
+			std::cout << " -- Level complete!";
 			sounds[1]->play();
 			game->delay(5500);
 			++levelNumber;
 			level.changeLevel(levelDir / "0.txt", levelNumber, tileDir);
 		}
 		else if (level.gameOver()) {
-			std::cout << "Game Over!" << std::endl;
+			consoleText += " -- Game over!";
+			std::cout << " -- Game Over!";
 			sounds[2]->play();
 			game->delay(1500);
 			break;
 		}
 	}
+	std::cout << std::endl;
 	game->destroy();
 }
 

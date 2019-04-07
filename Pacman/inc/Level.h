@@ -33,7 +33,7 @@ public:
 	void changeDir(Direction dir) {
 		m_registry.get<Pacman>(playerEntity->getEntityID()).nextDir = dir;
 	}
-	int getScore(entt::DefaultRegistry& m_registry) {
+	int getScore() {
 		return m_registry.get<Pacman>(playerEntity->getEntityID()).score;
 	}
 	void update(double dt) {
