@@ -42,10 +42,7 @@ public:
 					}
 
 					if (ghost.currentMode == BehaviourModes::afraid && ghost.afraidTimer <= 0.0)
-					{
 						ghost.currentMode = ghost.previousMode;
-						playerState.ghostsEaten = 0;
-					}
 				}
 				AnimationSet& animSet = m_registry.get<AnimationSet>(entity);
 				while (potentialDistance > 0) {
