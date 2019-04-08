@@ -62,10 +62,10 @@ public:
 		m_registry.accommodate<AnimationSet>(m_entity, animSet);
 		m_registry.accommodate<AnimationPtr>(m_entity, right);
 		if (!m_registry.has<Pacman>(m_entity))
-			m_registry.assign<Pacman>(m_entity) = Pacman{ Direction::null,Direction::null,0,0, speedMultipliers};
+			m_registry.assign<Pacman>(m_entity) = Pacman{ Direction::null,Direction::null,0,0,0, speedMultipliers};
 		else {
 			auto& pac = m_registry.get<Pacman>(m_entity);
-			pac = Pacman{ Direction::null,Direction::null,pac.score,0, speedMultipliers};
+			pac = Pacman{ Direction::null,Direction::null,pac.score,0,0, speedMultipliers};
 		}
 	}
 };

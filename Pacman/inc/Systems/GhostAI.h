@@ -41,7 +41,7 @@ public:
 						}
 					}
 
-					if (ghost.currentMode == BehaviourModes::afraid && ghost.afraidTimer <= 0.0 )
+					if (ghost.currentMode == BehaviourModes::afraid && ghost.afraidTimer <= 0.0)
 						ghost.currentMode = ghost.previousMode;
 				}
 				AnimationSet& animSet = m_registry.get<AnimationSet>(entity);
@@ -104,7 +104,9 @@ public:
 				}
 				if (Tile ghostT{ (position.x + (GHOST_TEXTURESIZE / 2)) / TILESIZE,(position.y + (GHOST_TEXTURESIZE / 2)) / TILESIZE }, pac{ (playerPos.x + (PACMAN_TEXTURESIZE / 2)) / TILESIZE,(playerPos.y + (PACMAN_TEXTURESIZE / 2)) / TILESIZE }; pac == ghostT) {
 					if (ghost.currentMode == BehaviourModes::afraid) {
-						playerState.score += 6000;
+						playerState.score += 200 * pow(2, playerState.ghostsEaten);
+						++playerState.ghostsEaten;
+						playerState.score += (playerState.ghostsEaten >= 4) ? 12000 : 0;
 						ghost.currentMode = BehaviourModes::dead;
 					}
 					else if (ghost.currentMode != BehaviourModes::dead)

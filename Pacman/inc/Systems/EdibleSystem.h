@@ -36,6 +36,7 @@ public:
 				if (playerTile.x == pelletPos.x / TILESIZE && playerTile.y == pelletPos.y / TILESIZE) {
 					playerState.score += pellet.points;
 					++playerState.pelletsEaten;
+					playerState.ghostsEaten = 0;
 					playerState.timeAvailable -= (1000.0 / 60.0) * 3;
 					m_registry.destroy(entity);
 
