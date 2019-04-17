@@ -39,6 +39,20 @@ public:
 							ghost.currentMode = BehaviourModes::chase;
 							++ghost.modeLooped;
 						}
+						switch (ghost.direction) {
+						case Direction::up:
+							ghost.direction = Direction::down;
+							break;
+						case Direction::down:
+							ghost.direction = Direction::up;
+							break;
+						case Direction::left:
+							ghost.direction = Direction::right;
+							break;
+						case Direction::right:
+							ghost.direction = Direction::left;
+							break;
+						}
 					}
 
 					if (ghost.currentMode == BehaviourModes::afraid && ghost.afraidTimer <= 0.0)
@@ -106,11 +120,11 @@ public:
 					if (ghost.currentMode == BehaviourModes::afraid) {
 						playerState.score += 200 * pow(2, playerState.ghostsEaten);
 						++playerState.ghostsEaten;
-						playerState.score += (playerState.ghostsEaten >= 4) ? 12000 : 0;
+						playerState.addScore((playerState.ghostsEaten >= 4) ? 12000 : 0);
 						ghost.currentMode = BehaviourModes::dead;
 					}
 					else if (ghost.currentMode != BehaviourModes::dead)
-						playerState.dead = true;
+						playerState.dead = true, playerState.died = true, --playerState.lives;
 				}
 			}
 		);

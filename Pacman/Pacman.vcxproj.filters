@@ -40,6 +40,9 @@
     <Filter Include="Resource Files\Level Variables">
       <UniqueIdentifier>{8639f008-a144-4d41-b145-3df57a59cd9e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Font Styles">
+      <UniqueIdentifier>{07658cf8-b505-46b0-9973-08e2322832f7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Level.cpp">
@@ -392,5 +395,22 @@
     <Media Include="data\Music\pacman_beginning.wav">
       <Filter>Resource Files\Sounds</Filter>
     </Media>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="data\Assets\Font Styles\FiraCode-Medium.ttf">
+      <Filter>Resource Files\Font Styles</Filter>
+    </Font>
+    <Font Include="data\Assets\Font Styles\FiraCode-Regular.ttf">
+      <Filter>Resource Files\Font Styles</Filter>
+    </Font>
+    <Font Include="data\Assets\Font Styles\FiraCode-Retina.ttf">
+      <Filter>Resource Files\Font Styles</Filter>
+    </Font>
+    <Font Include="data\Assets\Font Styles\FiraCode-Bold.ttf">
+      <Filter>Resource Files\Font Styles</Filter>
+    </Font>
+    <Font Include="data\Assets\Font Styles\FiraCode-Light.ttf">
+      <Filter>Resource Files\Font Styles</Filter>
+    </Font>
   </ItemGroup>
 </Project>

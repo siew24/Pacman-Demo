@@ -17,7 +17,7 @@ public:
 	void init() override {}
 
 	void init(const std::filesystem::path texturePath, Ghosts id, Tile spawnTile, GhostInitDetails details) {
-		m_registry.replace<Position>(m_entity, spawnTile.x * TILESIZE - 4 - (GHOST_TEXTURESIZE-TILESIZE)/2, spawnTile.y * TILESIZE - (GHOST_TEXTURESIZE - TILESIZE) / 2);
+		m_registry.replace<Position>(m_entity, (spawnTile.x * TILESIZE) - (GHOST_TEXTURESIZE-TILESIZE)/2, spawnTile.y * TILESIZE - (GHOST_TEXTURESIZE - TILESIZE) / 2);
 		m_registry.accommodate<Size>(m_entity, GHOST_TEXTURESIZE, GHOST_TEXTURESIZE);
 		bloom::graphics::TexturePtr tmp;
 
@@ -27,7 +27,6 @@ public:
 				ghostBehaviors::shadow,
 				Tile{spawnTile.x, spawnTile.y + 3},
 				details,
-				0,
 				true,
 				false 
 			};
@@ -39,7 +38,6 @@ public:
 				ghostBehaviors::speedy, 
 				spawnTile,
 				details,
-				0, 
 				true 
 			};
 			tmp = m_gameInstance->textures.load(texturePath / "Pinky.png");
@@ -49,8 +47,7 @@ public:
 			m_registry.accommodate<Ghost>(m_entity) = Ghost{ 
 				ghostBehaviors::bashful, 
 				spawnTile ,
-				details,
-				30 
+				details
 			};
 			tmp = m_gameInstance->textures.load(texturePath / "Blue.png");
 		}
@@ -59,8 +56,7 @@ public:
 			m_registry.accommodate<Ghost>(m_entity) = Ghost{ 
 				ghostBehaviors::pokey, 
 				spawnTile,
-				details,
-				60 
+				details
 			};
 			tmp = m_gameInstance->textures.load(texturePath / "Orange.png");
 		}

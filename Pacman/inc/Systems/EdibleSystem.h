@@ -18,13 +18,15 @@ public:
 
 		Tile playerTile = Tile{ (playerPos.x + (PACMAN_TEXTURESIZE / 2)) / TILESIZE ,(playerPos.y + (PACMAN_TEXTURESIZE / 2)) / TILESIZE };
 
+		playerState.timeFromLastPellet += (deltaTime.value() / 1000.0);
 		// Regular Pellets
 		m_registry.view<Pellet, Position>().each(
 			[&](auto entity, Pellet & pellet, Position & pelletPos) {
 				if (playerTile.x == pelletPos.x / TILESIZE && playerTile.y == pelletPos.y / TILESIZE) {
-					playerState.score += pellet.points;
+					playerState.addScore(pellet.points);
 					++playerState.pelletsEaten;
 					playerState.timeAvailable -= 1000.0 / 60.0;
+					playerState.timeFromLastPellet = 0.0;
 					m_registry.destroy(entity);
 				}
 			}
@@ -34,10 +36,11 @@ public:
 		m_registry.view<PowerPellet, Position>().each(
 			[&](auto entity, PowerPellet & pellet, Position & pelletPos) {
 				if (playerTile.x == pelletPos.x / TILESIZE && playerTile.y == pelletPos.y / TILESIZE) {
-					playerState.score += pellet.points;
+					playerState.addScore(pellet.points);
 					++playerState.pelletsEaten;
 					playerState.ghostsEaten = 0;
 					playerState.timeAvailable -= (1000.0 / 60.0) * 3;
+					playerState.timeFromLastPellet = 0.0;
 					m_registry.destroy(entity);
 
 					m_registry.view<Ghost>().each(
@@ -48,6 +51,20 @@ public:
 									ghost.previousMode = ghost.currentMode;
 								ghost.currentMode = BehaviourModes::afraid;
 								ghost.afraidTimer = ghost.levelVars.afraidTime;
+								switch (ghost.direction) {
+								case Direction::up:
+									ghost.direction = Direction::down;
+									break;
+								case Direction::down:
+									ghost.direction = Direction::up;
+									break;
+								case Direction::left:
+									ghost.direction = Direction::right;
+									break;
+								case Direction::right:
+									ghost.direction = Direction::left;
+									break;
+								}
 							}
 						}
 					);
@@ -60,7 +77,7 @@ public:
 			[&](auto entity, Fruit & fruit, Position & fruitPos) {
 				if ((playerPos.x + PACMAN_TEXTURESIZE / 2) / TILESIZE == (fruitPos.x + fruit.rect.w / 2) / TILESIZE
 					&& (playerPos.y + PACMAN_TEXTURESIZE / 2) / TILESIZE == (fruitPos.y + fruit.rect.h / 2) / TILESIZE) {
-					playerState.score += static_cast<int>(fruit.type);
+					playerState.addScore(static_cast<int>(fruit.type));
 
 					m_registry.destroy(entity);
 				}

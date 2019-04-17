@@ -10,11 +10,10 @@
 
 using namespace bloom;
 using namespace bloom::audio;
+using namespace bloom::graphics;
 
 Game* game = nullptr;
 
-const int WINDOW_WIDTH = 28 * TILESIZE;
-const int WINDOW_HEIGHT = 36 * TILESIZE;
 
 void test_drawer(const std::filesystem::path& assetsPath)
 {
@@ -46,8 +45,20 @@ void test_drawer(const std::filesystem::path& assetsPath)
 	std::filesystem::path entityDir = assetsPath / L"Entity";
 	std::filesystem::path levelDir = assetsPath / L"Level";
 	std::filesystem::path audioDir = assetsPath.parent_path() / L"Sounds";
+	std::filesystem::path FontDir = assetsPath / L"Font Styles";
 
-	Level level = Level(game);
+	std::filesystem::path FontStyle = FontDir / L"super-mario-bros-nes.ttf";
+
+	if (!std::filesystem::exists(FontStyle))
+		throw bloom::Exception("Required assets can't be found.");
+
+	FontPtr guiFont = std::make_shared<Font>(FontStyle, 8);
+
+	SDL_Renderer* renderer = game->getRenderer();
+
+
+
+	Level level = Level(game, guiFont);
 	int levelNumber = 0;
 	level.changeLevel(levelDir / "0.txt", levelNumber, tileDir);
 
@@ -60,9 +71,7 @@ void test_drawer(const std::filesystem::path& assetsPath)
 	sounds.add(audioDir / "pacman_intermission.wav");
 	sounds.add(audioDir / "pacman_death.wav");
 
-	std::cout << std::endl;
-	std::string consoleText{ "Level started!" };
-	std::cout << consoleText;
+	std::cout << "Level started!" << std::endl;
 	sounds[0]->play();
 	SDL_Delay(5000);
 
@@ -70,12 +79,6 @@ void test_drawer(const std::filesystem::path& assetsPath)
 	int frameCount = 0;
 
 	while (game->isRunning()) {
-		for (char c : consoleText)
-			std::cout << "\b";
-		consoleText = "[FPS:" + std::to_string(static_cast<int>(1000.0 / dt + 0.5 > 99 ? 99 : 1000.0 / dt + 0.5)) + "] ";
-		consoleText += "Current score:  " + std::to_string(level.getScore());
-		std::cout << consoleText;
-
 		//std::cout << "Delta time: " << dt << "ms" << std::endl;
 
 		frameCount = (frameCount + 1) % 60;
@@ -90,30 +93,33 @@ void test_drawer(const std::filesystem::path& assetsPath)
 			level.changeDir(Direction::down);
 		else if (game->input.keyboard.wasDown(KeyboardKey::KEY_D) || game->input.keyboard.wasDown(KeyboardKey::KEY_RIGHT))
 			level.changeDir(Direction::right);
+
 		/*else
 			level.changeDir(testRegistry, null);*/
 
 		game->clear();
 		level.update(dt);
 		level.draw();
+
 		game->render();
 		// game->update();
 		dt = game->timer.lap();
 
 		if (level.complete()) {
-			consoleText += " -- Level complete!";
-			std::cout << " -- Level complete!";
+			std::cout << "Level complete!" << std::endl;
 			sounds[1]->play();
 			game->delay(5500);
 			++levelNumber;
 			level.changeLevel(levelDir / "0.txt", levelNumber, tileDir);
 		}
-		else if (level.gameOver()) {
-			consoleText += " -- Game over!";
-			std::cout << " -- Game Over!";
+		else if (level.dead()) {
+			std::cout << "Died!" << std::endl;
 			sounds[2]->play();
 			game->delay(1500);
-			break;
+			if (level.lives() > 0)
+				level.respawn(), game->timer.lap();
+			else
+				break;
 		}
 	}
 	std::cout << std::endl;

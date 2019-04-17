@@ -16,8 +16,8 @@ public:
 	void init() override {}
 
 	void init(const std::filesystem::path texturePath, Tile spawnTile, std::array<double, 2> speedMultipliers) {
-		m_registry.replace<Position>(m_entity, spawnTile.x * TILESIZE-2 -(PACMAN_TEXTURESIZE-TILESIZE)/2 , spawnTile.y * TILESIZE - (PACMAN_TEXTURESIZE - TILESIZE) / 2);
-		m_registry.accommodate<Size>(m_entity, PACMAN_TEXTURESIZE,PACMAN_TEXTURESIZE);
+		m_registry.replace<Position>(m_entity, spawnTile.x * TILESIZE - 2 - (PACMAN_TEXTURESIZE - TILESIZE) / 2, spawnTile.y * TILESIZE - (PACMAN_TEXTURESIZE - TILESIZE) / 2);
+		m_registry.accommodate<Size>(m_entity, PACMAN_TEXTURESIZE, PACMAN_TEXTURESIZE);
 		m_registry.accommodate<entt::label<"pacman"_hs>>(m_entity);
 		auto tmp = m_gameInstance->textures.load(texturePath);
 
@@ -62,10 +62,14 @@ public:
 		m_registry.accommodate<AnimationSet>(m_entity, animSet);
 		m_registry.accommodate<AnimationPtr>(m_entity, right);
 		if (!m_registry.has<Pacman>(m_entity))
-			m_registry.assign<Pacman>(m_entity) = Pacman{ Direction::null,Direction::null,0,0,0, speedMultipliers};
+			m_registry.assign<Pacman>(m_entity) = Pacman{ Direction::null,Direction::null,0,0,0,speedMultipliers };
 		else {
 			auto& pac = m_registry.get<Pacman>(m_entity);
-			pac = Pacman{ Direction::null,Direction::null,pac.score,0,0, speedMultipliers};
+			pac.direction = Direction::null;
+			pac.nextDir = Direction::null;
+			pac.pelletsEaten = 0;
+			pac.ghostsEaten = 0;
+			pac.dead = false;
 		}
 	}
 };
