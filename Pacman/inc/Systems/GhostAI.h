@@ -121,7 +121,7 @@ public:
 						playerState.score += 200 * pow(2, playerState.ghostsEaten);
 						++playerState.ghostsEaten;
 						playerState.addScore((playerState.ghostsEaten >= 4) ? 12000 : 0);
-						is_Paused = true;
+						isPaused = true;
 						ghost.currentMode = BehaviourModes::dead;
 					}
 					else if (ghost.currentMode != BehaviourModes::dead)
@@ -131,6 +131,6 @@ public:
 		);
 	};
 	std::vector<std::vector<int>> layout;
-	bool is_Paused = false;
+	bool isPaused = false;
 	double lastUpdate = 0;
 };

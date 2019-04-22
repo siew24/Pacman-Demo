@@ -105,15 +105,7 @@ void test_drawer(const std::filesystem::path& assetsPath)
 		// game->update();
 		dt = game->timer.lap();
 
-		if (level.is_Paused()) {
-			if (level.get_dt() > 500) {
-				level.Resume();
-			}
-			else {
-				level.is_Pausing(dt);
-				dt = 0;
-			}
-		}
+		
 		
 
 		if (level.complete()) {

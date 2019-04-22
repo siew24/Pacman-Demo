@@ -19,6 +19,7 @@ Level::Level(bloom::Game*& gameInstance, bloom::graphics::FontPtr guiFont) : m_g
 	guiElems.emplace_back(bloom::graphics::SpriteText(m_renderer, guiFont, "60"));
 	guiElems.emplace_back(bloom::graphics::SpriteText(m_renderer, guiFont, "1UP"));
 	guiElems.emplace_back(bloom::graphics::SpriteText(m_renderer, guiFont, "HIGH SCORE"));
+	guiElems.emplace_back(bloom::graphics::SpriteText(m_renderer, guiFont, "Insert Fruit Score Here"));
 	bloom::graphics::TextStyle style;
 	style.blendingMode = bloom::graphics::TextStyle::BlendingMode::normal;
 	style.foregroundColor = { 255, 255, 255, 0 };
@@ -87,6 +88,7 @@ void Level::changeLevel(const std::filesystem::path & levelFile, int levelNumber
 				break;
 		}
 	}
+	guiElems[4].setText(std::to_string(static_cast<int>(fruit)));
 	gameDirector.setParameters(texturePath, fruit);
 	gameDirector.init();
 	speedDirector.init();

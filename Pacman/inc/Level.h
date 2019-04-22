@@ -46,27 +46,23 @@ public:
 	}
 	void respawn();
 	void update(double dt) {
-		playerMovement.update(dt);
-		ghostMovement.update(dt);
-		edibleSystem.update(dt);
-		speedDirector.update(dt);
-		gameDirector.update(dt);
-		animSysTest.update(dt);
+		if (!isPaused(dt)) {
+			playerMovement.update(dt);
+			ghostMovement.update(dt);
+			edibleSystem.update(dt);
+			speedDirector.update(dt);
+			gameDirector.update(dt);
+			animSysTest.update(dt);
+		}
 		guiElems[0].setText(std::to_string(getScore()));
 		guiElems[1].setText(std::to_string(static_cast<int>(1000.0 / dt + 0.5)));
 	}
-	bool is_Paused() {
-		return ghostMovement.is_Paused;
-	}
-	void is_Pausing(double dt) {
-		pause_dt += dt;
-	}
-	double get_dt() {
-		return pause_dt;
-	}
-	void Resume() {
-		ghostMovement.is_Paused = false;
-		pause_dt = 0;
+	bool isPaused(double dt) {
+		pauseTimer += (ghostMovement.isPaused) ? dt : 0;
+		if (pauseTimer >= 1000.0)
+			ghostMovement.isPaused = false, pauseTimer = 0;
+
+		return ghostMovement.isPaused;
 	}
 
 	std::vector<std::vector<int>> layout;
@@ -107,5 +103,5 @@ private:
 	std::vector<bloom::graphics::SpriteText> guiElems;
 
 	// Pause Variable
-	double pause_dt = 0;
+	double pauseTimer = 0;
 };
