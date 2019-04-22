@@ -55,7 +55,19 @@ public:
 		guiElems[0].setText(std::to_string(getScore()));
 		guiElems[1].setText(std::to_string(static_cast<int>(1000.0 / dt + 0.5)));
 	}
-
+	bool is_Paused() {
+		return ghostMovement.is_Paused;
+	}
+	void is_Pausing(double dt) {
+		pause_dt += dt;
+	}
+	double get_dt() {
+		return pause_dt;
+	}
+	void Resume() {
+		ghostMovement.is_Paused = false;
+		pause_dt = 0;
+	}
 
 	std::vector<std::vector<int>> layout;
 
@@ -93,4 +105,7 @@ private:
 
 	// GUI Text
 	std::vector<bloom::graphics::SpriteText> guiElems;
+
+	// Pause Variable
+	double pause_dt = 0;
 };
