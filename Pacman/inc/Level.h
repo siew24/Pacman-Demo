@@ -54,8 +54,8 @@ public:
 			gameDirector.update(dt);
 			animSysTest.update(dt);
 		}
-		guiElems[0].setText(std::to_string(getScore()));
-		guiElems[1].setText(std::to_string(static_cast<int>(1000.0 / dt + 0.5)));
+		guiElems[0]->setText(std::to_string(getScore()));
+		guiElems[1]->setText(std::to_string(static_cast<int>(1000.0 / dt + 0.5)));
 	}
 	bool isPaused(double dt) {
 		pauseTimer += (ghostMovement.isPaused) ? dt : 0;
@@ -100,7 +100,7 @@ private:
 	std::filesystem::path m_texturePath;
 
 	// GUI Text
-	std::vector<bloom::graphics::SpriteText> guiElems;
+	std::vector<std::shared_ptr<bloom::graphics::SpriteText>> guiElems;
 
 	// Pause Variable
 	double pauseTimer = 0;
