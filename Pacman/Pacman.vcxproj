@@ -240,6 +240,8 @@
     <Image Include="data\Assets\Pacman_Spritesheet.png" />
     <Image Include="data\Assets\Entity\Pinky.png" />
     <Image Include="data\Assets\Entity\Red.png" />
+    <Image Include="data\Assets\Scores\Reference_Spritesheet.png" />
+    <Image Include="data\Assets\Scores\Bonus_Scores.png" />
     <Image Include="data\Assets\Tile\12.png" />
     <Image Include="data\Assets\Entity\Pellet.png" />
     <Image Include="data\Assets\Entity\PowerPellet.png" />
