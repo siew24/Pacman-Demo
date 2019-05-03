@@ -13,16 +13,20 @@ public:
 	void update(std::optional<double> deltaTime = 0.0) override {
 		m_registry.view<AnimationPtr>().each(
 			[&](auto entity, AnimationPtr & anim) {
-				if (m_registry.has<AnimationSet>(entity)) {
-					AnimationPtr newAnim = m_registry.get<AnimationSet>(entity).getCurrent();
-					if (newAnim)
-						anim = newAnim;
+				if (!m_registry.has<ScoreComponent>(entity)) {
+					if (m_registry.has<AnimationSet>(entity)) {
+						AnimationPtr newAnim = m_registry.get<AnimationSet>(entity).getCurrent();
+						if (newAnim)
+							anim = newAnim;
+					}
+					if (m_registry.has<Pacman>(entity))
+						m_registry.replace<Sprite>(entity, anim->update(0.0));
+					else
+						m_registry.replace<Sprite>(entity, anim->update(deltaTime.value()));
 				}
-				if (m_registry.has<Pacman>(entity))
-					m_registry.replace<Sprite>(entity, anim->update(0.0));
-				else
-					m_registry.replace<Sprite>(entity, anim->update(deltaTime.value()));
 			}
 		);
 	}
+
+	bool enabled = true;
 };

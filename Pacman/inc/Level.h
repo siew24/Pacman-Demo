@@ -14,6 +14,7 @@
 #include "Systems/GameDirectorSystem.h"
 #include "Systems/SpeedDirectorSystem.h"
 #include "Systems/AltAnimationSystem.h"
+#include "Systems/ScorePopupSystem.h"
 #include "Graphics/SpriteText.h"
 #include "Graphics/Font.h"
 
@@ -46,7 +47,8 @@ public:
 	}
 	void respawn();
 	void update(double dt) {
-		if (!isPaused(dt)) {
+		popupSystem.update(dt);
+		if (!popupSystem.freeze) {
 			playerMovement.update(dt);
 			ghostMovement.update(dt);
 			edibleSystem.update(dt);
@@ -57,29 +59,21 @@ public:
 		guiElems[0]->setText(std::to_string(getScore()));
 		guiElems[1]->setText(std::to_string(static_cast<int>(1000.0 / dt + 0.5)));
 	}
-	bool isPaused(double dt) {
-		pauseTimer += (ghostMovement.isPaused) ? dt : 0;
-		if (pauseTimer >= 1000.0)
-			ghostMovement.isPaused = false, pauseTimer = 0;
-
-		return ghostMovement.isPaused;
-	}
-
 	std::vector<std::vector<int>> layout;
 
 private:
-	void m_load(const std::filesystem::path& levelData);
+	void m_load(const std::filesystem::path & levelData);
 	void m_generateTexture();
 
-	void m_generatePellets(std::vector<std::vector<int>>& layout, bool readOnly = true);
-	void m_generateEntities(std::vector<std::vector<int>>& layout, bool readOnly = true);
+	void m_generatePellets(std::vector<std::vector<int>> & layout, bool readOnly = true);
+	void m_generateEntities(std::vector<std::vector<int>> & layout, bool readOnly = true);
 	void m_cleanup();
 
 
-	bloom::Game*& m_gameInstance;
-	SDL_Renderer* m_renderer;
-	SDL_Texture* m_levelTex = nullptr;
-	SDL_Texture* m_entityLayer = nullptr;
+	bloom::Game * &m_gameInstance;
+	SDL_Renderer * m_renderer;
+	SDL_Texture * m_levelTex = nullptr;
+	SDL_Texture * m_entityLayer = nullptr;
 	std::vector<std::shared_ptr<bloom::GameObject>> m_pellets;
 	std::vector<std::shared_ptr<bloom::GameObject>> m_ghosts;
 	std::shared_ptr<Player> playerEntity;
@@ -94,9 +88,10 @@ private:
 	EdibleSystem edibleSystem = EdibleSystem(m_registry);
 	GameDirectorSystem gameDirector = GameDirectorSystem(m_registry);
 	SpeedDirectorSystem speedDirector = SpeedDirectorSystem(m_registry);
+	ScorePopupSystem popupSystem = ScorePopupSystem(m_registry);
 
 	std::filesystem::path m_levelFile;
-	int m_levelNumber; 
+	int m_levelNumber;
 	std::filesystem::path m_texturePath;
 
 	// GUI Text

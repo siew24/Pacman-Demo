@@ -25,6 +25,9 @@ Level::Level(bloom::Game*& gameInstance, bloom::graphics::FontPtr guiFont) : m_g
 	style.foregroundColor = { 255, 255, 255, 0 };
 	for (auto& st : guiElems)
 		st->setStyle(style);
+
+	ghostMovement.game = gameInstance;
+	edibleSystem.game = gameInstance;
 }
 
 Level::~Level() {
