@@ -84,6 +84,7 @@ public:
 					size.w = BONUS_SIZE.w, size.h = BONUS_SIZE.h;
 					m_registry.accommodate<Sprite>(entity, game->textures.load(ASSETPATH / "Assets" / "Scores" / "Bonus" / (std::to_string(static_cast<int>(fruit.type)) + ".png")));
 					m_registry.assign<ScoreComponent>(entity);
+					m_registry.remove<Fruit>(entity);
 				}
 				else
 				{
