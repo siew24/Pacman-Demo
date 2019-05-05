@@ -79,7 +79,12 @@ public:
 					&& (playerPos.y + PACMAN_TEXTURESIZE / 2) / TILESIZE == (fruitPos.y + fruit.rect.h / 2) / TILESIZE) {
 					playerState.addScore(static_cast<int>(fruit.type));
 
-					m_registry.destroy(entity);
+					auto& size = m_registry.get<Size>(entity);
+					fruitPos.x += size.w / 2 - BONUS_SIZE.w / 2, fruitPos.y += size.h / 2 - BONUS_SIZE.h / 2;
+					size.w = BONUS_SIZE.w, size.h = BONUS_SIZE.h;
+					m_registry.accommodate<Sprite>(entity, game->textures.load(ASSETPATH / "Assets" / "Scores" / "Bonus" / (std::to_string(static_cast<int>(fruit.type)) + ".png")));
+					m_registry.assign<ScoreComponent>(entity);
+					m_registry.remove<Fruit>(entity);
 				}
 				else
 				{
@@ -91,4 +96,6 @@ public:
 			}
 		);
 	}
+
+	bloom::Game* game;
 };

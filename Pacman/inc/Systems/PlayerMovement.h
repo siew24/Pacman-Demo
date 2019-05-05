@@ -25,7 +25,7 @@ public:
 				if (playerTile.x < 27 || playerTile.x >= 0)
 				{
 					// Change anim
-					auto& AnimSet = m_registry.get<AnimationSet>(entity);
+					
 					if (player.nextDir != player.direction) {
 						Tile nextTile = playerTile;
 						{
@@ -47,24 +47,24 @@ public:
 							if (valid(tmp)) {
 								nextTile = tmp;
 								player.direction = player.nextDir;
-								switch (player.direction) {
-								case Direction::right:
-									AnimSet.changeCurrent("right");
-									break;
-								case Direction::left:
-									AnimSet.changeCurrent("left");
-									break;
-								case Direction::up:
-									AnimSet.changeCurrent("up");
-									break;
-								case Direction::down:
-									AnimSet.changeCurrent("down");
-									break;
-								}
 							}
 						}
 					}
 					player.lastDir = player.direction != Direction::null ? player.direction : player.lastDir;
+				}
+				switch (player.direction) {
+				case Direction::right:
+					m_registry.get<AnimationSet>(entity).changeCurrent("right");
+					break;
+				case Direction::left:
+					m_registry.get<AnimationSet>(entity).changeCurrent("left");
+					break;
+				case Direction::up:
+					m_registry.get<AnimationSet>(entity).changeCurrent("up");
+					break;
+				case Direction::down:
+					m_registry.get<AnimationSet>(entity).changeCurrent("down");
+					break;
 				}
 
 

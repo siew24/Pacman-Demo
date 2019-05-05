@@ -47,6 +47,10 @@ public:
 			Sprite(tmp, SDL_Rect{ 0 * PACMAN_TEXTURESIZE,0,PACMAN_TEXTURESIZE,PACMAN_TEXTURESIZE }),
 			Sprite(tmp, SDL_Rect{ 1 * PACMAN_TEXTURESIZE,0,PACMAN_TEXTURESIZE,PACMAN_TEXTURESIZE })
 		};
+		AnimationPtr blank = std::make_shared<Animation>();
+		blank->animationFrames = {
+			Sprite(tmp, SDL_Rect{ 9 * PACMAN_TEXTURESIZE,0,PACMAN_TEXTURESIZE,PACMAN_TEXTURESIZE })
+		};
 
 		up->setFrameTime(2);
 		down->setFrameTime(2);
@@ -58,6 +62,7 @@ public:
 		animSet.add("down", down);
 		animSet.add("left", left);
 		animSet.add("right", right);
+		animSet.add("blank", blank);
 
 		m_registry.accommodate<AnimationSet>(m_entity, animSet);
 		m_registry.accommodate<AnimationPtr>(m_entity, right);

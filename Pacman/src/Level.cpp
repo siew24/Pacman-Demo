@@ -15,15 +15,19 @@ Level::Level(bloom::Game*& gameInstance, bloom::graphics::FontPtr guiFont) : m_g
 	SDL_SetTextureBlendMode(m_entityLayer, SDL_BLENDMODE_BLEND);
 
 	gameDirector.setParameters(gameInstance);
-	guiElems.emplace_back(bloom::graphics::SpriteText(m_renderer, guiFont, "0"));
-	guiElems.emplace_back(bloom::graphics::SpriteText(m_renderer, guiFont, "60"));
-	guiElems.emplace_back(bloom::graphics::SpriteText(m_renderer, guiFont, "1UP"));
-	guiElems.emplace_back(bloom::graphics::SpriteText(m_renderer, guiFont, "HIGH SCORE"));
+	guiElems.emplace_back(std::make_shared<bloom::graphics::SpriteText>(m_renderer, guiFont, "0"));
+	guiElems.emplace_back(std::make_shared<bloom::graphics::SpriteText>(m_renderer, guiFont, "60"));
+	guiElems.emplace_back(std::make_shared<bloom::graphics::SpriteText>(m_renderer, guiFont, "1UP"));
+	guiElems.emplace_back(std::make_shared<bloom::graphics::SpriteText>(m_renderer, guiFont, "HIGH SCORE"));
+	guiElems.emplace_back(std::make_shared<bloom::graphics::SpriteText>(m_renderer, guiFont, "0"));
 	bloom::graphics::TextStyle style;
 	style.blendingMode = bloom::graphics::TextStyle::BlendingMode::normal;
 	style.foregroundColor = { 255, 255, 255, 0 };
 	for (auto& st : guiElems)
-		st.setStyle(style);
+		st->setStyle(style);
+
+	ghostMovement.game = gameInstance;
+	edibleSystem.game = gameInstance;
 }
 
 Level::~Level() {
@@ -50,11 +54,11 @@ void Level::draw() {
 	SDL_RenderCopyEx(m_renderer, m_entityLayer, nullptr, &GAMEAREA, 0.0, nullptr, SDL_FLIP_NONE);
 
 	// Render GUI Text
-	guiElems[0].render(std::nullopt, SDL_Point{ 7 * TILESIZE - guiElems[0].getTextWidth(), 1 * TILESIZE });
-	guiElems[0].render(std::nullopt, SDL_Point{ 17 * TILESIZE - guiElems[0].getTextWidth(), 1 * TILESIZE });
-	guiElems[1].render(std::nullopt, SDL_Point{ 28 * TILESIZE - guiElems[1].getTextWidth(), 0 });
-	guiElems[2].render(std::nullopt, SDL_Point{ 6 * TILESIZE - guiElems[2].getTextWidth(), 0 });
-	guiElems[3].render(std::nullopt, SDL_Point{ 14 * TILESIZE - (guiElems[3].getTextWidth() / 2), 0 });
+	guiElems[0]->render(std::nullopt, SDL_Point{ 7 * TILESIZE - guiElems[0]->getTextWidth(), 1 * TILESIZE });
+	guiElems[0]->render(std::nullopt, SDL_Point{ 17 * TILESIZE - guiElems[0]->getTextWidth(), 1 * TILESIZE });
+	guiElems[1]->render(std::nullopt, SDL_Point{ 28 * TILESIZE - guiElems[1]->getTextWidth(), 0 });
+	guiElems[2]->render(std::nullopt, SDL_Point{ 6 * TILESIZE - guiElems[2]->getTextWidth(), 0 });
+	guiElems[3]->render(std::nullopt, SDL_Point{ 14 * TILESIZE - (guiElems[3]->getTextWidth() / 2), 0 });
 }
 
 void Level::changeLevel(const std::filesystem::path & levelFile, int levelNumber, const std::filesystem::path & texturePath) {
@@ -87,6 +91,7 @@ void Level::changeLevel(const std::filesystem::path & levelFile, int levelNumber
 				break;
 		}
 	}
+	guiElems[4]->setText(std::to_string(static_cast<int>(fruit)));
 	gameDirector.setParameters(texturePath, fruit);
 	gameDirector.init();
 	speedDirector.init();

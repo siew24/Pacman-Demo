@@ -191,6 +191,7 @@
     <ClInclude Include="inc\Components\ComponentIncludes.h" />
     <ClInclude Include="inc\Components\FruitComponent.h" />
     <ClInclude Include="inc\Components\PelletsComponent.h" />
+    <ClInclude Include="inc\Components\ScoreComponent.h" />
     <ClInclude Include="inc\Configs.h" />
     <ClInclude Include="inc\Direction.h" />
     <ClInclude Include="inc\FruitObject.h" />
@@ -216,6 +217,7 @@
     <ClInclude Include="inc\Systems\EdibleSystem.h" />
     <ClInclude Include="inc\Systems\PlayerMovement.h" />
     <ClInclude Include="Header Files\WallComponent.h" />
+    <ClInclude Include="inc\Systems\ScorePopupSystem.h" />
     <ClInclude Include="inc\Systems\SpeedDirectorSystem.h" />
     <ClInclude Include="inc\Tile.h" />
   </ItemGroup>
@@ -240,6 +242,19 @@
     <Image Include="data\Assets\Pacman_Spritesheet.png" />
     <Image Include="data\Assets\Entity\Pinky.png" />
     <Image Include="data\Assets\Entity\Red.png" />
+    <Image Include="data\Assets\Scores\Bonus\100.png" />
+    <Image Include="data\Assets\Scores\Bonus\1000.png" />
+    <Image Include="data\Assets\Scores\Bonus\2000.png" />
+    <Image Include="data\Assets\Scores\Bonus\300.png" />
+    <Image Include="data\Assets\Scores\Bonus\3000.png" />
+    <Image Include="data\Assets\Scores\Bonus\500.png" />
+    <Image Include="data\Assets\Scores\Bonus\5000.png" />
+    <Image Include="data\Assets\Scores\Bonus\700.png" />
+    <Image Include="data\Assets\Scores\Ghost\1600.png" />
+    <Image Include="data\Assets\Scores\Ghost\200.png" />
+    <Image Include="data\Assets\Scores\Ghost\400.png" />
+    <Image Include="data\Assets\Scores\Ghost\800.png" />
+    <Image Include="data\Assets\Scores\Reference_Spritesheet.png" />
     <Image Include="data\Assets\Tile\12.png" />
     <Image Include="data\Assets\Entity\Pellet.png" />
     <Image Include="data\Assets\Entity\PowerPellet.png" />

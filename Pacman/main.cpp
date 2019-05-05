@@ -22,7 +22,7 @@ void test_drawer(const std::filesystem::path& assetsPath)
 
 	Uint32 framestart;
 
-	game = new Game(WINDOW_WIDTH * 2, WINDOW_HEIGHT * 2, 0, 6 | SDL_RENDERER_TARGETTEXTURE);
+	game = new Game(WINDOW_WIDTH * 2, WINDOW_HEIGHT * 2, 0, 0 | SDL_RENDERER_TARGETTEXTURE);
 	try {
 		game->create("Bloom Test", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
 	}
@@ -104,6 +104,9 @@ void test_drawer(const std::filesystem::path& assetsPath)
 		game->render();
 		// game->update();
 		dt = game->timer.lap();
+
+		
+		
 
 		if (level.complete()) {
 			std::cout << "Level complete!" << std::endl;

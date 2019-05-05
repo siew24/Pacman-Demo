@@ -146,10 +146,16 @@
     <ClInclude Include="Header Files\MovableAnimatedObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header Files\PelletsComponent.h">
+    <ClInclude Include="Header Files\WallComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header Files\WallComponent.h">
+    <ClInclude Include="Header Files\PelletsComponent.h">
+      <Filter>Header Files\Pacman\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Components\ScoreComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Systems\ScorePopupSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -360,6 +366,45 @@
     </Image>
     <Image Include="data\Assets\Entity\Strawberry.png">
       <Filter>Resource Files\Assets</Filter>
+    </Image>
+    <Image Include="data\Assets\Scores\Reference_Spritesheet.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\Scores\Bonus\100.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\Scores\Bonus\300.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\Scores\Bonus\500.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\Scores\Bonus\700.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\Scores\Bonus\1000.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\Scores\Bonus\2000.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\Scores\Bonus\3000.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\Scores\Bonus\5000.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\Scores\Ghost\200.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\Scores\Ghost\400.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\Scores\Ghost\800.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\Scores\Ghost\1600.png">
+      <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
