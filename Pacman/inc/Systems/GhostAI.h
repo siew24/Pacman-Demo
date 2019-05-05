@@ -129,6 +129,8 @@ public:
 						++position.x; position.y += GHOST_BONUS_SIZE.y;
 						size.w = GHOST_BONUS_SIZE.w, size.h = GHOST_BONUS_SIZE.h;
 						m_registry.accommodate<Sprite>(entity, game->textures.load(ASSETPATH / "Assets" / "Scores" / "Ghost" / (std::to_string(addScore) + ".png")));
+						m_registry.get<AnimationSet>(player).changeCurrent("blank");
+						m_registry.get<AnimationPtr>(player)->update(1);
 						m_registry.assign<ScoreComponent>(entity, popup);
 					}
 					else if (ghost.currentMode != BehaviourModes::dead)
