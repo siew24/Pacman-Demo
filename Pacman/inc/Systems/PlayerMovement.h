@@ -13,19 +13,16 @@ public:
 		m_registry.view<Pacman, Position>().each(
 			[&](auto entity, Pacman & player, Position & position) {
 				int potentialDistance = 0;
-				if (deltaTime.value() < 500.0) {
-					player.timeAvailable += deltaTime.value() / 1000.0;
+				player.timeAvailable += deltaTime.value() / 1000.0;
 
-					potentialDistance = static_cast<int>(player.timeAvailable * player.currSpeed);
-					player.timeAvailable -= potentialDistance / player.currSpeed;
-				}
+				potentialDistance = static_cast<int>(player.timeAvailable * player.currSpeed);
+				player.timeAvailable -= potentialDistance / player.currSpeed;
 
 				Tile playerTile{ (position.x + PACMAN_TEXTURESIZE / 2) / TILESIZE, (position.y + PACMAN_TEXTURESIZE / 2) / TILESIZE };
 
 				if (playerTile.x < 27 || playerTile.x >= 0)
 				{
 					// Change anim
-					
 					if (player.nextDir != player.direction) {
 						Tile nextTile = playerTile;
 						{
@@ -52,21 +49,6 @@ public:
 					}
 					player.lastDir = player.direction != Direction::null ? player.direction : player.lastDir;
 				}
-				switch (player.direction) {
-				case Direction::right:
-					m_registry.get<AnimationSet>(entity).changeCurrent("right");
-					break;
-				case Direction::left:
-					m_registry.get<AnimationSet>(entity).changeCurrent("left");
-					break;
-				case Direction::up:
-					m_registry.get<AnimationSet>(entity).changeCurrent("up");
-					break;
-				case Direction::down:
-					m_registry.get<AnimationSet>(entity).changeCurrent("down");
-					break;
-				}
-
 
 				if (player.direction != Direction::null && potentialDistance > 0) {
 					Tile nextTile = playerTile;
@@ -113,6 +95,7 @@ public:
 							moved = true;
 							position = newPos;
 							--potentialDistance;
+							m_registry.get<bloom::graphics::AnimationPtr>(entity)->update(player.currSpeed);
 						}
 
 						if (!moved)
@@ -122,9 +105,7 @@ public:
 							position.x = -TILESIZE;
 						else if (position.x <= -TILESIZE)
 							position.x = 28 * TILESIZE;
-					}
-					if (!(oldPos.x == position.x && oldPos.y == position.y))
-						m_registry.get<bloom::graphics::AnimationPtr>(entity)->update(1);
+					}					
 				}
 			}
 		);

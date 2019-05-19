@@ -95,7 +95,33 @@ public:
 				}
 			}
 		);
+
+		m_registry.view<Ghost, Position>().each(
+			[&](auto entity, Ghost & ghost, Position & ghostPos) {
+				if (Tile ghostT{ (ghostPos.x + (GHOST_TEXTURESIZE / 2)) / TILESIZE,(ghostPos.y + (GHOST_TEXTURESIZE / 2)) / TILESIZE }; playerTile == ghostT) {
+					if (ghost.currentMode == BehaviourModes::afraid) {
+						int addScore = 200 * pow(2, playerState.ghostsEaten);
+						playerState.score += addScore;
+						++playerState.ghostsEaten;
+						playerState.addScore((playerState.ghostsEaten >= 4) ? 12000 : 0);
+						ghost.currentMode = BehaviourModes::dead;
+
+						Size & size = m_registry.get<Size>(entity);
+						ScoreComponent popup{ ghostPos, size };
+						ghostPos.x += size.w / 2 - GHOST_BONUS_SIZE.w / 2; ghostPos.y += size.h / 2 - GHOST_BONUS_SIZE.h / 2;
+						size.w = GHOST_BONUS_SIZE.w, size.h = GHOST_BONUS_SIZE.h;
+						m_registry.accommodate<Sprite>(entity, game->textures.load(ASSETPATH / "Assets" / "Scores" / "Ghost" / (std::to_string(addScore) + ".png")));
+						m_registry.get<AnimationSet>(player).changeCurrent("blank");
+						m_registry.get<AnimationPtr>(player)->update(1);
+						m_registry.assign<ScoreComponent>(entity, popup);
+					}
+					else if (ghost.currentMode != BehaviourModes::dead && !playerState.godMode)
+						playerState.dead = true, playerState.died = true, --playerState.lives;
+				}
+			}
+
+		);
 	}
 
-	bloom::Game* game;
+	bloom::Game * game;
 };

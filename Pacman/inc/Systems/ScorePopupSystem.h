@@ -14,7 +14,7 @@ public:
 		m_registry.view<ScoreComponent, Position, Size>().each(
 			[&](auto entity, ScoreComponent & popup, Position & position, Size & size) {
 				popup.currentTime += deltaTime.value() / 1000.0;
-				if (popup.currentTime > popup.lifespan)
+				if (popup.currentTime >= popup.lifespan)
 					if (m_registry.has<Ghost>(entity)) {
 						m_registry.get<Position>(entity) = popup.oldPosition;
 						m_registry.get<Size>(entity) = popup.oldSize;

@@ -32,4 +32,6 @@ struct Pacman {
 		}
 	}
 	int prevScore = 0;
+
+	bool godMode = false;
 };

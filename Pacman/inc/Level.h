@@ -15,8 +15,12 @@
 #include "Systems/SpeedDirectorSystem.h"
 #include "Systems/AltAnimationSystem.h"
 #include "Systems/ScorePopupSystem.h"
+#include "Systems/AnimationChangerSystem.h"
+#include "Systems/InputSystem.h"
 #include "Graphics/SpriteText.h"
 #include "Graphics/Font.h"
+
+class GhostObject;
 
 class Level {
 public:
@@ -36,9 +40,6 @@ public:
 	int lives() {
 		return m_registry.get<Pacman>(playerEntity->getEntityID()).lives;
 	}
-	void changeDir(Direction dir) {
-		m_registry.get<Pacman>(playerEntity->getEntityID()).nextDir = dir;
-	}
 	int getScore() {
 		return m_registry.get<Pacman>(playerEntity->getEntityID()).score;
 	}
@@ -47,17 +48,28 @@ public:
 	}
 	void respawn();
 	void update(double dt) {
+		if (dt > 0.0) {
+			++totalFrames;
+			totalTime += dt / 1000.0;
+			current += dt;
+		}
+		inputHandler.update();
 		popupSystem.update(dt);
 		if (!popupSystem.freeze) {
 			playerMovement.update(dt);
 			ghostMovement.update(dt);
-			edibleSystem.update(dt);
 			speedDirector.update(dt);
 			gameDirector.update(dt);
+			animationChanger.update(dt);
+			edibleSystem.update(dt);
 			animSysTest.update(dt);
 		}
 		guiElems[0]->setText(std::to_string(getScore()));
-		guiElems[1]->setText(std::to_string(static_cast<int>(1000.0 / dt + 0.5)));
+		if (totalFrames > 0 && totalTime > 0.0 && current/100.0>=1.0) {
+			current = std::fmod(current, 100.0);
+			guiElems[1]->setText(std::to_string(static_cast<int>((1000.0 / dt) + 0.5)));
+			guiElems[5]->setText(std::to_string(static_cast<int>((totalFrames / totalTime) + 0.5)));
+		}
 	}
 	std::vector<std::vector<int>> layout;
 
@@ -74,8 +86,8 @@ private:
 	SDL_Renderer * m_renderer;
 	SDL_Texture * m_levelTex = nullptr;
 	SDL_Texture * m_entityLayer = nullptr;
-	std::vector<std::shared_ptr<bloom::GameObject>> m_pellets;
-	std::vector<std::shared_ptr<bloom::GameObject>> m_ghosts;
+	std::vector<std::shared_ptr<PelletObject>> m_pellets;
+	std::vector<std::shared_ptr<GhostObject>> m_ghosts;
 	std::shared_ptr<Player> playerEntity;
 	std::array<double, 8> m_ghostTimes;
 	std::vector<std::vector<int>> m_originalLayout;
@@ -89,6 +101,8 @@ private:
 	GameDirectorSystem gameDirector = GameDirectorSystem(m_registry);
 	SpeedDirectorSystem speedDirector = SpeedDirectorSystem(m_registry);
 	ScorePopupSystem popupSystem = ScorePopupSystem(m_registry);
+	AnimationChangerSystem animationChanger = AnimationChangerSystem(m_registry);
+	InputHandlerSystem inputHandler = InputHandlerSystem(m_registry, m_gameInstance->input);
 
 	std::filesystem::path m_levelFile;
 	int m_levelNumber;
@@ -99,4 +113,9 @@ private:
 
 	// Pause Variable
 	double pauseTimer = 0;
+
+	double totalTime = 0.0;
+	int totalFrames = -1;
+
+	double current = 0.0;
 };

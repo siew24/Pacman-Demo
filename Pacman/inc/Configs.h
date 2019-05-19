@@ -14,8 +14,8 @@ const int FRUIT_POS_Y = 17;
 const int WINDOW_WIDTH = 28 * TILESIZE;
 const int WINDOW_HEIGHT = 36 * TILESIZE;
 
-const SDL_Rect GHOST_BONUS_SIZE{ 0, 4, 12, 5 };
-const SDL_Rect BONUS_SIZE{ -1, -1, 15, 6 };
+const SDL_Rect GHOST_BONUS_SIZE{ 0, 0, 16, 7 };
+const SDL_Rect BONUS_SIZE{ 0, 0, 20, 7 };
 
 const SDL_Rect GAMEAREA{ ((WINDOW_WIDTH / TILESIZE) - 28) / 2 * TILESIZE,3 * TILESIZE, 28 * TILESIZE, 33 * TILESIZE };
 

@@ -78,54 +78,39 @@ void test_drawer(const std::filesystem::path& assetsPath)
 	auto dt = 0.0;
 	int frameCount = 0;
 
+	game->timer.restart();
 	while (game->isRunning()) {
 		//std::cout << "Delta time: " << dt << "ms" << std::endl;
 
+		dt = game->timer.lap();
+
 		frameCount = (frameCount + 1) % 60;
 		game->handleEvents();
-		using namespace bloom::input;
-
-		if (game->input.keyboard.wasDown(KeyboardKey::KEY_W) || game->input.keyboard.wasDown(KeyboardKey::KEY_UP))
-			level.changeDir(Direction::up);
-		else if (game->input.keyboard.wasDown(KeyboardKey::KEY_A) || game->input.keyboard.wasDown(KeyboardKey::KEY_LEFT))
-			level.changeDir(Direction::left);
-		else if (game->input.keyboard.wasDown(KeyboardKey::KEY_S) || game->input.keyboard.wasDown(KeyboardKey::KEY_DOWN))
-			level.changeDir(Direction::down);
-		else if (game->input.keyboard.wasDown(KeyboardKey::KEY_D) || game->input.keyboard.wasDown(KeyboardKey::KEY_RIGHT))
-			level.changeDir(Direction::right);
-
-		/*else
-			level.changeDir(testRegistry, null);*/
-
 		game->clear();
 		level.update(dt);
 		level.draw();
 
 		game->render();
 		// game->update();
-		dt = game->timer.lap();
-
 		
-		
-
 		if (level.complete()) {
 			std::cout << "Level complete!" << std::endl;
 			sounds[1]->play();
 			game->delay(5500);
 			++levelNumber;
 			level.changeLevel(levelDir / "0.txt", levelNumber, tileDir);
+			game->timer.restart();
 		}
 		else if (level.dead()) {
 			std::cout << "Died!" << std::endl;
 			sounds[2]->play();
 			game->delay(1500);
 			if (level.lives() > 0)
-				level.respawn(), game->timer.lap();
+				level.respawn(), game->timer.restart();
 			else
 				break;
 		}
 	}
-	std::cout << std::endl;
 	game->destroy();
 }
 

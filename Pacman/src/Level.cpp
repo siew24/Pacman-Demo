@@ -16,10 +16,11 @@ Level::Level(bloom::Game*& gameInstance, bloom::graphics::FontPtr guiFont) : m_g
 
 	gameDirector.setParameters(gameInstance);
 	guiElems.emplace_back(std::make_shared<bloom::graphics::SpriteText>(m_renderer, guiFont, "0"));
-	guiElems.emplace_back(std::make_shared<bloom::graphics::SpriteText>(m_renderer, guiFont, "60"));
+	guiElems.emplace_back(std::make_shared<bloom::graphics::SpriteText>(m_renderer, guiFont, "FPS"));
 	guiElems.emplace_back(std::make_shared<bloom::graphics::SpriteText>(m_renderer, guiFont, "1UP"));
 	guiElems.emplace_back(std::make_shared<bloom::graphics::SpriteText>(m_renderer, guiFont, "HIGH SCORE"));
 	guiElems.emplace_back(std::make_shared<bloom::graphics::SpriteText>(m_renderer, guiFont, "0"));
+	guiElems.emplace_back(std::make_shared<bloom::graphics::SpriteText>(m_renderer, guiFont, "AVG"));
 	bloom::graphics::TextStyle style;
 	style.blendingMode = bloom::graphics::TextStyle::BlendingMode::normal;
 	style.foregroundColor = { 255, 255, 255, 0 };
@@ -57,6 +58,7 @@ void Level::draw() {
 	guiElems[0]->render(std::nullopt, SDL_Point{ 7 * TILESIZE - guiElems[0]->getTextWidth(), 1 * TILESIZE });
 	guiElems[0]->render(std::nullopt, SDL_Point{ 17 * TILESIZE - guiElems[0]->getTextWidth(), 1 * TILESIZE });
 	guiElems[1]->render(std::nullopt, SDL_Point{ 28 * TILESIZE - guiElems[1]->getTextWidth(), 0 });
+	guiElems[5]->render(std::nullopt, SDL_Point{ 28 * TILESIZE - guiElems[5]->getTextWidth(), 1 * TILESIZE });
 	guiElems[2]->render(std::nullopt, SDL_Point{ 6 * TILESIZE - guiElems[2]->getTextWidth(), 0 });
 	guiElems[3]->render(std::nullopt, SDL_Point{ 14 * TILESIZE - (guiElems[3]->getTextWidth() / 2), 0 });
 }
@@ -100,9 +102,7 @@ void Level::changeLevel(const std::filesystem::path & levelFile, int levelNumber
 }
 
 void Level::respawn() {
-	m_ghosts.clear();
 	m_generateEntities(m_originalLayout, true);
-	refreshTexture();
 }
 
 void Level::m_load(const std::filesystem::path & levelData) {
@@ -134,11 +134,14 @@ void Level::m_generateTexture() {
 			for (int i = 0; i < m_levelNumber + 1; ++i)
 				fruitIndicator.emplace_back(static_cast<FruitType>(fruits[i]));
 		}
-		else if (m_levelNumber + 1 > 7 && m_levelNumber + 1 < 19) {
-			for (int i = m_levelNumber - 6; i < m_levelNumber; ++i)
-				fruitIndicator.emplace_back(static_cast<FruitType>(fruits[i]));
+		else if (m_levelNumber > 6 && m_levelNumber < 19) {
+			for (int i = m_levelNumber - 7; i < m_levelNumber; ++i)
+				if (i < 13)
+					fruitIndicator.emplace_back(static_cast<FruitType>(fruits[i]));
+				else
+					fruitIndicator.emplace_back(static_cast<FruitType>(fruits.back()));
 		}
-		else if (m_levelNumber + 1 > 18) {
+		else if (m_levelNumber > 18) {
 			for (int i = 0; i < 7; ++i)
 				fruitIndicator.emplace_back(static_cast<FruitType>(fruits.back()));
 		}
@@ -300,35 +303,83 @@ void Level::m_generateEntities(std::vector<std::vector<int>> & layout, bool read
 				if (!readOnly) layout[i][j] = -(-layout[i][j] | 1);
 			}
 			if (layout[i][j] < 0 && (std::abs(layout[i][j]) & 2) == 2) {
-				auto ghost = std::make_shared<GhostObject>(m_registry, m_gameInstance);
+				std::shared_ptr<GhostObject> ghost;
+				if (!m_ghosts.empty()) {
+					for (std::shared_ptr<GhostObject> go : m_ghosts) {
+						if (go->ghostID == Ghosts::shadow) {
+							ghost = go;
+							break;
+						}
+					}
+				}
+				if (!ghost) {
+					ghost = std::make_shared<GhostObject>(m_registry, m_gameInstance);
+					m_ghosts.emplace_back(ghost);
+				}
+
 				ghost->init(m_texturePath / "Entity", Ghosts::shadow, Tile{ j,i }, ghostDet);
-				m_ghosts.emplace_back(ghost);
 				if (!readOnly) layout[i][j] = -(-layout[i][j] | 2);
 			}
 			if (layout[i][j] < 0 && (std::abs(layout[i][j]) & 4) == 4) {
-				auto ghost = std::make_shared<GhostObject>(m_registry, m_gameInstance);
+				std::shared_ptr<GhostObject> ghost;
+				if (!m_ghosts.empty()) {
+					for (std::shared_ptr<GhostObject> go : m_ghosts) {
+						if (go->ghostID == Ghosts::speedy) {
+							ghost = go;
+							break;
+						}
+					}
+				}
+				if (!ghost) {
+					ghost = std::make_shared<GhostObject>(m_registry, m_gameInstance);
+					m_ghosts.emplace_back(ghost);
+				}
+
 				ghost->init(m_texturePath / "Entity", Ghosts::speedy, Tile{ j,i }, ghostDet);
-				m_ghosts.emplace_back(ghost);
 				if (!readOnly) layout[i][j] = -(-layout[i][j] | 4);
 			}
 			if (layout[i][j] < 0 && (std::abs(layout[i][j]) & 8) == 8) {
-				auto ghost = std::make_shared<GhostObject>(m_registry, m_gameInstance);
+				std::shared_ptr<GhostObject> ghost;
+				if (!m_ghosts.empty()) {
+					for (std::shared_ptr<GhostObject> go : m_ghosts) {
+						if (go->ghostID == Ghosts::bashful) {
+							ghost = go;
+							break;
+						}
+					}
+				}
+				if (!ghost) {
+					ghost = std::make_shared<GhostObject>(m_registry, m_gameInstance);
+					m_ghosts.emplace_back(ghost);
+				}
+
 				auto newDet = ghostDet;
 				if (m_levelNumber == 0)
 					newDet.dotLimit = 30;
 				ghost->init(m_texturePath / "Entity", Ghosts::bashful, Tile{ j,i }, newDet);
-				m_ghosts.emplace_back(ghost);
 				if (!readOnly) layout[i][j] = -(-layout[i][j] | 8);
 			}
 			if (layout[i][j] < 0 && (std::abs(layout[i][j]) & 16) == 16) {
-				auto ghost = std::make_shared<GhostObject>(m_registry, m_gameInstance);
+				std::shared_ptr<GhostObject> ghost;
+				if (!m_ghosts.empty()) {
+					for (std::shared_ptr<GhostObject> go : m_ghosts) {
+						if (go->ghostID == Ghosts::pokey) {
+							ghost = go;
+							break;
+						}
+					}
+				}
+				if (!ghost) {
+					ghost = std::make_shared<GhostObject>(m_registry, m_gameInstance);
+					m_ghosts.emplace_back(ghost);
+				}
+
 				auto newDet = ghostDet;
 				if (m_levelNumber == 0)
 					newDet.dotLimit = 90;
 				else if (m_levelNumber == 1)
 					newDet.dotLimit = 80;
 				ghost->init(m_texturePath / "Entity", Ghosts::pokey, Tile{ j,i }, newDet);
-				m_ghosts.emplace_back(ghost);
 				if (!readOnly) layout[i][j] = -(-layout[i][j] | 16);
 			}
 		}

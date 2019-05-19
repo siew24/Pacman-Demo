@@ -49,13 +49,13 @@ public:
 		};
 		AnimationPtr blank = std::make_shared<Animation>();
 		blank->animationFrames = {
-			Sprite(tmp, SDL_Rect{ 9 * PACMAN_TEXTURESIZE,0,PACMAN_TEXTURESIZE,PACMAN_TEXTURESIZE })
+			Sprite(tmp, SDL_Rect{ 0 * PACMAN_TEXTURESIZE, 0, 1, 1 })
 		};
 
-		up->setFrameTime(2);
-		down->setFrameTime(2);
-		left->setFrameTime(2);
-		right->setFrameTime(2);
+		up->setFrameTime(32);
+		down->setFrameTime(32);
+		left->setFrameTime(32);
+		right->setFrameTime(32);
 
 		AnimationSet animSet;
 		animSet.add("up", up);

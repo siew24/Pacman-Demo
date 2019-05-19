@@ -20,6 +20,7 @@ public:
 		m_registry.replace<Position>(m_entity, (spawnTile.x * TILESIZE) - (GHOST_TEXTURESIZE-TILESIZE)/2, spawnTile.y * TILESIZE - (GHOST_TEXTURESIZE - TILESIZE) / 2);
 		m_registry.accommodate<Size>(m_entity, GHOST_TEXTURESIZE, GHOST_TEXTURESIZE);
 		bloom::graphics::TexturePtr tmp;
+		ghostID = id;
 
 		if (id == Ghosts::shadow) {
 			m_registry.accommodate<entt::label<"shadow"_hs>>(m_entity);
@@ -98,20 +99,17 @@ public:
 
 		AnimationPtr upd = std::make_shared<Animation>();
 		upd->animationFrames = {
-			Sprite(tmp3, SDL_Rect{ 6 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE }),
-			Sprite(tmp3, SDL_Rect{ 7 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE })
+			Sprite(tmp3, SDL_Rect{ 6 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE })
 		};
 
 		AnimationPtr leftd = std::make_shared<Animation>();
 		leftd->animationFrames = {
-			Sprite(tmp3, SDL_Rect{ 4 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE }),
-			Sprite(tmp3, SDL_Rect{ 5 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE })
+			Sprite(tmp3, SDL_Rect{ 4 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE })
 		};
 
 		AnimationPtr rightd = std::make_shared<Animation>();
 		rightd->animationFrames = {
-			Sprite(tmp3, SDL_Rect{ 0 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE }),
-			Sprite(tmp3, SDL_Rect{ 1 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE })
+			Sprite(tmp3, SDL_Rect{ 0 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE })
 		};
 		AnimationPtr afraid = std::make_shared<Animation>();
 		afraid->animationFrames = {
@@ -153,4 +151,6 @@ public:
 		m_registry.accommodate<AnimationSet>(m_entity, animSet);
 		m_registry.accommodate<AnimationPtr>(m_entity, right);
 	}
+
+	Ghosts ghostID;
 };

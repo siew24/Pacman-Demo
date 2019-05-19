@@ -43,15 +43,24 @@
     <Filter Include="Resource Files\Font Styles">
       <UniqueIdentifier>{07658cf8-b505-46b0-9973-08e2322832f7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Assets\Tiles">
+      <UniqueIdentifier>{49a172ce-dbd5-4fcf-8308-8abe370a7450}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Assets\Sprites">
+      <UniqueIdentifier>{f63c1a92-593d-45a1-84b5-c36c8c7226d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Assets\Scores">
+      <UniqueIdentifier>{a5cd8a18-945e-4589-8ffe-ca90027e8cfa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Level.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="getExePath.cpp">
       <Filter>Source Files\Pacman</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
+      <Filter>Source Files\Pacman</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Level.cpp">
       <Filter>Source Files\Pacman</Filter>
     </ClCompile>
   </ItemGroup>
@@ -101,9 +110,6 @@
     <ClInclude Include="inc\Components\GhostComponent.h">
       <Filter>Header Files\Pacman\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Header Files\NoRandomComponent.h">
-      <Filter>Header Files\Pacman\Components</Filter>
-    </ClInclude>
     <ClInclude Include="inc\Components\PacmanComponent.h">
       <Filter>Header Files\Pacman\Components</Filter>
     </ClInclude>
@@ -140,271 +146,265 @@
     <ClInclude Include="inc\Tile.h">
       <Filter>Header Files\Pacman</Filter>
     </ClInclude>
-    <ClInclude Include="Header Files\InputSystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Header Files\MovableAnimatedObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Header Files\WallComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Header Files\PelletsComponent.h">
-      <Filter>Header Files\Pacman\Components</Filter>
+    <ClInclude Include="inc\Systems\AnimationChangerSystem.h">
+      <Filter>Header Files\Pacman\Systems</Filter>
     </ClInclude>
     <ClInclude Include="inc\Components\ScoreComponent.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Pacman\Components</Filter>
     </ClInclude>
     <ClInclude Include="inc\Systems\ScorePopupSystem.h">
+      <Filter>Header Files\Pacman\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Systems\InputSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="data\Assets\Tile\0.png">
-      <Filter>Resource Files\Assets</Filter>
+      <Filter>Resource Files\Assets\Tiles</Filter>
     </Image>
     <Image Include="data\Assets\Tile\1.png">
-      <Filter>Resource Files\Assets</Filter>
+      <Filter>Resource Files\Assets\Tiles</Filter>
     </Image>
     <Image Include="data\Assets\Tile\2.png">
-      <Filter>Resource Files\Assets</Filter>
+      <Filter>Resource Files\Assets\Tiles</Filter>
     </Image>
     <Image Include="data\Assets\Tile\3.png">
-      <Filter>Resource Files\Assets</Filter>
+      <Filter>Resource Files\Assets\Tiles</Filter>
     </Image>
     <Image Include="data\Assets\Tile\4.png">
-      <Filter>Resource Files\Assets</Filter>
+      <Filter>Resource Files\Assets\Tiles</Filter>
     </Image>
     <Image Include="data\Assets\Tile\5.png">
-      <Filter>Resource Files\Assets</Filter>
+      <Filter>Resource Files\Assets\Tiles</Filter>
     </Image>
     <Image Include="data\Assets\Tile\6.png">
-      <Filter>Resource Files\Assets</Filter>
+      <Filter>Resource Files\Assets\Tiles</Filter>
     </Image>
     <Image Include="data\Assets\Tile\7.png">
-      <Filter>Resource Files\Assets</Filter>
+      <Filter>Resource Files\Assets\Tiles</Filter>
     </Image>
     <Image Include="data\Assets\Tile\8.png">
-      <Filter>Resource Files\Assets</Filter>
+      <Filter>Resource Files\Assets\Tiles</Filter>
     </Image>
     <Image Include="data\Assets\Tile\9.png">
-      <Filter>Resource Files\Assets</Filter>
+      <Filter>Resource Files\Assets\Tiles</Filter>
     </Image>
     <Image Include="data\Assets\Tile\10.png">
-      <Filter>Resource Files\Assets</Filter>
+      <Filter>Resource Files\Assets\Tiles</Filter>
     </Image>
     <Image Include="data\Assets\Tile\11.png">
-      <Filter>Resource Files\Assets</Filter>
+      <Filter>Resource Files\Assets\Tiles</Filter>
     </Image>
     <Image Include="data\Assets\Tile\12.png">
-      <Filter>Resource Files\Assets</Filter>
+      <Filter>Resource Files\Assets\Tiles</Filter>
     </Image>
     <Image Include="data\Assets\Tile\13.png">
-      <Filter>Resource Files\Assets</Filter>
+      <Filter>Resource Files\Assets\Tiles</Filter>
     </Image>
     <Image Include="data\Assets\Tile\14.png">
-      <Filter>Resource Files\Assets</Filter>
+      <Filter>Resource Files\Assets\Tiles</Filter>
     </Image>
     <Image Include="data\Assets\Tile\15.png">
-      <Filter>Resource Files\Assets</Filter>
+      <Filter>Resource Files\Assets\Tiles</Filter>
     </Image>
     <Image Include="data\Assets\Tile\16.png">
-      <Filter>Resource Files\Assets</Filter>
+      <Filter>Resource Files\Assets\Tiles</Filter>
     </Image>
     <Image Include="data\Assets\Tile\17.png">
-      <Filter>Resource Files\Assets</Filter>
+      <Filter>Resource Files\Assets\Tiles</Filter>
     </Image>
     <Image Include="data\Assets\Tile\18.png">
-      <Filter>Resource Files\Assets</Filter>
+      <Filter>Resource Files\Assets\Tiles</Filter>
     </Image>
     <Image Include="data\Assets\Tile\19.png">
-      <Filter>Resource Files\Assets</Filter>
+      <Filter>Resource Files\Assets\Tiles</Filter>
     </Image>
     <Image Include="data\Assets\Tile\20.png">
-      <Filter>Resource Files\Assets</Filter>
+      <Filter>Resource Files\Assets\Tiles</Filter>
     </Image>
     <Image Include="data\Assets\Tile\21.png">
-      <Filter>Resource Files\Assets</Filter>
+      <Filter>Resource Files\Assets\Tiles</Filter>
     </Image>
     <Image Include="data\Assets\Tile\22.png">
-      <Filter>Resource Files\Assets</Filter>
+      <Filter>Resource Files\Assets\Tiles</Filter>
     </Image>
     <Image Include="data\Assets\Tile\23.png">
-      <Filter>Resource Files\Assets</Filter>
+      <Filter>Resource Files\Assets\Tiles</Filter>
     </Image>
     <Image Include="data\Assets\Tile\24.png">
-      <Filter>Resource Files\Assets</Filter>
+      <Filter>Resource Files\Assets\Tiles</Filter>
     </Image>
     <Image Include="data\Assets\Tile\25.png">
-      <Filter>Resource Files\Assets</Filter>
+      <Filter>Resource Files\Assets\Tiles</Filter>
     </Image>
     <Image Include="data\Assets\Tile\26.png">
-      <Filter>Resource Files\Assets</Filter>
+      <Filter>Resource Files\Assets\Tiles</Filter>
     </Image>
     <Image Include="data\Assets\Tile\27.png">
-      <Filter>Resource Files\Assets</Filter>
+      <Filter>Resource Files\Assets\Tiles</Filter>
     </Image>
     <Image Include="data\Assets\Tile\28.png">
-      <Filter>Resource Files\Assets</Filter>
+      <Filter>Resource Files\Assets\Tiles</Filter>
     </Image>
     <Image Include="data\Assets\Tile\29.png">
-      <Filter>Resource Files\Assets</Filter>
+      <Filter>Resource Files\Assets\Tiles</Filter>
     </Image>
     <Image Include="data\Assets\Tile\30.png">
-      <Filter>Resource Files\Assets</Filter>
+      <Filter>Resource Files\Assets\Tiles</Filter>
     </Image>
     <Image Include="data\Assets\Tile\31.png">
-      <Filter>Resource Files\Assets</Filter>
+      <Filter>Resource Files\Assets\Tiles</Filter>
     </Image>
     <Image Include="data\Assets\Tile\32.png">
-      <Filter>Resource Files\Assets</Filter>
+      <Filter>Resource Files\Assets\Tiles</Filter>
     </Image>
     <Image Include="data\Assets\Tile\33.png">
-      <Filter>Resource Files\Assets</Filter>
+      <Filter>Resource Files\Assets\Tiles</Filter>
     </Image>
     <Image Include="data\Assets\Tile\34.png">
-      <Filter>Resource Files\Assets</Filter>
+      <Filter>Resource Files\Assets\Tiles</Filter>
     </Image>
     <Image Include="data\Assets\Tile\35.png">
-      <Filter>Resource Files\Assets</Filter>
+      <Filter>Resource Files\Assets\Tiles</Filter>
     </Image>
     <Image Include="data\Assets\Tile\36.png">
-      <Filter>Resource Files\Assets</Filter>
+      <Filter>Resource Files\Assets\Tiles</Filter>
     </Image>
     <Image Include="data\Assets\Tile\39.png">
-      <Filter>Resource Files\Assets</Filter>
+      <Filter>Resource Files\Assets\Tiles</Filter>
     </Image>
     <Image Include="data\Assets\Tile\40.png">
-      <Filter>Resource Files\Assets</Filter>
-    </Image>
-    <Image Include="data\Assets\Entity\Apple.png">
-      <Filter>Resource Files\Assets</Filter>
-    </Image>
-    <Image Include="data\Assets\Entity\Bell.png">
-      <Filter>Resource Files\Assets</Filter>
-    </Image>
-    <Image Include="data\Assets\Entity\Blue.png">
-      <Filter>Resource Files\Assets</Filter>
-    </Image>
-    <Image Include="data\Assets\Entity\Cherry.png">
-      <Filter>Resource Files\Assets</Filter>
-    </Image>
-    <Image Include="data\Assets\Entity\Galaxian.png">
-      <Filter>Resource Files\Assets</Filter>
-    </Image>
-    <Image Include="data\Assets\Entity\Ghosts_afraid.png">
-      <Filter>Resource Files\Assets</Filter>
-    </Image>
-    <Image Include="data\Assets\Entity\Ghosts_eaten.png">
-      <Filter>Resource Files\Assets</Filter>
-    </Image>
-    <Image Include="data\Assets\Entity\Grape.png">
-      <Filter>Resource Files\Assets</Filter>
-    </Image>
-    <Image Include="data\Assets\Entity\Key.png">
-      <Filter>Resource Files\Assets</Filter>
-    </Image>
-    <Image Include="data\Assets\Entity\Miss_Pacman.png">
-      <Filter>Resource Files\Assets</Filter>
-    </Image>
-    <Image Include="data\Assets\Entity\Orange.png">
-      <Filter>Resource Files\Assets</Filter>
-    </Image>
-    <Image Include="data\Assets\Entity\Pacman.png">
-      <Filter>Resource Files\Assets</Filter>
-    </Image>
-    <Image Include="data\Assets\Pacman_Death_00.png">
-      <Filter>Resource Files\Assets</Filter>
-    </Image>
-    <Image Include="data\Assets\Pacman_Death_01.png">
-      <Filter>Resource Files\Assets</Filter>
-    </Image>
-    <Image Include="data\Assets\Pacman_Death_02.png">
-      <Filter>Resource Files\Assets</Filter>
-    </Image>
-    <Image Include="data\Assets\Pacman_Death_03.png">
-      <Filter>Resource Files\Assets</Filter>
-    </Image>
-    <Image Include="data\Assets\Pacman_Death_04.png">
-      <Filter>Resource Files\Assets</Filter>
-    </Image>
-    <Image Include="data\Assets\Pacman_Death_05.png">
-      <Filter>Resource Files\Assets</Filter>
-    </Image>
-    <Image Include="data\Assets\Pacman_Death_06.png">
-      <Filter>Resource Files\Assets</Filter>
-    </Image>
-    <Image Include="data\Assets\Pacman_Death_07.png">
-      <Filter>Resource Files\Assets</Filter>
-    </Image>
-    <Image Include="data\Assets\Pacman_Death_08.png">
-      <Filter>Resource Files\Assets</Filter>
-    </Image>
-    <Image Include="data\Assets\Pacman_Death_09.png">
-      <Filter>Resource Files\Assets</Filter>
-    </Image>
-    <Image Include="data\Assets\Pacman_Death_10.png">
-      <Filter>Resource Files\Assets</Filter>
-    </Image>
-    <Image Include="data\Assets\Pacman_Spritesheet.png">
-      <Filter>Resource Files\Assets</Filter>
-    </Image>
-    <Image Include="data\Assets\Entity\Peach.png">
-      <Filter>Resource Files\Assets</Filter>
-    </Image>
-    <Image Include="data\Assets\Entity\Pellet.png">
-      <Filter>Resource Files\Assets</Filter>
-    </Image>
-    <Image Include="data\Assets\Entity\Pinky.png">
-      <Filter>Resource Files\Assets</Filter>
-    </Image>
-    <Image Include="data\Assets\Entity\PowerPellet.png">
-      <Filter>Resource Files\Assets</Filter>
-    </Image>
-    <Image Include="data\Assets\Entity\Red.png">
-      <Filter>Resource Files\Assets</Filter>
+      <Filter>Resource Files\Assets\Tiles</Filter>
     </Image>
     <Image Include="data\Assets\Entity\Strawberry.png">
-      <Filter>Resource Files\Assets</Filter>
+      <Filter>Resource Files\Assets\Sprites</Filter>
     </Image>
-    <Image Include="data\Assets\Scores\Reference_Spritesheet.png">
-      <Filter>Resource Files</Filter>
+    <Image Include="data\Assets\Entity\Apple.png">
+      <Filter>Resource Files\Assets\Sprites</Filter>
+    </Image>
+    <Image Include="data\Assets\Entity\Bell.png">
+      <Filter>Resource Files\Assets\Sprites</Filter>
+    </Image>
+    <Image Include="data\Assets\Entity\Blue.png">
+      <Filter>Resource Files\Assets\Sprites</Filter>
+    </Image>
+    <Image Include="data\Assets\Entity\Cherry.png">
+      <Filter>Resource Files\Assets\Sprites</Filter>
+    </Image>
+    <Image Include="data\Assets\Entity\Galaxian.png">
+      <Filter>Resource Files\Assets\Sprites</Filter>
+    </Image>
+    <Image Include="data\Assets\Entity\Ghosts_afraid.png">
+      <Filter>Resource Files\Assets\Sprites</Filter>
+    </Image>
+    <Image Include="data\Assets\Entity\Ghosts_eaten.png">
+      <Filter>Resource Files\Assets\Sprites</Filter>
+    </Image>
+    <Image Include="data\Assets\Entity\Grape.png">
+      <Filter>Resource Files\Assets\Sprites</Filter>
+    </Image>
+    <Image Include="data\Assets\Entity\Key.png">
+      <Filter>Resource Files\Assets\Sprites</Filter>
+    </Image>
+    <Image Include="data\Assets\Entity\Miss_Pacman.png">
+      <Filter>Resource Files\Assets\Sprites</Filter>
+    </Image>
+    <Image Include="data\Assets\Entity\Orange.png">
+      <Filter>Resource Files\Assets\Sprites</Filter>
+    </Image>
+    <Image Include="data\Assets\Entity\Pacman.png">
+      <Filter>Resource Files\Assets\Sprites</Filter>
+    </Image>
+    <Image Include="data\Assets\Pacman_Death_00.png">
+      <Filter>Resource Files\Assets\Sprites</Filter>
+    </Image>
+    <Image Include="data\Assets\Pacman_Death_01.png">
+      <Filter>Resource Files\Assets\Sprites</Filter>
+    </Image>
+    <Image Include="data\Assets\Pacman_Death_02.png">
+      <Filter>Resource Files\Assets\Sprites</Filter>
+    </Image>
+    <Image Include="data\Assets\Pacman_Death_03.png">
+      <Filter>Resource Files\Assets\Sprites</Filter>
+    </Image>
+    <Image Include="data\Assets\Pacman_Death_04.png">
+      <Filter>Resource Files\Assets\Sprites</Filter>
+    </Image>
+    <Image Include="data\Assets\Pacman_Death_05.png">
+      <Filter>Resource Files\Assets\Sprites</Filter>
+    </Image>
+    <Image Include="data\Assets\Pacman_Death_06.png">
+      <Filter>Resource Files\Assets\Sprites</Filter>
+    </Image>
+    <Image Include="data\Assets\Pacman_Death_07.png">
+      <Filter>Resource Files\Assets\Sprites</Filter>
+    </Image>
+    <Image Include="data\Assets\Pacman_Death_08.png">
+      <Filter>Resource Files\Assets\Sprites</Filter>
+    </Image>
+    <Image Include="data\Assets\Pacman_Death_09.png">
+      <Filter>Resource Files\Assets\Sprites</Filter>
+    </Image>
+    <Image Include="data\Assets\Pacman_Death_10.png">
+      <Filter>Resource Files\Assets\Sprites</Filter>
+    </Image>
+    <Image Include="data\Assets\Pacman_Spritesheet.png">
+      <Filter>Resource Files\Assets\Sprites</Filter>
+    </Image>
+    <Image Include="data\Assets\Entity\Peach.png">
+      <Filter>Resource Files\Assets\Sprites</Filter>
+    </Image>
+    <Image Include="data\Assets\Entity\Pellet.png">
+      <Filter>Resource Files\Assets\Sprites</Filter>
+    </Image>
+    <Image Include="data\Assets\Entity\Pinky.png">
+      <Filter>Resource Files\Assets\Sprites</Filter>
+    </Image>
+    <Image Include="data\Assets\Entity\PowerPellet.png">
+      <Filter>Resource Files\Assets\Sprites</Filter>
+    </Image>
+    <Image Include="data\Assets\Entity\Red.png">
+      <Filter>Resource Files\Assets\Sprites</Filter>
     </Image>
     <Image Include="data\Assets\Scores\Bonus\100.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="data\Assets\Scores\Bonus\300.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="data\Assets\Scores\Bonus\500.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="data\Assets\Scores\Bonus\700.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="data\Assets\Scores\Bonus\1000.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="data\Assets\Scores\Bonus\2000.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="data\Assets\Scores\Bonus\3000.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="data\Assets\Scores\Bonus\5000.png">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Assets\Scores</Filter>
     </Image>
     <Image Include="data\Assets\Scores\Ghost\200.png">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Assets\Scores</Filter>
+    </Image>
+    <Image Include="data\Assets\Scores\Bonus\300.png">
+      <Filter>Resource Files\Assets\Scores</Filter>
     </Image>
     <Image Include="data\Assets\Scores\Ghost\400.png">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Assets\Scores</Filter>
+    </Image>
+    <Image Include="data\Assets\Scores\Bonus\500.png">
+      <Filter>Resource Files\Assets\Scores</Filter>
+    </Image>
+    <Image Include="data\Assets\Scores\Bonus\700.png">
+      <Filter>Resource Files\Assets\Scores</Filter>
     </Image>
     <Image Include="data\Assets\Scores\Ghost\800.png">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Assets\Scores</Filter>
+    </Image>
+    <Image Include="data\Assets\Scores\Bonus\1000.png">
+      <Filter>Resource Files\Assets\Scores</Filter>
     </Image>
     <Image Include="data\Assets\Scores\Ghost\1600.png">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Assets\Scores</Filter>
+    </Image>
+    <Image Include="data\Assets\Scores\Bonus\2000.png">
+      <Filter>Resource Files\Assets\Scores</Filter>
+    </Image>
+    <Image Include="data\Assets\Scores\Bonus\3000.png">
+      <Filter>Resource Files\Assets\Scores</Filter>
+    </Image>
+    <Image Include="data\Assets\Scores\Bonus\5000.png">
+      <Filter>Resource Files\Assets\Scores</Filter>
+    </Image>
+    <Image Include="data\Assets\Scores\Reference_Spritesheet.png">
+      <Filter>Resource Files\Assets\Scores</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
