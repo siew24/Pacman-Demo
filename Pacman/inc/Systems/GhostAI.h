@@ -19,11 +19,13 @@ public:
 
 		m_registry.view<Ghost, Position>().each(
 			[&](auto entity, Ghost & ghost, Position & position) {
+				// Measure how much the ghost can move, to ensure accuracy
 				int potentialDistance = 0;
-
 				ghost.timeAvailable += (deltaTime.value() / 1000);
 				potentialDistance = static_cast<int>(ghost.timeAvailable * ghost.currSpeed);
 				ghost.timeAvailable -= potentialDistance / ghost.currSpeed;
+
+				// Change modes
 				if (ghost.currentMode == BehaviourModes::afraid)
 					ghost.afraidTimer -= potentialDistance / ghost.currSpeed;
 				else
@@ -40,29 +42,53 @@ public:
 					}
 					switch (ghost.direction) {
 					case Direction::up:
-						ghost.direction = Direction::down;
+						ghost.nextDir = Direction::down;
 						break;
 					case Direction::down:
-						ghost.direction = Direction::up;
+						ghost.nextDir = Direction::up;
 						break;
 					case Direction::left:
-						ghost.direction = Direction::right;
+						ghost.nextDir = Direction::right;
 						break;
 					case Direction::right:
-						ghost.direction = Direction::left;
+						ghost.nextDir = Direction::left;
 						break;
 					}
 				}
-
 				if (ghost.currentMode == BehaviourModes::afraid && ghost.afraidTimer <= 0.0)
 					ghost.currentMode = ghost.previousMode;
 
+
+				// Move ghost
 				while (potentialDistance > 0) {
-					Tile currentTile = { (position.x + ENTITYSIZE / 2) / TILESIZE,(position.y + ENTITYSIZE / 2) / TILESIZE };
-					if (((position.x + (GHOST_TEXTURESIZE - TILESIZE) / 2) % TILESIZE == 0 && (position.y + (GHOST_TEXTURESIZE - TILESIZE) / 2) % TILESIZE == 0) || ghost.direction == Direction::null) {
-						if (currentTile.x > 0 && currentTile.x <= 27 && currentTile.y > 0 && currentTile.y <= 30)
-							ghost.direction = ghost.behavior(m_registry, layout);
+					Tile currentTile = { (position.x + (GHOST_TEXTURESIZE - TILESIZE) / 2) / TILESIZE,(position.y + (GHOST_TEXTURESIZE - TILESIZE) / 2) / TILESIZE };
+					if ((position.x + (GHOST_TEXTURESIZE - TILESIZE) / 2) % TILESIZE == 0 && (position.y + (GHOST_TEXTURESIZE - TILESIZE) / 2) % TILESIZE == 0) {
+						if ((currentTile.x < 28 && currentTile.x >= 1) && layout[currentTile.y - 1][currentTile.x] == 39)
+							ghost.inHouse = true;
+						else if ((currentTile.x < 28 && currentTile.x >= 0) && layout[currentTile.y + 1][currentTile.x] == 39)
+							ghost.inHouse = false;
+
+						Tile predictTile = currentTile;
+						ghost.direction = ghost.nextDir;
+						switch (ghost.direction) {
+						case Direction::left:
+							--predictTile.x;
+							break;
+						case Direction::right:
+							++predictTile.x;
+							break;
+						case Direction::up:
+							--predictTile.y;
+							break;
+						case Direction::down:
+							++predictTile.y;
+							break;
+						}
+
+						if (predictTile.x > 0 && predictTile.x <= 27 && predictTile.y > 0 && predictTile.y <= 30)
+							ghost.nextDir = ghost.behavior(m_registry, layout, predictTile);
 					}
+
 					switch (ghost.direction) {
 					case Direction::left:
 						position.x = (position.x - 1) == -TILESIZE ? 28 * TILESIZE : position.x - 1;

@@ -17,7 +17,6 @@ namespace ghostBehaviors {
 		return layout[tile.y][tile.x] == 0 || (std::abs(layout[tile.y][tile.x]) & 256) == 256;
 	}
 
-
 	auto generateCandidates(const Tile& target, const Tile& currentTile, Ghost& ghost, std::vector<std::vector<int>>& layout) {
 		std::vector<std::pair<Direction, double>> posibilities{};
 		if (Tile candidate{ currentTile.x, currentTile.y - 1 }; valid(candidate, layout) && (std::abs(layout[currentTile.y][currentTile.x]) & 256) != 256 && ghost.direction != Direction::down) {
@@ -44,13 +43,11 @@ namespace ghostBehaviors {
 		if (Tile candidate{ currentTile.x, currentTile.y - 1 }; (candidate.y != 0) && ((layout[candidate.y][candidate.x] == 39 || layout[candidate.y - 1][candidate.x] == 39) && ghost.released && (ghost.currentMode == BehaviourModes::chase || ghost.currentMode == BehaviourModes::scatter))) {
 			posibilities.clear();
 			posibilities.emplace_back(std::make_pair(Direction::up, 0.0));
-			ghost.inHouse = false;
 		}
 
 		if (Tile candidate{ currentTile.x, currentTile.y + 1 }; (candidate.y != layout.size() - 1) && ((layout[candidate.y][candidate.x] == 39 || layout[candidate.y - 1][candidate.x] == 39) && ghost.currentMode == BehaviourModes::dead)) {
 			posibilities.clear();
 			posibilities.emplace_back(std::make_pair(Direction::down, 0.0));
-			ghost.inHouse = true;
 		}
 
 		std::sort(posibilities.begin(), posibilities.end(), [](auto & lhs, auto & rhs) {

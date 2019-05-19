@@ -11,7 +11,7 @@ public:
 		m_registry.view<AnimationSet, Ghost>().each(
 			[&](auto entity, AnimationSet & animSet, Ghost & ghost) {
 				std::string animset = "";
-				switch (ghost.direction) {
+				switch (ghost.nextDir) {
 				case Direction::left:
 					animset += "left";
 					break;

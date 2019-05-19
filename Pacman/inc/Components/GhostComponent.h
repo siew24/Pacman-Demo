@@ -32,10 +32,8 @@ struct GhostInitDetails {
 	int dotLimit = 0;
 };
 
-
-
 struct Ghost {
-	Direction(*behavior)(entt::DefaultRegistry&, std::vector<std::vector<int>>&);
+	Direction(*behavior)(entt::DefaultRegistry&, std::vector<std::vector<int>>&, Tile&);
 	Tile spawnPoint;
 	GhostInitDetails levelVars;
 	
@@ -54,4 +52,5 @@ struct Ghost {
 	double speed = 11 * TILESIZE;
 	double currSpeed = speed;
 	Direction direction = Direction::left;
+	Direction nextDir = Direction::left;
 };

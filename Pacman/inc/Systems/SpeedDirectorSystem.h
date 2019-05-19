@@ -4,7 +4,7 @@
 #include "../Configs.h"
 
 namespace ghostBehaviors {
-	Direction shadow(entt::DefaultRegistry& registry, std::vector<std::vector<int>>& layout);
+	Direction shadow(entt::DefaultRegistry& registry, std::vector<std::vector<int>>& layout, Tile& currentTile);
 }
 
 class SpeedDirectorSystem : public bloom::systems::System {

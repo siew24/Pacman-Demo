@@ -53,16 +53,16 @@ public:
 								ghost.afraidTimer = ghost.levelVars.afraidTime;
 								switch (ghost.direction) {
 								case Direction::up:
-									ghost.direction = Direction::down;
+									ghost.nextDir = Direction::down;
 									break;
 								case Direction::down:
-									ghost.direction = Direction::up;
+									ghost.nextDir = Direction::up;
 									break;
 								case Direction::left:
-									ghost.direction = Direction::right;
+									ghost.nextDir = Direction::right;
 									break;
 								case Direction::right:
-									ghost.direction = Direction::left;
+									ghost.nextDir = Direction::left;
 									break;
 								}
 							}

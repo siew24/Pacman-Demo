@@ -3,13 +3,13 @@
 #include "Pathfinding.h"
 
 namespace ghostBehaviors {
-	Direction pokey(entt::DefaultRegistry& registry, std::vector<std::vector<int>>& layout) {
+	Direction pokey(entt::DefaultRegistry& registry, std::vector<std::vector<int>>& layout, Tile& currentTile) {
 		entt::DefaultRegistry::entity_type playerID = registry.view<Pacman>()[0];
 		entt::DefaultRegistry::entity_type ghostID = registry.view<entt::label<"pokey"_hs>>()[0];
 		auto& pacPos = registry.get<Position>(playerID);
 		auto& position = registry.get<Position>(ghostID);
 		auto& ghost = registry.get<Ghost>(ghostID);
-		Tile currentTile{ (position.x + (ENTITYSIZE / 2)) / TILESIZE, (position.y + (ENTITYSIZE / 2)) / TILESIZE };
+
 		Tile target{ (pacPos.x + (ENTITYSIZE / 2)) / TILESIZE, (pacPos.y + (ENTITYSIZE / 2)) / TILESIZE };
 
 		int xDist = std::abs(currentTile.x - target.x), yDist = std::abs(currentTile.y - target.y);
