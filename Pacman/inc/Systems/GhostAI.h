@@ -32,12 +32,16 @@ public:
 					ghost.levelVars.modeTimes[ghost.modeLooped] -= potentialDistance / ghost.currSpeed;
 
 				if (ghost.modeLooped < 8 && ghost.levelVars.modeTimes[ghost.modeLooped] <= 0.0) {
-					if (ghost.currentMode == BehaviourModes::chase) {
-						ghost.currentMode = BehaviourModes::scatter;
+					BehaviourModes* target = &ghost.currentMode;
+					if (ghost.currentMode == BehaviourModes::dead || ghost.currentMode == BehaviourModes::afraid)
+						target = &ghost.previousMode;
+
+					if (*target == BehaviourModes::chase) {
+						*target = BehaviourModes::scatter;
 						++ghost.modeLooped;
 					}
-					else {
-						ghost.currentMode = BehaviourModes::chase;
+					else if(*target == BehaviourModes::scatter) {
+						*target = BehaviourModes::chase;
 						++ghost.modeLooped;
 					}
 					switch (ghost.direction) {
@@ -63,8 +67,12 @@ public:
 				while (potentialDistance > 0) {
 					Tile currentTile = { (position.x + (GHOST_TEXTURESIZE - TILESIZE) / 2) / TILESIZE,(position.y + (GHOST_TEXTURESIZE - TILESIZE) / 2) / TILESIZE };
 					if ((position.x + (GHOST_TEXTURESIZE - TILESIZE) / 2) % TILESIZE == 0 && (position.y + (GHOST_TEXTURESIZE - TILESIZE) / 2) % TILESIZE == 0) {
-						if ((currentTile.x < 28 && currentTile.x >= 1) && layout[currentTile.y - 1][currentTile.x] == 39)
+						if ((currentTile.x < 28 && currentTile.x >= 1) && layout[currentTile.y - 1][currentTile.x] == 39) {
 							ghost.inHouse = true;
+							if (ghost.currentMode == BehaviourModes::dead)
+								ghost.currentMode = ghost.previousMode;
+						}
+							
 						else if ((currentTile.x < 28 && currentTile.x >= 0) && layout[currentTile.y + 1][currentTile.x] == 39)
 							ghost.inHouse = false;
 
@@ -109,7 +117,7 @@ public:
 					default:
 						--potentialDistance;
 						break;
-					}
+					}					
 				}
 			}
 		);

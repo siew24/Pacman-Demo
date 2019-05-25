@@ -14,9 +14,8 @@ namespace ghostBehaviors {
 		auto& shadowPos = registry.get<Position>(ghostID);
 
 		Tile shadowTile{ (shadowPos.x + (ENTITYSIZE / 2)) / TILESIZE,(shadowPos.y + (ENTITYSIZE / 2)) / TILESIZE };
-
 		Tile target{ 2,-2 };
-	reevaluate:
+
 		if (ghost.currentMode == BehaviourModes::chase) {
 			switch (pac.lastDir) {
 			case Direction::up:
@@ -38,12 +37,7 @@ namespace ghostBehaviors {
 		else if (ghost.currentMode == BehaviourModes::scatter)
 			target = Tile{ 27,31 }; // Need coordinates to corner
 		else if (ghost.currentMode == BehaviourModes::dead)
-			if (currentTile == ghost.spawnPoint) {
-				ghost.currentMode = BehaviourModes::chase;
-				goto reevaluate;
-			}
-			else
-				target = ghost.spawnPoint;
+			target = ghost.spawnPoint;
 
 		auto posibilities = generateCandidates(target, currentTile, ghost, layout);
 

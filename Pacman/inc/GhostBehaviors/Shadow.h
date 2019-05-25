@@ -11,18 +11,13 @@ namespace ghostBehaviors {
 		auto& ghost = registry.get<Ghost>(ghostID);
 
 		Tile target{ 0,0 };
-	reevaluate:
+
 		if (ghost.currentMode == BehaviourModes::chase)
 			target = Tile{ (pacPos.x + (ENTITYSIZE / 2)) / TILESIZE, (pacPos.y + (ENTITYSIZE / 2)) / TILESIZE };
 		else if (ghost.currentMode == BehaviourModes::scatter)
 			target = Tile{ 25 ,-2 };
 		else if (ghost.currentMode == BehaviourModes::dead)
-			if (currentTile == ghost.spawnPoint) {
-				ghost.currentMode = BehaviourModes::chase;
-				goto reevaluate;
-			}
-			else
-				target = ghost.spawnPoint;
+			target = ghost.spawnPoint;
 
 		auto posibilities = generateCandidates(target, currentTile, ghost, layout);
 
