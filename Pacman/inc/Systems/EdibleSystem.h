@@ -23,6 +23,7 @@ public:
 		m_registry.view<Pellet, Position>().each(
 			[&](auto entity, Pellet & pellet, Position & pelletPos) {
 				if (playerTile.x == pelletPos.x / TILESIZE && playerTile.y == pelletPos.y / TILESIZE) {
+					pelletEaten = true;
 					playerState.addScore(pellet.points);
 					++playerState.pelletsEaten;
 					playerState.timeAvailable -= 1000.0 / 60.0;
@@ -36,6 +37,7 @@ public:
 		m_registry.view<PowerPellet, Position>().each(
 			[&](auto entity, PowerPellet & pellet, Position & pelletPos) {
 				if (playerTile.x == pelletPos.x / TILESIZE && playerTile.y == pelletPos.y / TILESIZE) {
+					pelletEaten = true;
 					playerState.addScore(pellet.points);
 					++playerState.pelletsEaten;
 					playerState.ghostsEaten = 0;
@@ -77,6 +79,7 @@ public:
 			[&](auto entity, Fruit & fruit, Position & fruitPos) {
 				if ((playerPos.x + PACMAN_TEXTURESIZE / 2) / TILESIZE == (fruitPos.x + fruit.rect.w / 2) / TILESIZE
 					&& (playerPos.y + PACMAN_TEXTURESIZE / 2) / TILESIZE == (fruitPos.y + fruit.rect.h / 2) / TILESIZE) {
+					bonusEaten = true;
 					playerState.addScore(static_cast<int>(fruit.type));
 
 					auto& size = m_registry.get<Size>(entity);
@@ -100,6 +103,7 @@ public:
 			[&](auto entity, Ghost & ghost, Position & ghostPos) {
 				if (Tile ghostT{ (ghostPos.x + (GHOST_TEXTURESIZE / 2)) / TILESIZE,(ghostPos.y + (GHOST_TEXTURESIZE / 2)) / TILESIZE }; playerTile == ghostT) {
 					if (ghost.currentMode == BehaviourModes::afraid) {
+						ghostEaten = true;
 						int addScore = 200 * pow(2, playerState.ghostsEaten);
 						playerState.score += addScore;
 						++playerState.ghostsEaten;
@@ -122,6 +126,13 @@ public:
 
 		);
 	}
+	
+
+
 
 	bloom::Game * game;
+
+	bool pelletEaten = false;
+	bool ghostEaten = false;
+	bool bonusEaten = false;
 };

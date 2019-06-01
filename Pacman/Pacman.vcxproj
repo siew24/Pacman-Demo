@@ -215,6 +215,7 @@
     <ClInclude Include="inc\Systems\InputSystem.h" />
     <ClInclude Include="inc\Systems\PlayerMovement.h" />
     <ClInclude Include="inc\Systems\ScorePopupSystem.h" />
+    <ClInclude Include="inc\Systems\SirenSystem.h" />
     <ClInclude Include="inc\Systems\SpeedDirectorSystem.h" />
     <ClInclude Include="inc\Tile.h" />
   </ItemGroup>

@@ -17,6 +17,7 @@
 #include "Systems/ScorePopupSystem.h"
 #include "Systems/AnimationChangerSystem.h"
 #include "Systems/InputSystem.h"
+#include "Systems/SirenSystem.h"
 #include "Graphics/SpriteText.h"
 #include "Graphics/Font.h"
 
@@ -46,6 +47,27 @@ public:
 	void refreshTexture() {
 		m_generateTexture();
 	}
+	bool pelletEaten(){
+		bool returnVal = edibleSystem.pelletEaten;
+		edibleSystem.pelletEaten = false;
+		return returnVal;
+	}
+	bool bonusEaten() {
+		bool returnVal = edibleSystem.bonusEaten;
+		edibleSystem.bonusEaten = false;
+		return returnVal;
+	}
+	bool ghostEaten() {
+		bool returnVal = edibleSystem.ghostEaten;
+		edibleSystem.ghostEaten = false;
+		return returnVal;
+	}
+	int sirenClip() {
+		return sirenHandler.soundbyte;
+	}
+	bool frozen() {
+		return popupSystem.freeze;
+	}
 	void respawn();
 	void update(double dt) {
 		if (dt > 0.0) {
@@ -63,6 +85,7 @@ public:
 			animationChanger.update(dt);
 			edibleSystem.update(dt);
 			animSysTest.update(dt);
+			sirenHandler.update();
 		}
 		guiElems[0]->setText(std::to_string(getScore()));
 		if (totalFrames > 0 && totalTime > 0.0 && current/100.0>=1.0) {
@@ -103,6 +126,7 @@ private:
 	ScorePopupSystem popupSystem = ScorePopupSystem(m_registry);
 	AnimationChangerSystem animationChanger = AnimationChangerSystem(m_registry);
 	InputHandlerSystem inputHandler = InputHandlerSystem(m_registry, m_gameInstance->input);
+	SirenSystem sirenHandler = SirenSystem(m_registry);
 
 	std::filesystem::path m_levelFile;
 	int m_levelNumber;
