@@ -63,6 +63,9 @@
     <ClCompile Include="src\Level.cpp">
       <Filter>Source Files\Pacman</Filter>
     </ClCompile>
+    <ClCompile Include="src\ConfigStore.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -159,6 +162,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="inc\Systems\SirenSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\ConfigStore.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

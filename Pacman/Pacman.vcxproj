@@ -181,6 +181,7 @@
   <ItemGroup>
     <ClCompile Include="getExePath.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\ConfigStore.cpp" />
     <ClCompile Include="src\Level.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -193,6 +194,7 @@
     <ClInclude Include="inc\Components\PelletsComponent.h" />
     <ClInclude Include="inc\Components\ScoreComponent.h" />
     <ClInclude Include="inc\Configs.h" />
+    <ClInclude Include="inc\ConfigStore.h" />
     <ClInclude Include="inc\Direction.h" />
     <ClInclude Include="inc\FruitObject.h" />
     <ClInclude Include="inc\GhostBehaviors\GhostBehavior.h" />

@@ -15,8 +15,8 @@ public:
 	void init() {
 		m_registry.view<Pacman>().each([&](auto entity, auto & pac) { player = &pac; });
 	}
+
 	void update(std::optional<double> deltaTime = std::nullopt) override {
-		
 		bool isFrightened = false;
 		m_registry.view<Position, Ghost>().each([&](auto entity, auto & position, auto & ghost) {
 			Tile ghostTile{ (position.x + (ENTITYSIZE / 2)) / TILESIZE, (position.y + (ENTITYSIZE / 2)) / TILESIZE };

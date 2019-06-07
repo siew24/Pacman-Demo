@@ -8,6 +8,8 @@
 
 #include "getExePath.h"
 
+#include "inc/ConfigStore.h"
+
 using namespace bloom;
 using namespace bloom::audio;
 using namespace bloom::graphics;
@@ -16,11 +18,40 @@ Game* game = nullptr;
 
 void test_drawer(const std::filesystem::path& assetsPath)
 {
+	std::filesystem::path appData;
+	{
+		char* pValue;
+		size_t len;
+		errno_t err = _dupenv_s(&pValue, &len, "APPDATA");
+		appData = std::filesystem::path(pValue);
+	}
+
+	std::filesystem::path configPath = appData / L"BF Pacman" / L"configs.ini";
+	std::filesystem::path leaderboardsPath = appData / L"BF Pacman" / L"leaderboards.db";
+	if (std::filesystem::exists(configPath.parent_path())) {
+		if (std::filesystem::exists(configPath)) {
+			std::ifstream config(configPath);
+			config >> ConfigStore::volume
+				>> ConfigStore::debug;
+		}
+		if (std::filesystem::exists(leaderboardsPath)) {
+			std::ifstream leaderboards(leaderboardsPath);
+			for (int i = 0; i < 10; ++i) {
+				std::pair<std::string, int> pair;
+				leaderboards >> pair.first >> pair.second;
+				LeaderboardsStore::leaderboards[i] = pair;
+			}
+		}
+	}
+	else {
+		std::filesystem::create_directory(configPath.parent_path());
+	}
+
 	game = new Game(WINDOW_WIDTH * 2, WINDOW_HEIGHT * 2, 0, 0 | SDL_RENDERER_TARGETTEXTURE);
 	try {
 		game->create("Bloom Test", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
 	}
-	catch (Exception & e) {
+	catch (Exception& e) {
 		std::cerr << e.what() << std::endl;
 	}
 
@@ -51,18 +82,18 @@ void test_drawer(const std::filesystem::path& assetsPath)
 	level.draw();
 	game->render();
 
-	sounds.add(audioDir / "pacman_beginning.wav"); // 0 
-	sounds.add(audioDir / "pacman_intermission.wav"); // 1
-	sounds.add(audioDir / "pacman_death.wav"); // 2
-	sounds.add(audioDir / "Pacman Chomp1.wav"); // 3
-	sounds.add(audioDir / "Pacman Chomp2.wav"); // 4
-	sounds.add(audioDir / "pacman_eatghost.wav"); // 5
-	sounds.add(audioDir / "pacman_eatfruit.wav"); // 6
-	sounds.add(audioDir / "siren.wav"); // 7 
-	sounds.add(audioDir / "siren2.wav"); // 8
-	sounds.add(audioDir / "siren3.wav"); // 9
-	sounds.add(audioDir / "energizer.wav"); // 10 
-	sounds.add(audioDir / "eyes.wav"); // 11
+	sounds[sounds.add(audioDir / "pacman_beginning.wav")]->setVolume(ConfigStore::volume); // 0 
+	sounds[sounds.add(audioDir / "pacman_intermission.wav")]->setVolume(ConfigStore::volume); // 1
+	sounds[sounds.add(audioDir / "pacman_death.wav")]->setVolume(ConfigStore::volume); // 2
+	sounds[sounds.add(audioDir / "Pacman Chomp1.wav")]->setVolume(ConfigStore::volume); // 3
+	sounds[sounds.add(audioDir / "Pacman Chomp2.wav")]->setVolume(ConfigStore::volume); // 4
+	sounds[sounds.add(audioDir / "pacman_eatghost.wav")]->setVolume(ConfigStore::volume); // 5
+	sounds[sounds.add(audioDir / "pacman_eatfruit.wav")]->setVolume(ConfigStore::volume); // 6
+	sounds[sounds.add(audioDir / "siren.wav")]->setVolume(ConfigStore::volume); // 7 
+	sounds[sounds.add(audioDir / "siren2.wav")]->setVolume(ConfigStore::volume); // 8
+	sounds[sounds.add(audioDir / "siren3.wav")]->setVolume(ConfigStore::volume); // 9
+	sounds[sounds.add(audioDir / "energizer.wav")]->setVolume(ConfigStore::volume); // 10 
+	sounds[sounds.add(audioDir / "eyes.wav")]->setVolume(ConfigStore::volume); // 11
 
 	std::cout << "Level started!" << std::endl;
 	sounds[0]->play();
@@ -117,34 +148,46 @@ void test_drawer(const std::filesystem::path& assetsPath)
 			sounds.stopAll();
 			std::cout << "Died!" << std::endl;
 			sounds[2]->play();
+			
 			game->delay(1500);
 			last = 0;
 			if (level.lives() > 0)
 				level.respawn(), game->timer.restart();
-			else
+			else {
+				LeaderboardsStore::addEntry("Player", level.getScore());
 				break;
+			}
 		}
 	}
 	game->destroy();
+
+	std::ofstream fout(configPath);
+	fout << ConfigStore::volume << std::endl
+		<< ConfigStore::debug;
+
+	fout = std::ofstream(leaderboardsPath);
+	for (auto& scoreEntry : LeaderboardsStore::leaderboards) {
+		fout << scoreEntry.first << " " << scoreEntry.second << std::endl;
+	}
 }
 
 int main()
 {
+	namespace fs = std::filesystem;
 	SetConsoleCP(CP_UTF8); SetConsoleOutputCP(CP_UTF8);
 
 	try {
 		Game::initialize();
 	}
-	catch (Exception & e) {
+	catch (Exception& e) {
 		std::cerr << e.what() << std::endl;
 		system("pause");
 		exit(-1);
 	}
 	srand(static_cast<uint32_t>(time(0)));
-	namespace fs = std::filesystem;
+
 	fs::path dataDir = fs::path(getExePath()) / L"data";
 	fs::path assetsPath = dataDir / L"Assets";
-
 	std::thread drawer_thread{ test_drawer, assetsPath };
 	drawer_thread.join();
 	sounds.clear();

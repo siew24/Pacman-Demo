@@ -1,5 +1,6 @@
 #include "..\inc\Level.h"
 #include "..\inc\GhostObject.h"
+#include "..\inc\ConfigStore.h"
 
 
 Level::Level(bloom::Game*& gameInstance, bloom::graphics::FontPtr guiFont) : m_gameInstance(gameInstance), m_renderer(gameInstance->getRenderer()) {
@@ -15,17 +16,20 @@ Level::Level(bloom::Game*& gameInstance, bloom::graphics::FontPtr guiFont) : m_g
 	SDL_SetTextureBlendMode(m_entityLayer, SDL_BLENDMODE_BLEND);
 
 	gameDirector.setParameters(gameInstance);
-	guiElems.emplace_back(std::make_shared<bloom::graphics::SpriteText>(m_renderer, guiFont, "0"));
-	guiElems.emplace_back(std::make_shared<bloom::graphics::SpriteText>(m_renderer, guiFont, "FPS"));
-	guiElems.emplace_back(std::make_shared<bloom::graphics::SpriteText>(m_renderer, guiFont, "1UP"));
-	guiElems.emplace_back(std::make_shared<bloom::graphics::SpriteText>(m_renderer, guiFont, "HIGH SCORE"));
-	guiElems.emplace_back(std::make_shared<bloom::graphics::SpriteText>(m_renderer, guiFont, "0"));
-	guiElems.emplace_back(std::make_shared<bloom::graphics::SpriteText>(m_renderer, guiFont, "AVG"));
+	guiElems.emplace("score",std::make_shared<bloom::graphics::SpriteText>(m_renderer, guiFont, "0"));
+	guiElems.emplace("highscore",std::make_shared<bloom::graphics::SpriteText>(m_renderer, guiFont, std::to_string(LeaderboardsStore::leaderboards.front().second)));
+	guiElems.emplace("1up",std::make_shared<bloom::graphics::SpriteText>(m_renderer, guiFont, "1UP"));
+	guiElems.emplace("highscoreLabel",std::make_shared<bloom::graphics::SpriteText>(m_renderer, guiFont, "HIGH SCORE"));
+	if (ConfigStore::debug) {
+		guiElems.emplace("FPS",std::make_shared<bloom::graphics::SpriteText>(m_renderer, guiFont, "FPS"));
+		guiElems.emplace("avgFPS",std::make_shared<bloom::graphics::SpriteText>(m_renderer, guiFont, "AVG"));
+	}
+
 	bloom::graphics::TextStyle style;
 	style.blendingMode = bloom::graphics::TextStyle::BlendingMode::normal;
 	style.foregroundColor = { 255, 255, 255, 0 };
 	for (auto& st : guiElems)
-		st->setStyle(style);
+		st.second->setStyle(style);
 
 	ghostMovement.game = gameInstance;
 	edibleSystem.game = gameInstance;
@@ -55,12 +59,14 @@ void Level::draw() {
 	SDL_RenderCopyEx(m_renderer, m_entityLayer, nullptr, &GAMEAREA, 0.0, nullptr, SDL_FLIP_NONE);
 
 	// Render GUI Text
-	guiElems[0]->render(std::nullopt, SDL_Point{ 7 * TILESIZE - guiElems[0]->getTextWidth(), 1 * TILESIZE });
-	guiElems[0]->render(std::nullopt, SDL_Point{ 17 * TILESIZE - guiElems[0]->getTextWidth(), 1 * TILESIZE });
-	guiElems[1]->render(std::nullopt, SDL_Point{ 28 * TILESIZE - guiElems[1]->getTextWidth(), 0 });
-	guiElems[5]->render(std::nullopt, SDL_Point{ 28 * TILESIZE - guiElems[5]->getTextWidth(), 1 * TILESIZE });
-	guiElems[2]->render(std::nullopt, SDL_Point{ 6 * TILESIZE - guiElems[2]->getTextWidth(), 0 });
-	guiElems[3]->render(std::nullopt, SDL_Point{ 14 * TILESIZE - (guiElems[3]->getTextWidth() / 2), 0 });
+	guiElems["score"]->render(std::nullopt, SDL_Point{ 7 * TILESIZE - guiElems["score"]->getTextWidth(), 1 * TILESIZE });
+	guiElems["highscore"]->render(std::nullopt, SDL_Point{ 17 * TILESIZE - guiElems["highscore"]->getTextWidth(), 1 * TILESIZE });
+	guiElems["1up"]->render(std::nullopt, SDL_Point{ 6 * TILESIZE - guiElems["1up"]->getTextWidth(), 0 });
+	guiElems["highscoreLabel"]->render(std::nullopt, SDL_Point{ 14 * TILESIZE - (guiElems["highscoreLabel"]->getTextWidth() / 2), 0 });
+	if (ConfigStore::debug) {
+		guiElems["FPS"]->render(std::nullopt, SDL_Point{ 28 * TILESIZE - guiElems["FPS"]->getTextWidth(), 0 });
+		guiElems["avgFPS"]->render(std::nullopt, SDL_Point{ 28 * TILESIZE - guiElems["avgFPS"]->getTextWidth(), 1 * TILESIZE });
+	}
 }
 
 void Level::changeLevel(const std::filesystem::path & levelFile, int levelNumber, const std::filesystem::path & texturePath) {
@@ -93,7 +99,6 @@ void Level::changeLevel(const std::filesystem::path & levelFile, int levelNumber
 				break;
 		}
 	}
-	guiElems[4]->setText(std::to_string(static_cast<int>(fruit)));
 	gameDirector.setParameters(texturePath, fruit);
 	gameDirector.init();
 	speedDirector.init();

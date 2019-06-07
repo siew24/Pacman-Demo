@@ -2,6 +2,7 @@
 #include "Systems/Systems.h"
 #include "../Components/ComponentIncludes.h"
 #include "../Configs.h"
+#include "../ConfigStore.h"
 
 class EdibleSystem : public bloom::systems::System {
 	using Position = bloom::components::Position;

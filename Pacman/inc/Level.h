@@ -87,11 +87,12 @@ public:
 			animSysTest.update(dt);
 			sirenHandler.update();
 		}
-		guiElems[0]->setText(std::to_string(getScore()));
-		if (totalFrames > 0 && totalTime > 0.0 && current/100.0>=1.0) {
+		guiElems["score"]->setText(std::to_string(getScore()));
+		guiElems["highscore"]->setText(std::to_string(((getScore() > LeaderboardsStore::leaderboards.front().second) ? getScore() : LeaderboardsStore::leaderboards.front().second)));
+		if (ConfigStore::debug && totalFrames > 0 && totalTime > 0.0 && current / 100.0 >= 1.0) {
 			current = std::fmod(current, 100.0);
-			guiElems[1]->setText(std::to_string(static_cast<int>((1000.0 / dt) + 0.5)));
-			guiElems[5]->setText(std::to_string(static_cast<int>((totalFrames / totalTime) + 0.5)));
+			guiElems["FPS"]->setText(std::to_string(static_cast<int>((1000.0 / dt) + 0.5)));
+			guiElems["avgFPS"]->setText(std::to_string(static_cast<int>((totalFrames / totalTime) + 0.5)));
 		}
 	}
 	std::vector<std::vector<int>> layout;
@@ -133,7 +134,7 @@ private:
 	std::filesystem::path m_texturePath;
 
 	// GUI Text
-	std::vector<std::shared_ptr<bloom::graphics::SpriteText>> guiElems;
+	std::unordered_map<std::string,std::shared_ptr<bloom::graphics::SpriteText>> guiElems;
 
 	// Pause Variable
 	double pauseTimer = 0;
