@@ -171,7 +171,7 @@ void test_drawer(const std::filesystem::path& assetsPath)
 	}
 }
 
-int main()
+int main(int argc, char* argv[])
 {
 	namespace fs = std::filesystem;
 	SetConsoleCP(CP_UTF8); SetConsoleOutputCP(CP_UTF8);
