@@ -31,7 +31,9 @@ void test_drawer(const std::filesystem::path& assetsPath)
 	if (std::filesystem::exists(configPath.parent_path())) {
 		if (std::filesystem::exists(configPath)) {
 			std::ifstream config(configPath);
-			config >> ConfigStore::volume
+			config >> ConfigStore::ghostVolume
+				>> ConfigStore::pacmanVolume
+				>> ConfigStore::musicVolume
 				>> ConfigStore::debug;
 		}
 		if (std::filesystem::exists(leaderboardsPath)) {
@@ -82,18 +84,24 @@ void test_drawer(const std::filesystem::path& assetsPath)
 	level.draw();
 	game->render();
 
-	sounds[sounds.add(audioDir / "pacman_beginning.wav")]->setVolume(ConfigStore::volume); // 0 
-	sounds[sounds.add(audioDir / "pacman_intermission.wav")]->setVolume(ConfigStore::volume); // 1
-	sounds[sounds.add(audioDir / "pacman_death.wav")]->setVolume(ConfigStore::volume); // 2
-	sounds[sounds.add(audioDir / "Pacman Chomp1.wav")]->setVolume(ConfigStore::volume); // 3
-	sounds[sounds.add(audioDir / "Pacman Chomp2.wav")]->setVolume(ConfigStore::volume); // 4
-	sounds[sounds.add(audioDir / "pacman_eatghost.wav")]->setVolume(ConfigStore::volume); // 5
-	sounds[sounds.add(audioDir / "pacman_eatfruit.wav")]->setVolume(ConfigStore::volume); // 6
-	sounds[sounds.add(audioDir / "siren.wav")]->setVolume(ConfigStore::volume); // 7 
-	sounds[sounds.add(audioDir / "siren2.wav")]->setVolume(ConfigStore::volume); // 8
-	sounds[sounds.add(audioDir / "siren3.wav")]->setVolume(ConfigStore::volume); // 9
-	sounds[sounds.add(audioDir / "energizer.wav")]->setVolume(ConfigStore::volume); // 10 
-	sounds[sounds.add(audioDir / "eyes.wav")]->setVolume(ConfigStore::volume); // 11
+	sounds.add(audioDir / "pacman_beginning.wav"); // 0 
+	sounds.add(audioDir / "pacman_intermission.wav"); // 1
+	sounds.add(audioDir / "pacman_death.wav"); // 2
+	sounds.add(audioDir / "Pacman Chomp1.wav"); // 3
+	sounds.add(audioDir / "Pacman Chomp2.wav"); // 4
+	sounds.add(audioDir / "pacman_eatghost.wav"); // 5
+	sounds.add(audioDir / "pacman_eatfruit.wav"); // 6
+	sounds.add(audioDir / "siren.wav"); // 7 
+	sounds.add(audioDir / "siren2.wav"); // 8
+	sounds.add(audioDir / "siren3.wav"); // 9
+	sounds.add(audioDir / "energizer.wav"); // 10 
+	sounds.add(audioDir / "eyes.wav"); // 11
+
+	for (int i = 0; i < 12; ++i) {
+		if(i < 3) sounds[i]->setVolume(ConfigStore::musicVolume);
+		else if(i <7) sounds[i]->setVolume(ConfigStore::pacmanVolume);
+		else sounds[i]->setVolume(ConfigStore::ghostVolume);
+	}
 
 	std::cout << "Level started!" << std::endl;
 	sounds[0]->play();
@@ -162,7 +170,9 @@ void test_drawer(const std::filesystem::path& assetsPath)
 	game->destroy();
 
 	std::ofstream fout(configPath);
-	fout << ConfigStore::volume << std::endl
+	fout << ConfigStore::ghostVolume << std::endl
+		<< ConfigStore::pacmanVolume << std::endl
+		<< ConfigStore::musicVolume << std::endl
 		<< ConfigStore::debug;
 
 	fout = std::ofstream(leaderboardsPath);

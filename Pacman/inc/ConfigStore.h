@@ -4,7 +4,9 @@
 #include <algorithm>
 
 struct ConfigStore {
-	static double volume;
+	static double ghostVolume;
+	static double pacmanVolume;
+	static double musicVolume;
 	static int debug;
 };
 struct LeaderboardsStore {

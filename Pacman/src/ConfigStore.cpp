@@ -1,6 +1,8 @@
 #include "../inc/ConfigStore.h"
 
-double ConfigStore::volume = 100;
+double ConfigStore::ghostVolume = 60.0;
+double ConfigStore::pacmanVolume = 60.0;
+double ConfigStore::musicVolume = 60.0;
 int ConfigStore::debug = 0;
 
 // Default scores
