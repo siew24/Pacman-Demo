@@ -212,6 +212,11 @@
     <ClInclude Include="inc\Level.h" />
     <ClInclude Include="inc\Components\PacmanComponent.h" />
     <ClInclude Include="inc\PlayerObject.h" />
+    <ClInclude Include="inc\Scenes\About.h" />
+    <ClInclude Include="inc\Scenes\Leaderboards.h" />
+    <ClInclude Include="inc\Scenes\MainMenu.h" />
+    <ClInclude Include="inc\Scenes\Options.h" />
+    <ClInclude Include="inc\Scenes\ScoreSubmit.h" />
     <ClInclude Include="inc\Systems\AltAnimationSystem.h" />
     <ClInclude Include="inc\Systems\AnimationChangerSystem.h" />
     <ClInclude Include="inc\Systems\GameDirectorSystem.h" />

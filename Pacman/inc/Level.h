@@ -88,7 +88,10 @@ public:
 			sirenHandler.update();
 		}
 		guiElems["score"]->setText(std::to_string(getScore()));
-		guiElems["highscore"]->setText(std::to_string(((getScore() > LeaderboardsStore::leaderboards.front().second) ? getScore() : LeaderboardsStore::leaderboards.front().second)));
+		if (LeaderboardsStore::leaderboards.empty())
+			guiElems["highscore"]->setText(std::to_string(getScore()));
+		else
+			guiElems["highscore"]->setText(std::to_string(((getScore() > LeaderboardsStore::leaderboards.front().second) ? getScore() : LeaderboardsStore::leaderboards.front().second)));
 		if (ConfigStore::debug && totalFrames > 0 && totalTime > 0.0 && current / 100.0 >= 1.0) {
 			current = std::fmod(current, 100.0);
 			guiElems["FPS"]->setText(std::to_string(static_cast<int>((1000.0 / dt) + 0.5)));

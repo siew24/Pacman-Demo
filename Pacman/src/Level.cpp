@@ -16,13 +16,13 @@ Level::Level(bloom::Game*& gameInstance, bloom::graphics::FontPtr guiFont) : m_g
 	SDL_SetTextureBlendMode(m_entityLayer, SDL_BLENDMODE_BLEND);
 
 	gameDirector.setParameters(gameInstance);
-	guiElems.emplace("score",std::make_shared<bloom::graphics::SpriteText>(m_renderer, guiFont, "0"));
-	guiElems.emplace("highscore",std::make_shared<bloom::graphics::SpriteText>(m_renderer, guiFont, std::to_string(LeaderboardsStore::leaderboards.front().second)));
-	guiElems.emplace("1up",std::make_shared<bloom::graphics::SpriteText>(m_renderer, guiFont, "1UP"));
-	guiElems.emplace("highscoreLabel",std::make_shared<bloom::graphics::SpriteText>(m_renderer, guiFont, "HIGH SCORE"));
+	guiElems.emplace("score", std::make_shared<bloom::graphics::SpriteText>(m_renderer, guiFont, "0"));
+	guiElems.emplace("highscore", std::make_shared<bloom::graphics::SpriteText>(m_renderer, guiFont, LeaderboardsStore::leaderboards.empty() ? "0" : std::to_string(LeaderboardsStore::leaderboards.front().second)));
+	guiElems.emplace("1up", std::make_shared<bloom::graphics::SpriteText>(m_renderer, guiFont, "1UP"));
+	guiElems.emplace("highscoreLabel", std::make_shared<bloom::graphics::SpriteText>(m_renderer, guiFont, "HIGH SCORE"));
 	if (ConfigStore::debug) {
-		guiElems.emplace("FPS",std::make_shared<bloom::graphics::SpriteText>(m_renderer, guiFont, "FPS"));
-		guiElems.emplace("avgFPS",std::make_shared<bloom::graphics::SpriteText>(m_renderer, guiFont, "AVG"));
+		guiElems.emplace("FPS", std::make_shared<bloom::graphics::SpriteText>(m_renderer, guiFont, "FPS"));
+		guiElems.emplace("avgFPS", std::make_shared<bloom::graphics::SpriteText>(m_renderer, guiFont, "AVG"));
 	}
 
 	bloom::graphics::TextStyle style;
@@ -59,17 +59,17 @@ void Level::draw() {
 	SDL_RenderCopyEx(m_renderer, m_entityLayer, nullptr, &GAMEAREA, 0.0, nullptr, SDL_FLIP_NONE);
 
 	// Render GUI Text
-	guiElems["score"]->render(std::nullopt, SDL_Point{ 7 * TILESIZE - guiElems["score"]->getTextWidth(), 1 * TILESIZE });
-	guiElems["highscore"]->render(std::nullopt, SDL_Point{ 17 * TILESIZE - guiElems["highscore"]->getTextWidth(), 1 * TILESIZE });
-	guiElems["1up"]->render(std::nullopt, SDL_Point{ 6 * TILESIZE - guiElems["1up"]->getTextWidth(), 0 });
-	guiElems["highscoreLabel"]->render(std::nullopt, SDL_Point{ 14 * TILESIZE - (guiElems["highscoreLabel"]->getTextWidth() / 2), 0 });
+	guiElems["score"]->render(std::nullopt, SDL_Point{ 8 + 7 * TILESIZE - guiElems["score"]->getTextWidth(),8 + 1 * TILESIZE });
+	guiElems["highscore"]->render(std::nullopt, SDL_Point{ 8 + 17 * TILESIZE - guiElems["highscore"]->getTextWidth(),8 + 1 * TILESIZE });
+	guiElems["1up"]->render(std::nullopt, SDL_Point{ 8 + 6 * TILESIZE - guiElems["1up"]->getTextWidth(), 8 + 0 });
+	guiElems["highscoreLabel"]->render(std::nullopt, SDL_Point{ 8 + 14 * TILESIZE - (guiElems["highscoreLabel"]->getTextWidth() / 2),8 + 0 });
 	if (ConfigStore::debug) {
-		guiElems["FPS"]->render(std::nullopt, SDL_Point{ 28 * TILESIZE - guiElems["FPS"]->getTextWidth(), 0 });
-		guiElems["avgFPS"]->render(std::nullopt, SDL_Point{ 28 * TILESIZE - guiElems["avgFPS"]->getTextWidth(), 1 * TILESIZE });
+		guiElems["FPS"]->render(std::nullopt, SDL_Point{ 8 + 28 * TILESIZE - guiElems["FPS"]->getTextWidth(), 8 + 0 });
+		guiElems["avgFPS"]->render(std::nullopt, SDL_Point{ 8 + 28 * TILESIZE - guiElems["avgFPS"]->getTextWidth(),8 + 1 * TILESIZE });
 	}
 }
 
-void Level::changeLevel(const std::filesystem::path & levelFile, int levelNumber, const std::filesystem::path & texturePath) {
+void Level::changeLevel(const std::filesystem::path& levelFile, int levelNumber, const std::filesystem::path& texturePath) {
 	m_levelFile = levelFile;
 	m_levelNumber = levelNumber;
 	m_texturePath = texturePath;
@@ -110,7 +110,7 @@ void Level::respawn() {
 	m_generateEntities(m_originalLayout, true);
 }
 
-void Level::m_load(const std::filesystem::path & levelData) {
+void Level::m_load(const std::filesystem::path& levelData) {
 	std::ifstream fin(levelData.u8string());
 
 	int w, h;
@@ -140,7 +140,7 @@ void Level::m_generateTexture() {
 				fruitIndicator.emplace_back(static_cast<FruitType>(fruits[i]));
 		}
 		else if (m_levelNumber > 6 && m_levelNumber < 19) {
-			for (int i = m_levelNumber - 7; i < m_levelNumber; ++i)
+			for (int i = m_levelNumber - 6; i <= m_levelNumber; ++i)
 				if (i < 13)
 					fruitIndicator.emplace_back(static_cast<FruitType>(fruits[i]));
 				else
@@ -207,7 +207,7 @@ void Level::m_generateTexture() {
 	SDL_SetRenderTarget(m_renderer, nullptr);
 }
 
-void Level::m_generatePellets(std::vector<std::vector<int>> & layout, bool readOnly) {
+void Level::m_generatePellets(std::vector<std::vector<int>>& layout, bool readOnly) {
 	for (int i = 0; i < layout.size(); ++i)
 		for (int j = 0; j < layout[i].size(); ++j) {
 			if (layout[i][j] < 0 && ((std::abs(layout[i][j]) & 512) == 512)) {
@@ -224,7 +224,7 @@ void Level::m_generatePellets(std::vector<std::vector<int>> & layout, bool readO
 		}
 }
 
-void Level::m_generateEntities(std::vector<std::vector<int>> & layout, bool readOnly) {
+void Level::m_generateEntities(std::vector<std::vector<int>>& layout, bool readOnly) {
 	auto path = m_levelFile.parent_path();
 	GhostInitDetails ghostDet;
 	std::ifstream fin(path / "TimerData.txt");

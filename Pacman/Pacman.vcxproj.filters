@@ -52,6 +52,9 @@
     <Filter Include="Resource Files\Assets\Scores">
       <UniqueIdentifier>{a5cd8a18-945e-4589-8ffe-ca90027e8cfa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Pacman\Scenes">
+      <UniqueIdentifier>{3ab6055b-b8d6-4e14-a06a-dad9ed898e6e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="getExePath.cpp">
@@ -64,7 +67,7 @@
       <Filter>Source Files\Pacman</Filter>
     </ClCompile>
     <ClCompile Include="src\ConfigStore.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Pacman</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -134,9 +137,6 @@
     <ClInclude Include="inc\GhostObject.h">
       <Filter>Header Files\Pacman</Filter>
     </ClInclude>
-    <ClInclude Include="inc\Level.h">
-      <Filter>Header Files\Pacman</Filter>
-    </ClInclude>
     <ClInclude Include="inc\PelletObject.h">
       <Filter>Header Files\Pacman</Filter>
     </ClInclude>
@@ -158,14 +158,32 @@
     <ClInclude Include="inc\Systems\ScorePopupSystem.h">
       <Filter>Header Files\Pacman\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="inc\Systems\InputSystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\Systems\SirenSystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="inc\ConfigStore.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Level.h">
+      <Filter>Header Files\Pacman\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Scenes\MainMenu.h">
+      <Filter>Header Files\Pacman\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Scenes\Options.h">
+      <Filter>Header Files\Pacman\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Scenes\ScoreSubmit.h">
+      <Filter>Header Files\Pacman\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Scenes\Leaderboards.h">
+      <Filter>Header Files\Pacman\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Scenes\About.h">
+      <Filter>Header Files\Pacman\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Systems\SirenSystem.h">
+      <Filter>Header Files\Pacman\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Systems\InputSystem.h">
+      <Filter>Header Files\Pacman\Systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
