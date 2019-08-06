@@ -67,13 +67,13 @@ public:
 				while (potentialDistance > 0) {
 					Tile currentTile = { (position.x + (GHOST_TEXTURESIZE - TILESIZE) / 2) / TILESIZE,(position.y + (GHOST_TEXTURESIZE - TILESIZE) / 2) / TILESIZE };
 					if ((position.x + (GHOST_TEXTURESIZE - TILESIZE) / 2) % TILESIZE == 0 && (position.y + (GHOST_TEXTURESIZE - TILESIZE) / 2) % TILESIZE == 0) {
-						if ((currentTile.x < 28 && currentTile.x >= 1) && layout[currentTile.y - 1][currentTile.x] == 39) {
+						if ((currentTile.x < 28 && currentTile.x >= 1 && currentTile.y != 0) && tileMap[currentTile.x][currentTile.y-1] == 39) {
 							ghost.inHouse = true;
 							if (ghost.currentMode == BehaviourModes::dead)
 								ghost.currentMode = ghost.previousMode;
 						}
 							
-						else if ((currentTile.x < 28 && currentTile.x >= 0) && layout[currentTile.y + 1][currentTile.x] == 39)
+						else if ((currentTile.x < 28 && currentTile.x >= 0 && currentTile.y != 30) && tileMap[currentTile.x][currentTile.y+1] == 39)
 							ghost.inHouse = false;
 
 						Tile predictTile = currentTile;
@@ -94,7 +94,7 @@ public:
 						}
 
 						if (predictTile.x > 0 && predictTile.x <= 27 && predictTile.y > 0 && predictTile.y <= 30)
-							ghost.nextDir = ghost.behavior(m_registry, layout, predictTile);
+							ghost.nextDir = ghost.behavior(m_registry, tileMap, specialMap, predictTile);
 					}
 
 					switch (ghost.direction) {
@@ -122,7 +122,8 @@ public:
 			}
 		);
 	};
-	std::vector<std::vector<int>> layout;
+	std::array<std::array<int, 31>, 28> tileMap; 
+	std::array<std::array<int, 31>, 28> specialMap;
 	double lastUpdate = 0;
 	bloom::Game * game;
 };

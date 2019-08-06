@@ -1,4 +1,6 @@
 #pragma once
+#include <cstdlib>
+#include <ctime>
 #include "Systems/Systems.h"
 #include "../Components/ComponentIncludes.h"
 #include "../Configs.h"
@@ -20,6 +22,7 @@ public:
 	void setParameters(const std::filesystem::path& assetPath, FruitType fruit) {
 		texturePath = assetPath;
 		m_fruitType = fruit;
+		fruitSpawned = 0;
 	}
 	void update(std::optional<double> deltaTime = std::nullopt) override {
 		if (player->died) {
@@ -40,17 +43,22 @@ public:
 			if (player->pelletsEaten >= pokey->levelVars.dotLimit)
 				pokey->released = true;
 		}
-		if (player->pelletsEaten == 70 || player->pelletsEaten == 170) {
+		if ((player->pelletsEaten == 70 && fruitSpawned == 0 )|| (player->pelletsEaten == 170 && fruitSpawned == 1)) {
+			++fruitSpawned;
 			if (fruitEntityPtr) {
 				fruitEntityPtr.reset();
 			}
+			if (fruitSpawns.empty()) return;
+			std::uniform_int_distribution<> dis(0, fruitSpawns.size()-1);
+			int rng = dis(gen);
 			auto fruit = std::make_shared<FruitObject>(m_registry, m_gameInstance);
-			fruit->init(texturePath / "Entity", m_fruitType);
+			fruit->init(texturePath / "Entity", m_fruitType, fruitSpawns[rng]);
 			fruitEntityPtr = fruit;
 		}
 	}
 
 	int levelNumber = 0;
+	std::vector<Tile> fruitSpawns;
 
 private:
 	Pacman* player;
@@ -64,4 +72,8 @@ private:
 	std::shared_ptr<bloom::GameObject> fruitEntityPtr;
 
 	FruitType m_fruitType;
+
+	std::random_device rd;  //Will be used to obtain a seed for the random number engine
+	std::mt19937 gen = std::mt19937(rd()); //Standard mersenne_twister_engine seeded with rd()
+	int fruitSpawned = 0;
 };

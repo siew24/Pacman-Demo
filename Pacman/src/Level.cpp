@@ -81,14 +81,16 @@ void Level::changeLevel(const std::filesystem::path& levelFile, int levelNumber,
 	m_generateTexture();
 	m_cleanup();
 
-	playerMovement.layout = layout;
-	ghostMovement.layout = layout;
-	speedDirector.layout = layout;
+	playerMovement.layout = tileMap;
+	ghostMovement.tileMap = tileMap;
+	ghostMovement.specialMap = specialMap;
+	speedDirector.layout = tileMap;
+	speedDirector.special= tileMap;
 	gameDirector.levelNumber = levelNumber;
 
 	FruitType fruit;
 	{
-		std::ifstream fin(levelFile.parent_path() / "LevelFruits.txt");
+		std::ifstream fin(ASSETPATH/"Assets" / "Level"/ "LevelConfigs" / "LevelFruits.txt");
 		int n;
 		fin >> n;
 		for (int i = 0; i < n; ++i) {
@@ -107,28 +109,27 @@ void Level::changeLevel(const std::filesystem::path& levelFile, int levelNumber,
 }
 
 void Level::respawn() {
-	m_generateEntities(m_originalLayout, true);
+	m_generateEntities(layout, true);
 }
 
 void Level::m_load(const std::filesystem::path& levelData) {
 	std::ifstream fin(levelData.u8string());
 
-	int w, h;
-	fin >> w >> h;
-
-	layout = std::vector<std::vector<int>>(h, std::vector<int>(w));
+	int w = 28, h = 31;
 
 	for (int i = 0; i < h; ++i)
 		for (int j = 0; j < w; ++j)
-			fin >> std::hex >> layout[i][j];
+			fin >> tileMap[j][i];
 
-	m_originalLayout = layout;
+	for (int i = 0; i < h; ++i)
+		for (int j = 0; j < w; ++j)
+			fin >> specialMap[j][i];
 }
 
 void Level::m_generateTexture() {
 	std::vector<FruitType> fruitIndicator;
 	{
-		std::ifstream fin(m_levelFile.parent_path() / "LevelFruits.txt");
+		std::ifstream fin(ASSETPATH / "Assets" / "Level" / "LevelConfigs"/"LevelFruits.txt");
 		int a;
 		fin >> a;
 		std::vector<int> fruits(a);
@@ -154,12 +155,12 @@ void Level::m_generateTexture() {
 
 	SDL_SetRenderTarget(m_renderer, m_levelTex);
 	SDL_RenderClear(m_renderer);
-	for (int i = 0; i < layout.size(); ++i)
-		for (int j = 0; j < layout[i].size(); ++j)
-			if (layout[i][j] > 0) {
-				std::filesystem::path tile = m_texturePath / "Tile" / std::string{ std::to_string(layout[i][j]) + ".png" };
+	for (int i = 0; i < tileMap.size(); ++i)
+		for (int j = 0; j < tileMap[i].size(); ++j)
+			if (tileMap[i][j] > 0) {
+				std::filesystem::path tile = m_texturePath / "Tile" / std::string{ std::to_string(tileMap[i][j]) + ".png" };
 				SDL_Rect src{ 0,0,TILETEXTURESIZE,TILETEXTURESIZE };
-				SDL_Rect dest{ j * TILESIZE, i * TILESIZE,TILESIZE,TILESIZE };
+				SDL_Rect dest{ i * TILESIZE, j * TILESIZE,TILESIZE,TILESIZE };
 				m_gameInstance->textures.load(tile)->render(src, dest);
 			}
 
@@ -208,18 +209,18 @@ void Level::m_generateTexture() {
 }
 
 void Level::m_generatePellets(std::vector<std::vector<int>>& layout, bool readOnly) {
-	for (int i = 0; i < layout.size(); ++i)
-		for (int j = 0; j < layout[i].size(); ++j) {
-			if (layout[i][j] < 0 && ((std::abs(layout[i][j]) & 512) == 512)) {
+	for (int i = 0; i < tileMap.size(); ++i)
+		for (int j = 0; j < tileMap[i].size(); ++j) {
+			if (tileMap[i][j] == 37) {
 				auto pellet = std::make_shared<PelletObject>(m_registry, m_gameInstance);
-				pellet->init(m_texturePath / "Entity" / "Pellet.png", SDL_Rect{ j * TILESIZE,i * TILESIZE, TILESIZE,TILESIZE });
+				pellet->init(m_texturePath / "Entity" / "Pellet.png", SDL_Rect{ i * TILESIZE,j * TILESIZE, TILESIZE,TILESIZE });
 				m_pellets.emplace_back(pellet);
-				if (!readOnly) layout[i][j] = -(-layout[i][j] | 512);
-			}if (layout[i][j] < 0 && (std::abs(layout[i][j]) & 1024) == 1024) {
+				tileMap[i][j] = 0;
+			}if (tileMap[i][j] == 38) {
 				auto pellet = std::make_shared<PelletObject>(m_registry, m_gameInstance);
-				pellet->init(m_texturePath / "Entity" / "PowerPellet.png", SDL_Rect{ j * TILESIZE,i * TILESIZE, TILESIZE,TILESIZE });
+				pellet->init(m_texturePath / "Entity" / "PowerPellet.png", SDL_Rect{ i * TILESIZE,j * TILESIZE, TILESIZE,TILESIZE });
 				m_pellets.emplace_back(pellet);
-				if (!readOnly) layout[i][j] = -(-layout[i][j] | 1024);
+				tileMap[i][j] = 0;
 			}
 		}
 }
@@ -227,7 +228,7 @@ void Level::m_generatePellets(std::vector<std::vector<int>>& layout, bool readOn
 void Level::m_generateEntities(std::vector<std::vector<int>>& layout, bool readOnly) {
 	auto path = m_levelFile.parent_path();
 	GhostInitDetails ghostDet;
-	std::ifstream fin(path / "TimerData.txt");
+	std::ifstream fin(ASSETPATH / "Assets" / "Level" / "LevelConfigs" / "TimerData.txt");
 	int entries;
 	fin >> entries;
 	int l, r;
@@ -240,7 +241,7 @@ void Level::m_generateEntities(std::vector<std::vector<int>>& layout, bool readO
 			break;
 	}
 
-	fin = std::ifstream(path / "PacmanSpeed.txt");
+	fin = std::ifstream(ASSETPATH / "Assets" / "Level" / "LevelConfigs" / "PacmanSpeed.txt");
 	fin >> entries;
 	std::array<double, 2> pacmanSpeeds;
 	for (int i = 0; i < entries; ++i) {
@@ -252,7 +253,7 @@ void Level::m_generateEntities(std::vector<std::vector<int>>& layout, bool readO
 			break;
 	}
 
-	fin = std::ifstream(path / "AfraidFlash.txt");
+	fin = std::ifstream(ASSETPATH / "Assets" / "Level" / "LevelConfigs" / "AfraidFlash.txt");
 	fin >> entries;
 	for (int i = 0; i < entries; ++i) {
 		fin >> l >> r;
@@ -262,7 +263,7 @@ void Level::m_generateEntities(std::vector<std::vector<int>>& layout, bool readO
 			break;
 	}
 
-	fin = std::ifstream(path / "FrightTimes.txt");
+	fin = std::ifstream(ASSETPATH / "Assets" / "Level" / "LevelConfigs" / "FrightTimes.txt");
 	fin >> entries;
 	for (int i = 0; i < entries; ++i) {
 		fin >> ghostDet.afraidTime;
@@ -270,7 +271,7 @@ void Level::m_generateEntities(std::vector<std::vector<int>>& layout, bool readO
 			break;
 	}
 
-	fin = std::ifstream(path / "GhostSpeed.txt");
+	fin = std::ifstream(ASSETPATH / "Assets" / "Level" / "LevelConfigs" / "GhostSpeed.txt");
 	fin >> entries;
 	for (int i = 0; i < entries; ++i) {
 		fin >> l >> r;
@@ -281,7 +282,7 @@ void Level::m_generateEntities(std::vector<std::vector<int>>& layout, bool readO
 			break;
 	}
 
-	fin = std::ifstream(path / "ElroySpeed.txt");
+	fin = std::ifstream(ASSETPATH / "Assets" / "Level" / "LevelConfigs" / "ElroySpeed.txt");
 	fin >> entries;
 	for (int i = 0; i < entries; ++i) {
 		fin >> l >> r;
@@ -295,19 +296,30 @@ void Level::m_generateEntities(std::vector<std::vector<int>>& layout, bool readO
 			break;
 	}
 
-	for (int i = 0; i < layout.size(); ++i)
-		for (int j = 0; j < layout[i].size(); ++j) {
-			if (layout[i][j] < 0 && (std::abs(layout[i][j]) & 1) == 1) {
+	// Find ghost home
+	bool found = false;
+	for (int i = 0; i < specialMap.size() && !found; ++i)
+		for (int j = 0; j < specialMap[i].size(); ++j)
+			if (specialMap[i][j] == 9) {
+				ghostDet.homeTile = { i,j };
+				found = true;
+				break;
+			}
+
+	std::vector<Tile> fruitSpawnTiles;
+
+	for (int i = 0; i < specialMap.size(); ++i)
+		for (int j = 0; j < specialMap[i].size(); ++j) {
+			if (specialMap[i][j] == 1) {
 				if (playerEntity)
-					playerEntity->init(m_texturePath / "Entity" / "Pacman.png", Tile{ j,i }, pacmanSpeeds);
+					playerEntity->init(m_texturePath / "Entity" / "Pacman.png", Tile{ i,j }, pacmanSpeeds);
 				else {
 					auto player = std::make_shared<Player>(m_registry, m_gameInstance);
-					player->init(m_texturePath / "Entity" / "Pacman.png", Tile{ j,i }, pacmanSpeeds);
+					player->init(m_texturePath / "Entity" / "Pacman.png", Tile{ i,j }, pacmanSpeeds);
 					playerEntity = player;
 				}
-				if (!readOnly) layout[i][j] = -(-layout[i][j] | 1);
 			}
-			if (layout[i][j] < 0 && (std::abs(layout[i][j]) & 2) == 2) {
+			if (specialMap[i][j] == 2) {
 				std::shared_ptr<GhostObject> ghost;
 				if (!m_ghosts.empty()) {
 					for (std::shared_ptr<GhostObject> go : m_ghosts) {
@@ -322,10 +334,9 @@ void Level::m_generateEntities(std::vector<std::vector<int>>& layout, bool readO
 					m_ghosts.emplace_back(ghost);
 				}
 
-				ghost->init(m_texturePath / "Entity", Ghosts::shadow, Tile{ j,i }, ghostDet);
-				if (!readOnly) layout[i][j] = -(-layout[i][j] | 2);
+				ghost->init(m_texturePath / "Entity", Ghosts::shadow, Tile{ i,j }, ghostDet);
 			}
-			if (layout[i][j] < 0 && (std::abs(layout[i][j]) & 4) == 4) {
+			if (specialMap[i][j] == 3) {
 				std::shared_ptr<GhostObject> ghost;
 				if (!m_ghosts.empty()) {
 					for (std::shared_ptr<GhostObject> go : m_ghosts) {
@@ -340,10 +351,9 @@ void Level::m_generateEntities(std::vector<std::vector<int>>& layout, bool readO
 					m_ghosts.emplace_back(ghost);
 				}
 
-				ghost->init(m_texturePath / "Entity", Ghosts::speedy, Tile{ j,i }, ghostDet);
-				if (!readOnly) layout[i][j] = -(-layout[i][j] | 4);
+				ghost->init(m_texturePath / "Entity", Ghosts::speedy, Tile{ i,j }, ghostDet);
 			}
-			if (layout[i][j] < 0 && (std::abs(layout[i][j]) & 8) == 8) {
+			if (specialMap[i][j] == 4) {
 				std::shared_ptr<GhostObject> ghost;
 				if (!m_ghosts.empty()) {
 					for (std::shared_ptr<GhostObject> go : m_ghosts) {
@@ -361,10 +371,9 @@ void Level::m_generateEntities(std::vector<std::vector<int>>& layout, bool readO
 				auto newDet = ghostDet;
 				if (m_levelNumber == 0)
 					newDet.dotLimit = 30;
-				ghost->init(m_texturePath / "Entity", Ghosts::bashful, Tile{ j,i }, newDet);
-				if (!readOnly) layout[i][j] = -(-layout[i][j] | 8);
+				ghost->init(m_texturePath / "Entity", Ghosts::bashful, Tile{ i,j }, newDet);
 			}
-			if (layout[i][j] < 0 && (std::abs(layout[i][j]) & 16) == 16) {
+			if (specialMap[i][j] == 5) {
 				std::shared_ptr<GhostObject> ghost;
 				if (!m_ghosts.empty()) {
 					for (std::shared_ptr<GhostObject> go : m_ghosts) {
@@ -384,10 +393,16 @@ void Level::m_generateEntities(std::vector<std::vector<int>>& layout, bool readO
 					newDet.dotLimit = 90;
 				else if (m_levelNumber == 1)
 					newDet.dotLimit = 80;
-				ghost->init(m_texturePath / "Entity", Ghosts::pokey, Tile{ j,i }, newDet);
-				if (!readOnly) layout[i][j] = -(-layout[i][j] | 16);
+				ghost->init(m_texturePath / "Entity", Ghosts::pokey, Tile{ i,j }, newDet);
 			}
+			if (specialMap[i][j] == 6) {
+				fruitSpawnTiles.emplace_back(Tile{ i,j });
+			}
+			if (specialMap[i][j] == 10)
+				tileMap[i][j] = 40;
 		}
+
+	gameDirector.fruitSpawns = fruitSpawnTiles;
 }
 
 void Level::m_cleanup() {

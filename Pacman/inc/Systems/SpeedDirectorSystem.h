@@ -4,7 +4,7 @@
 #include "../Configs.h"
 
 namespace ghostBehaviors {
-	Direction shadow(entt::DefaultRegistry& registry, std::vector<std::vector<int>>& layout, Tile& currentTile);
+	Direction shadow(entt::DefaultRegistry& registry, std::array<std::array<int, 31>, 28>&, std::array<std::array<int, 31>, 28>&, Tile& currentTile);
 }
 
 class SpeedDirectorSystem : public bloom::systems::System {
@@ -13,12 +13,12 @@ class SpeedDirectorSystem : public bloom::systems::System {
 
 public:
 	void init() {
-		m_registry.view<Pacman>().each([&](auto entity, auto & pac) { player = &pac; });
+		m_registry.view<Pacman>().each([&](auto entity, auto& pac) { player = &pac; });
 	}
 
 	void update(std::optional<double> deltaTime = std::nullopt) override {
 		bool isFrightened = false;
-		m_registry.view<Position, Ghost>().each([&](auto entity, auto & position, auto & ghost) {
+		m_registry.view<Position, Ghost>().each([&](auto entity, auto& position, auto& ghost) {
 			Tile ghostTile{ (position.x + (ENTITYSIZE / 2)) / TILESIZE, (position.y + (ENTITYSIZE / 2)) / TILESIZE };
 
 			if (checkTunnel(ghostTile))
@@ -42,11 +42,14 @@ public:
 		);
 		player->currSpeed = isFrightened ? player->speed * player->multipliers[1] : player->speed * player->multipliers[0];
 	}
-	std::vector<std::vector<int>> layout;
+	std::array<std::array<int, 31>, 28> layout;
+	std::array<std::array<int, 31>, 28> special;
 
 private:
 	bool checkTunnel(Tile currTile) {
-		if (currTile.y == 14 && (currTile.x < 5 || currTile.x > 22))
+		currTile.x = currTile.x < 0 ? layout.size() + currTile.x : currTile.x;
+		currTile.x = currTile.x >= layout.size() ? currTile.x % layout.size() : currTile.x;
+		if (special[currTile.x][currTile.y] == 7)
 			return true;
 		return false;
 	}

@@ -207,6 +207,11 @@
     <ClInclude Include="inc\GhostBehaviors\Shadow.h" />
     <ClInclude Include="inc\GhostBehaviors\Speedy.h" />
     <ClInclude Include="inc\GhostObject.h" />
+    <ClInclude Include="inc\LevelCreator\FileMenu.h" />
+    <ClInclude Include="inc\LevelCreator\LevelCreator.h" />
+    <ClInclude Include="inc\LevelCreator\FilenameDialog.h" />
+    <ClInclude Include="inc\LevelCreator\SpecialPicker.h" />
+    <ClInclude Include="inc\LevelCreator\TilePicker.h" />
     <ClInclude Include="inc\PelletObject.h" />
     <ClInclude Include="inc\Components\GhostComponent.h" />
     <ClInclude Include="inc\Level.h" />
@@ -214,9 +219,11 @@
     <ClInclude Include="inc\PlayerObject.h" />
     <ClInclude Include="inc\Scenes\About.h" />
     <ClInclude Include="inc\Scenes\Leaderboards.h" />
+    <ClInclude Include="inc\Scenes\LevelList.h" />
     <ClInclude Include="inc\Scenes\MainMenu.h" />
     <ClInclude Include="inc\Scenes\Options.h" />
     <ClInclude Include="inc\Scenes\ScoreSubmit.h" />
+    <ClInclude Include="inc\Scenes\SelectLevels.h" />
     <ClInclude Include="inc\Systems\AltAnimationSystem.h" />
     <ClInclude Include="inc\Systems\AnimationChangerSystem.h" />
     <ClInclude Include="inc\Systems\GameDirectorSystem.h" />
@@ -236,6 +243,28 @@
     <Image Include="data\Assets\Entity\Miss_Pacman.png" />
     <Image Include="data\Assets\Entity\Orange.png" />
     <Image Include="data\Assets\Entity\Pacman.png" />
+    <Image Include="data\Assets\LevelCreator\BL Corner G.png" />
+    <Image Include="data\Assets\LevelCreator\BL Corner.png" />
+    <Image Include="data\Assets\LevelCreator\BR Corner G.png" />
+    <Image Include="data\Assets\LevelCreator\BR Corner.png" />
+    <Image Include="data\Assets\LevelCreator\Icons\Bashful.png" />
+    <Image Include="data\Assets\LevelCreator\Icons\Blinky.png" />
+    <Image Include="data\Assets\LevelCreator\Icons\Block.png" />
+    <Image Include="data\Assets\LevelCreator\Icons\Bonus.png" />
+    <Image Include="data\Assets\LevelCreator\Icons\GhostHome.png" />
+    <Image Include="data\Assets\LevelCreator\Icons\Half-Speed.png" />
+    <Image Include="data\Assets\LevelCreator\Icons\No Up - Pellet.png" />
+    <Image Include="data\Assets\LevelCreator\Icons\No Up.png" />
+    <Image Include="data\Assets\LevelCreator\Icons\Pacman.png" />
+    <Image Include="data\Assets\LevelCreator\Icons\Pellet.png" />
+    <Image Include="data\Assets\LevelCreator\Icons\Pinky.png" />
+    <Image Include="data\Assets\LevelCreator\Icons\Pokey.png" />
+    <Image Include="data\Assets\LevelCreator\Icons\PowerPellet.png" />
+    <Image Include="data\Assets\LevelCreator\Tint.png" />
+    <Image Include="data\Assets\LevelCreator\TL Corner G.png" />
+    <Image Include="data\Assets\LevelCreator\TL Corner.png" />
+    <Image Include="data\Assets\LevelCreator\TR Corner G.png" />
+    <Image Include="data\Assets\LevelCreator\TR Corner.png" />
     <Image Include="data\Assets\Pacman_Death_00.png" />
     <Image Include="data\Assets\Pacman_Death_01.png" />
     <Image Include="data\Assets\Pacman_Death_02.png" />
@@ -263,10 +292,11 @@
     <Image Include="data\Assets\Scores\Ghost\400.png" />
     <Image Include="data\Assets\Scores\Ghost\800.png" />
     <Image Include="data\Assets\Scores\Reference_Spritesheet.png" />
+    <Image Include="data\Assets\Tile\0.png" />
     <Image Include="data\Assets\Tile\12.png" />
     <Image Include="data\Assets\Entity\Pellet.png" />
     <Image Include="data\Assets\Entity\PowerPellet.png" />
-    <Image Include="data\Assets\Tile\0.png" />
+    <Image Include="data\Assets\LevelCreator\Icons\0.png" />
     <Image Include="data\Assets\Tile\1.png" />
     <Image Include="data\Assets\Tile\2.png" />
     <Image Include="data\Assets\Tile\23.png" />
@@ -284,6 +314,8 @@
     <Image Include="data\Assets\Tile\34.png" />
     <Image Include="data\Assets\Tile\35.png" />
     <Image Include="data\Assets\Tile\36.png" />
+    <Image Include="data\Assets\Tile\37.png" />
+    <Image Include="data\Assets\Tile\38.png" />
     <Image Include="data\Assets\Tile\39.png" />
     <Image Include="data\Assets\Tile\4.png" />
     <Image Include="data\Assets\Tile\40.png" />
@@ -315,14 +347,14 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="data\Assets\Level\0.txt" />
-    <Text Include="data\Assets\Level\AfraidFlash.txt" />
-    <Text Include="data\Assets\Level\BITFLAGS.TXT" />
-    <Text Include="data\Assets\Level\ElroySpeed.txt" />
-    <Text Include="data\Assets\Level\FrightTimes.txt" />
-    <Text Include="data\Assets\Level\GhostSpeed.txt" />
-    <Text Include="data\Assets\Level\PacmanSpeed.txt" />
-    <Text Include="data\Assets\Level\LevelFruits.txt" />
-    <Text Include="data\Assets\Level\TimerData.txt" />
+    <Text Include="data\Assets\Level\LevelConfigs\AfraidFlash.txt" />
+    <Text Include="data\Assets\Level\LevelConfigs\BITFLAGS.TXT" />
+    <Text Include="data\Assets\Level\LevelConfigs\ElroySpeed.txt" />
+    <Text Include="data\Assets\Level\LevelConfigs\FrightTimes.txt" />
+    <Text Include="data\Assets\Level\LevelConfigs\GhostSpeed.txt" />
+    <Text Include="data\Assets\Level\LevelConfigs\PacmanSpeed.txt" />
+    <Text Include="data\Assets\Level\LevelConfigs\LevelFruits.txt" />
+    <Text Include="data\Assets\Level\LevelConfigs\TimerData.txt" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="data\Music\pacman_beginning.wav" />

@@ -111,14 +111,14 @@ public:
 		);
 	};
 
-	std::vector<std::vector<int>> layout;
+	std::array<std::array<int, 31>, 28> layout;
 
 
 private:
 	bool valid(Tile tile) {
-		tile.x = tile.x < 0 ? layout[0].size() + tile.x : tile.x;
-		tile.x = tile.x >= layout[0].size() ? tile.x % layout[0].size() : tile.x;
+		tile.x = tile.x < 0 ? layout.size() + tile.x : tile.x;
+		tile.x = tile.x >= layout.size() ? tile.x % layout.size() : tile.x;
 
-		return layout[tile.y][tile.x] == 0 || (std::abs(layout[tile.y][tile.x]) & 256) == 256;
+		return layout[tile.x][tile.y] == 0;
 	}
 };

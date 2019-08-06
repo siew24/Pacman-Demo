@@ -13,10 +13,10 @@ class FruitObject : public bloom::GameObject {
 public:
 	void init() override {}
 
-	void init(std::filesystem::path texture, FruitType fruit)
+	void init(std::filesystem::path texture, FruitType fruit, Tile spawnTile)
 	{
-		SDL_Rect destRect{ FRUIT_POS_X * TILESIZE - 4, FRUIT_POS_Y*TILESIZE};
-		
+		SDL_Rect destRect{ spawnTile.x * TILESIZE, spawnTile.y * TILESIZE };
+
 		switch (fruit) {
 		default:
 		case FruitType::cherry:
@@ -65,7 +65,7 @@ public:
 		auto tmp = m_gameInstance->textures.load(texture);
 		m_registry.assign<Sprite>(m_entity, tmp, SDL_Rect{ 0,0,destRect.w,destRect.h });
 		m_registry.assign<Size>(m_entity, destRect.w, destRect.h);
-		
+
 		Fruit& fruitComp = m_registry.assign<Fruit>(m_entity);
 		fruitComp.type = fruit;
 		fruitComp.rect = destRect;

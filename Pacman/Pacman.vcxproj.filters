@@ -185,11 +185,29 @@
     <ClInclude Include="inc\Systems\InputSystem.h">
       <Filter>Header Files\Pacman\Systems</Filter>
     </ClInclude>
+    <ClInclude Include="inc\LevelCreator\LevelCreator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\LevelCreator\TilePicker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\LevelCreator\SpecialPicker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\LevelCreator\FileMenu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\LevelCreator\FilenameDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Scenes\LevelList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Scenes\SelectLevels.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="data\Assets\Tile\0.png">
-      <Filter>Resource Files\Assets\Tiles</Filter>
-    </Image>
     <Image Include="data\Assets\Tile\1.png">
       <Filter>Resource Files\Assets\Tiles</Filter>
     </Image>
@@ -433,33 +451,111 @@
     <Image Include="data\Assets\Scores\Reference_Spritesheet.png">
       <Filter>Resource Files\Assets\Scores</Filter>
     </Image>
+    <Image Include="data\Assets\LevelCreator\BL Corner.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\LevelCreator\BR Corner.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\LevelCreator\TL Corner.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\LevelCreator\TR Corner.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\LevelCreator\Tint.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\LevelCreator\BL Corner G.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\LevelCreator\BR Corner G.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\LevelCreator\TL Corner G.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\LevelCreator\TR Corner G.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\LevelCreator\Icons\No Up.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\LevelCreator\Icons\No Up - Pellet.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\LevelCreator\Icons\Half-Speed.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\LevelCreator\Icons\Pacman.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\LevelCreator\Icons\Bonus.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\LevelCreator\Icons\Pellet.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\LevelCreator\Icons\PowerPellet.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\LevelCreator\Icons\GhostHome.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\Tile\38.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\Tile\37.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\LevelCreator\Icons\Pokey.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\LevelCreator\Icons\Pinky.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\LevelCreator\Icons\Blinky.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\LevelCreator\Icons\Bashful.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\LevelCreator\Icons\Block.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="data\Assets\LevelCreator\Icons\0.png">
+      <Filter>Resource Files\Assets\Tiles</Filter>
+    </Image>
+    <Image Include="data\Assets\Tile\0.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Text Include="data\Assets\Level\0.txt">
       <Filter>Resource Files\Level Data</Filter>
     </Text>
-    <Text Include="data\Assets\Level\GhostSpeed.txt">
+    <Text Include="data\Assets\Level\LevelConfigs\AfraidFlash.txt">
       <Filter>Resource Files\Level Variables</Filter>
     </Text>
-    <Text Include="data\Assets\Level\AfraidFlash.txt">
-      <Filter>Resource Files\Level Variables</Filter>
-    </Text>
-    <Text Include="data\Assets\Level\ElroySpeed.txt">
-      <Filter>Resource Files\Level Variables</Filter>
-    </Text>
-    <Text Include="data\Assets\Level\FrightTimes.txt">
-      <Filter>Resource Files\Level Variables</Filter>
-    </Text>
-    <Text Include="data\Assets\Level\LevelFruits.txt">
-      <Filter>Resource Files\Level Variables</Filter>
-    </Text>
-    <Text Include="data\Assets\Level\BITFLAGS.TXT">
+    <Text Include="data\Assets\Level\LevelConfigs\BITFLAGS.TXT">
       <Filter>Resource Files\Level Data</Filter>
     </Text>
-    <Text Include="data\Assets\Level\PacmanSpeed.txt">
+    <Text Include="data\Assets\Level\LevelConfigs\ElroySpeed.txt">
       <Filter>Resource Files\Level Variables</Filter>
     </Text>
-    <Text Include="data\Assets\Level\TimerData.txt">
+    <Text Include="data\Assets\Level\LevelConfigs\FrightTimes.txt">
+      <Filter>Resource Files\Level Variables</Filter>
+    </Text>
+    <Text Include="data\Assets\Level\LevelConfigs\GhostSpeed.txt">
+      <Filter>Resource Files\Level Variables</Filter>
+    </Text>
+    <Text Include="data\Assets\Level\LevelConfigs\LevelFruits.txt">
+      <Filter>Resource Files\Level Variables</Filter>
+    </Text>
+    <Text Include="data\Assets\Level\LevelConfigs\PacmanSpeed.txt">
+      <Filter>Resource Files\Level Variables</Filter>
+    </Text>
+    <Text Include="data\Assets\Level\LevelConfigs\TimerData.txt">
       <Filter>Resource Files\Level Variables</Filter>
     </Text>
   </ItemGroup>

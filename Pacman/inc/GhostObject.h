@@ -26,7 +26,7 @@ public:
 			m_registry.accommodate<entt::label<"shadow"_hs>>(m_entity);
 			m_registry.accommodate<Ghost>(m_entity)= Ghost{ 
 				ghostBehaviors::shadow,
-				Tile{spawnTile.x, spawnTile.y + 3},
+				Tile{spawnTile.x, spawnTile.y},
 				details,
 				true,
 				false 

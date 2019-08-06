@@ -3,7 +3,7 @@
 #include "Pathfinding.h"
 
 namespace ghostBehaviors {
-	Direction bashful(entt::DefaultRegistry& registry, std::vector<std::vector<int>>& layout, Tile& currentTile) {
+	Direction bashful(entt::DefaultRegistry& registry, std::array<std::array<int, 31>, 28> & tilemap, std::array<std::array<int, 31>, 28> & specialMap, Tile& currentTile) {
 		entt::DefaultRegistry::entity_type playerID = registry.view<Pacman>()[0];
 		entt::DefaultRegistry::entity_type ghostID = registry.view<entt::label<"bashful"_hs>>()[0];
 		entt::DefaultRegistry::entity_type shadowID = registry.view<entt::label<"shadow"_hs>>()[0];
@@ -37,9 +37,9 @@ namespace ghostBehaviors {
 		else if (ghost.currentMode == BehaviourModes::scatter)
 			target = Tile{ 27,31 }; // Need coordinates to corner
 		else if (ghost.currentMode == BehaviourModes::dead)
-			target = ghost.spawnPoint;
+			target = ghost.levelVars.homeTile;
 
-		auto posibilities = generateCandidates(target, currentTile, ghost, layout);
+		auto posibilities = generateCandidates(target, currentTile, ghost, tilemap, specialMap);
 
 		if (posibilities.empty())
 			return Direction::null;

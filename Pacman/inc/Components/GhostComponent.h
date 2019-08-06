@@ -30,13 +30,14 @@ struct GhostInitDetails {
 	std::array<double, 3> multipliers{ 1.0,1.0,1.0 };
 	std::array<std::pair<int, double>, 2> elroyMultipliers{ std::make_pair(1,1.0),std::make_pair(1,1.0) };
 	int dotLimit = 0;
+	Tile homeTile = { 0,0 };
 };
 
 struct Ghost {
-	Direction(*behavior)(entt::DefaultRegistry&, std::vector<std::vector<int>>&, Tile&);
+	Direction(*behavior)(entt::DefaultRegistry&, std::array<std::array<int, 31>, 28> & , std::array<std::array<int, 31>, 28> & , Tile&);
 	Tile spawnPoint;
 	GhostInitDetails levelVars;
-	
+
 	bool released = false;
 	bool inHouse = true;
 
@@ -46,7 +47,7 @@ struct Ghost {
 	int modeLooped = 0;
 
 	Tile lastTile = { 0,0 };
-	int moveX = 0, moveY = 0;	
+	int moveX = 0, moveY = 0;
 	double afraidTimer = 0;
 	double timeAvailable = 0.0;
 	double speed = 11 * TILESIZE;

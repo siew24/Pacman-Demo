@@ -117,7 +117,7 @@ private:
 	std::vector<std::shared_ptr<GhostObject>> m_ghosts;
 	std::shared_ptr<Player> playerEntity;
 	std::array<double, 8> m_ghostTimes;
-	std::vector<std::vector<int>> m_originalLayout;
+	std::array<std::array<int, 31>, 28> m_originalLayout;
 
 	entt::DefaultRegistry m_registry;
 	bloom::systems::RenderSystem renderSysTest = bloom::systems::RenderSystem(m_registry);
@@ -146,4 +146,7 @@ private:
 	int totalFrames = -1;
 
 	double current = 0.0;
+
+	std::array<std::array<int, 31>, 28> tileMap;
+	std::array<std::array<int, 31>, 28> specialMap;
 };
