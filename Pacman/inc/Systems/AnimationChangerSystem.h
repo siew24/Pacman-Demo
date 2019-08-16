@@ -7,7 +7,7 @@ class AnimationChangerSystem : public bloom::systems::System {
 	using bloom::systems::System::DefaultSystem;
 
 public:
-	void update(std::optional<double> deltaTime = 0.0) override {
+	void update(double deltaTime = 0) override {
 		m_registry.view<AnimationSet, Ghost>().each(
 			[&](auto entity, AnimationSet & animSet, Ghost & ghost) {
 				std::string animset = "";

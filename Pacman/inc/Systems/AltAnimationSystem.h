@@ -10,7 +10,7 @@ class AltAnimationSystem : public bloom::systems::System {
 	using bloom::systems::System::DefaultSystem;
 
 public:
-	void update(std::optional<double> deltaTime = 0.0) override {
+	void update(double deltaTime = 0) override {
 		m_registry.view<AnimationPtr>().each(
 			[&](auto entity, AnimationPtr & anim) {
 				if (!m_registry.has<ScoreComponent>(entity)) {
@@ -22,7 +22,7 @@ public:
 					if (m_registry.has<Pacman>(entity))
 						m_registry.replace<Sprite>(entity, anim->update(0.0));
 					else
-						m_registry.replace<Sprite>(entity, anim->update(deltaTime.value()));
+						m_registry.replace<Sprite>(entity, anim->update(deltaTime));
 				}
 			}
 		);

@@ -18,8 +18,8 @@ public:
 	void init(std::filesystem::path texture, SDL_Rect destRect = { 0, 0, TILESIZE,TILESIZE })
 	{
 		m_registry.replace<Position>(m_entity, destRect.x, destRect.y);
-		m_registry.assign<Size>(m_entity, destRect.w, destRect.h);
-		auto tmp = m_gameInstance->textures.load(texture);
+		m_registry.replace<Size>(m_entity, destRect.w, destRect.h);
+		auto tmp = c_gameInstance->textures.load(texture);
 
 		m_registry.assign<Sprite>(m_entity, tmp, SDL_Rect{ 0,0,TILETEXTURESIZE,TILETEXTURESIZE });
 		if (texture.filename().u8string() == "Pellet.png") {

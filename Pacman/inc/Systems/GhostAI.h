@@ -10,7 +10,7 @@ class GhostAI : public bloom::systems::System {
 	using bloom::systems::System::DefaultSystem;
 
 public:
-	void update(std::optional<double> deltaTime = std::nullopt) override {
+	void update(double deltaTime = 0) override {
 		entt::DefaultRegistry::entity_type player;
 		m_registry.view<Pacman>().each([&](auto entity, Pacman & pac) { player = entity; });
 		//We do not want to keep fetching this, so lets cache this info here.
@@ -21,7 +21,7 @@ public:
 			[&](auto entity, Ghost & ghost, Position & position) {
 				// Measure how much the ghost can move, to ensure accuracy
 				int potentialDistance = 0;
-				ghost.timeAvailable += (deltaTime.value() / 1000);
+				ghost.timeAvailable += (deltaTime / 1000);
 				potentialDistance = static_cast<int>(ghost.timeAvailable * ghost.currSpeed);
 				ghost.timeAvailable -= potentialDistance / ghost.currSpeed;
 

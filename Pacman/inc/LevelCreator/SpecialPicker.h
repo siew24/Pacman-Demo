@@ -14,7 +14,7 @@ class SpecialPicker {
 	using KeyboardKeys = bloom::input::KeyboardKey;
 
 public:
-	SpecialPicker(bloom::Game*& gameInstance, bloom::graphics::FontPtr guiFont) : m_gameInstance(gameInstance), m_renderer(gameInstance->getRenderer()) {
+	SpecialPicker(bloom::Game*& gameInstance, bloom::graphics::FontPtr guiFont) : m_gameInstance(gameInstance), m_renderer(gameInstance->_getRenderer()) {
 		if (m_tileTex)
 			SDL_DestroyTexture(m_tileTex);
 

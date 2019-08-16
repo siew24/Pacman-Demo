@@ -9,11 +9,11 @@ class ScorePopupSystem : public bloom::systems::System {
 	using bloom::systems::System::DefaultSystem;
 
 public:
-	void update(std::optional<double> deltaTime = 0.0) override {
+	void update(double deltaTime = 0) override {
 		freeze = false;
 		m_registry.view<ScoreComponent, Position, Size>().each(
 			[&](auto entity, ScoreComponent & popup, Position & position, Size & size) {
-				popup.currentTime += deltaTime.value() / 1000.0;
+				popup.currentTime += deltaTime / 1000.0;
 				if (popup.currentTime >= popup.lifespan)
 					if (m_registry.has<Ghost>(entity)) {
 						m_registry.get<Position>(entity) = popup.oldPosition;

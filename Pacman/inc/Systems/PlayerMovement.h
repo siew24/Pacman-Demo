@@ -9,11 +9,11 @@ class PlayerMovement : public bloom::systems::System {
 	using bloom::systems::System::DefaultSystem;
 
 public:
-	void update(std::optional<double> deltaTime = std::nullopt) override {
+	void update(double deltaTime = 0) override {
 		m_registry.view<Pacman, Position>().each(
 			[&](auto entity, Pacman & player, Position & position) {
 				int potentialDistance = 0;
-				player.timeAvailable += deltaTime.value() / 1000.0;
+				player.timeAvailable += deltaTime / 1000.0;
 
 				potentialDistance = static_cast<int>(player.timeAvailable * player.currSpeed);
 				player.timeAvailable -= potentialDistance / player.currSpeed;

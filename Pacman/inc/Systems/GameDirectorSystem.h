@@ -1,6 +1,7 @@
 #pragma once
 #include <cstdlib>
 #include <ctime>
+#include <random>
 #include "Systems/Systems.h"
 #include "../Components/ComponentIncludes.h"
 #include "../Configs.h"
@@ -24,7 +25,7 @@ public:
 		m_fruitType = fruit;
 		fruitSpawned = 0;
 	}
-	void update(std::optional<double> deltaTime = std::nullopt) override {
+	void update(double deltaTime = 0) override {
 		if (player->died) {
 			bool timeout = false;
 			if (player->timeFromLastPellet >= ((levelNumber == 0) ? 4.0 : 3.0))

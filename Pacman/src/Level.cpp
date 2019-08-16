@@ -3,7 +3,7 @@
 #include "..\inc\ConfigStore.h"
 
 
-Level::Level(bloom::Game*& gameInstance, bloom::graphics::FontPtr guiFont) : m_gameInstance(gameInstance), m_renderer(gameInstance->getRenderer()) {
+Level::Level(bloom::Game*& gameInstance, bloom::graphics::FontPtr guiFont) : m_gameInstance(gameInstance), m_renderer(gameInstance->_getRenderer()) {
 	if (m_levelTex)
 		SDL_DestroyTexture(m_levelTex);
 	if (m_entityLayer)

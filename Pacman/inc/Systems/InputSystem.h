@@ -16,7 +16,7 @@ class InputHandlerSystem : public bloom::systems::System {
 public:
 	InputHandlerSystem(entt::DefaultRegistry& registry, InputManager& inputMngr) :DefaultSystem(registry), inputManager(inputMngr) {}
 
-	void update(std::optional<double> deltaTime = std::nullopt) override {
+	void update(double deltaTime = 0) override {
 		auto& keyboardState = inputManager.keyboard;
 		auto registryView = m_registry.view<Pacman>();
 		if (!registryView.empty()) {

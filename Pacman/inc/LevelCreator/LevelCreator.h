@@ -17,7 +17,7 @@ class LevelCreator {
 
 public:
 	LevelCreator( bloom::Game*& gameInstance, bloom::graphics::FontPtr guiFont ) :
-		m_gameInstance( gameInstance ), m_renderer( gameInstance->getRenderer() ),
+		m_gameInstance( gameInstance ), m_renderer( gameInstance->_getRenderer() ),
 		tilePicker( gameInstance, guiFont ),
 		specialPicker( gameInstance, guiFont ),
 		menu( gameInstance, guiFont )
@@ -200,7 +200,7 @@ public:
 private:
 	void updateTilemapTexture() {
 		auto origColor = m_gameInstance->getColor();
-		m_gameInstance->setColor( 255, 0, 0, 0 );
+		m_gameInstance->setColor(SDL_Color{ 255, 0, 0, 0 });
 		SDL_SetRenderTarget( m_renderer, m_levelTex );
 		SDL_RenderClear( m_renderer );
 		m_gameInstance->setColor( origColor );
@@ -215,7 +215,7 @@ private:
 	}
 	void updateSpecialTexture() {
 		auto origColor = m_gameInstance->getColor();
-		m_gameInstance->setColor( 0, 0, 0, 0 );
+		m_gameInstance->setColor(SDL_Color{ 0, 0, 0, 0 });
 		SDL_SetRenderTarget( m_renderer, m_specialTex );
 		SDL_RenderClear( m_renderer );
 		m_gameInstance->setColor( origColor );

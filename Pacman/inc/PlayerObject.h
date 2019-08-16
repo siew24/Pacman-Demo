@@ -19,7 +19,7 @@ public:
 		m_registry.replace<Position>(m_entity, spawnTile.x * TILESIZE - 2 - (PACMAN_TEXTURESIZE - TILESIZE) / 2, spawnTile.y * TILESIZE - (PACMAN_TEXTURESIZE - TILESIZE) / 2);
 		m_registry.accommodate<Size>(m_entity, PACMAN_TEXTURESIZE, PACMAN_TEXTURESIZE);
 		m_registry.accommodate<entt::label<"pacman"_hs>>(m_entity);
-		auto tmp = m_gameInstance->textures.load(texturePath);
+		auto tmp = c_gameInstance->textures.load(texturePath);
 
 		m_registry.accommodate<Sprite>(m_entity, tmp, SDL_Rect{ 0  , 0  ,PACMAN_TEXTURESIZE,PACMAN_TEXTURESIZE });
 

@@ -59,15 +59,15 @@ void test_drawer(const std::filesystem::path& assetsPath)
 		std::filesystem::create_directory(configPath.parent_path());
 	}
 
-	game = new Game(((2 * TILESIZE) + WINDOW_WIDTH) * 2, ((2 * TILESIZE) + WINDOW_HEIGHT) * 2, 0, 0 | SDL_RENDERER_TARGETTEXTURE);
+	game = new Game({ ((2 * TILESIZE) + WINDOW_WIDTH) * 2, ((2 * TILESIZE) + WINDOW_HEIGHT) * 2 }, { 0, 0 | SDL_RENDERER_TARGETTEXTURE });
 	try {
-		game->create("BF Pacman", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
+		game->create("BF Pacman", { SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED });
 	}
 	catch (Exception& e) {
 		std::cerr << e.what() << std::endl;
 	}
 
-	SDL_RenderSetLogicalSize(game->getRenderer(), (2 * TILESIZE) + WINDOW_WIDTH, (2 * TILESIZE) + WINDOW_HEIGHT);
+	SDL_RenderSetLogicalSize(game->_getRenderer(), (2 * TILESIZE) + WINDOW_WIDTH, (2 * TILESIZE) + WINDOW_HEIGHT);
 
 	SDL_Color Background{ 0,0,0 };
 

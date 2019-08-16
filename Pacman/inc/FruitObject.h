@@ -62,9 +62,9 @@ public:
 		}
 
 		m_registry.replace<Position>(m_entity, destRect.x, destRect.y);
-		auto tmp = m_gameInstance->textures.load(texture);
+		auto tmp = c_gameInstance->textures.load(texture);
 		m_registry.assign<Sprite>(m_entity, tmp, SDL_Rect{ 0,0,destRect.w,destRect.h });
-		m_registry.assign<Size>(m_entity, destRect.w, destRect.h);
+		m_registry.replace<Size>(m_entity, destRect.w, destRect.h);
 
 		Fruit& fruitComp = m_registry.assign<Fruit>(m_entity);
 		fruitComp.type = fruit;

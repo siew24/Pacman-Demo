@@ -31,7 +31,7 @@ public:
 				true,
 				false 
 			};
-			tmp = m_gameInstance->textures.load(texturePath / "Red.png");
+			tmp = c_gameInstance->textures.load(texturePath / "Red.png");
 		}
 		else if (id == Ghosts::speedy) {
 			m_registry.accommodate<entt::label<"speedy"_hs>>(m_entity);
@@ -41,7 +41,7 @@ public:
 				details,
 				true 
 			};
-			tmp = m_gameInstance->textures.load(texturePath / "Pinky.png");
+			tmp = c_gameInstance->textures.load(texturePath / "Pinky.png");
 		}
 		else if (id == Ghosts::bashful) {
 			m_registry.accommodate<entt::label<"bashful"_hs>>(m_entity);
@@ -50,7 +50,7 @@ public:
 				spawnTile ,
 				details
 			};
-			tmp = m_gameInstance->textures.load(texturePath / "Blue.png");
+			tmp = c_gameInstance->textures.load(texturePath / "Blue.png");
 		}
 		else if (id == Ghosts::pokey) {
 			m_registry.accommodate<entt::label<"pokey"_hs>>(m_entity);
@@ -59,11 +59,11 @@ public:
 				spawnTile,
 				details
 			};
-			tmp = m_gameInstance->textures.load(texturePath / "Orange.png");
+			tmp = c_gameInstance->textures.load(texturePath / "Orange.png");
 		}
 
-		auto tmp2 = m_gameInstance->textures.load(texturePath / "Ghosts_afraid.png");
-		auto tmp3 = m_gameInstance->textures.load(texturePath / "Ghosts_eaten.png");
+		auto tmp2 = c_gameInstance->textures.load(texturePath / "Ghosts_afraid.png");
+		auto tmp3 = c_gameInstance->textures.load(texturePath / "Ghosts_eaten.png");
 
 		m_registry.accommodate<Sprite>(m_entity, tmp, SDL_Rect{ spawnTile.x * TILESIZE, spawnTile.y * TILESIZE,TILESIZE,TILESIZE });
 

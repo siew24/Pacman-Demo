@@ -9,7 +9,7 @@ class EdibleSystem : public bloom::systems::System {
 	using bloom::systems::System::DefaultSystem;
 
 public:
-	void update(std::optional<double> deltaTime = std::nullopt) override {
+	void update(double deltaTime = 0) override {
 		entt::DefaultRegistry::entity_type player;
 		m_registry.view<Pacman>().each([&](auto entity, Pacman & pac) { player = entity; });
 
@@ -19,7 +19,7 @@ public:
 
 		Tile playerTile = Tile{ (playerPos.x + (PACMAN_TEXTURESIZE / 2)) / TILESIZE ,(playerPos.y + (PACMAN_TEXTURESIZE / 2)) / TILESIZE };
 
-		playerState.timeFromLastPellet += (deltaTime.value() / 1000.0);
+		playerState.timeFromLastPellet += (deltaTime / 1000.0);
 		// Regular Pellets
 		m_registry.view<Pellet, Position>().each(
 			[&](auto entity, Pellet & pellet, Position & pelletPos) {
@@ -95,7 +95,7 @@ public:
 					if (fruit.timeSpawned / 1000 > 9 && fruit.timeSpawned / 1000 < 10)
 						m_registry.destroy(entity);
 					else
-						fruit.timeSpawned += deltaTime.value();
+						fruit.timeSpawned += deltaTime;
 				}
 			}
 		);

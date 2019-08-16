@@ -14,7 +14,7 @@ class SirenSystem : public bloom::systems::System {
 	using bloom::systems::System::DefaultSystem;
 
 public:
-	void update(std::optional<double> deltaTime = std::nullopt) override {
+	void update(double deltaTime = 0) override {
 		bool afraid = false;
 		bool dead = false;
 		soundbyte = 7;
