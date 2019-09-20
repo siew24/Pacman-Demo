@@ -5,10 +5,8 @@
 #include "../Components/GhostComponent.h"
 
 namespace ghostBehaviors {
-	Direction shadow(entt::DefaultRegistry& registry, std::vector<std::vector<int>>& layout, Tile& currentTile);
+	Direction shadow(entt::registry& registry, std::vector<std::vector<int>>& layout, Tile& currentTile);
 }
-
-
 
 class SirenSystem : public bloom::systems::System {
 	using bloom::systems::System::DefaultSystem;

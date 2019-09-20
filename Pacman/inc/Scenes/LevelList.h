@@ -19,7 +19,7 @@ public:
 		guiElems.emplace_back(std::make_shared<bloom::graphics::SpriteText>(m_gameInstance->_getRenderer(), guiFont, "Next >"));
 		guiElems.emplace_back(std::make_shared<bloom::graphics::SpriteText>(m_gameInstance->_getRenderer(), guiFont, "Back"));
 		guiElems.emplace_back(std::make_shared<bloom::graphics::SpriteText>(m_gameInstance->_getRenderer(), guiFont, "No custom levels."));
-		guiElems.emplace_back(std::make_shared<bloom::graphics::SpriteText>(m_gameInstance->_getRenderer(), guiFont, "Be the first to do create one. :)"));
+		guiElems.emplace_back(std::make_shared<bloom::graphics::SpriteText>(m_gameInstance->_getRenderer(), guiFont, "Try to create one. :)"));
 
 		guiElems.emplace_back(std::make_shared<bloom::graphics::SpriteText>(m_gameInstance->_getRenderer(), guiFont, "Entry"));
 		m_levels = levels;
@@ -27,15 +27,16 @@ public:
 
 	void draw() {
 		guiElems[0]->render(std::nullopt, SDL_Point{ 120 - (guiElems[0]->getTextWidth() / 2), 8 });
-		guiElems[1]->render(std::nullopt, SDL_Point{ 8, 24 });;
+		
 
 		int offset = 0;
 
 		if (m_levels.empty()) {
-			guiElems[6]->render(std::nullopt, SDL_Point{ 120 - (guiElems[8]->getTextWidth() / 2), 40 });
-			guiElems[7]->render(std::nullopt, SDL_Point{ 120 - (guiElems[9]->getTextWidth() / 2), 48 });
+			guiElems[6]->render(std::nullopt, SDL_Point{ 120 - (guiElems[6]->getTextWidth() / 2), 40 });
+			guiElems[7]->render(std::nullopt, SDL_Point{ 120 - (guiElems[7]->getTextWidth() / 2), 48 });
 		}
 		else {
+			guiElems[1]->render( std::nullopt, SDL_Point{ 8, 24 } );
 			int endRange = pageNumber * 10 + 10;
 			if (endRange > m_levels.size())
 				endRange = m_levels.size();
@@ -85,68 +86,71 @@ public:
 		if (keyboard.wasDown(KeyboardKeys::KEY_ESCAPE)) {
 			selected = 0;
 		}
-
-		if (keyboard.wasDown(KeyboardKeys::KEY_LEFT) && currentSelection == 11) {
-			currentSelection = 10;
+		if ( m_levels.empty() ) {
+			currentSelection = 12;
 		}
-		if (keyboard.wasDown(KeyboardKeys::KEY_RIGHT) && currentSelection == 10) {
-			currentSelection = 11;
-		}
+		else {
+			if ( keyboard.wasDown( KeyboardKeys::KEY_LEFT ) && currentSelection == 11 ) {
+				currentSelection = 10;
+			}
+			if ( keyboard.wasDown( KeyboardKeys::KEY_RIGHT ) && currentSelection == 10 ) {
+				currentSelection = 11;
+			}
 
-		if (keyboard.wasDown(KeyboardKeys::KEY_DOWN)) {
-			if (currentSelection == 9) {
-				if (prev)
-					currentSelection = 10;
-				else if (next)
-					currentSelection = 11;
-				else
-					currentSelection = 12;
-			}
-			else if (currentSelection == 11 || currentSelection == 10) {
-				currentSelection = 12;
-			}
-			else if (currentSelection == 12)
-				currentSelection = 0;
-			else {
-				++currentSelection;
-				if (currentSelection + pageNumber * 10 >= m_levels.size()){
-					if (prev)
+			if ( keyboard.wasDown( KeyboardKeys::KEY_DOWN ) ) {
+				if ( currentSelection == 9 ) {
+					if ( prev )
 						currentSelection = 10;
-					else if (next)
+					else if ( next )
 						currentSelection = 11;
 					else
 						currentSelection = 12;
-				}	
-			}
-		}
-		if (keyboard.wasDown(KeyboardKeys::KEY_UP)) {
-			if (currentSelection == 12) {
-				if (prev)
-					currentSelection = 10;
-				else if (next)
-					currentSelection = 11;
+				}
+				else if ( currentSelection == 11 || currentSelection == 10 ) {
+					currentSelection = 12;
+				}
+				else if ( currentSelection == 12 )
+					currentSelection = 0;
 				else {
-					currentSelection = 9;
-
-					if (currentSelection + pageNumber * 10 >= m_levels.size())
-						currentSelection = m_levels.size() - 1 - pageNumber * 10;
+					++currentSelection;
+					if ( currentSelection + pageNumber * 10 >= m_levels.size() ) {
+						if ( prev )
+							currentSelection = 10;
+						else if ( next )
+							currentSelection = 11;
+						else
+							currentSelection = 12;
+					}
 				}
 			}
-			else if (currentSelection == 11 || currentSelection == 10) {
-				currentSelection = 9;
-				if (currentSelection + pageNumber * 10 >= m_levels.size())
-					currentSelection = m_levels.size() - 1 - pageNumber * 10;
-			}
-			else if (currentSelection == 0)
-				currentSelection = 12;
-			else
-				--currentSelection;
-		}
-		if (currentSelection == 11 && !next)
-			currentSelection = 10;
-		else if (currentSelection == 10 && !prev)
-			currentSelection = 11;
+			if ( keyboard.wasDown( KeyboardKeys::KEY_UP ) ) {
+				if ( currentSelection == 12 ) {
+					if ( prev )
+						currentSelection = 10;
+					else if ( next )
+						currentSelection = 11;
+					else {
+						currentSelection = 9;
 
+						if ( currentSelection + pageNumber * 10 >= m_levels.size() )
+							currentSelection = m_levels.size() - 1 - pageNumber * 10;
+					}
+				}
+				else if ( currentSelection == 11 || currentSelection == 10 ) {
+					currentSelection = 9;
+					if ( currentSelection + pageNumber * 10 >= m_levels.size() )
+						currentSelection = m_levels.size() - 1 - pageNumber * 10;
+				}
+				else if ( currentSelection == 0 )
+					currentSelection = 12;
+				else
+					--currentSelection;
+			}
+			if ( currentSelection == 11 && !next )
+				currentSelection = 10;
+			else if ( currentSelection == 10 && !prev )
+				currentSelection = 11;
+		}
 		for (int i = 3; i < 6; ++i) {
 			if (currentSelection == i+7)
 				guiElems[i]->setStyle(highlighted);

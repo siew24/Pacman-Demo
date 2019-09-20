@@ -43,7 +43,7 @@ public:
 	void update() {
 		auto& keyboard = m_gameInstance->input.keyboard;
 
-		if (keyboard.wasDown(KeyboardKeys::KEY_RETURN) || keyboard.wasDown(KeyboardKeys::KEY_KEYPAD_ENTER))
+		if (keyboard.wasDown(KeyboardKeys::KEY_RETURN) || keyboard.wasDown(KeyboardKeys::KEY_KEYPAD_ENTER) || keyboard.wasDown(KeyboardKeys::KEY_ESCAPE))
 			selected = 1;
 	}
 

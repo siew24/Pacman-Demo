@@ -14,12 +14,13 @@ class InputHandlerSystem : public bloom::systems::System {
 	using MouseButtons = bloom::input::MouseButton;
 
 public:
-	InputHandlerSystem(entt::DefaultRegistry& registry, InputManager& inputMngr) :DefaultSystem(registry), inputManager(inputMngr) {}
+	InputHandlerSystem(entt::registry& registry, InputManager& inputMngr) :DefaultSystem(registry), inputManager(inputMngr) {}
 
 	void update(double deltaTime = 0) override {
 		auto& keyboardState = inputManager.keyboard;
 		auto registryView = m_registry.view<Pacman>();
 		if (!registryView.empty()) {
+			timePassed += deltaTime;
 			Pacman& playerComponent = m_registry.get<Pacman>(registryView[0]);
 			if (keyboardState.wasDown(KeyboardKeys::KEY_UP) || keyboardState.wasDown(KeyboardKeys::KEY_W))
 				playerComponent.nextDir = Direction::up;
@@ -29,6 +30,15 @@ public:
 				playerComponent.nextDir = Direction::left;
 			else if (keyboardState.wasDown(KeyboardKeys::KEY_RIGHT) || keyboardState.wasDown(KeyboardKeys::KEY_D))
 				playerComponent.nextDir = Direction::right;
+			else if (keyboardState.wasDown(KeyboardKeys::KEY_ESCAPE))
+				if (timePassed > 2000.0)
+					if (ConfigStore::instaQuit)
+						quit = true;
+					else
+						timePassed = 0;
+				else
+					quit = true;
+
 
 			if (keyboardState.wasDown(KeyboardKeys::KEY_UP))
 				buffer.push_back('U');
@@ -53,6 +63,9 @@ public:
 			}
 		}
 	}
+
+	double timePassed = 2000;
+	bool quit = false;
 
 private:
 	std::string buffer{};

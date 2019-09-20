@@ -206,6 +206,12 @@
     <ClInclude Include="inc\Scenes\SelectLevels.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="inc\Components\Eaten.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Systems\AltRenderSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="data\Assets\Tile\1.png">

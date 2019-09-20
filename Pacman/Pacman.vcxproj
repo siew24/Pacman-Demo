@@ -92,7 +92,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)\BloomFramework\BloomFramework\include\;$(SolutionDir)\entt\src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\BloomFramework\BloomFramework\include\;$(SolutionDir)\entt\src\;$(SolutionDir)\BloomFramework\entt\src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <DiagnosticsFormat>Caret</DiagnosticsFormat>
@@ -113,7 +113,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)\BloomFramework\BloomFramework\include\;$(SolutionDir)\entt\src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\BloomFramework\BloomFramework\include\;$(SolutionDir)\entt\src\;$(SolutionDir)\BloomFramework\entt\src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
       <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -137,7 +137,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)\BloomFramework\BloomFramework\include\;$(SolutionDir)\entt\src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\BloomFramework\BloomFramework\include\;$(SolutionDir)\entt\src\;$(SolutionDir)\BloomFramework\entt\src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
       <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -163,7 +163,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)\BloomFramework\BloomFramework\include\;$(SolutionDir)\entt\src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\BloomFramework\BloomFramework\include\;$(SolutionDir)\entt\src\;$(SolutionDir)\BloomFramework\entt\src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
       <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -193,6 +193,7 @@
   <ItemGroup>
     <ClInclude Include="getExePath.h" />
     <ClInclude Include="inc\Components\ComponentIncludes.h" />
+    <ClInclude Include="inc\Components\Eaten.h" />
     <ClInclude Include="inc\Components\FruitComponent.h" />
     <ClInclude Include="inc\Components\PelletsComponent.h" />
     <ClInclude Include="inc\Components\ScoreComponent.h" />
@@ -225,6 +226,7 @@
     <ClInclude Include="inc\Scenes\ScoreSubmit.h" />
     <ClInclude Include="inc\Scenes\SelectLevels.h" />
     <ClInclude Include="inc\Systems\AltAnimationSystem.h" />
+    <ClInclude Include="inc\Systems\AltRenderSystem.h" />
     <ClInclude Include="inc\Systems\AnimationChangerSystem.h" />
     <ClInclude Include="inc\Systems\GameDirectorSystem.h" />
     <ClInclude Include="inc\Systems\GhostAI.h" />

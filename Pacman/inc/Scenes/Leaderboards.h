@@ -92,6 +92,10 @@ public:
 				selected = 1;
 		}
 
+		if (keyboard.wasDown(KeyboardKeys::KEY_ESCAPE)) {
+			selected = 1;
+		}
+
 		if (keyboard.wasDown(KeyboardKeys::KEY_LEFT) && currentSelection == 1) {
 			currentSelection = 0;
 		}

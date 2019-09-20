@@ -9,6 +9,11 @@ struct ConfigStore {
 	static double pacmanVolume;
 	static double musicVolume;
 	static int debug;
+
+	static bool instaQuit;
+};
+struct SessionStore {
+	static std::string currentName;
 };
 struct LeaderboardsStore {
 	static int addEntry(std::string name, int score) {

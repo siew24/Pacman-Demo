@@ -40,10 +40,15 @@ void test_drawer(const std::filesystem::path& assetsPath)
 	if (std::filesystem::exists(configPath.parent_path())) {
 		if (std::filesystem::exists(configPath)) {
 			std::ifstream config(configPath);
-			config >> ConfigStore::ghostVolume
-				>> ConfigStore::pacmanVolume
-				>> ConfigStore::musicVolume
-				>> ConfigStore::debug;
+			double verNo;
+			config >> verNo;
+			if (verNo == VERSION_NUMBER) {
+				config >> ConfigStore::ghostVolume;
+				config >> ConfigStore::pacmanVolume;
+				config >> ConfigStore::musicVolume;
+				config >> ConfigStore::instaQuit;
+				config >> ConfigStore::debug;
+			}
 		}
 		if (std::filesystem::exists(leaderboardsPath)) {
 			std::ifstream leaderboards(leaderboardsPath);
@@ -88,10 +93,10 @@ void test_drawer(const std::filesystem::path& assetsPath)
 
 	std::vector<std::filesystem::path> officialLevels;
 	if (!std::filesystem::is_empty(levelDir))
-		for (const auto& entry : std::filesystem::directory_iterator(levelDir))
-			officialLevels.emplace_back(entry.path());
-
-
+		for (const auto& entry : std::filesystem::directory_iterator(levelDir)) {
+			if (entry.is_regular_file())
+				officialLevels.emplace_back(entry.path());
+		}
 
 
 	FontPtr guiFont = std::make_shared<Font>(FontStyle, 8);
@@ -165,7 +170,8 @@ void test_drawer(const std::filesystem::path& assetsPath)
 					std::vector<std::filesystem::path> customLevels;
 					if (!std::filesystem::is_empty(customLevelsPath))
 						for (const auto& entry : std::filesystem::directory_iterator(customLevelsPath))
-							customLevels.emplace_back(entry.path());
+							if (entry.is_regular_file())
+								customLevels.emplace_back(entry.path());
 					LevelList levelSelect(game, guiFont, customLevels);
 					while (levelSelect.selected == -1 && game->isRunning()) {
 						game->handleEvents();
@@ -178,12 +184,12 @@ void test_drawer(const std::filesystem::path& assetsPath)
 						levelSet.emplace_back(levelSelect.selectedPath);
 				}
 			}
-
+			auto levelIt = levelSet.begin();
 			if (!levelSet.empty()) {
 				game->clear();
 				Level level = Level(game, guiFont);
 				int levelNumber = 0;
-				level.changeLevel(levelSet[levelNumber], levelNumber, tileDir);
+				level.changeLevel(*levelIt, levelNumber, tileDir);
 
 				level.draw();
 				game->render();
@@ -216,60 +222,79 @@ void test_drawer(const std::filesystem::path& assetsPath)
 				int chompLoop = 0;
 				game->timer.restart();
 				int last = 0;
+				bool finished = false;
+				bool quit = false;
+				int count1 = 0, count2 = 0;
+				auto updateLoop = [&] {
+					bloom::Timer threadTimer;
+					double dt;
+					while (!quit && (!level.complete() && !level.dead() && !level.quit())) {
+						dt = threadTimer.lap();
+						++count1;
+
+						level.update(dt);
+						if (level.pelletEaten()) sounds[3 + chompLoop]->play(), chompLoop = (chompLoop + 1) % 2;
+
+						if (level.ghostEaten()) sounds[5]->play();
+
+						if (level.bonusEaten()) sounds[6]->play();
+
+						if (level.sirenClip() == 11) {
+							if (last == 11 && !level.frozen()) {
+								sounds[10]->stop();
+								sounds[11]->play(0);
+							}
+						}
+						else {
+							if (last != level.sirenClip()) {
+								sounds[last]->stop();
+								sounds[level.sirenClip()]->play(0);
+							}
+						}
+						last = level.sirenClip();
+					}
+				};
+				std::thread updatethread = std::thread(updateLoop);
+				std::thread printStats = std::thread([&] {
+					while (!quit) {
+						std::cout << count1 << ", " << count2 << std::endl;
+					}
+					});
+
 				while (game->isRunning()) {
 					dt = game->timer.lap();
+					level.drawFPS = 1000.0 / dt;
+					++count2;
 					frameCount = (frameCount + 1) % 60;
 					game->handleEvents();
+					level.handleInput(dt);
 					game->clear();
-					level.update(dt);
 					level.draw();
-
-					if (level.pelletEaten()) sounds[3 + chompLoop]->play(), chompLoop = (chompLoop + 1) % 2;
-
-					if (level.ghostEaten()) sounds[5]->play();
-
-					if (level.bonusEaten()) sounds[6]->play();
-
-					if (level.sirenClip() == 11) {
-						if (last == 11 && !level.frozen()) {
-							sounds[10]->stop();
-							sounds[11]->play(0);
-						}
-					}
-					else {
-						if (last != level.sirenClip()) {
-							sounds[last]->stop();
-							sounds[level.sirenClip()]->play(0);
-						}
-					}
-					last = level.sirenClip();
-
 					game->render();
 
 					if (level.complete()) {
+						updatethread.join();
 						sounds.stopAll();
 						std::cout << "Level complete!" << std::endl;
-						sounds[1]->play();
-						game->delay(5500);
+						level.finish();
 						++levelNumber;
-						if (levelNumber >= levelSet.size()) {
+						++levelIt;
+						if (levelIt == levelSet.end()) {
 							if (levelSet[0].parent_path() == levelDir) {
-								ScoreSubmit scoresubmit(game, guiFont, level.getScore());
-								while (scoresubmit.selected == -1 && game->isRunning()) {
-									game->handleEvents();
-									game->clear();
-									scoresubmit.update();
-									scoresubmit.draw();
-									game->render();
-								}
+								levelIt = levelSet.begin();
 							}
-							break;
+							else
+								break;
 						}
-						level.changeLevel(levelSet[levelNumber], levelNumber, tileDir);
+
+						level.changeLevel(*levelIt, levelNumber, tileDir);
 						game->timer.restart();
 						last = 0;
+						updatethread = std::thread(updateLoop);
+
 					}
 					else if (level.dead()) {
+						updatethread.join();
 						sounds.stopAll();
 						std::cout << "Died!" << std::endl;
 						sounds[2]->play();
@@ -277,7 +302,7 @@ void test_drawer(const std::filesystem::path& assetsPath)
 						game->delay(1500);
 						last = 0;
 						if (level.lives() > 0)
-							level.respawn(), game->timer.restart();
+							level.respawn(), game->timer.restart(), updatethread = std::thread(updateLoop);
 						else {
 							if (levelSet[0].parent_path() == levelDir) {
 								ScoreSubmit scoresubmit(game, guiFont, level.getScore());
@@ -290,14 +315,26 @@ void test_drawer(const std::filesystem::path& assetsPath)
 								}
 
 								if (scoresubmit.selected >= 0) {
-									menu.selected = 1;
+									menu.selected = 2;
 									scorePos = scoresubmit.selected;
 								}
 							}
+							finished = true;
 							break;
 						}
 					}
+					else if (level.quit()) {
+						updatethread.join();
+						sounds.stopAll();
+						break;
+					}
+					else if (!game->isRunning()) {
+						quit = true;
+						updatethread.join();
+					}
 				}
+				quit = true;
+				printStats.join();
 			}
 		}
 		else if (menu.selected == -1) {
@@ -312,9 +349,11 @@ void test_drawer(const std::filesystem::path& assetsPath)
 	game->destroy();
 
 	std::ofstream fout(configPath);
-	fout << ConfigStore::ghostVolume << std::endl
+	fout << VERSION_NUMBER << std::endl
+		<< ConfigStore::ghostVolume << std::endl
 		<< ConfigStore::pacmanVolume << std::endl
 		<< ConfigStore::musicVolume << std::endl
+		<< ConfigStore::instaQuit << std::endl
 		<< ConfigStore::debug;
 
 	fout = std::ofstream(leaderboardsPath);

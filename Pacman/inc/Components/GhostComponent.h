@@ -34,7 +34,7 @@ struct GhostInitDetails {
 };
 
 struct Ghost {
-	Direction(*behavior)(entt::DefaultRegistry&, std::array<std::array<int, 31>, 28> & , std::array<std::array<int, 31>, 28> & , Tile&);
+	Direction(*behavior)(entt::registry&, std::array<std::array<int, 31>, 28> & , std::array<std::array<int, 31>, 28> & , Tile&);
 	Tile spawnPoint;
 	GhostInitDetails levelVars;
 

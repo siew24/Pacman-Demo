@@ -22,7 +22,7 @@ struct Pacman {
 
 	bool died = false;
 	double timeFromLastPellet;
-	int lives = 2;
+	int lives = 3;
 
 	void addScore(int add) {
 		score += add;
@@ -34,4 +34,5 @@ struct Pacman {
 	int prevScore = 0;
 
 	bool godMode = false;
+	int totalPellets = 0;
 };

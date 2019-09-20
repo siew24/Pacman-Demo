@@ -13,9 +13,9 @@ class GameDirectorSystem : public bloom::systems::System {
 public:
 	void init() {
 		m_registry.view<Pacman>().each([&](auto entity, auto & pac) { player = &pac; });
-		m_registry.view<entt::label<"speedy"_hs>, Ghost>().each([&](auto entity, auto label, auto & ghost) { speedy = &ghost; });
-		m_registry.view<entt::label<"bashful"_hs>, Ghost>().each([&](auto entity, auto label, auto & ghost) { bashful = &ghost; });
-		m_registry.view<entt::label<"pokey"_hs>, Ghost>().each([&](auto entity, auto label, auto & ghost) { pokey = &ghost; });
+		m_registry.view<entt::tag<"speedy"_hs>, Ghost>().each([&](auto entity, auto label, auto & ghost) { speedy = &ghost; });
+		m_registry.view<entt::tag<"bashful"_hs>, Ghost>().each([&](auto entity, auto label, auto & ghost) { bashful = &ghost; });
+		m_registry.view<entt::tag<"pokey"_hs>, Ghost>().each([&](auto entity, auto label, auto & ghost) { pokey = &ghost; });
 	}
 	void setParameters(bloom::Game*& Game) {
 		m_gameInstance = Game;

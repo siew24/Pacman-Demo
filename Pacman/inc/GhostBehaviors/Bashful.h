@@ -3,10 +3,10 @@
 #include "Pathfinding.h"
 
 namespace ghostBehaviors {
-	Direction bashful(entt::DefaultRegistry& registry, std::array<std::array<int, 31>, 28> & tilemap, std::array<std::array<int, 31>, 28> & specialMap, Tile& currentTile) {
-		entt::DefaultRegistry::entity_type playerID = registry.view<Pacman>()[0];
-		entt::DefaultRegistry::entity_type ghostID = registry.view<entt::label<"bashful"_hs>>()[0];
-		entt::DefaultRegistry::entity_type shadowID = registry.view<entt::label<"shadow"_hs>>()[0];
+	Direction bashful(entt::registry& registry, std::array<std::array<int, 31>, 28> & tilemap, std::array<std::array<int, 31>, 28> & specialMap, Tile& currentTile) {
+		entt::registry::entity_type playerID = registry.view<Pacman>()[0];
+		entt::registry::entity_type ghostID = registry.view<entt::tag<"bashful"_hs>>()[0];
+		entt::registry::entity_type shadowID = registry.view<entt::tag<"shadow"_hs>>()[0];
 		auto& pac = registry.get<Pacman>(playerID);
 		auto& pacPos = registry.get<Position>(playerID);
 		auto& position = registry.get<Position>(ghostID);

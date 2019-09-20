@@ -17,11 +17,11 @@ public:
 
 	void init(const std::filesystem::path texturePath, Tile spawnTile, std::array<double, 2> speedMultipliers) {
 		m_registry.replace<Position>(m_entity, spawnTile.x * TILESIZE - 2 - (PACMAN_TEXTURESIZE - TILESIZE) / 2, spawnTile.y * TILESIZE - (PACMAN_TEXTURESIZE - TILESIZE) / 2);
-		m_registry.accommodate<Size>(m_entity, PACMAN_TEXTURESIZE, PACMAN_TEXTURESIZE);
-		m_registry.accommodate<entt::label<"pacman"_hs>>(m_entity);
+		m_registry.assign_or_replace<Size>(m_entity, PACMAN_TEXTURESIZE, PACMAN_TEXTURESIZE);
+		m_registry.assign_or_replace<entt::tag<"pacman"_hs>>(m_entity);
 		auto tmp = c_gameInstance->textures.load(texturePath);
 
-		m_registry.accommodate<Sprite>(m_entity, tmp, SDL_Rect{ 0  , 0  ,PACMAN_TEXTURESIZE,PACMAN_TEXTURESIZE });
+		m_registry.assign_or_replace<Sprite>(m_entity, tmp, SDL_Rect{ 0  , 0  ,PACMAN_TEXTURESIZE,PACMAN_TEXTURESIZE });
 
 		AnimationPtr down = std::make_shared<Animation>();
 		down->animationFrames = {
@@ -64,8 +64,8 @@ public:
 		animSet.add("right", right);
 		animSet.add("blank", blank);
 
-		m_registry.accommodate<AnimationSet>(m_entity, animSet);
-		m_registry.accommodate<AnimationPtr>(m_entity, right);
+		m_registry.assign_or_replace<AnimationSet>(m_entity, animSet);
+		m_registry.assign_or_replace<AnimationPtr>(m_entity, right);
 		if (!m_registry.has<Pacman>(m_entity))
 			m_registry.assign<Pacman>(m_entity) = Pacman{ Direction::null,Direction::null,0,0,0,speedMultipliers };
 		else {

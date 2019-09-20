@@ -11,7 +11,7 @@ class GhostAI : public bloom::systems::System {
 
 public:
 	void update(double deltaTime = 0) override {
-		entt::DefaultRegistry::entity_type player;
+		entt::registry::entity_type player;
 		m_registry.view<Pacman>().each([&](auto entity, Pacman & pac) { player = entity; });
 		//We do not want to keep fetching this, so lets cache this info here.
 		Position& playerPos = m_registry.get<Position>(player);

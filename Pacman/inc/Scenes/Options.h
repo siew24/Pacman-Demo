@@ -19,8 +19,9 @@ public:
 		guiElems.emplace_back(std::make_shared<bloom::graphics::SpriteText>(m_gameInstance->_getRenderer(), guiFont, "  60  "));
 		guiElems.emplace_back(std::make_shared<bloom::graphics::SpriteText>(m_gameInstance->_getRenderer(), guiFont, "Music volume"));
 		guiElems.emplace_back(std::make_shared<bloom::graphics::SpriteText>(m_gameInstance->_getRenderer(), guiFont, "  60  "));
+		guiElems.emplace_back(std::make_shared<bloom::graphics::SpriteText>(m_gameInstance->_getRenderer(), guiFont, "Instant Quit"));
+		guiElems.emplace_back(std::make_shared<bloom::graphics::SpriteText>(m_gameInstance->_getRenderer(), guiFont, "  Off  "));
 		guiElems.emplace_back(std::make_shared<bloom::graphics::SpriteText>(m_gameInstance->_getRenderer(), guiFont, "Back"));
-
 		m_gameInstance->textures.load(ASSETPATH / "Assets" / "Logo.png");
 	}
 
@@ -34,7 +35,10 @@ public:
 		guiElems[5]->render(std::nullopt, SDL_Point{ 16, 72 });
 		guiElems[6]->render(std::nullopt, SDL_Point{ 132, 72 });
 
-		guiElems[7]->render(std::nullopt, SDL_Point{ 16, 30 * 8 });
+		guiElems[7]->render(std::nullopt, SDL_Point{ 16, 88 });
+		guiElems[8]->render(std::nullopt, SDL_Point{ 132, 88 });
+
+		guiElems[9]->render(std::nullopt, SDL_Point{ 16, 30 * 8 });
 	}
 	void update() {
 		auto& keyboard = m_gameInstance->input.keyboard;
@@ -42,13 +46,18 @@ public:
 		if (keyboard.wasDown(KeyboardKeys::KEY_UP)) {
 			currentSelection -= 2;
 			if (currentSelection < 0)
-				currentSelection = 7;
+				currentSelection = 9;
 		}
 		if (keyboard.wasDown(KeyboardKeys::KEY_DOWN)) {
 			currentSelection += 2;
-			if (currentSelection > 7)
+			if (currentSelection > 9)
 				currentSelection = 1;
 		}
+
+		if (keyboard.wasDown(KeyboardKeys::KEY_ESCAPE)) {
+			selected = 1;
+		}
+
 		if (keyboard.wasDown(KeyboardKeys::KEY_LEFT)) {
 			if (currentSelection == 1)
 				ConfigStore::ghostVolume = (ConfigStore::ghostVolume - 5 < 0) ? 0 : ConfigStore::ghostVolume - 5;
@@ -56,6 +65,8 @@ public:
 				ConfigStore::pacmanVolume = (ConfigStore::pacmanVolume - 5 < 0) ? 0 : ConfigStore::pacmanVolume - 5;
 			else if (currentSelection == 5)
 				ConfigStore::musicVolume = (ConfigStore::musicVolume - 5 < 0) ? 0 : ConfigStore::musicVolume - 5;
+			else if (currentSelection == 7)
+				ConfigStore::instaQuit = false;
 		}
 		if (keyboard.wasDown(KeyboardKeys::KEY_RIGHT)) {
 			if (currentSelection == 1)
@@ -64,21 +75,23 @@ public:
 				ConfigStore::pacmanVolume = (ConfigStore::pacmanVolume + 5 > 100) ? 100 : ConfigStore::pacmanVolume + 5;
 			else if (currentSelection == 5)
 				ConfigStore::musicVolume = (ConfigStore::musicVolume + 5 > 100) ? 100 : ConfigStore::musicVolume + 5;
+			else if (currentSelection == 7)
+				ConfigStore::instaQuit = true;
 		}
 		if (keyboard.wasDown(KeyboardKeys::KEY_RETURN) || keyboard.wasDown(KeyboardKeys::KEY_KEYPAD_ENTER)) {
-			if (currentSelection == 7)
+			if (currentSelection == 9)
 				selected = 1;
 		}
 
-		for (int i = 1; i < 8; i += 2) {
+		for (int i = 1; i < 10; i += 2) {
 			if (currentSelection == i) {
 				guiElems[i]->setStyle(highlighted);
-				if (i != 7) {
+				if (i != 9) {
 					guiElems[i + 1]->setStyle(highlighted);
 					if (i == 1)
 						guiElems[i + 1]->setText(((ConfigStore::ghostVolume == 0) ? "  " : "< ")
-							+ std::to_string(static_cast<int>(ConfigStore::ghostVolume)) 
-							+ ((ConfigStore::ghostVolume == 100 ) ? "  " : " >"));
+							+ std::to_string(static_cast<int>(ConfigStore::ghostVolume))
+							+ ((ConfigStore::ghostVolume == 100) ? "  " : " >"));
 					else if (i == 3)
 						guiElems[i + 1]->setText(((ConfigStore::ghostVolume == 0) ? "  " : "< ")
 							+ std::to_string(static_cast<int>(ConfigStore::pacmanVolume))
@@ -87,11 +100,15 @@ public:
 						guiElems[i + 1]->setText(((ConfigStore::ghostVolume == 0) ? "  " : "< ")
 							+ std::to_string(static_cast<int>(ConfigStore::musicVolume))
 							+ ((ConfigStore::ghostVolume == 100) ? "  " : " >"));
+					else if (i == 7)
+						guiElems[i + 1]->setText(((ConfigStore::instaQuit) ? "< " : "  ")
+							+ std::string((ConfigStore::instaQuit ? "ON" : "OFF"))
+							+ ((ConfigStore::instaQuit) ? "  " : " >"));
 				}
 			}
 			else {
 				guiElems[i]->setStyle(bloom::graphics::TextStyle());
-				if (i != 7) {
+				if (i != 9) {
 					guiElems[i + 1]->setStyle(bloom::graphics::TextStyle());
 					if (i == 1)
 						guiElems[i + 1]->setText("  " + std::to_string(static_cast<int>(ConfigStore::ghostVolume)) + "  ");
@@ -99,6 +116,8 @@ public:
 						guiElems[i + 1]->setText("  " + std::to_string(static_cast<int>(ConfigStore::pacmanVolume)) + "  ");
 					else if (i == 5)
 						guiElems[i + 1]->setText("  " + std::to_string(static_cast<int>(ConfigStore::musicVolume)) + "  ");
+					else if (i == 7)
+						guiElems[i + 1]->setText("  " + std::string((ConfigStore::instaQuit ? "ON" : "OFF")) + "  ");
 				}
 			}
 		}

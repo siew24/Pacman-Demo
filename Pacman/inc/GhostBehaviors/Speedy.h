@@ -3,9 +3,9 @@
 #include "Pathfinding.h"
 
 namespace ghostBehaviors {
-	Direction speedy(entt::DefaultRegistry& registry, std::array<std::array<int, 31>, 28> & tilemap, std::array<std::array<int, 31>, 28> & specialMap, Tile& currentTile) {
-		entt::DefaultRegistry::entity_type playerID = registry.view<Pacman>()[0];
-		entt::DefaultRegistry::entity_type ghostID = registry.view<entt::label<"speedy"_hs>>()[0];
+	Direction speedy(entt::registry& registry, std::array<std::array<int, 31>, 28> & tilemap, std::array<std::array<int, 31>, 28> & specialMap, Tile& currentTile) {
+		entt::registry::entity_type playerID = registry.view<Pacman>()[0];
+		entt::registry::entity_type ghostID = registry.view<entt::tag<"speedy"_hs>>()[0];
 		auto& pac = registry.get<Pacman>(playerID);
 		auto& pacPos = registry.get<Position>(playerID);
 		auto& position = registry.get<Position>(ghostID);

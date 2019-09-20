@@ -14,6 +14,7 @@
 #include "Systems/GameDirectorSystem.h"
 #include "Systems/SpeedDirectorSystem.h"
 #include "Systems/AltAnimationSystem.h"
+#include "Systems/AltRenderSystem.h"
 #include "Systems/ScorePopupSystem.h"
 #include "Systems/AnimationChangerSystem.h"
 #include "Systems/InputSystem.h"
@@ -30,10 +31,35 @@ public:
 
 	void changeLevel(const std::filesystem::path& levelFile, int levelNumber, const std::filesystem::path& texturePath);
 
-	void draw();
-	size_t pelletCount() { return m_pellets.size(); }
+	void draw(SDL_Texture* levelTex = nullptr);
+	size_t pelletCount() {
+		return m_registry.view<Pellet>().size() + m_registry.view<PowerPellet>().size(); 
+	}
+	void finish() {
+		double timeLeft = 2000.0;
+		auto& timer = m_gameInstance->timer;
+		timer.restart();
+		double frameTime = 0.0;
+		SDL_Texture* levelTex = m_levelTex;
+		while (timeLeft > 0.0) {
+			double dt = timer.lap();
+			timeLeft -= dt;
+			if (timeLeft <= 1000.0)
+				frameTime += dt;
+			while (frameTime > 166.0) {
+				if (levelTex == m_levelTex)
+					levelTex = m_wLevelTex;
+				else
+					levelTex = m_levelTex;
+				frameTime -= 166.0;
+			}
+			m_gameInstance->clear();
+			draw(levelTex);
+			m_gameInstance->render();
+		}
+	}
 	bool complete() {
-		return (m_registry.view<Pellet>().empty() && m_registry.view<PowerPellet>().empty());
+		return (m_registry.get<Pacman>(playerEntity->getEntityID()).totalPellets == pelletCount());
 	}
 	bool dead() {
 		return m_registry.get<Pacman>(playerEntity->getEntityID()).dead;
@@ -47,7 +73,7 @@ public:
 	void refreshTexture() {
 		m_generateTexture();
 	}
-	bool pelletEaten(){
+	bool pelletEaten() {
 		bool returnVal = edibleSystem.pelletEaten;
 		edibleSystem.pelletEaten = false;
 		return returnVal;
@@ -69,13 +95,18 @@ public:
 		return popupSystem.freeze;
 	}
 	void respawn();
+	void handleInput(double dt){
+		inputHandler.update(dt);
+		if (inputHandler.quit)
+			m_quit = true;
+	}
 	void update(double dt) {
 		if (dt > 0.0) {
 			++totalFrames;
 			totalTime += dt / 1000.0;
 			current += dt;
 		}
-		inputHandler.update();
+		
 		popupSystem.update(dt);
 		if (!popupSystem.freeze) {
 			playerMovement.update(dt);
@@ -95,32 +126,37 @@ public:
 		if (ConfigStore::debug && totalFrames > 0 && totalTime > 0.0 && current / 100.0 >= 1.0) {
 			current = std::fmod(current, 100.0);
 			guiElems["FPS"]->setText(std::to_string(static_cast<int>((1000.0 / dt) + 0.5)));
-			guiElems["avgFPS"]->setText(std::to_string(static_cast<int>((totalFrames / totalTime) + 0.5)));
+			guiElems["avgFPS"]->setText(std::to_string(drawFPS));
 		}
 	}
+	bool quit() {
+		return m_quit;
+	}
 	std::vector<std::vector<int>> layout;
+	int drawFPS = 0;
 
 private:
-	void m_load(const std::filesystem::path & levelData);
+	void m_load(const std::filesystem::path& levelData);
 	void m_generateTexture();
 
-	void m_generatePellets(std::vector<std::vector<int>> & layout, bool readOnly = true);
-	void m_generateEntities(std::vector<std::vector<int>> & layout, bool readOnly = true);
+	void m_generatePellets(std::vector<std::vector<int>>& layout, bool readOnly = true);
+	void m_generateEntities(std::vector<std::vector<int>>& layout, bool readOnly = true);
 	void m_cleanup();
 
 
-	bloom::Game * &m_gameInstance;
-	SDL_Renderer * m_renderer;
-	SDL_Texture * m_levelTex = nullptr;
-	SDL_Texture * m_entityLayer = nullptr;
+	bloom::Game*& m_gameInstance;
+	SDL_Renderer* m_renderer;
+	SDL_Texture* m_levelTex = nullptr;
+	SDL_Texture* m_wLevelTex = nullptr;
+	SDL_Texture* m_entityLayer = nullptr;
 	std::vector<std::shared_ptr<PelletObject>> m_pellets;
 	std::vector<std::shared_ptr<GhostObject>> m_ghosts;
 	std::shared_ptr<Player> playerEntity;
 	std::array<double, 8> m_ghostTimes;
 	std::array<std::array<int, 31>, 28> m_originalLayout;
 
-	entt::DefaultRegistry m_registry;
-	bloom::systems::RenderSystem renderSysTest = bloom::systems::RenderSystem(m_registry);
+	entt::registry m_registry;
+	AltRenderSystem renderSysTest = AltRenderSystem(m_registry);
 	AltAnimationSystem animSysTest = AltAnimationSystem(m_registry);
 	PlayerMovement playerMovement = PlayerMovement(m_registry);
 	GhostAI ghostMovement = GhostAI(m_registry);
@@ -137,7 +173,7 @@ private:
 	std::filesystem::path m_texturePath;
 
 	// GUI Text
-	std::unordered_map<std::string,std::shared_ptr<bloom::graphics::SpriteText>> guiElems;
+	std::unordered_map<std::string, std::shared_ptr<bloom::graphics::SpriteText>> guiElems;
 
 	// Pause Variable
 	double pauseTimer = 0;
@@ -146,6 +182,8 @@ private:
 	int totalFrames = -1;
 
 	double current = 0.0;
+
+	bool m_quit = false;
 
 	std::array<std::array<int, 31>, 28> tileMap;
 	std::array<std::array<int, 31>, 28> specialMap;

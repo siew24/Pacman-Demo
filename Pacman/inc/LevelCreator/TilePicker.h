@@ -28,7 +28,7 @@ public:
 		int y = 0;
 		for (int i = 0; i < 40; ++i) {
 			SDL_Rect tile{ x,y,16,16 };
-			m_gameInstance->textures.load(ASSETPATH / "Assets" / "Tile" / (std::to_string(i) + ".png"))->render(std::nullopt, tile);
+			m_gameInstance->textures.load(ASSETPATH / "Assets" / "Tile" / "Blue" / (std::to_string(i) + ".png"))->render(std::nullopt, tile);
 
 			x += 32;
 			if (x > 216) x = 0, y += 32;

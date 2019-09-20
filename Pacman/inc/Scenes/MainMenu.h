@@ -35,6 +35,9 @@ public:
 			if (currentSelection < 0)
 				currentSelection += guiElems.size();
 		}
+		if (keyboard.wasDown(KeyboardKeys::KEY_ESCAPE))
+			currentSelection = 5;
+
 		if (keyboard.wasDown(KeyboardKeys::KEY_DOWN)) {
 			++currentSelection;
 			if (currentSelection >= guiElems.size())

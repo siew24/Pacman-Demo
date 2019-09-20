@@ -13,10 +13,14 @@ class ScoreSubmit {
 public:
 	ScoreSubmit(bloom::Game*& gameInstance, bloom::graphics::FontPtr guiFont, int score) : m_gameInstance(gameInstance), score(score) {
 		guiElems.emplace_back(std::make_shared<bloom::graphics::SpriteText>(m_gameInstance->_getRenderer(), guiFont, "GAME OVER"));
+		guiElems.emplace_back(std::make_shared<bloom::graphics::SpriteText>(m_gameInstance->_getRenderer(), guiFont, std::to_string(score)))->setStyle(highlighted);
+		guiElems.emplace_back(std::make_shared<bloom::graphics::SpriteText>(m_gameInstance->_getRenderer(), guiFont, "Name"))->setStyle(highlighted);
+		guiElems.emplace_back(std::make_shared<bloom::graphics::SpriteText>(m_gameInstance->_getRenderer(), guiFont, "[ENTER] TO SAVE SCORE"));
+		guiElems.emplace_back(std::make_shared<bloom::graphics::SpriteText>(m_gameInstance->_getRenderer(), guiFont, "[ESCAPE] TO CANCEL"));
+		guiElems.emplace_back(std::make_shared<bloom::graphics::SpriteText>(m_gameInstance->_getRenderer(), guiFont, "GAME OVER"));
 		guiElems.emplace_back(std::make_shared<bloom::graphics::SpriteText>(m_gameInstance->_getRenderer(), guiFont, std::to_string(score)));
 		guiElems.emplace_back(std::make_shared<bloom::graphics::SpriteText>(m_gameInstance->_getRenderer(), guiFont, "Name"));
 
-		// guiElems.emplace_back(std::make_shared<bloom::graphics::SpriteText>(m_gameInstance->getRenderer(), guiFont, "Submit"));
 		guiElems.emplace_back(std::make_shared<bloom::graphics::SpriteText>(m_gameInstance->_getRenderer(), guiFont, "Don't submit"));
 	}
 
@@ -25,54 +29,35 @@ public:
 		guiElems[1]->render(std::nullopt, SDL_Point{ 132, 88 });
 		guiElems[2]->render(std::nullopt, SDL_Point{ 16, 88 });
 		guiElems[3]->render(std::nullopt, SDL_Point{ 16, 104 });
-		//guiElems[4]->render(std::nullopt, SDL_Point{ 16, 120 });
+		guiElems[4]->render(std::nullopt, SDL_Point{ 16, 120 });
 	}
 	void update() {
 		auto& keyboard = m_gameInstance->input.keyboard;
 
-		if (keyboard.wasDown(KeyboardKeys::KEY_UP)) {
-			--currentSelection;
-			if (currentSelection < 2)
-				currentSelection = 3;
-		}
-		if (keyboard.wasDown(KeyboardKeys::KEY_DOWN)) {
-			++currentSelection;
-			if (currentSelection > 3)
-				currentSelection = 2;
-		}
 
-		if (currentSelection == 2) {
-			std::string tmp = keyboard.getPrintable();
-			bool bs = false;
-			for (char c : tmp) {
-				if (c == '\b') {
-					if (!playerName.empty() && bs == true) {
-						playerName.pop_back();
-						bs = false;
-					}
-					bs = true;
+		std::string tmp = keyboard.getPrintable();
+		bool bs = false;
+		for (char c : tmp) {
+			if (c == '\b') {
+				if (!SessionStore::currentName.empty() && bs == true) {
+					SessionStore::currentName.pop_back();
+					bs = false;
 				}
-				else if (c > 32 && c < 127)
-					if (playerName.size() < 12)
-						playerName += tmp;
+				bs = true;
 			}
+			else if (c > 32 && c < 127)
+				if (SessionStore::currentName.size() < 12)
+					SessionStore::currentName += tmp;
 		}
 
+		if (keyboard.wasDown(KeyboardKeys::KEY_ESCAPE)) {
+			selected = -2;
+		}
 		if (keyboard.wasDown(KeyboardKeys::KEY_RETURN) || keyboard.wasDown(KeyboardKeys::KEY_KEYPAD_ENTER)) {
-			switch (currentSelection) {
-			case 2:
-				selected = LeaderboardsStore::addEntry((playerName.empty() ? "ANON-KUN" : playerName), score);
-				break;
-			case 3:
-				selected = -2;
-				break;
-			}
+			selected = LeaderboardsStore::addEntry((SessionStore::currentName.empty() ? "ANON-KUN" : SessionStore::currentName), score);
 		}
 
-		if (currentSelection == 2)
-			guiElems[2]->setText(playerName + (playerName.size() < 12 ? "_" : ""));
-		else
-			guiElems[2]->setText((playerName.empty() ? "Name" : playerName));
+		guiElems[2]->setText(SessionStore::currentName + (SessionStore::currentName.size() < 12 ? "_" : ""));
 
 		for (int i = 2; i < guiElems.size(); ++i) {
 			if (i == currentSelection)
@@ -89,7 +74,6 @@ private:
 	std::vector<std::shared_ptr<bloom::graphics::SpriteText>> guiElems;
 	bloom::Game*& m_gameInstance;
 	int currentSelection = 2;
-	std::string playerName;
 	const int score;
 
 	const bloom::graphics::TextStyle highlighted{ bloom::graphics::TextStyle::BlendingMode::normal, SDL_Color{179,0,89,0} };

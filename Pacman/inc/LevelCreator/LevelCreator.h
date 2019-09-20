@@ -208,7 +208,7 @@ private:
 		for ( int x = 0; x < 28; ++x ) {
 			for ( int y = 0; y < 31; ++y ) {
 				SDL_Rect tileLocation{ x * 8 + 1, y * 8 + 1,8,8 };
-				m_gameInstance->textures.load( ASSETPATH / "Assets" / "Tile" / (std::to_string( m_tileMap[x][y] ) + ".png") )->render( std::nullopt, tileLocation );
+				m_gameInstance->textures.load( ASSETPATH / "Assets" / "Tile" / "Blue" / (std::to_string( m_tileMap[x][y] ) + ".png") )->render( std::nullopt, tileLocation );
 			}
 		}
 		SDL_SetRenderTarget( m_renderer, nullptr );
@@ -244,7 +244,7 @@ private:
 		SDL_SetRenderTarget( m_renderer, m_selectedTexture );
 		if ( currentMode == 0 ) {
 			SDL_Rect tileLocation{ 0, 0,8,8 };
-			m_gameInstance->textures.load( ASSETPATH / "Assets" / "Tile" / (std::to_string( m_selected ) + ".png") )->render( std::nullopt, tileLocation );
+			m_gameInstance->textures.load( ASSETPATH / "Assets" / "Tile" / "Blue" /(std::to_string( m_selected ) + ".png") )->render( std::nullopt, tileLocation );
 		}
 		else if ( currentMode == 1 ) {
 			SDL_Rect tileLocation{ 0,0,rectDet.w,rectDet.h };
@@ -254,6 +254,8 @@ private:
 		SDL_SetRenderTarget( m_renderer, nullptr );
 	}
 	void load( std::string filename ) {
+		if ( filename.empty() )
+			return;
 		std::filesystem::path file = saveDir / filename;
 
 		if ( std::filesystem::exists( file ) && filename != "" ) {
@@ -279,6 +281,8 @@ private:
 		updateSpecialTexture();
 	}
 	void save( std::string filename ) {
+		if ( filename.empty() )
+			return;
 		std::filesystem::path file = saveDir / filename;
 		if ( filename != "" ) {
 			std::ofstream fileData( file );

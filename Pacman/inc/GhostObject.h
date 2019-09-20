@@ -18,13 +18,13 @@ public:
 
 	void init(const std::filesystem::path texturePath, Ghosts id, Tile spawnTile, GhostInitDetails details) {
 		m_registry.replace<Position>(m_entity, (spawnTile.x * TILESIZE) - (GHOST_TEXTURESIZE-TILESIZE)/2, spawnTile.y * TILESIZE - (GHOST_TEXTURESIZE - TILESIZE) / 2);
-		m_registry.accommodate<Size>(m_entity, GHOST_TEXTURESIZE, GHOST_TEXTURESIZE);
+		m_registry.assign_or_replace<Size>(m_entity, GHOST_TEXTURESIZE, GHOST_TEXTURESIZE);
 		bloom::graphics::TexturePtr tmp;
 		ghostID = id;
 
 		if (id == Ghosts::shadow) {
-			m_registry.accommodate<entt::label<"shadow"_hs>>(m_entity);
-			m_registry.accommodate<Ghost>(m_entity)= Ghost{ 
+			m_registry.assign_or_replace<entt::tag<"shadow"_hs>>(m_entity);
+			m_registry.assign_or_replace<Ghost>(m_entity)= Ghost{ 
 				ghostBehaviors::shadow,
 				Tile{spawnTile.x, spawnTile.y},
 				details,
@@ -34,8 +34,8 @@ public:
 			tmp = c_gameInstance->textures.load(texturePath / "Red.png");
 		}
 		else if (id == Ghosts::speedy) {
-			m_registry.accommodate<entt::label<"speedy"_hs>>(m_entity);
-			auto ghost = m_registry.accommodate<Ghost>(m_entity) = Ghost{ 
+			m_registry.assign_or_replace<entt::tag<"speedy"_hs>>(m_entity);
+			auto ghost = m_registry.assign_or_replace<Ghost>(m_entity) = Ghost{ 
 				ghostBehaviors::speedy, 
 				spawnTile,
 				details,
@@ -44,8 +44,8 @@ public:
 			tmp = c_gameInstance->textures.load(texturePath / "Pinky.png");
 		}
 		else if (id == Ghosts::bashful) {
-			m_registry.accommodate<entt::label<"bashful"_hs>>(m_entity);
-			m_registry.accommodate<Ghost>(m_entity) = Ghost{ 
+			m_registry.assign_or_replace<entt::tag<"bashful"_hs>>(m_entity);
+			m_registry.assign_or_replace<Ghost>(m_entity) = Ghost{ 
 				ghostBehaviors::bashful, 
 				spawnTile ,
 				details
@@ -53,8 +53,8 @@ public:
 			tmp = c_gameInstance->textures.load(texturePath / "Blue.png");
 		}
 		else if (id == Ghosts::pokey) {
-			m_registry.accommodate<entt::label<"pokey"_hs>>(m_entity);
-			m_registry.accommodate<Ghost>(m_entity) = Ghost{ 
+			m_registry.assign_or_replace<entt::tag<"pokey"_hs>>(m_entity);
+			m_registry.assign_or_replace<Ghost>(m_entity) = Ghost{ 
 				ghostBehaviors::pokey, 
 				spawnTile,
 				details
@@ -65,7 +65,7 @@ public:
 		auto tmp2 = c_gameInstance->textures.load(texturePath / "Ghosts_afraid.png");
 		auto tmp3 = c_gameInstance->textures.load(texturePath / "Ghosts_eaten.png");
 
-		m_registry.accommodate<Sprite>(m_entity, tmp, SDL_Rect{ spawnTile.x * TILESIZE, spawnTile.y * TILESIZE,TILESIZE,TILESIZE });
+		m_registry.assign_or_replace<Sprite>(m_entity, tmp, SDL_Rect{ spawnTile.x * TILESIZE, spawnTile.y * TILESIZE,TILESIZE,TILESIZE });
 
 		AnimationPtr down = std::make_shared<Animation>();
 		down->animationFrames = {
@@ -148,8 +148,8 @@ public:
 		animSet.add("afraid", afraid);
 		animSet.add("afraidFlash", afraidFlash);
 
-		m_registry.accommodate<AnimationSet>(m_entity, animSet);
-		m_registry.accommodate<AnimationPtr>(m_entity, right);
+		m_registry.assign_or_replace<AnimationSet>(m_entity, animSet);
+		m_registry.assign_or_replace<AnimationPtr>(m_entity, right);
 	}
 
 	Ghosts ghostID;
