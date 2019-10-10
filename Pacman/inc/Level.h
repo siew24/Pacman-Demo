@@ -33,7 +33,7 @@ public:
 
 	void draw(SDL_Texture* levelTex = nullptr);
 	size_t pelletCount() {
-		return m_registry.view<Pellet>().size() + m_registry.view<PowerPellet>().size(); 
+		return m_registry.view<Pellet>().size() + m_registry.view<PowerPellet>().size();
 	}
 	void finish() {
 		double timeLeft = 2000.0;
@@ -95,7 +95,7 @@ public:
 		return popupSystem.freeze;
 	}
 	void respawn();
-	void handleInput(double dt){
+	void handleInput(double dt) {
 		inputHandler.update(dt);
 		if (inputHandler.quit)
 			m_quit = true;
@@ -106,7 +106,7 @@ public:
 			totalTime += dt / 1000.0;
 			current += dt;
 		}
-		
+
 		popupSystem.update(dt);
 		if (!popupSystem.freeze) {
 			playerMovement.update(dt);

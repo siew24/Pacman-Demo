@@ -32,11 +32,11 @@ public:
 		for (int i = 0; i < specialsInfo.size(); ++i) {
 			++j;
 			SDL_Rect rect = std::get<1>(specialsInfo[i]);
-			SDL_Rect tile{ x + (28-rect.w*2)/2 ,y+(28-rect.h*2) / 2 ,rect.w * 2, rect.h * 2 };
+			SDL_Rect tile{ x + (28 - rect.w * 2) / 2 ,y + (28 - rect.h * 2) / 2 ,rect.w * 2, rect.h * 2 };
 			m_gameInstance->textures.load(std::get<0>(specialsInfo[i]))->render(std::nullopt, tile);
 
 			x += 24 + 24;
-			if (j==4) x = 0, y += 24 + 24,j=0;
+			if (j == 4) x = 0, y += 24 + 24, j = 0;
 		}
 		SDL_SetRenderTarget(m_renderer, nullptr);
 	}
@@ -81,7 +81,6 @@ public:
 			m_selectedTileID += 4;
 			if (m_selectedTileID > 10)
 				m_selectedTileID = 0;
-
 		}
 		if (keyboard.wasDown(KeyboardKeys::KEY_LEFT)) {
 			--m_selectedTileID;

@@ -12,7 +12,7 @@ public:
 	void update(double deltaTime = 0) override {
 		freeze = false;
 		m_registry.view<ScoreComponent, Position, Size>().each(
-			[&](auto entity, ScoreComponent & popup, Position & position, Size & size) {
+			[&](auto entity, ScoreComponent& popup, Position& position, Size& size) {
 				popup.currentTime += deltaTime / 1000.0;
 				if (popup.currentTime >= popup.lifespan)
 					if (m_registry.has<Ghost>(entity)) {

@@ -16,7 +16,7 @@ public:
 		bool afraid = false;
 		bool dead = false;
 		soundbyte = 7;
-		m_registry.view<Ghost>().each([&](auto entity, Ghost & ghost) {
+		m_registry.view<Ghost>().each([&](auto entity, Ghost& ghost) {
 			if (ghost.behavior == ghostBehaviors::shadow) {
 				if (ghost.currSpeed == ghost.speed * ghost.levelVars.elroyMultipliers[0].second)
 					soundbyte = 8;

@@ -29,7 +29,6 @@ public:
 			Sprite(tmp, SDL_Rect{ 3 * PACMAN_TEXTURESIZE,0,PACMAN_TEXTURESIZE,PACMAN_TEXTURESIZE })
 		};
 
-
 		AnimationPtr up = std::make_shared<Animation>();
 		up->animationFrames = {
 			Sprite(tmp, SDL_Rect{ 6 * PACMAN_TEXTURESIZE,0,PACMAN_TEXTURESIZE,PACMAN_TEXTURESIZE }),

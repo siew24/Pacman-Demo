@@ -12,10 +12,10 @@ class GameDirectorSystem : public bloom::systems::System {
 
 public:
 	void init() {
-		m_registry.view<Pacman>().each([&](auto entity, auto & pac) { player = &pac; });
-		m_registry.view<entt::tag<"speedy"_hs>, Ghost>().each([&](auto entity, auto label, auto & ghost) { speedy = &ghost; });
-		m_registry.view<entt::tag<"bashful"_hs>, Ghost>().each([&](auto entity, auto label, auto & ghost) { bashful = &ghost; });
-		m_registry.view<entt::tag<"pokey"_hs>, Ghost>().each([&](auto entity, auto label, auto & ghost) { pokey = &ghost; });
+		m_registry.view<Pacman>().each([&](auto entity, auto& pac) { player = &pac; });
+		m_registry.view<entt::tag<"speedy"_hs>, Ghost>().each([&](auto entity, auto label, auto& ghost) { speedy = &ghost; });
+		m_registry.view<entt::tag<"bashful"_hs>, Ghost>().each([&](auto entity, auto label, auto& ghost) { bashful = &ghost; });
+		m_registry.view<entt::tag<"pokey"_hs>, Ghost>().each([&](auto entity, auto label, auto& ghost) { pokey = &ghost; });
 	}
 	void setParameters(bloom::Game*& Game) {
 		m_gameInstance = Game;
@@ -44,13 +44,13 @@ public:
 			if (player->pelletsEaten >= pokey->levelVars.dotLimit)
 				pokey->released = true;
 		}
-		if ((player->pelletsEaten == 70 && fruitSpawned == 0 )|| (player->pelletsEaten == 170 && fruitSpawned == 1)) {
+		if ((player->pelletsEaten == 70 && fruitSpawned == 0) || (player->pelletsEaten == 170 && fruitSpawned == 1)) {
 			++fruitSpawned;
 			if (fruitEntityPtr) {
 				fruitEntityPtr.reset();
 			}
 			if (fruitSpawns.empty()) return;
-			std::uniform_int_distribution<> dis(0, fruitSpawns.size()-1);
+			std::uniform_int_distribution<> dis(0, fruitSpawns.size() - 1);
 			int rng = dis(gen);
 			auto fruit = std::make_shared<FruitObject>(m_registry, m_gameInstance);
 			fruit->init(texturePath / "Entity", m_fruitType, fruitSpawns[rng]);

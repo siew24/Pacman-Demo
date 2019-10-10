@@ -1,6 +1,4 @@
 #include "Framework.h"
-#include <ctime>
-#include <Windows.h>
 
 #include <thread>
 #include "inc/Configs.h"
@@ -68,7 +66,7 @@ void test_drawer(const std::filesystem::path& assetsPath)
 	try {
 		game->create("BF Pacman", { SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED });
 	}
-	catch (Exception& e) {
+	catch (Exception & e) {
 		std::cerr << e.what() << std::endl;
 	}
 
@@ -93,10 +91,9 @@ void test_drawer(const std::filesystem::path& assetsPath)
 
 	std::vector<std::filesystem::path> officialLevels;
 	if (!std::filesystem::is_empty(levelDir))
-		for (const auto& entry : std::filesystem::directory_iterator(levelDir)) {
+		for (const auto& entry : std::filesystem::directory_iterator(levelDir))
 			if (entry.is_regular_file())
 				officialLevels.emplace_back(entry.path());
-		}
 
 
 	FontPtr guiFont = std::make_shared<Font>(FontStyle, 8);
@@ -194,17 +191,17 @@ void test_drawer(const std::filesystem::path& assetsPath)
 				level.draw();
 				game->render();
 
-				sounds.add(audioDir / "pacman_beginning.wav"); // 0 
+				sounds.add(audioDir / "pacman_beginning.wav"); // 0
 				sounds.add(audioDir / "pacman_intermission.wav"); // 1
 				sounds.add(audioDir / "pacman_death.wav"); // 2
 				sounds.add(audioDir / "Pacman Chomp1.wav"); // 3
 				sounds.add(audioDir / "Pacman Chomp2.wav"); // 4
 				sounds.add(audioDir / "pacman_eatghost.wav"); // 5
 				sounds.add(audioDir / "pacman_eatfruit.wav"); // 6
-				sounds.add(audioDir / "siren.wav"); // 7 
+				sounds.add(audioDir / "siren.wav"); // 7
 				sounds.add(audioDir / "siren2.wav"); // 8
 				sounds.add(audioDir / "siren3.wav"); // 9
-				sounds.add(audioDir / "energizer.wav"); // 10 
+				sounds.add(audioDir / "energizer.wav"); // 10
 				sounds.add(audioDir / "eyes.wav"); // 11
 
 				for (int i = 0; i < 12; ++i) {
@@ -259,8 +256,8 @@ void test_drawer(const std::filesystem::path& assetsPath)
 					while (!quit) {
 						std::cout << count1 << ", " << count2 << std::endl;
 					}
-					});
-
+					}
+				);
 				while (game->isRunning()) {
 					dt = game->timer.lap();
 					level.drawFPS = 1000.0 / dt;
@@ -286,12 +283,10 @@ void test_drawer(const std::filesystem::path& assetsPath)
 							else
 								break;
 						}
-
 						level.changeLevel(*levelIt, levelNumber, tileDir);
 						game->timer.restart();
 						last = 0;
 						updatethread = std::thread(updateLoop);
-
 					}
 					else if (level.dead()) {
 						updatethread.join();
@@ -370,7 +365,7 @@ int main(int argc, char* argv[])
 	try {
 		Game::initialize();
 	}
-	catch (Exception& e) {
+	catch (Exception & e) {
 		std::cerr << e.what() << std::endl;
 		system("pause");
 		exit(-1);

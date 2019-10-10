@@ -3,7 +3,7 @@
 #include "Pathfinding.h"
 
 namespace ghostBehaviors {
-	Direction pokey(entt::registry& registry, std::array<std::array<int, 31>, 28> & tilemap, std::array<std::array<int, 31>, 28> & specialMap, Tile& currentTile) {
+	Direction pokey(entt::registry& registry, std::array<std::array<int, 31>, 28>& tilemap, std::array<std::array<int, 31>, 28>& specialMap, Tile& currentTile) {
 		entt::registry::entity_type playerID = registry.view<Pacman>()[0];
 		entt::registry::entity_type ghostID = registry.view<entt::tag<"pokey"_hs>>()[0];
 		auto& pacPos = registry.get<Position>(playerID);
@@ -20,7 +20,7 @@ namespace ghostBehaviors {
 		else if (ghost.currentMode == BehaviourModes::dead)
 			target = ghost.levelVars.homeTile;
 
-		auto posibilities = generateCandidates(target, currentTile, ghost,tilemap, specialMap);
+		auto posibilities = generateCandidates(target, currentTile, ghost, tilemap, specialMap);
 
 		if (posibilities.empty())
 			return Direction::null;

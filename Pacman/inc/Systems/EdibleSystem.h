@@ -30,7 +30,6 @@ public:
 					++playerState.totalPellets;
 					playerState.timeAvailable -= 1000.0 / 60.0;
 					playerState.timeFromLastPellet = 0.0;
-					//m_registry.destroy(entity);
 					m_registry.assign<Eaten>(entity);
 				}
 			}
@@ -47,7 +46,6 @@ public:
 					playerState.ghostsEaten = 0;
 					playerState.timeAvailable -= (1000.0 / 60.0) * 3;
 					playerState.timeFromLastPellet = 0.0;
-					//m_registry.destroy(entity);
 					m_registry.assign<Eaten>(entity);
 
 					m_registry.view<Ghost>().each(
@@ -98,7 +96,7 @@ public:
 					else
 					{
 						if (fruit.timeSpawned / 1000 > 9 && fruit.timeSpawned / 1000 < 10)
-							m_registry.assign<Eaten>(entity);//m_registry.destroy(entity);
+							m_registry.assign<Eaten>(entity);
 						else
 							fruit.timeSpawned += deltaTime;
 					}
@@ -132,9 +130,6 @@ public:
 			}
 		);
 	}
-
-
-
 
 	bloom::Game* game;
 

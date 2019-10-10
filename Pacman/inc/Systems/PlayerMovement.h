@@ -11,7 +11,7 @@ class PlayerMovement : public bloom::systems::System {
 public:
 	void update(double deltaTime = 0) override {
 		m_registry.view<Pacman, Position>().each(
-			[&](auto entity, Pacman & player, Position & position) {
+			[&](auto entity, Pacman& player, Position& position) {
 				int potentialDistance = 0;
 				player.timeAvailable += deltaTime / 1000.0;
 
@@ -20,8 +20,7 @@ public:
 
 				Tile playerTile{ (position.x + PACMAN_TEXTURESIZE / 2) / TILESIZE, (position.y + PACMAN_TEXTURESIZE / 2) / TILESIZE };
 
-				if (playerTile.x < 27 || playerTile.x >= 0)
-				{
+				if (playerTile.x < 27 || playerTile.x >= 0) {
 					// Change anim
 					if (player.nextDir != player.direction) {
 						Tile nextTile = playerTile;
@@ -105,7 +104,7 @@ public:
 							position.x = -TILESIZE;
 						else if (position.x <= -TILESIZE)
 							position.x = 28 * TILESIZE;
-					}					
+					}
 				}
 			}
 		);

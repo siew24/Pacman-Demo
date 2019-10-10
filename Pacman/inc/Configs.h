@@ -16,7 +16,7 @@ const int WINDOW_HEIGHT = 36 * TILESIZE;
 const SDL_Rect GHOST_BONUS_SIZE{ 0, 0, 16, 7 };
 const SDL_Rect BONUS_SIZE{ 0, 0, 20, 7 };
 
-const SDL_Rect GAMEAREA{ 8+((WINDOW_WIDTH / TILESIZE) - 28) / 2 * TILESIZE,8+3 * TILESIZE, 28 * TILESIZE, 33 * TILESIZE };
+const SDL_Rect GAMEAREA{ 8 + ((WINDOW_WIDTH / TILESIZE) - 28) / 2 * TILESIZE,8 + 3 * TILESIZE, 28 * TILESIZE, 33 * TILESIZE };
 
 const std::filesystem::path ASSETPATH = std::filesystem::path(getExePath()) / L"data";
 

@@ -9,7 +9,7 @@ class AnimationChangerSystem : public bloom::systems::System {
 public:
 	void update(double deltaTime = 0) override {
 		m_registry.view<AnimationSet, Ghost>().each(
-			[&](auto entity, AnimationSet & animSet, Ghost & ghost) {
+			[&](auto entity, AnimationSet& animSet, Ghost& ghost) {
 				std::string animset = "";
 				switch (ghost.nextDir) {
 				case Direction::left:
@@ -40,7 +40,7 @@ public:
 			}
 		);
 		m_registry.view<AnimationSet, Pacman>().each(
-			[&](auto entity, AnimationSet & animSet, Pacman & pacman) {
+			[&](auto entity, AnimationSet& animSet, Pacman& pacman) {
 				switch (pacman.direction) {
 				case Direction::right:
 					animSet.changeCurrent("right");

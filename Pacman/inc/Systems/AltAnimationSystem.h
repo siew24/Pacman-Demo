@@ -12,7 +12,7 @@ class AltAnimationSystem : public bloom::systems::System {
 public:
 	void update(double deltaTime = 0) override {
 		m_registry.view<AnimationPtr>().each(
-			[&](auto entity, AnimationPtr & anim) {
+			[&](auto entity, AnimationPtr& anim) {
 				if (!m_registry.has<ScoreComponent>(entity)) {
 					if (m_registry.has<AnimationSet>(entity)) {
 						AnimationPtr newAnim = m_registry.get<AnimationSet>(entity).getCurrent();

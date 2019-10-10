@@ -10,14 +10,14 @@
 
 using namespace bloom::components;
 namespace ghostBehaviors {
-	bool valid(Tile tile, std::array<std::array<int, 31>, 28> & tilemap /*, std::array<std::array<int, 31>, 28>& specialMap*/) {
+	bool valid(Tile tile, std::array<std::array<int, 31>, 28>& tilemap /*, std::array<std::array<int, 31>, 28>& specialMap*/) {
 		tile.x = tile.x < 0 ? tilemap[0].size() + tile.x : tile.x;
 		tile.x = tile.x >= tilemap[0].size() ? tile.x % tilemap[0].size() : tile.x;
 
 		return tilemap[tile.x][tile.y] == 0;
 	}
 
-	auto generateCandidates(const Tile& target, const Tile& currentTile, Ghost& ghost, std::array<std::array<int, 31>, 28> & tilemap, std::array<std::array<int, 31>, 28> & specialMap) {
+	auto generateCandidates(const Tile& target, const Tile& currentTile, Ghost& ghost, std::array<std::array<int, 31>, 28>& tilemap, std::array<std::array<int, 31>, 28>& specialMap) {
 		std::vector<std::pair<Direction, double>> posibilities{};
 		if (Tile candidate{ currentTile.x, currentTile.y - 1 }; valid(candidate, tilemap) && (specialMap[currentTile.x][currentTile.y]) != 7 && ghost.direction != Direction::down) {
 			int xDist = std::abs(candidate.x - target.x), yDist = std::abs(candidate.y - target.y);
@@ -41,8 +41,8 @@ namespace ghostBehaviors {
 		}
 
 		if (Tile candidate{ currentTile.x, currentTile.y - 1 }; (candidate.y != 0) && ((tilemap[candidate.x][candidate.y] == 39 || tilemap[candidate.x][candidate.y - 1] == 39) && ghost.released && (ghost.currentMode == BehaviourModes::chase || ghost.currentMode == BehaviourModes::scatter))) {
-		posibilities.clear();
-		posibilities.emplace_back(std::make_pair(Direction::up, 0.0));
+			posibilities.clear();
+			posibilities.emplace_back(std::make_pair(Direction::up, 0.0));
 		}
 
 		if (Tile candidate{ currentTile.x, currentTile.y + 1 }; (candidate.y != tilemap.size() - 1) && ((tilemap[candidate.x][candidate.y] == 39 || tilemap[candidate.x][candidate.y - 1] == 39) && ghost.currentMode == BehaviourModes::dead)) {

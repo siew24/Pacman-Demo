@@ -12,13 +12,13 @@ class GhostAI : public bloom::systems::System {
 public:
 	void update(double deltaTime = 0) override {
 		entt::registry::entity_type player;
-		m_registry.view<Pacman>().each([&](auto entity, Pacman & pac) { player = entity; });
+		m_registry.view<Pacman>().each([&](auto entity, Pacman& pac) { player = entity; });
 		//We do not want to keep fetching this, so lets cache this info here.
 		Position& playerPos = m_registry.get<Position>(player);
 		Pacman& playerState = m_registry.get<Pacman>(player);
 
 		m_registry.view<Ghost, Position>().each(
-			[&](auto entity, Ghost & ghost, Position & position) {
+			[&](auto entity, Ghost& ghost, Position& position) {
 				// Measure how much the ghost can move, to ensure accuracy
 				int potentialDistance = 0;
 				ghost.timeAvailable += (deltaTime / 1000);
@@ -40,7 +40,7 @@ public:
 						*target = BehaviourModes::scatter;
 						++ghost.modeLooped;
 					}
-					else if(*target == BehaviourModes::scatter) {
+					else if (*target == BehaviourModes::scatter) {
 						*target = BehaviourModes::chase;
 						++ghost.modeLooped;
 					}
@@ -67,13 +67,13 @@ public:
 				while (potentialDistance > 0) {
 					Tile currentTile = { (position.x + (GHOST_TEXTURESIZE - TILESIZE) / 2) / TILESIZE,(position.y + (GHOST_TEXTURESIZE - TILESIZE) / 2) / TILESIZE };
 					if ((position.x + (GHOST_TEXTURESIZE - TILESIZE) / 2) % TILESIZE == 0 && (position.y + (GHOST_TEXTURESIZE - TILESIZE) / 2) % TILESIZE == 0) {
-						if ((currentTile.x < 28 && currentTile.x >= 1 && currentTile.y != 0) && tileMap[currentTile.x][currentTile.y-1] == 39) {
+						if ((currentTile.x < 28 && currentTile.x >= 1 && currentTile.y != 0) && tileMap[currentTile.x][currentTile.y - 1] == 39) {
 							ghost.inHouse = true;
 							if (ghost.currentMode == BehaviourModes::dead)
 								ghost.currentMode = ghost.previousMode;
 						}
-							
-						else if ((currentTile.x < 28 && currentTile.x >= 0 && currentTile.y != 30) && tileMap[currentTile.x][currentTile.y+1] == 39)
+
+						else if ((currentTile.x < 28 && currentTile.x >= 0 && currentTile.y != 30) && tileMap[currentTile.x][currentTile.y + 1] == 39)
 							ghost.inHouse = false;
 
 						Tile predictTile = currentTile;
@@ -117,13 +117,13 @@ public:
 					default:
 						--potentialDistance;
 						break;
-					}					
+					}
 				}
 			}
 		);
 	};
-	std::array<std::array<int, 31>, 28> tileMap; 
+	std::array<std::array<int, 31>, 28> tileMap;
 	std::array<std::array<int, 31>, 28> specialMap;
 	double lastUpdate = 0;
-	bloom::Game * game;
+	bloom::Game* game;
 };

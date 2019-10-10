@@ -22,7 +22,7 @@ public:
 
 	void draw() {
 		m_gameInstance->textures.find(ASSETPATH / "Assets" / "Logo.png")->render(std::nullopt, SDL_Rect{ 8 + 0, 8 + 0, 224, 39 });
-		int offset= 0;
+		int offset = 0;
 		for (int i = 0; i < guiElems.size(); ++i) {
 			guiElems[i]->render(std::nullopt, SDL_Point{ 8 + 8, 8 + (10 + i) * 8 + offset });
 			offset += 8;

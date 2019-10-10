@@ -19,7 +19,7 @@ public:
 
 	void draw() {
 		guiElems[0]->render(std::nullopt, SDL_Point{ 120 - (guiElems[0]->getTextWidth() / 2), 8 });
-		int offset= 0;
+		int offset = 0;
 		for (int i = 1; i < guiElems.size(); ++i) {
 			guiElems[i]->render(std::nullopt, SDL_Point{ 8 + 8, 8 + (10 + i) * 8 + offset });
 			offset += 8;
@@ -30,12 +30,12 @@ public:
 		if (keyboard.wasDown(KeyboardKeys::KEY_UP)) {
 			--currentSelection;
 			if (currentSelection < 1)
-				currentSelection == guiElems.size()-1;
+				currentSelection == guiElems.size() - 1;
 		}
 		if (keyboard.wasDown(KeyboardKeys::KEY_DOWN)) {
 			++currentSelection;
 			if (currentSelection >= guiElems.size())
-				currentSelection =1;
+				currentSelection = 1;
 		}
 		if (keyboard.wasDown(KeyboardKeys::KEY_RETURN) || keyboard.wasDown(KeyboardKeys::KEY_KEYPAD_ENTER)) {
 			selected = currentSelection;

@@ -20,64 +20,64 @@ public:
 	}
 
 	void draw() {
-		guiElems[0]->render( std::nullopt, SDL_Point{ 120 - (guiElems[0]->getTextWidth() / 2), 8 } );
+		guiElems[0]->render(std::nullopt, SDL_Point{ 120 - (guiElems[0]->getTextWidth() / 2), 8 });
 
 		int offset = 0;
-		for ( int i = 1; i < guiElems.size(); ++i ) {
-			guiElems[i]->render( std::nullopt, SDL_Point{ 8 + 8, 8 + (10 + i) * 8 + offset } );
+		for (int i = 1; i < guiElems.size(); ++i) {
+			guiElems[i]->render(std::nullopt, SDL_Point{ 8 + 8, 8 + (10 + i) * 8 + offset });
 			offset += 8;
 		}
 	}
 	void update() {
 		auto& keyboard = m_gameInstance->input.keyboard;
 
-		if ( keyboard.wasDown( KeyboardKeys::KEY_UP ) ) {
+		if (keyboard.wasDown(KeyboardKeys::KEY_UP)) {
 			--currentSelection;
-			if ( currentSelection < 1 )
+			if (currentSelection < 1)
 				currentSelection = 3;
 		}
-		if ( keyboard.wasDown( KeyboardKeys::KEY_DOWN ) ) {
+		if (keyboard.wasDown(KeyboardKeys::KEY_DOWN)) {
 			++currentSelection;
-			if ( currentSelection > 3 )
+			if (currentSelection > 3)
 				currentSelection = 1;
 		}
 
-		if ( keyboard.wasDown( KeyboardKeys::KEY_RETURN ) || keyboard.wasDown( KeyboardKeys::KEY_KEYPAD_ENTER ) ) {
-			if ( currentSelection == 3 )
+		if (keyboard.wasDown(KeyboardKeys::KEY_RETURN) || keyboard.wasDown(KeyboardKeys::KEY_KEYPAD_ENTER)) {
+			if (currentSelection == 3)
 				selected = -1;
-			else if ( currentSelection == 2 )
+			else if (currentSelection == 2)
 				selected = 2;
-			else if ( currentSelection == 1 )
+			else if (currentSelection == 1)
 				selected = 1;
 		}
-		if ( keyboard.wasDown( KeyboardKeys::KEY_ESCAPE ) )
+		if (keyboard.wasDown(KeyboardKeys::KEY_ESCAPE))
 			selected = -1;
 
-		for ( int i = 1; i < 4; ++i ) {
-			if ( currentSelection == i ) {
-				guiElems[i]->setStyle( highlighted );
+		for (int i = 1; i < 4; ++i) {
+			if (currentSelection == i) {
+				guiElems[i]->setStyle(highlighted);
 			}
 			else {
-				guiElems[i]->setStyle( bloom::graphics::TextStyle() );
+				guiElems[i]->setStyle(bloom::graphics::TextStyle());
 			}
 		}
 	}
 	std::pair<std::string, std::string> openMenu() {
 		selected = 0;
-		while ( selected == 0 ) {
+		while (selected == 0) {
 			m_gameInstance->handleEvents();
-			if ( !m_gameInstance->isRunning() ) break;
+			if (!m_gameInstance->isRunning()) break;
 			m_gameInstance->clear();
 			update();
 			draw();
 			m_gameInstance->render();
 		}
-		if ( selected == 1 ) {
-			return std::make_pair( "save", dialog.openDialog() );
+		if (selected == 1) {
+			return std::make_pair("save", dialog.openDialog());
 		}
-		else if ( selected == 2 )
-			return std::make_pair( "open", dialog.openDialog() );
-		return std::make_pair( "", "" );
+		else if (selected == 2)
+			return std::make_pair("open", dialog.openDialog());
+		return std::make_pair("", "");
 	}
 
 	int selected = -1;

@@ -67,7 +67,7 @@ public:
 				break;
 			}
 		}
-		if ( keyboard.wasDown( KeyboardKeys::KEY_ESCAPE ) )
+		if (keyboard.wasDown(KeyboardKeys::KEY_ESCAPE))
 			selected = -1;
 
 		if (currentSelection == 1)

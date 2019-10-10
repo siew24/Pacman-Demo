@@ -2,19 +2,19 @@
 #include "..\inc\GhostObject.h"
 #include "..\inc\ConfigStore.h"
 
-Level::Level( bloom::Game*& gameInstance, bloom::graphics::FontPtr guiFont ) : m_gameInstance( gameInstance ), m_renderer( gameInstance->_getRenderer() ) {
-	if ( m_levelTex )
-		SDL_DestroyTexture( m_levelTex );
-	if ( m_entityLayer )
-		SDL_DestroyTexture( m_entityLayer );
+Level::Level(bloom::Game*& gameInstance, bloom::graphics::FontPtr guiFont) : m_gameInstance(gameInstance), m_renderer(gameInstance->_getRenderer()) {
+	if (m_levelTex)
+		SDL_DestroyTexture(m_levelTex);
+	if (m_entityLayer)
+		SDL_DestroyTexture(m_entityLayer);
 
-	m_levelTex = SDL_CreateTexture( m_renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, (28 * TILESIZE), (33 * TILESIZE) );
-	m_wLevelTex = SDL_CreateTexture( m_renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, (28 * TILESIZE), (33 * TILESIZE) );
-	m_entityLayer = SDL_CreateTexture( m_renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, (28 * TILESIZE), (33 * TILESIZE) );
+	m_levelTex = SDL_CreateTexture(m_renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, (28 * TILESIZE), (33 * TILESIZE));
+	m_wLevelTex = SDL_CreateTexture(m_renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, (28 * TILESIZE), (33 * TILESIZE));
+	m_entityLayer = SDL_CreateTexture(m_renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, (28 * TILESIZE), (33 * TILESIZE));
 
-	SDL_SetTextureBlendMode( m_levelTex, SDL_BLENDMODE_BLEND );
-	SDL_SetTextureBlendMode( m_wLevelTex, SDL_BLENDMODE_BLEND );
-	SDL_SetTextureBlendMode( m_entityLayer, SDL_BLENDMODE_BLEND );
+	SDL_SetTextureBlendMode(m_levelTex, SDL_BLENDMODE_BLEND);
+	SDL_SetTextureBlendMode(m_wLevelTex, SDL_BLENDMODE_BLEND);
+	SDL_SetTextureBlendMode(m_entityLayer, SDL_BLENDMODE_BLEND);
 
 	gameDirector.setParameters(gameInstance);
 	guiElems.emplace("score", std::make_shared<bloom::graphics::SpriteText>(m_renderer, guiFont, "0"));
@@ -22,7 +22,7 @@ Level::Level( bloom::Game*& gameInstance, bloom::graphics::FontPtr guiFont ) : m
 	guiElems.emplace("1up", std::make_shared<bloom::graphics::SpriteText>(m_renderer, guiFont, "1UP"));
 	guiElems.emplace("highscoreLabel", std::make_shared<bloom::graphics::SpriteText>(m_renderer, guiFont, "HIGH SCORE"));
 
-	bloom::graphics::TextStyle red = { bloom::graphics::TextStyle::BlendingMode::normal, SDL_Color{255,100,255,0}};
+	bloom::graphics::TextStyle red = { bloom::graphics::TextStyle::BlendingMode::normal, SDL_Color{255,100,255,0} };
 	guiElems.emplace("quitPrompt", std::make_shared<bloom::graphics::SpriteText>(m_renderer, guiFont, "PRESS [ESCAPE] AGAIN TO QUIT")).first->second->setStyle(red);
 
 	if (ConfigStore::debug) {
@@ -35,30 +35,30 @@ Level::Level( bloom::Game*& gameInstance, bloom::graphics::FontPtr guiFont ) : m
 }
 
 Level::~Level() {
-	SDL_DestroyTexture( m_levelTex );
-	SDL_DestroyTexture( m_entityLayer );
-	SDL_RenderClear( m_renderer );
+	SDL_DestroyTexture(m_levelTex);
+	SDL_DestroyTexture(m_entityLayer);
+	SDL_RenderClear(m_renderer);
 }
 
-void Level::draw( SDL_Texture* levelTex ) {
-	SDL_SetRenderTarget( m_renderer, m_entityLayer );
-	SDL_RenderClear( m_renderer );
+void Level::draw(SDL_Texture* levelTex) {
+	SDL_SetRenderTarget(m_renderer, m_entityLayer);
+	SDL_RenderClear(m_renderer);
 	renderSysTest.update(); // Test again.
 
 	// Render lives counter
-	for ( int i = 0; i < m_registry.get<Pacman>( playerEntity->getEntityID() ).lives-1; ++i ) {
+	for (int i = 0; i < m_registry.get<Pacman>(playerEntity->getEntityID()).lives - 1; ++i) {
 		SDL_Rect srcRect = { 5 * 13,0,13,13 };
 		SDL_Rect destRect = { (2 + i * 2) * TILESIZE,31 * TILESIZE + 2,13,13 };
 		auto texPath = m_texturePath / "Entity" / "Pacman.png";
-		m_gameInstance->textures.load( texPath )->render( srcRect, destRect );
+		m_gameInstance->textures.load(texPath)->render(srcRect, destRect);
 	}
 
-	SDL_SetRenderTarget( m_renderer, nullptr );
-	if ( levelTex )
-		SDL_RenderCopyEx( m_renderer, levelTex, nullptr, &GAMEAREA, 0.0, nullptr, SDL_FLIP_NONE );
+	SDL_SetRenderTarget(m_renderer, nullptr);
+	if (levelTex)
+		SDL_RenderCopyEx(m_renderer, levelTex, nullptr, &GAMEAREA, 0.0, nullptr, SDL_FLIP_NONE);
 	else
-		SDL_RenderCopyEx( m_renderer, m_levelTex, nullptr, &GAMEAREA, 0.0, nullptr, SDL_FLIP_NONE );
-	SDL_RenderCopyEx( m_renderer, m_entityLayer, nullptr, &GAMEAREA, 0.0, nullptr, SDL_FLIP_NONE );
+		SDL_RenderCopyEx(m_renderer, m_levelTex, nullptr, &GAMEAREA, 0.0, nullptr, SDL_FLIP_NONE);
+	SDL_RenderCopyEx(m_renderer, m_entityLayer, nullptr, &GAMEAREA, 0.0, nullptr, SDL_FLIP_NONE);
 
 	// Render GUI Text
 	if (inputHandler.timePassed < 2000.0)
@@ -75,7 +75,7 @@ void Level::draw( SDL_Texture* levelTex ) {
 	}
 }
 
-void Level::changeLevel( const std::filesystem::path& levelFile, int levelNumber, const std::filesystem::path& texturePath ) {
+void Level::changeLevel(const std::filesystem::path& levelFile, int levelNumber, const std::filesystem::path& texturePath) {
 	if (playerEntity)
 		m_registry.get<Pacman>(playerEntity->getEntityID()).totalPellets = 0;
 	m_levelFile = levelFile;
@@ -83,9 +83,9 @@ void Level::changeLevel( const std::filesystem::path& levelFile, int levelNumber
 	m_texturePath = texturePath;
 	m_pellets.clear();
 	m_ghosts.clear();
-	m_load( levelFile );
-	m_generateEntities( layout, false );
-	m_generatePellets( layout, false );
+	m_load(levelFile);
+	m_generateEntities(layout, false);
+	m_generatePellets(layout, false);
 	m_generateTexture();
 	m_cleanup();
 
@@ -98,85 +98,85 @@ void Level::changeLevel( const std::filesystem::path& levelFile, int levelNumber
 
 	FruitType fruit;
 	{
-		std::ifstream fin( ASSETPATH / "Assets" / "Level" / "LevelConfigs" / "LevelFruits.txt" );
+		std::ifstream fin(ASSETPATH / "Assets" / "Level" / "LevelConfigs" / "LevelFruits.txt");
 		int n;
 		fin >> n;
-		for ( int i = 0; i < n; ++i ) {
+		for (int i = 0; i < n; ++i) {
 			int score;
 			fin >> score;
 			fruit = static_cast<FruitType>(score);
-			if ( i == levelNumber )
+			if (i == levelNumber)
 				break;
 		}
 	}
-	gameDirector.setParameters( texturePath, fruit );
+	gameDirector.setParameters(texturePath, fruit);
 	gameDirector.init();
 	speedDirector.init();
 
-	animSysTest.update( 0 );
+	animSysTest.update(0);
 }
 
 void Level::respawn() {
-	m_generateEntities( layout, true );
+	m_generateEntities(layout, true);
 }
 
-void Level::m_load( const std::filesystem::path& levelData ) {
-	std::ifstream fin( levelData.u8string() );
+void Level::m_load(const std::filesystem::path& levelData) {
+	std::ifstream fin(levelData.u8string());
 
 	int w = 28, h = 31;
 
-	for ( int i = 0; i < h; ++i )
-		for ( int j = 0; j < w; ++j )
+	for (int i = 0; i < h; ++i)
+		for (int j = 0; j < w; ++j)
 			fin >> tileMap[j][i];
 
-	for ( int i = 0; i < h; ++i )
-		for ( int j = 0; j < w; ++j )
+	for (int i = 0; i < h; ++i)
+		for (int j = 0; j < w; ++j)
 			fin >> specialMap[j][i];
 }
 
 void Level::m_generateTexture() {
 	std::vector<FruitType> fruitIndicator;
 	{
-		std::ifstream fin( ASSETPATH / "Assets" / "Level" / "LevelConfigs" / "LevelFruits.txt" );
+		std::ifstream fin(ASSETPATH / "Assets" / "Level" / "LevelConfigs" / "LevelFruits.txt");
 		int a;
 		fin >> a;
-		std::vector<int> fruits( a );
-		for ( int i = 0; i < a; ++i )
+		std::vector<int> fruits(a);
+		for (int i = 0; i < a; ++i)
 			fin >> fruits[i];
 
-		if ( m_levelNumber < 7 ) {
-			for ( int i = 0; i < m_levelNumber + 1; ++i )
-				fruitIndicator.emplace_back( static_cast<FruitType>(fruits[i]) );
+		if (m_levelNumber < 7) {
+			for (int i = 0; i < m_levelNumber + 1; ++i)
+				fruitIndicator.emplace_back(static_cast<FruitType>(fruits[i]));
 		}
-		else if ( m_levelNumber > 6 && m_levelNumber < 19 ) {
-			for ( int i = m_levelNumber - 6; i <= m_levelNumber; ++i )
-				if ( i < 13 )
-					fruitIndicator.emplace_back( static_cast<FruitType>(fruits[i]) );
+		else if (m_levelNumber > 6 && m_levelNumber < 19) {
+			for (int i = m_levelNumber - 6; i <= m_levelNumber; ++i)
+				if (i < 13)
+					fruitIndicator.emplace_back(static_cast<FruitType>(fruits[i]));
 				else
-					fruitIndicator.emplace_back( static_cast<FruitType>(fruits.back()) );
+					fruitIndicator.emplace_back(static_cast<FruitType>(fruits.back()));
 		}
-		else if ( m_levelNumber > 18 ) {
-			for ( int i = 0; i < 7; ++i )
-				fruitIndicator.emplace_back( static_cast<FruitType>(fruits.back()) );
+		else if (m_levelNumber > 18) {
+			for (int i = 0; i < 7; ++i)
+				fruitIndicator.emplace_back(static_cast<FruitType>(fruits.back()));
 		}
 	}
 
-	SDL_SetRenderTarget( m_renderer, m_levelTex );
-	SDL_RenderClear( m_renderer );
-	for ( int i = 0; i < tileMap.size(); ++i )
-		for ( int j = 0; j < tileMap[i].size(); ++j )
-			if ( tileMap[i][j] > 0 ) {
-				std::filesystem::path tile = m_texturePath / "Tile" / "Blue" / std::string{ std::to_string( tileMap[i][j] ) + ".png" };
+	SDL_SetRenderTarget(m_renderer, m_levelTex);
+	SDL_RenderClear(m_renderer);
+	for (int i = 0; i < tileMap.size(); ++i)
+		for (int j = 0; j < tileMap[i].size(); ++j)
+			if (tileMap[i][j] > 0) {
+				std::filesystem::path tile = m_texturePath / "Tile" / "Blue" / std::string{ std::to_string(tileMap[i][j]) + ".png" };
 				SDL_Rect src{ 0,0,TILETEXTURESIZE,TILETEXTURESIZE };
 				SDL_Rect dest{ i * TILESIZE, j * TILESIZE,TILESIZE,TILESIZE };
-				m_gameInstance->textures.load( tile )->render( src, dest );
+				m_gameInstance->textures.load(tile)->render(src, dest);
 			}
 
-	for ( int i = 0; i < fruitIndicator.size(); ++i ) {
+	for (int i = 0; i < fruitIndicator.size(); ++i) {
 		SDL_Rect destRect = { (24 - i * 2) * TILESIZE,31 * TILESIZE + 2 };
 		auto texPath = m_texturePath / "Entity";
 
-		switch ( fruitIndicator[i] ) {
+		switch (fruitIndicator[i]) {
 		default:
 		case FruitType::cherry:
 			texPath /= "Cherry.png";
@@ -211,25 +211,25 @@ void Level::m_generateTexture() {
 			destRect.w = 7, destRect.h = 13;
 			break;
 		}
-		m_gameInstance->textures.load( texPath )->render( std::nullopt, destRect );
+		m_gameInstance->textures.load(texPath)->render(std::nullopt, destRect);
 	}
 
-	SDL_SetRenderTarget( m_renderer, m_wLevelTex );
-	SDL_RenderClear( m_renderer );
-	for ( int i = 0; i < tileMap.size(); ++i )
-		for ( int j = 0; j < tileMap[i].size(); ++j )
-			if ( tileMap[i][j] > 0 ) {
-				std::filesystem::path tile = m_texturePath / "Tile" / "White" / std::string{ std::to_string( tileMap[i][j] ) + ".png" };
+	SDL_SetRenderTarget(m_renderer, m_wLevelTex);
+	SDL_RenderClear(m_renderer);
+	for (int i = 0; i < tileMap.size(); ++i)
+		for (int j = 0; j < tileMap[i].size(); ++j)
+			if (tileMap[i][j] > 0) {
+				std::filesystem::path tile = m_texturePath / "Tile" / "White" / std::string{ std::to_string(tileMap[i][j]) + ".png" };
 				SDL_Rect src{ 0,0,TILETEXTURESIZE,TILETEXTURESIZE };
 				SDL_Rect dest{ i * TILESIZE, j * TILESIZE,TILESIZE,TILESIZE };
-				m_gameInstance->textures.load( tile )->render( src, dest );
+				m_gameInstance->textures.load(tile)->render(src, dest);
 			}
 
-	for ( int i = 0; i < fruitIndicator.size(); ++i ) {
+	for (int i = 0; i < fruitIndicator.size(); ++i) {
 		SDL_Rect destRect = { (24 - i * 2) * TILESIZE,31 * TILESIZE + 2 };
 		auto texPath = m_texturePath / "Entity";
 
-		switch ( fruitIndicator[i] ) {
+		switch (fruitIndicator[i]) {
 		default:
 		case FruitType::cherry:
 			texPath /= "Cherry.png";
@@ -264,104 +264,105 @@ void Level::m_generateTexture() {
 			destRect.w = 7, destRect.h = 13;
 			break;
 		}
-		m_gameInstance->textures.load( texPath )->render( std::nullopt, destRect );
+		m_gameInstance->textures.load(texPath)->render(std::nullopt, destRect);
 	}
-	SDL_SetRenderTarget( m_renderer, nullptr );
+	SDL_SetRenderTarget(m_renderer, nullptr);
 }
 
-void Level::m_generatePellets( std::vector<std::vector<int>>& layout, bool readOnly ) {
-	for ( int i = 0; i < tileMap.size(); ++i )
-		for ( int j = 0; j < tileMap[i].size(); ++j ) {
-			if ( tileMap[i][j] == 37 ) {
-				auto pellet = std::make_shared<PelletObject>( m_registry, m_gameInstance );
-				pellet->init( m_texturePath / "Entity" / "Pellet.png", SDL_Rect{ i * TILESIZE,j * TILESIZE, TILESIZE,TILESIZE } );
-				m_pellets.emplace_back( pellet );
+void Level::m_generatePellets(std::vector<std::vector<int>>& layout, bool readOnly) {
+	for (int i = 0; i < tileMap.size(); ++i)
+		for (int j = 0; j < tileMap[i].size(); ++j) {
+			if (tileMap[i][j] == 37) {
+				auto pellet = std::make_shared<PelletObject>(m_registry, m_gameInstance);
+				pellet->init(m_texturePath / "Entity" / "Pellet.png", SDL_Rect{ i * TILESIZE,j * TILESIZE, TILESIZE,TILESIZE });
+				m_pellets.emplace_back(pellet);
 				tileMap[i][j] = 0;
-			}else if ( tileMap[i][j] == 38 ) {
-				auto pellet = std::make_shared<PelletObject>( m_registry, m_gameInstance );
-				pellet->init( m_texturePath / "Entity" / "PowerPellet.png", SDL_Rect{ i * TILESIZE,j * TILESIZE, TILESIZE,TILESIZE } );
-				m_pellets.emplace_back( pellet );
+			}
+			else if (tileMap[i][j] == 38) {
+				auto pellet = std::make_shared<PelletObject>(m_registry, m_gameInstance);
+				pellet->init(m_texturePath / "Entity" / "PowerPellet.png", SDL_Rect{ i * TILESIZE,j * TILESIZE, TILESIZE,TILESIZE });
+				m_pellets.emplace_back(pellet);
 				tileMap[i][j] = 0;
 			}
 		}
 }
 
-void Level::m_generateEntities( std::vector<std::vector<int>>& layout, bool readOnly ) {
+void Level::m_generateEntities(std::vector<std::vector<int>>& layout, bool readOnly) {
 	auto path = m_levelFile.parent_path();
 	GhostInitDetails ghostDet;
-	std::ifstream fin( ASSETPATH / "Assets" / "Level" / "LevelConfigs" / "TimerData.txt" );
+	std::ifstream fin(ASSETPATH / "Assets" / "Level" / "LevelConfigs" / "TimerData.txt");
 	int entries;
 	fin >> entries;
 	int l, r;
-	for ( int i = 0; i < entries; ++i ) {
+	for (int i = 0; i < entries; ++i) {
 		fin >> l >> r;
-		for ( int j = 0; j < 8; ++j )
+		for (int j = 0; j < 8; ++j)
 			fin >> ghostDet.modeTimes[j];
 
-		if ( m_levelNumber >= l && m_levelNumber < r || r == -1 )
+		if (m_levelNumber >= l && m_levelNumber < r || r == -1)
 			break;
 	}
 
-	fin = std::ifstream( ASSETPATH / "Assets" / "Level" / "LevelConfigs" / "PacmanSpeed.txt" );
+	fin = std::ifstream(ASSETPATH / "Assets" / "Level" / "LevelConfigs" / "PacmanSpeed.txt");
 	fin >> entries;
 	std::array<double, 2> pacmanSpeeds;
-	for ( int i = 0; i < entries; ++i ) {
+	for (int i = 0; i < entries; ++i) {
 		fin >> l >> r;
-		for ( int j = 0; j < 2; ++j )
+		for (int j = 0; j < 2; ++j)
 			fin >> pacmanSpeeds[j];
 
-		if ( m_levelNumber >= l && m_levelNumber < r || r == -1 )
+		if (m_levelNumber >= l && m_levelNumber < r || r == -1)
 			break;
 	}
 
-	fin = std::ifstream( ASSETPATH / "Assets" / "Level" / "LevelConfigs" / "AfraidFlash.txt" );
+	fin = std::ifstream(ASSETPATH / "Assets" / "Level" / "LevelConfigs" / "AfraidFlash.txt");
 	fin >> entries;
-	for ( int i = 0; i < entries; ++i ) {
+	for (int i = 0; i < entries; ++i) {
 		fin >> l >> r;
 		fin >> ghostDet.flashAmount;
 
-		if ( m_levelNumber >= l && m_levelNumber < r || r == -1 )
+		if (m_levelNumber >= l && m_levelNumber < r || r == -1)
 			break;
 	}
 
-	fin = std::ifstream( ASSETPATH / "Assets" / "Level" / "LevelConfigs" / "FrightTimes.txt" );
+	fin = std::ifstream(ASSETPATH / "Assets" / "Level" / "LevelConfigs" / "FrightTimes.txt");
 	fin >> entries;
-	for ( int i = 0; i < entries; ++i ) {
+	for (int i = 0; i < entries; ++i) {
 		fin >> ghostDet.afraidTime;
-		if ( i == m_levelNumber )
+		if (i == m_levelNumber)
 			break;
 	}
 
-	fin = std::ifstream( ASSETPATH / "Assets" / "Level" / "LevelConfigs" / "GhostSpeed.txt" );
+	fin = std::ifstream(ASSETPATH / "Assets" / "Level" / "LevelConfigs" / "GhostSpeed.txt");
 	fin >> entries;
-	for ( int i = 0; i < entries; ++i ) {
+	for (int i = 0; i < entries; ++i) {
 		fin >> l >> r;
-		for ( int j = 0; j < 3; ++j )
+		for (int j = 0; j < 3; ++j)
 			fin >> ghostDet.multipliers[j];
 
-		if ( m_levelNumber >= l && m_levelNumber < r || r == -1 )
+		if (m_levelNumber >= l && m_levelNumber < r || r == -1)
 			break;
 	}
 
-	fin = std::ifstream( ASSETPATH / "Assets" / "Level" / "LevelConfigs" / "ElroySpeed.txt" );
+	fin = std::ifstream(ASSETPATH / "Assets" / "Level" / "LevelConfigs" / "ElroySpeed.txt");
 	fin >> entries;
-	for ( int i = 0; i < entries; ++i ) {
+	for (int i = 0; i < entries; ++i) {
 		fin >> l >> r;
 		std::pair<int, double> tmp;
-		for ( int j = 0; j < 2; ++j ) {
+		for (int j = 0; j < 2; ++j) {
 			fin >> tmp.first >> tmp.second;
 			ghostDet.elroyMultipliers[j] = tmp;
 		}
 
-		if ( m_levelNumber >= l && m_levelNumber < r || r == -1 )
+		if (m_levelNumber >= l && m_levelNumber < r || r == -1)
 			break;
 	}
 
 	// Find ghost home
 	bool found = false;
-	for ( int i = 0; i < specialMap.size() && !found; ++i )
-		for ( int j = 0; j < specialMap[i].size(); ++j )
-			if ( specialMap[i][j] == 9 ) {
+	for (int i = 0; i < specialMap.size() && !found; ++i)
+		for (int j = 0; j < specialMap[i].size(); ++j)
+			if (specialMap[i][j] == 9) {
 				ghostDet.homeTile = { i,j };
 				found = true;
 				break;
@@ -369,97 +370,97 @@ void Level::m_generateEntities( std::vector<std::vector<int>>& layout, bool read
 
 	std::vector<Tile> fruitSpawnTiles;
 
-	for ( int i = 0; i < specialMap.size(); ++i )
-		for ( int j = 0; j < specialMap[i].size(); ++j ) {
-			if ( specialMap[i][j] == 1 ) {
-				if ( playerEntity )
-					playerEntity->init( m_texturePath / "Entity" / "Pacman.png", Tile{ i,j }, pacmanSpeeds );
+	for (int i = 0; i < specialMap.size(); ++i)
+		for (int j = 0; j < specialMap[i].size(); ++j) {
+			if (specialMap[i][j] == 1) {
+				if (playerEntity)
+					playerEntity->init(m_texturePath / "Entity" / "Pacman.png", Tile{ i,j }, pacmanSpeeds);
 				else {
-					auto player = std::make_shared<Player>( m_registry, m_gameInstance );
-					player->init( m_texturePath / "Entity" / "Pacman.png", Tile{ i,j }, pacmanSpeeds );
+					auto player = std::make_shared<Player>(m_registry, m_gameInstance);
+					player->init(m_texturePath / "Entity" / "Pacman.png", Tile{ i,j }, pacmanSpeeds);
 					playerEntity = player;
 				}
 			}
-			if ( specialMap[i][j] == 2 ) {
+			if (specialMap[i][j] == 2) {
 				std::shared_ptr<GhostObject> ghost;
-				if ( !m_ghosts.empty() ) {
-					for ( std::shared_ptr<GhostObject> go : m_ghosts ) {
-						if ( go->ghostID == Ghosts::shadow ) {
+				if (!m_ghosts.empty()) {
+					for (std::shared_ptr<GhostObject> go : m_ghosts) {
+						if (go->ghostID == Ghosts::shadow) {
 							ghost = go;
 							break;
 						}
 					}
 				}
-				if ( !ghost ) {
-					ghost = std::make_shared<GhostObject>( m_registry, m_gameInstance );
-					m_ghosts.emplace_back( ghost );
+				if (!ghost) {
+					ghost = std::make_shared<GhostObject>(m_registry, m_gameInstance);
+					m_ghosts.emplace_back(ghost);
 				}
 
-				ghost->init( m_texturePath / "Entity", Ghosts::shadow, Tile{ i,j }, ghostDet );
+				ghost->init(m_texturePath / "Entity", Ghosts::shadow, Tile{ i,j }, ghostDet);
 			}
-			if ( specialMap[i][j] == 3 ) {
+			if (specialMap[i][j] == 3) {
 				std::shared_ptr<GhostObject> ghost;
-				if ( !m_ghosts.empty() ) {
-					for ( std::shared_ptr<GhostObject> go : m_ghosts ) {
-						if ( go->ghostID == Ghosts::speedy ) {
+				if (!m_ghosts.empty()) {
+					for (std::shared_ptr<GhostObject> go : m_ghosts) {
+						if (go->ghostID == Ghosts::speedy) {
 							ghost = go;
 							break;
 						}
 					}
 				}
-				if ( !ghost ) {
-					ghost = std::make_shared<GhostObject>( m_registry, m_gameInstance );
-					m_ghosts.emplace_back( ghost );
+				if (!ghost) {
+					ghost = std::make_shared<GhostObject>(m_registry, m_gameInstance);
+					m_ghosts.emplace_back(ghost);
 				}
 
-				ghost->init( m_texturePath / "Entity", Ghosts::speedy, Tile{ i,j }, ghostDet );
+				ghost->init(m_texturePath / "Entity", Ghosts::speedy, Tile{ i,j }, ghostDet);
 			}
-			if ( specialMap[i][j] == 4 ) {
+			if (specialMap[i][j] == 4) {
 				std::shared_ptr<GhostObject> ghost;
-				if ( !m_ghosts.empty() ) {
-					for ( std::shared_ptr<GhostObject> go : m_ghosts ) {
-						if ( go->ghostID == Ghosts::bashful ) {
+				if (!m_ghosts.empty()) {
+					for (std::shared_ptr<GhostObject> go : m_ghosts) {
+						if (go->ghostID == Ghosts::bashful) {
 							ghost = go;
 							break;
 						}
 					}
 				}
-				if ( !ghost ) {
-					ghost = std::make_shared<GhostObject>( m_registry, m_gameInstance );
-					m_ghosts.emplace_back( ghost );
+				if (!ghost) {
+					ghost = std::make_shared<GhostObject>(m_registry, m_gameInstance);
+					m_ghosts.emplace_back(ghost);
 				}
 
 				auto newDet = ghostDet;
-				if ( m_levelNumber == 0 )
+				if (m_levelNumber == 0)
 					newDet.dotLimit = 30;
-				ghost->init( m_texturePath / "Entity", Ghosts::bashful, Tile{ i,j }, newDet );
+				ghost->init(m_texturePath / "Entity", Ghosts::bashful, Tile{ i,j }, newDet);
 			}
-			if ( specialMap[i][j] == 5 ) {
+			if (specialMap[i][j] == 5) {
 				std::shared_ptr<GhostObject> ghost;
-				if ( !m_ghosts.empty() ) {
-					for ( std::shared_ptr<GhostObject> go : m_ghosts ) {
-						if ( go->ghostID == Ghosts::pokey ) {
+				if (!m_ghosts.empty()) {
+					for (std::shared_ptr<GhostObject> go : m_ghosts) {
+						if (go->ghostID == Ghosts::pokey) {
 							ghost = go;
 							break;
 						}
 					}
 				}
-				if ( !ghost ) {
-					ghost = std::make_shared<GhostObject>( m_registry, m_gameInstance );
-					m_ghosts.emplace_back( ghost );
+				if (!ghost) {
+					ghost = std::make_shared<GhostObject>(m_registry, m_gameInstance);
+					m_ghosts.emplace_back(ghost);
 				}
 
 				auto newDet = ghostDet;
-				if ( m_levelNumber == 0 )
+				if (m_levelNumber == 0)
 					newDet.dotLimit = 90;
-				else if ( m_levelNumber == 1 )
+				else if (m_levelNumber == 1)
 					newDet.dotLimit = 80;
-				ghost->init( m_texturePath / "Entity", Ghosts::pokey, Tile{ i,j }, newDet );
+				ghost->init(m_texturePath / "Entity", Ghosts::pokey, Tile{ i,j }, newDet);
 			}
-			if ( specialMap[i][j] == 6 ) {
-				fruitSpawnTiles.emplace_back( Tile{ i,j } );
+			if (specialMap[i][j] == 6) {
+				fruitSpawnTiles.emplace_back(Tile{ i,j });
 			}
-			if ( specialMap[i][j] == 10 )
+			if (specialMap[i][j] == 10)
 				tileMap[i][j] = 40;
 		}
 
@@ -467,7 +468,7 @@ void Level::m_generateEntities( std::vector<std::vector<int>>& layout, bool read
 }
 
 void Level::m_cleanup() {
-	for ( int i = 0; i < layout.size(); ++i )
-		for ( int j = 0; j < layout[i].size(); ++j )
-			layout[i][j] = (layout[i][j] < 0 && (std::abs( layout[i][j] ) & 256) != 256) ? 0 : layout[i][j];
+	for (int i = 0; i < layout.size(); ++i)
+		for (int j = 0; j < layout[i].size(); ++j)
+			layout[i][j] = (layout[i][j] < 0 && (std::abs(layout[i][j]) & 256) != 256) ? 0 : layout[i][j];
 }

@@ -3,7 +3,7 @@
 #include "Pathfinding.h"
 
 namespace ghostBehaviors {
-	Direction shadow(entt::registry& registry, std::array<std::array<int, 31>, 28> & tilemap, std::array<std::array<int, 31>, 28> & specialMap, Tile& currentTile) {
+	Direction shadow(entt::registry& registry, std::array<std::array<int, 31>, 28>& tilemap, std::array<std::array<int, 31>, 28>& specialMap, Tile& currentTile) {
 		entt::registry::entity_type playerID = registry.view<Pacman>()[0];
 		entt::registry::entity_type ghostID = registry.view<entt::tag<"shadow"_hs>>()[0];
 		auto& pacPos = registry.get<Position>(playerID);

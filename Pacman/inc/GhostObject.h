@@ -17,36 +17,36 @@ public:
 	void init() override {}
 
 	void init(const std::filesystem::path texturePath, Ghosts id, Tile spawnTile, GhostInitDetails details) {
-		m_registry.replace<Position>(m_entity, (spawnTile.x * TILESIZE) - (GHOST_TEXTURESIZE-TILESIZE)/2, spawnTile.y * TILESIZE - (GHOST_TEXTURESIZE - TILESIZE) / 2);
+		m_registry.replace<Position>(m_entity, (spawnTile.x * TILESIZE) - (GHOST_TEXTURESIZE - TILESIZE) / 2, spawnTile.y * TILESIZE - (GHOST_TEXTURESIZE - TILESIZE) / 2);
 		m_registry.assign_or_replace<Size>(m_entity, GHOST_TEXTURESIZE, GHOST_TEXTURESIZE);
 		bloom::graphics::TexturePtr tmp;
 		ghostID = id;
 
 		if (id == Ghosts::shadow) {
 			m_registry.assign_or_replace<entt::tag<"shadow"_hs>>(m_entity);
-			m_registry.assign_or_replace<Ghost>(m_entity)= Ghost{ 
+			m_registry.assign_or_replace<Ghost>(m_entity) = Ghost{
 				ghostBehaviors::shadow,
 				Tile{spawnTile.x, spawnTile.y},
 				details,
 				true,
-				false 
+				false
 			};
 			tmp = c_gameInstance->textures.load(texturePath / "Red.png");
 		}
 		else if (id == Ghosts::speedy) {
 			m_registry.assign_or_replace<entt::tag<"speedy"_hs>>(m_entity);
-			auto ghost = m_registry.assign_or_replace<Ghost>(m_entity) = Ghost{ 
-				ghostBehaviors::speedy, 
+			auto ghost = m_registry.assign_or_replace<Ghost>(m_entity) = Ghost{
+				ghostBehaviors::speedy,
 				spawnTile,
 				details,
-				true 
+				true
 			};
 			tmp = c_gameInstance->textures.load(texturePath / "Pinky.png");
 		}
 		else if (id == Ghosts::bashful) {
 			m_registry.assign_or_replace<entt::tag<"bashful"_hs>>(m_entity);
-			m_registry.assign_or_replace<Ghost>(m_entity) = Ghost{ 
-				ghostBehaviors::bashful, 
+			m_registry.assign_or_replace<Ghost>(m_entity) = Ghost{
+				ghostBehaviors::bashful,
 				spawnTile ,
 				details
 			};
@@ -54,8 +54,8 @@ public:
 		}
 		else if (id == Ghosts::pokey) {
 			m_registry.assign_or_replace<entt::tag<"pokey"_hs>>(m_entity);
-			m_registry.assign_or_replace<Ghost>(m_entity) = Ghost{ 
-				ghostBehaviors::pokey, 
+			m_registry.assign_or_replace<Ghost>(m_entity) = Ghost{
+				ghostBehaviors::pokey,
 				spawnTile,
 				details
 			};
@@ -90,7 +90,7 @@ public:
 			Sprite(tmp, SDL_Rect{ 0 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE }),
 			Sprite(tmp, SDL_Rect{ 1 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE })
 		};
-		
+
 		AnimationPtr downd = std::make_shared<Animation>();
 		downd->animationFrames = {
 			Sprite(tmp3, SDL_Rect{ 2 * GHOST_TEXTURESIZE,0,GHOST_TEXTURESIZE,GHOST_TEXTURESIZE }),

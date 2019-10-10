@@ -24,7 +24,7 @@ public:
 
 			if (checkTunnel(ghostTile) || (ghost.inHouse && ghost.released))
 				ghost.currSpeed = ghost.speed * ghost.levelVars.multipliers[1];
-			else if (ghost.currentMode == BehaviourModes::afraid)			// Frightened
+			else if (ghost.currentMode == BehaviourModes::afraid) // Frightened
 			{
 				ghost.currSpeed = ghost.speed * ghost.levelVars.multipliers[2];
 				isFrightened = true;
