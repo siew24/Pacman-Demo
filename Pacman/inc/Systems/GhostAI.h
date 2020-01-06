@@ -3,6 +3,7 @@
 #include "../Components/GhostComponent.h"
 #include "../Components/PacmanComponent.h"
 #include "../Configs.h"
+#include <random>
 
 class GhostAI : public bloom::systems::System {
 	using Position = bloom::components::Position;
@@ -24,6 +25,8 @@ public:
 				ghost.timeAvailable += (deltaTime / 1000);
 				potentialDistance = static_cast<int>(ghost.timeAvailable * ghost.currSpeed);
 				ghost.timeAvailable -= potentialDistance / ghost.currSpeed;
+				if (ghost.stayDuration > 0.0)
+					ghost.stayDuration -= (deltaTime / 1000);
 
 				// Change modes
 				if (ghost.currentMode == BehaviourModes::afraid)
@@ -69,8 +72,15 @@ public:
 					if ((position.x + (GHOST_TEXTURESIZE - TILESIZE) / 2) % TILESIZE == 0 && (position.y + (GHOST_TEXTURESIZE - TILESIZE) / 2) % TILESIZE == 0) {
 						if ((currentTile.x < 28 && currentTile.x >= 1 && currentTile.y != 0) && tileMap[currentTile.x][currentTile.y - 1] == 39) {
 							ghost.inHouse = true;
-							if (ghost.currentMode == BehaviourModes::dead)
+							if (ghost.currentMode == BehaviourModes::dead) {
+								std::random_device rd;
+								std::mt19937 mt(rd());
+								std::uniform_int_distribution<int> gen(0, 5);
+
+								ghost.stayDuration = gen(mt);
+
 								ghost.currentMode = ghost.previousMode;
+							}
 						}
 
 						else if ((currentTile.x < 28 && currentTile.x >= 0 && currentTile.y != 30) && tileMap[currentTile.x][currentTile.y + 1] == 39)
