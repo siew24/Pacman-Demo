@@ -42,6 +42,7 @@ public:
 		double frameTime = 0.0;
 		SDL_Texture* levelTex = m_levelTex;
 		while (timeLeft > 0.0) {
+			m_gameInstance->handleEvents();
 			double dt = timer.lap();
 			timeLeft -= dt;
 			if (timeLeft <= 1000.0)
