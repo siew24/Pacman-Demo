@@ -188,8 +188,8 @@ void test_drawer(const std::filesystem::path& assetsPath)
 				int levelNumber = 0;
 				level.changeLevel(*levelIt, levelNumber, tileDir);
 
-				level.draw();
-				game->render();
+				/*level.draw();
+				game->render();*/
 
 				sounds.add(audioDir / "pacman_beginning.wav"); // 0
 				sounds.add(audioDir / "pacman_intermission.wav"); // 1
@@ -215,6 +215,7 @@ void test_drawer(const std::filesystem::path& assetsPath)
 				timer.restart();
 				sounds[0]->play();
 				while (timer.split() <= 5000.0 && game->isRunning()) {
+					level.ready();
 					game->handleEvents();
 					game->render();
 				}
@@ -290,6 +291,13 @@ void test_drawer(const std::filesystem::path& assetsPath)
 								break;
 						}
 						level.changeLevel(*levelIt, levelNumber, tileDir);
+						timer.restart();
+						game->clear();
+						while (timer.split() <= 3000.0 && game->isRunning()) {
+							level.ready();
+							game->handleEvents();
+							game->render();
+						}
 						game->timer.restart();
 						last = 0;
 						updatethread = std::thread(updateLoop);
@@ -306,8 +314,18 @@ void test_drawer(const std::filesystem::path& assetsPath)
 						}
 
 						last = 0;
-						if (level.lives() > 0)
-							level.respawn(), game->timer.restart(), updatethread = std::thread(updateLoop);
+						if (level.lives() > 0) {
+							level.respawn();
+							timer.restart();
+							game->clear();
+							while (timer.split() <= 3000.0 && game->isRunning()) {
+								level.ready();
+								game->handleEvents();
+								game->render();
+							}
+							game->timer.restart();
+							updatethread = std::thread(updateLoop);
+						}
 						else {
 							if (levelSet[0].parent_path() == levelDir) {
 								ScoreSubmit scoresubmit(game, guiFont, level.getScore());

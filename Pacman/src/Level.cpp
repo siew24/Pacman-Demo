@@ -21,6 +21,7 @@ Level::Level(bloom::Game*& gameInstance, bloom::graphics::FontPtr guiFont) : m_g
 	guiElems.emplace("highscore", std::make_shared<bloom::graphics::SpriteText>(m_renderer, guiFont, LeaderboardsStore::leaderboards.empty() ? "0" : std::to_string(LeaderboardsStore::leaderboards.front().second)));
 	guiElems.emplace("1up", std::make_shared<bloom::graphics::SpriteText>(m_renderer, guiFont, "1UP"));
 	guiElems.emplace("highscoreLabel", std::make_shared<bloom::graphics::SpriteText>(m_renderer, guiFont, "HIGH SCORE"));
+	guiElems.emplace("readyText", std::make_shared<bloom::graphics::SpriteText>(m_renderer, guiFont, "Get Ready!"));
 
 	bloom::graphics::TextStyle red = { bloom::graphics::TextStyle::BlendingMode::normal, SDL_Color{255,100,255,0} };
 	guiElems.emplace("quitPrompt", std::make_shared<bloom::graphics::SpriteText>(m_renderer, guiFont, "PRESS [ESCAPE] AGAIN TO QUIT")).first->second->setStyle(red);

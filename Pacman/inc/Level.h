@@ -35,6 +35,10 @@ public:
 	size_t pelletCount() {
 		return m_registry.view<Pellet>().size() + m_registry.view<PowerPellet>().size();
 	}
+	void ready() {
+		draw();
+		guiElems["readyText"]->render(std::nullopt, SDL_Point{ 10 * TILESIZE,21 * TILESIZE });
+	}
 	void finish() {
 		double timeLeft = 2000.0;
 		auto& timer = m_gameInstance->timer;
