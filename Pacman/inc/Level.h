@@ -40,7 +40,7 @@ public:
 		guiElems["readyText"]->render(std::nullopt, SDL_Point{ 10 * TILESIZE,21 * TILESIZE });
 	}
 	void finish() {
-		double timeLeft = 2000.0;
+		double timeLeft = 3000.0;
 		auto& timer = m_gameInstance->timer;
 		timer.restart();
 		double frameTime = 0.0;
@@ -49,14 +49,14 @@ public:
 			m_gameInstance->handleEvents();
 			double dt = timer.lap();
 			timeLeft -= dt;
-			if (timeLeft <= 1000.0)
+			if (timeLeft <= 2000.0)
 				frameTime += dt;
-			while (frameTime > 166.0) {
+			while (frameTime > 333.0) {
 				if (levelTex == m_levelTex)
 					levelTex = m_wLevelTex;
 				else
 					levelTex = m_levelTex;
-				frameTime -= 166.0;
+				frameTime -= 333.0;
 			}
 			m_gameInstance->clear();
 			draw(levelTex);
