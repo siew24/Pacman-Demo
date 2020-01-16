@@ -217,6 +217,7 @@ void test_drawer(const std::filesystem::path& assetsPath)
 				while (timer.split() <= 5000.0 && game->isRunning()) {
 					level.ready();
 					game->handleEvents();
+					level.handleInput(0);
 					game->render();
 				}
 
@@ -296,6 +297,7 @@ void test_drawer(const std::filesystem::path& assetsPath)
 						while (timer.split() <= 3000.0 && game->isRunning()) {
 							level.ready();
 							game->handleEvents();
+							level.handleInput(0);
 							game->render();
 						}
 						game->timer.restart();
