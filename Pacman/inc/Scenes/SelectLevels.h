@@ -30,7 +30,7 @@ public:
 		if (keyboard.wasDown(KeyboardKeys::KEY_UP)) {
 			--currentSelection;
 			if (currentSelection < 1)
-				currentSelection == guiElems.size() - 1;
+				currentSelection = guiElems.size() - 1;
 		}
 		if (keyboard.wasDown(KeyboardKeys::KEY_DOWN)) {
 			++currentSelection;

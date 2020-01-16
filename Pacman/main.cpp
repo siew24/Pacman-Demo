@@ -188,8 +188,8 @@ void test_drawer(const std::filesystem::path& assetsPath)
 				int levelNumber = 0;
 				level.changeLevel(*levelIt, levelNumber, tileDir);
 
-				level.draw();
-				game->render();
+				/*level.draw();
+				game->render();*/
 
 				sounds.add(audioDir / "pacman_beginning.wav"); // 0
 				sounds.add(audioDir / "pacman_intermission.wav"); // 1
@@ -211,8 +211,15 @@ void test_drawer(const std::filesystem::path& assetsPath)
 				}
 
 				std::cout << "Level started!" << std::endl;
+				bloom::Timer timer;
+				timer.restart();
 				sounds[0]->play();
-				SDL_Delay(5000);
+				while (timer.split() <= 5000.0 && game->isRunning()) {
+					level.ready();
+					game->handleEvents();
+					level.handleInput(0);
+					game->render();
+				}
 
 				auto dt = 0.0;
 				int frameCount = 0;
@@ -258,6 +265,7 @@ void test_drawer(const std::filesystem::path& assetsPath)
 					}
 					}
 				);
+
 				while (game->isRunning()) {
 					dt = game->timer.lap();
 					level.drawFPS = 1000.0 / dt;
@@ -284,6 +292,14 @@ void test_drawer(const std::filesystem::path& assetsPath)
 								break;
 						}
 						level.changeLevel(*levelIt, levelNumber, tileDir);
+						timer.restart();
+						game->clear();
+						while (timer.split() <= 3000.0 && game->isRunning()) {
+							level.ready();
+							game->handleEvents();
+							level.handleInput(0);
+							game->render();
+						}
 						game->timer.restart();
 						last = 0;
 						updatethread = std::thread(updateLoop);
@@ -292,12 +308,26 @@ void test_drawer(const std::filesystem::path& assetsPath)
 						updatethread.join();
 						sounds.stopAll();
 						std::cout << "Died!" << std::endl;
+						timer.restart();
 						sounds[2]->play();
+						while (timer.split() <= 1500.0 && game->isRunning()) {
+							game->handleEvents();
+							game->render();
+						}
 
-						game->delay(1500);
 						last = 0;
-						if (level.lives() > 0)
-							level.respawn(), game->timer.restart(), updatethread = std::thread(updateLoop);
+						if (level.lives() > 0) {
+							level.respawn();
+							timer.restart();
+							game->clear();
+							while (timer.split() <= 3000.0 && game->isRunning()) {
+								level.ready();
+								game->handleEvents();
+								game->render();
+							}
+							game->timer.restart();
+							updatethread = std::thread(updateLoop);
+						}
 						else {
 							if (levelSet[0].parent_path() == levelDir) {
 								ScoreSubmit scoresubmit(game, guiFont, level.getScore());
@@ -330,6 +360,8 @@ void test_drawer(const std::filesystem::path& assetsPath)
 				}
 				quit = true;
 				printStats.join();
+				if (updatethread.joinable())
+					updatethread.join();
 			}
 		}
 		else if (menu.selected == -1) {

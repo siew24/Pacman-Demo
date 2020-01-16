@@ -21,10 +21,10 @@ public:
 	}
 
 	void draw() {
-		m_gameInstance->textures.find(ASSETPATH / "Assets" / "Logo.png")->render(std::nullopt, SDL_Rect{ 8 + 0, 8 + 0, 224, 39 });
+		m_gameInstance->textures.find(ASSETPATH / "Assets" / "Logo.png")->render(std::nullopt, SDL_Rect{ 1 * TILESIZE, 3 * TILESIZE, 224, 39 });
 		int offset = 0;
 		for (int i = 0; i < guiElems.size(); ++i) {
-			guiElems[i]->render(std::nullopt, SDL_Point{ 8 + 8, 8 + (10 + i) * 8 + offset });
+			guiElems[i]->render(std::nullopt, SDL_Point{ 8 + 8, (10 + i) * 8 + offset });
 			offset += 8;
 		}
 	}
@@ -62,7 +62,6 @@ private:
 	std::vector<std::shared_ptr<bloom::graphics::SpriteText>> guiElems;
 	bloom::Game*& m_gameInstance;
 	int currentSelection = 0;
-
 
 	const bloom::graphics::TextStyle highlighted{ bloom::graphics::TextStyle::BlendingMode::normal, SDL_Color{179,0,89,0} };
 };

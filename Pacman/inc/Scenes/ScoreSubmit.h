@@ -33,8 +33,6 @@ public:
 	}
 	void update() {
 		auto& keyboard = m_gameInstance->input.keyboard;
-
-
 		std::string tmp = keyboard.getPrintable();
 		bool bs = false;
 		for (char c : tmp) {
@@ -45,7 +43,7 @@ public:
 				}
 				bs = true;
 			}
-			else if (c > 32 && c < 127)
+			else if (c > 32 && c < 127 && c != ' ' && c != '\t')
 				if (SessionStore::currentName.size() < 12)
 					SessionStore::currentName += tmp;
 		}

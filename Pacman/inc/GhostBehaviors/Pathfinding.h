@@ -18,42 +18,44 @@ namespace ghostBehaviors {
 	}
 
 	auto generateCandidates(const Tile& target, const Tile& currentTile, Ghost& ghost, std::array<std::array<int, 31>, 28>& tilemap, std::array<std::array<int, 31>, 28>& specialMap) {
-		std::vector<std::pair<Direction, double>> posibilities{};
+		std::vector<std::pair<Direction, double>> possibilities{};
 		if (Tile candidate{ currentTile.x, currentTile.y - 1 }; valid(candidate, tilemap) && (specialMap[currentTile.x][currentTile.y]) != 7 && ghost.direction != Direction::down) {
 			int xDist = std::abs(candidate.x - target.x), yDist = std::abs(candidate.y - target.y);
 			double distance = std::sqrt(std::pow(xDist, 2) + std::pow(yDist, 2));
-			posibilities.emplace_back(std::make_pair(Direction::up, distance));
+			possibilities.emplace_back(std::make_pair(Direction::up, distance));
 		}
 		if (Tile candidate{ currentTile.x, currentTile.y + 1 }; valid(candidate, tilemap) && ghost.direction != Direction::up) {
 			int xDist = std::abs(candidate.x - target.x), yDist = std::abs(candidate.y - target.y);
 			double distance = std::sqrt(std::pow(xDist, 2) + std::pow(yDist, 2));
-			posibilities.emplace_back(std::make_pair(Direction::down, distance));
+			possibilities.emplace_back(std::make_pair(Direction::down, distance));
 		}
 		if (Tile candidate{ currentTile.x - 1, currentTile.y }; (currentTile.x == 0 || valid(candidate, tilemap)) && ghost.direction != Direction::right) {
 			int xDist = std::abs(candidate.x - target.x), yDist = std::abs(candidate.y - target.y);
 			double distance = std::sqrt(std::pow(xDist, 2) + std::pow(yDist, 2));
-			posibilities.emplace_back(std::make_pair(Direction::left, distance));
+			possibilities.emplace_back(std::make_pair(Direction::left, distance));
 		}
 		if (Tile candidate{ currentTile.x + 1, currentTile.y }; (currentTile.x >= 27 || valid(candidate, tilemap)) && ghost.direction != Direction::left) {
 			int xDist = std::abs(candidate.x - target.x), yDist = std::abs(candidate.y - target.y);
 			double distance = std::sqrt(std::pow(xDist, 2) + std::pow(yDist, 2));
-			posibilities.emplace_back(std::make_pair(Direction::right, distance));
+			possibilities.emplace_back(std::make_pair(Direction::right, distance));
 		}
 
 		if (Tile candidate{ currentTile.x, currentTile.y - 1 }; (candidate.y != 0) && ((tilemap[candidate.x][candidate.y] == 39 || tilemap[candidate.x][candidate.y - 1] == 39) && ghost.released && (ghost.currentMode == BehaviourModes::chase || ghost.currentMode == BehaviourModes::scatter))) {
-			posibilities.clear();
-			posibilities.emplace_back(std::make_pair(Direction::up, 0.0));
+			if (ghost.stayDuration <= 0.0) {
+				possibilities.clear();
+				possibilities.emplace_back(std::make_pair(Direction::up, 0.0));
+			}
 		}
 
 		if (Tile candidate{ currentTile.x, currentTile.y + 1 }; (candidate.y != tilemap.size() - 1) && ((tilemap[candidate.x][candidate.y] == 39 || tilemap[candidate.x][candidate.y - 1] == 39) && ghost.currentMode == BehaviourModes::dead)) {
-			posibilities.clear();
-			posibilities.emplace_back(std::make_pair(Direction::down, 0.0));
+			possibilities.clear();
+			possibilities.emplace_back(std::make_pair(Direction::down, 0.0));
 		}
 
-		std::sort(posibilities.begin(), posibilities.end(), [](auto& lhs, auto& rhs) {
+		std::sort(possibilities.begin(), possibilities.end(), [](auto& lhs, auto& rhs) {
 			return (lhs.second < rhs.second) // Highest priority if distance to target is shorter
 				|| (lhs.second == rhs.second && lhs.first < rhs.first); // Higher priority based on the direction enums if equal distance
 			});
-		return posibilities;
+		return possibilities;
 	}
 }

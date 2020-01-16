@@ -54,4 +54,5 @@ struct Ghost {
 	double currSpeed = speed;
 	Direction direction = Direction::left;
 	Direction nextDir = Direction::left;
+	double stayDuration = 0.0;
 };
