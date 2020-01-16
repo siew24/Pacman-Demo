@@ -45,7 +45,7 @@ public:
 				}
 				bs = true;
 			}
-			else if (c > 32 && c < 127)
+			else if (c > 32 && c < 127 && c!=' ' && c!='\t')
 				if (SessionStore::currentName.size() < 12)
 					SessionStore::currentName += tmp;
 		}
